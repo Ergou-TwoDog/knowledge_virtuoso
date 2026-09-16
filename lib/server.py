@@ -1,0 +1,225 @@
+#!/usr/bin/env python3
+"""
+lib/server.py — MCP Server: SKILL 函数知识库查询服务。
+
+提供 tool:
+
+ 函数查询 (virtuoso_skill_language):
+  skill_language_search_doc         — 查询函数签名（detail=signature/brief/full 控制粒度）
+  skill_language_search_components  — 按前缀+关键词组合搜索函数名（推荐）
+
+ 设计库对象属性查询 (virtuoso_db):
+  db_search_attr        — 按 objType + 关键词搜索属性
+
+ tech 数据库对象属性查询 (virtuoso_techdb):
+  techdb_search_attr         — 按类 + 关键词搜索 tech 属性
+
+ CDF 对象属性查询 (virtuoso_cdfdb):
+  cdfdb_search_attr          — 按类（cdfDataId/cdfParamId）+ 关键词搜索 CDF 属性
+
+启动方式:
+  python -B lib/server.py
+  由 Claude Code 通过 .mcp.json 配置自动启动，stdin/stdout 通信。
+"""
+
+import sys, os, json
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from mcp.server.fastmcp import FastMCP
+from functions.core import catalog as skill_language
+from database.db.core import catalog as db_attr
+from database.techdb.core import catalog as techdb_attr
+from database.cdfdb.core import catalog as cdfdb_attr
+
+mcp = FastMCP("virtuoso")
+
+
+@mcp.tool()
+async def skill_language_search_doc(func_name: str, detail: str = "brief") -> str:
+    """从 IC618 文档中查询 SKILL 函数的签名、参数、返回值、示例。
+
+    参数:
+      func_name: 函数名，如 "dbCreateRect"
+      detail:   返回粒度。brief=签名+来源+参数+返回(默认)；signature=仅签名；full=全部(含描述+示例)
+    """
+    if detail not in {"signature", "brief", "full"}:
+        raise ValueError("detail must be signature, brief, or full")
+    info = skill_language.query_function(func_name)
+    if info is None:
+        return f"未找到函数: {func_name}"
+
+    head = [f"函数: {info['name']}", f"签名: {info['signature']}"]
+    if info.get("status") == "deprecated":
+        head.append("状态: 已弃用（Cadence 文档仍保留该可调用函数）")
+
+    if info.get("signature_note"):
+        head.append(info["signature_note"])
+
+    if detail == "signature":
+        return "\n".join(head)
+
+    lines = head[:]
+    description = info.get("description", "")
+    lines.append(f"描述: {description if detail == 'full' else description[:600]}")
+    lines.append(f"来源: {info['source_file']}")
+    lines.append("原文定位: " + json.dumps(info.get("source", {}), ensure_ascii=False))
+    if detail == "full":
+        for key in ("signatures", "arguments_text", "returns_text", "errors_text", "references", "sources", "derivation_basis"):
+            if info.get(key):
+                lines.append(key + ": " + json.dumps(info[key], ensure_ascii=False))
+        abnormal = {k: v for k, v in info.get("field_status", {}).items() if v != "present"}
+        if abnormal:
+            lines.append("field_status: " + json.dumps(abnormal, ensure_ascii=False))
+
+    if info.get("arguments"):
+        lines.append("\n参数:")
+        for a in info["arguments"]:
+            group = f" [{a['group']}]" if a.get("group") else ""
+            lines.append(f"  {a['name']}{group} — {a['desc']}")
+    if detail == "full" and info.get("argument_groups"):
+        lines.append("\n参数层级:")
+
+        def append_group(group: dict, depth: int = 1) -> None:
+            indent = "  " * depth
+            lines.append(f"{indent}{group['name']}")
+            for argument in group.get("arguments", []):
+                lines.append(f"{indent}  {argument['name']} — {argument['desc']}")
+            for child in group.get("groups", []):
+                append_group(child, depth + 1)
+
+        for group in info["argument_groups"]:
+            append_group(group)
+    if info.get("returns"):
+        lines.append("\n返回:")
+        for r in info["returns"]:
+            lines.append(f"  {r['value']} — {r['desc']}")
+    if detail == "full" and info.get("example"):
+        lines.append(f"\n示例:\n  {info['example']}")
+
+    return "\n".join(lines)
+
+
+@mcp.tool()
+async def skill_language_search_components(prefix: str = "", keywords: str = "", offset: int = 0, limit: int = 30) -> str:
+    """按前缀 + 关键词组合搜索 SKILL 函数名。推荐优先使用！
+
+    参数:
+      prefix:   前缀过滤（如 "tech"、"db"、"le"）。留空不过滤前缀。
+      keywords: 空格分隔关键词（如 "find via def"）。留空返回该前缀所有函数。
+
+    示例:
+      prefix="tech" keywords="find via def"  → techFindViaDefByName
+      prefix="db" keywords="create path"     → dbCreatePath
+      prefix="tech" keywords=""              → 列出所有 tech 前缀函数（最多30）
+    """
+    if not prefix and not keywords:
+        return "请至少指定 prefix 或 keywords 中的一个。"
+
+    page = skill_language.search_page(prefix, keywords, offset, limit)
+    matches = page["names"]
+    if not page["total"]:
+        ctx = f"prefix='{prefix}'" if prefix else ""
+        ctx += " " if prefix and keywords else ""
+        ctx += f"keywords='{keywords}'" if keywords else ""
+        return f"未找到匹配 {ctx} 的函数。"
+
+    lines = [f"匹配总数 {page['total']}；offset={offset}，本页 {len(matches)} 个，limit={limit}"]
+    if page["next_offset"] is not None:
+        lines.append(f"下一页: offset={page['next_offset']}, limit={limit}")
+    for name in matches:
+        entry = skill_language._index.get(name, {})
+        fpath = entry.get("file", "?")
+        lines.append(f"  {name:45s} {fpath}")
+    return "\n".join(lines)
+
+
+# ─── 属性查询 ──────────────────────────────────────────────
+
+@mcp.tool()
+async def db_search_attr(objType: str = "", keyword: str = "") -> str:
+    """搜索数据库对象属性。按 objType + 关键词查找属性名、类型和读写权限。
+
+    参数:
+      objType: ~>objType 返回值，如 "rect"/"inst"/"stdVia"。留空搜全部类型。
+      keyword: 属性名关键词（子串匹配）。留空列出该类型的全部属性。
+
+    示例:
+      objType="rect" keyword=""       → 列出 rect 全部属性
+      objType="inst" keyword="name"   → inst 属性中带 "name" 的
+      objType="" keyword="bBox"       → 所有类型中名为 bBox 的属性
+    """
+    results = db_attr.search_attr(objType=objType, keyword=keyword)
+    if not results:
+        ctx = f"objType='{objType}'" if objType else "全部类型"
+        ctx += f" keyword='{keyword}'" if keyword else ""
+        return f"未找到匹配 {ctx} 的属性。"
+    lines = [f"匹配 {len(results)} 个属性:"]
+    lines.append(f"  {'name':25s} {'rw':4s} {'type':15s} desc")
+    lines.append(f"  {'-'*25} {'-'*4} {'-'*15} {'-'*30}")
+    for r in results:
+        lines.append(f"  {r['name']:25s} {r['rw']:4s} {r['type']:15s} {r['desc'][:60]}")
+    return "\n".join(lines)
+
+
+# ─── tech 数据库对象属性查询 ──────────────────────────────────
+
+@mcp.tool()
+async def techdb_search_attr(className: str = "", keyword: str = "") -> str:
+    """搜索 tech 数据库对象属性。按类 + 关键词查找属性名、描述和所属类。
+
+    参数:
+      className: tech 对象类名，如 "techID"/"layers"/"lps"/"viaDefs"/"siteDefs"。
+                 留空搜全部类。
+      keyword:   属性名关键词（子串匹配）。留空列出该类全部属性。
+
+    示例:
+      className="viaDefs" keyword=""            → 列出 viaDefs 全部属性
+      className="lps" keyword="valid"           → lps 属性中带 "valid" 的
+      className="" keyword="objType"            → 所有类中名为 objType 的属性
+    """
+    results = techdb_attr.search_tech_attr(className=className, keyword=keyword)
+    if not results:
+        ctx = f"类='{className}'" if className else "全部类"
+        ctx += f" keyword='{keyword}'" if keyword else ""
+        return f"未找到匹配 {ctx} 的 tech 属性。"
+    lines = [f"匹配 {len(results)} 个 tech 属性:"]
+    lines.append(f"  {'name':25s} {'rw':2s} {'type':10s} 所属类")
+    lines.append(f"  {'-'*25} {'-'*2} {'-'*10} {'-'*30}")
+    for r in results:
+        lines.append(f"  {r['name']:25s} {r['rw']:2s} {r['type']:10s} {','.join(r['classes'])}")
+    return "\n".join(lines)
+
+
+# ─── CDF 对象属性查询 ──────────────────────────────────
+
+@mcp.tool()
+async def cdfdb_search_attr(className: str = "", keyword: str = "") -> str:
+    """搜索 CDF 对象属性。按类 + 关键词查找属性名、描述和所属类。
+
+    参数:
+      className: CDF 对象类名，如 "cdfDataId"/"cdfParamId"。留空搜全部类。
+      keyword:   属性名关键词（子串匹配）。留空列出该类全部属性。
+
+    示例:
+      className="cdfParamId" keyword=""        → 列出 cdfParamId 全部属性
+      className="cdfDataId" keyword="param"    → cdfDataId 属性中带 "param" 的
+      className="" keyword="value"             → 所有类中名为 value 的属性
+    """
+    results = cdfdb_attr.search_cdf_attr(className=className, keyword=keyword)
+    if not results:
+        ctx = f"类='{className}'" if className else "全部类"
+        ctx += f" keyword='{keyword}'" if keyword else ""
+        return f"未找到匹配 {ctx} 的 CDF 属性。"
+    lines = [f"匹配 {len(results)} 个 CDF 属性:"]
+    lines.append(f"  {'name':25s} {'rw':4s} {'type':10s} desc")
+    lines.append(f"  {'-'*25} {'-'*4} {'-'*10} {'-'*40}")
+    for r in results:
+        lines.append(f"  {r['name']:25s} {r['rw']:4s} {r['type']:10s} {r['desc'][:55]}")
+    return "\n".join(lines)
+
+
+if __name__ == "__main__":
+    import asyncio
+    asyncio.run(mcp.run_stdio_async())

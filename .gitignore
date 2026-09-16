@@ -1,0 +1,22 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.tmp*/
+*.tmp
+*.log
+
+# 解析器生成的索引，不随仓库分发。使用者用本地 Cadence doc 重建，
+# 见 README「索引恢复与官方文档」与「显式重建」。
+lib/functions/data/index.json
+lib/database/db/data/index.json
+lib/database/techdb/data/index.json
+lib/database/cdfdb/data/index.json
+
+# Claude Code 本地个人配置
+.claude/settings.local.json
