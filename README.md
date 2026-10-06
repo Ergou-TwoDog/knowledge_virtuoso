@@ -2,6 +2,8 @@
 
 独立开发、维护的 Virtuoso 官方知识库，通过 MCP stdio 提供 SKILL 函数文档与 db、techdb、cdfdb 属性查询。以标准 Python 包发布，外部项目可用 `uvx` 免克隆引用。本服务不连接 Virtuoso，不执行 SKILL，不依赖 Bridge、VMware 或自建函数库。
 
+公开仓库：<https://github.com/Ergou-TwoDog/knowledge_virtuoso>
+
 ## 安装与运行
 
 ### 作为 uvx 工具（外部使用方）
