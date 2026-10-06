@@ -14,7 +14,7 @@
     "virtuoso": {
       "type": "stdio",
       "command": "uvx",
-      "args": ["--from", "git+https://github.com/<user>/knowledge_virtuoso", "knowledge-virtuoso"]
+      "args": ["--from", "git+https://github.com/Ergou-TwoDog/knowledge_virtuoso", "knowledge-virtuoso"]
     }
   }
 }
@@ -78,7 +78,7 @@ knowledge_virtuoso/
       "type": "stdio",
       "command": "uv",
       "args": ["run", "--directory", "<仓库绝对路径>", "knowledge-virtuoso"],
-      "env": { "VIRTUOSO_DOC_DIR": "${VIRTUOSO_DOC_DIR}", "VIRTUOSO_DATA_DIR": "${VIRTUOSO_DATA_DIR}" }
+      "env": { "VIRTUOSO_DOC_DIR": "${VIRTUOSO_DOC_DIR:-}", "VIRTUOSO_DATA_DIR": "${VIRTUOSO_DATA_DIR:-}" }
     }
   }
 }
