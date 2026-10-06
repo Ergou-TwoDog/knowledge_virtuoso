@@ -23,6 +23,8 @@ from typing import Iterator
 from threading import RLock
 from copy import deepcopy
 
+from knowledge_virtuoso._paths import index_path
+
 for _stream in (sys.stdout, sys.stderr):
     if hasattr(_stream, "reconfigure"):
         try:
@@ -30,8 +32,7 @@ for _stream in (sys.stdout, sys.stderr):
         except Exception:
             pass
 
-_SCRIPT_DIR = Path(__file__).resolve().parent.parent
-_DEFAULT_INDEX_JSON = _SCRIPT_DIR / "data" / "index.json"
+_DEFAULT_INDEX_JSON = index_path("functions")
 _SCHEMA_VERSION = 2
 
 # These are the docsets whose entries are in scope for the callable SKILL API.
@@ -758,11 +759,14 @@ def _build_index(doc_root: str | None = None, index_json: str | Path | None = No
         else:
             _publish(runtime, source, {})
             return
-        root = doc_root if doc_root is not None else os.environ.get("SKILL_DOC_DIR")
+        root = doc_root if doc_root is not None else os.environ.get("VIRTUOSO_DOC_DIR")
         print(f"SKILL index JSON unavailable ({source}): {json_reason}; recovering from doc {root!r}", file=sys.stderr)
         try:
             if not root:
-                raise ValueError("doc_root not configured; set SKILL_DOC_DIR in the MCP process environment")
+                raise ValueError(
+                    f"doc_root not configured; set VIRTUOSO_DOC_DIR to rebuild {source}, "
+                    f"or run: knowledge-virtuoso-build functions"
+                )
             build_index_file(root, source)
         except (OSError, ValueError, TypeError, RecursionError) as exc:
             raise IndexLoadError(
@@ -892,7 +896,7 @@ def print_report(real: dict[str, str], analysis: dict) -> None:
 def _build_cli() -> None:
     import argparse
     parser = argparse.ArgumentParser(description="从 IC618 HTML 文档提取官方 SKILL 可调用函数索引")
-    parser.add_argument("--doc-root", default=os.environ.get("SKILL_DOC_DIR"))
+    parser.add_argument("--doc-root", default=os.environ.get("VIRTUOSO_DOC_DIR"))
     parser.add_argument("--export", metavar="FILE")
     parser.add_argument("--export-json", metavar="FILE")
     parser.add_argument("--report", action="store_true", help="输出构建覆盖统计")
@@ -916,7 +920,7 @@ def _build_cli() -> None:
 
 def _query_cli() -> None:
     if len(sys.argv) < 2:
-        print("用法: python -B lib/functions/core/catalog.py <function_name> [doc_root]", file=sys.stderr)
+        print("用法: python -m knowledge_virtuoso.functions.core.catalog <function_name> [doc_root]", file=sys.stderr)
         raise SystemExit(1)
     info = query_function(sys.argv[1], sys.argv[2] if len(sys.argv) > 2 else None)
     if info is None:

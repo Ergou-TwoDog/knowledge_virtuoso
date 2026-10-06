@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-lib/server.py — MCP Server: SKILL 函数知识库查询服务。
+knowledge_virtuoso.server — MCP Server: SKILL 函数知识库查询服务。
 
 提供 tool:
 
@@ -18,20 +18,18 @@ lib/server.py — MCP Server: SKILL 函数知识库查询服务。
   cdfdb_search_attr          — 按类（cdfDataId/cdfParamId）+ 关键词搜索 CDF 属性
 
 启动方式:
-  python -B lib/server.py
+  knowledge-virtuoso          （console script）
+  python -m knowledge_virtuoso
   由 Claude Code 通过 .mcp.json 配置自动启动，stdin/stdout 通信。
 """
 
-import sys, os, json
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+import json
 
 from mcp.server.fastmcp import FastMCP
-from functions.core import catalog as skill_language
-from database.db.core import catalog as db_attr
-from database.techdb.core import catalog as techdb_attr
-from database.cdfdb.core import catalog as cdfdb_attr
+from knowledge_virtuoso.functions.core import catalog as skill_language
+from knowledge_virtuoso.database.db.core import catalog as db_attr
+from knowledge_virtuoso.database.techdb.core import catalog as techdb_attr
+from knowledge_virtuoso.database.cdfdb.core import catalog as cdfdb_attr
 
 mcp = FastMCP("virtuoso")
 
@@ -220,6 +218,11 @@ async def cdfdb_search_attr(className: str = "", keyword: str = "") -> str:
     return "\n".join(lines)
 
 
-if __name__ == "__main__":
+def main() -> None:
     import asyncio
+
     asyncio.run(mcp.run_stdio_async())
+
+
+if __name__ == "__main__":
+    main()

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-database.db.core.catalog — 从 index.json 查询数据库对象属性信息。
+knowledge_virtuoso.database.db.core.catalog — 从 index.json 查询数据库对象属性信息。
 
 查询只读取 JSON；索引缺失或损坏时报错。可显式调用构建入口从 attrib.html 重建。
 
 用法:
-  from database.db.core.catalog import search_attr, build_from_html
+  from knowledge_virtuoso.database.db.core.catalog import search_attr, build_from_html
 
   search_attr(objType="rect")              → 列出 rect 的全部属性
   search_attr(objType="rect", keyword="box")    → 按关键词过滤
@@ -19,6 +19,9 @@ import sys
 from pathlib import Path
 from html import unescape
 from collections import defaultdict
+from threading import RLock
+
+from knowledge_virtuoso._paths import atomic_write_json, index_path
 
 for _s in (sys.stdout, sys.stderr):
     if hasattr(_s, "reconfigure"):
@@ -27,10 +30,10 @@ for _s in (sys.stdout, sys.stderr):
         except Exception:
             pass
 
-_SCRIPT_DIR = Path(__file__).resolve().parent.parent
-_DEFAULT_INDEX = _SCRIPT_DIR / "data" / "index.json"
+_DEFAULT_INDEX = index_path("db")
 
 _data: dict | None = None
+_lock = RLock()
 
 # ─── section 名 → ~>objType 运行时值 ───
 OBJTYPE_MAP = {
@@ -287,15 +290,15 @@ def expand_objtype(attrs: dict) -> dict:
 def build_from_html(doc_path: str | None = None) -> dict:
     """从 attrib.html 解析，返回与 JSON 相同结构的 dict。"""
     if doc_path is None:
-        doc_root = os.environ.get("SKILL_DOC_DIR")
+        doc_root = os.environ.get("VIRTUOSO_DOC_DIR")
         if not doc_root:
             raise FileNotFoundError(
-                "index.json 缺失，且 SKILL_DOC_DIR 未设置，无法重建。"
-                "请设置 SKILL_DOC_DIR 或运行 python -B lib/database/db/core/catalog.py")
+                "index.json 缺失，且 VIRTUOSO_DOC_DIR 未设置，无法重建。"
+                "请设置 VIRTUOSO_DOC_DIR 或运行 knowledge-virtuoso-build db")
         doc_path = os.path.join(doc_root, "skdfref", "attrib.html")
 
     if not Path(doc_path).exists():
-        raise FileNotFoundError(f"文档不存在: {doc_path}，请检查 SKILL_DOC_DIR 环境变量")
+        raise FileNotFoundError(f"文档不存在: {doc_path}，请检查 VIRTUOSO_DOC_DIR 环境变量")
 
     attrs = extract_all(doc_path)
     return {
@@ -310,12 +313,27 @@ def build_from_html(doc_path: str | None = None) -> dict:
 def _load() -> dict:
     global _data
     if _data is None:
-        try:
-            with open(_DEFAULT_INDEX, encoding="utf-8") as f:
-                _data = json.load(f)
-        except (OSError, json.JSONDecodeError) as exc:
-            raise RuntimeError(f"db_attr index unavailable: {_DEFAULT_INDEX}. Explicitly rebuild the attribute index; queries never write it. {exc}") from exc
+        with _lock:
+            if _data is None:
+                try:
+                    with open(_DEFAULT_INDEX, encoding="utf-8") as f:
+                        _data = json.load(f)
+                except (OSError, json.JSONDecodeError) as primary:
+                    _data = _rebuild(primary)
     return _data
+
+
+def _rebuild(primary: Exception) -> dict:
+    doc_root = os.environ.get("VIRTUOSO_DOC_DIR")
+    if not doc_root:
+        raise RuntimeError(
+            f"db_attr 索引不可用: {_DEFAULT_INDEX} ({primary})。"
+            f"设置 VIRTUOSO_DOC_DIR 后可自动从官方 doc 重建，或运行: knowledge-virtuoso-build db"
+        ) from primary
+    print(f"db_attr 索引缺失/损坏 ({_DEFAULT_INDEX}): {primary}；从 {doc_root!r} 重建", file=sys.stderr)
+    payload = build_from_html()
+    atomic_write_json(_DEFAULT_INDEX, payload)
+    return payload
 
 
 def search_attr(objType: str = "", keyword: str = "") -> list[dict]:
@@ -353,16 +371,14 @@ def main() -> None:
     import argparse
     parser = argparse.ArgumentParser(description="从 attrib.html 提取 dbObject 属性定义")
     parser.add_argument("--doc", default=None,
-                        help="attrib.html 路径 (默认取 SKILL_DOC_DIR/skdfref/attrib.html)")
+                        help="attrib.html 路径 (默认取 VIRTUOSO_DOC_DIR/skdfref/attrib.html)")
     parser.add_argument("--output", default=str(_DEFAULT_INDEX), help="输出 JSON 路径")
     args = parser.parse_args()
 
     output = build_from_html(args.doc)
 
     output_path = Path(args.output)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(output, f, indent=2, ensure_ascii=False)
+    atomic_write_json(output_path, output)
     print(f"\n已导出到 {output_path}")
     print(f"  objTypes:    {len(output['objTypes'])} 个运行时类型映射")
     print(f"  attributes:  {len(output['attributes'])} 个属性")

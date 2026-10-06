@@ -11,12 +11,18 @@ htmlcov/
 *.tmp
 *.log
 
-# 解析器生成的索引，不随仓库分发。使用者用本地 Cadence doc 重建，
-# 见 README「索引恢复与官方文档」与「显式重建」。
-lib/functions/data/index.json
-lib/database/db/data/index.json
-lib/database/techdb/data/index.json
-lib/database/cdfdb/data/index.json
+# 索引默认写入平台数据目录（VIRTUOSO_DATA_DIR 可覆盖），不随仓库分发；
+# 使用者用本地 Cadence doc 惰性重建，见 README「索引恢复与官方文档」。
+# 防御：万一有人把 VIRTUOSO_DATA_DIR 指向仓库，也不提交索引。
+**/index.json
+
+# 构建产物
+dist/
+build/
+*.egg-info/
 
 # Claude Code 本地个人配置
 .claude/settings.local.json
+
+# 项目记忆本地数据
+.project-memory/

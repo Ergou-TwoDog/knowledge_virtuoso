@@ -1,6 +1,6 @@
 # IC618 官方函数索引字段映射
 
-结构仍为 v2：`schema_version`、`corpus`、`functions`。兼容有效旧 v1 平面索引读取，不自动迁移。查询按健康内存 → JSON → doc 恢复；仅 JSON 缺失、损坏、空记录或不兼容时，允许从显式 `doc_root` 或 MCP 进程环境 `SKILL_DOC_DIR` 重建并原子写回对应 JSON。默认索引基于模块位置，显式来源按规范绝对路径区分（不解析符号链接别名）。
+结构仍为 v2：`schema_version`、`corpus`、`functions`。兼容有效旧 v1 平面索引读取，不自动迁移。查询按健康内存 → JSON → doc 恢复；仅 JSON 缺失、损坏、空记录或不兼容时，允许从显式 `doc_root` 或 MCP 进程环境 `VIRTUOSO_DOC_DIR` 重建并原子写回对应 JSON。默认索引位于平台数据目录（`VIRTUOSO_DATA_DIR` 可覆盖）下的 `functions/index.json`，显式来源按规范绝对路径区分（不解析符号链接别名）。
 
 加载时校验根、版本、非空函数记录及查询消费字段基本类型，局部构造主/关键词/前缀三索引；写入成功后才发布内存与统计。RLock 保证检查、恢复、发布和一致读取；doc 目录无效、空解析、读取或写入失败不发布半成品，保留实际 JSON/doc 错因，恢复日志只写 stderr。健康判断为 ready、字典类型、主索引非空和三字典长度快照（O(1)，前缀可为空），不保证发现等量或嵌套损坏。不热更新、不因零匹配而重建；缺签名的旧记录不补造签名，也不另读 HTML。
 
@@ -22,6 +22,6 @@
 | status | 现有 deprecated 文本启发式，不能视作产品支持认证 |
 | prefix / tokens | 函数名拆词生成，用于精确名、领域前缀、拆词搜索；非描述检索 |
 
-HTML 以 UTF-8 容错读取；原文个别非 UTF-8 字节可能丢弃。字体、颜色、图片和完整排版不保留。遇到 not_documented/unparsed 或自然语言约束，应回到 `<实际 IC618 doc 根目录>/<source.file>#<source.anchor>`（doc 根目录取显式 `doc_root` 或服务进程的 `SKILL_DOC_DIR`），不要根据空列表猜测无参数或无返回。
+HTML 以 UTF-8 容错读取；原文个别非 UTF-8 字节可能丢弃。字体、颜色、图片和完整排版不保留。遇到 not_documented/unparsed 或自然语言约束，应回到 `<实际 IC618 doc 根目录>/<source.file>#<source.anchor>`（doc 根目录取显式 `doc_root` 或服务进程的 `VIRTUOSO_DOC_DIR`），不要根据空列表猜测无参数或无返回。
 
 范围为代码 `_SKILL_DOC_DIRS` 白名单，本次增加 ocnxl、aelref；不把其他目录中的配置项、C++ 或示例函数视为官方可调用函数。目录外候选只是待人工核查样本，未收录且不代表总数。构建统计可在成功构建后通过 `coverage_report()` 或 CLI `--report` 查看；历史对比报告已清理，不随运行文件交付。

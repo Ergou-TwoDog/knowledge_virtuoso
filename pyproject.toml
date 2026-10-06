@@ -1,0 +1,18 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "knowledge-virtuoso"
+version = "0.1.0"
+description = "Virtuoso 官方知识库 MCP 服务（SKILL 函数与 db/techdb/cdfdb 属性查询）"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["mcp==1.9.4"]
+
+[project.scripts]
+knowledge-virtuoso = "knowledge_virtuoso.server:main"
+knowledge-virtuoso-build = "knowledge_virtuoso.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/knowledge_virtuoso"]

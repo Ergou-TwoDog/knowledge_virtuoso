@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-database.cdfdb.core.catalog — 从 index.json 查询 CDF 对象（cdfDataId / cdfParamId）的 ~> 属性。
+knowledge_virtuoso.database.cdfdb.core.catalog — 从 index.json 查询 CDF 对象（cdfDataId / cdfParamId）的 ~> 属性。
 
 查询只读取 JSON；索引缺失或损坏时报错。可显式调用构建入口从 skartistref/chap21.html 重建。
 
-与 database.db.core.catalog / database.techdb.core.catalog 平行：db 查设计库对象属性，techdb 查 techFile 对象属性，
+与 knowledge_virtuoso.database.db.core.catalog / knowledge_virtuoso.database.techdb.core.catalog 平行：db 查设计库对象属性，techdb 查 techFile 对象属性，
 本模块查 CDF 对象属性（独立数据模型，锚定在 cell/library 上）。
 
 用法:
-  from database.cdfdb.core.catalog import search_cdf_attr, build_from_html
+  from knowledge_virtuoso.database.cdfdb.core.catalog import search_cdf_attr, build_from_html
 
   search_cdf_attr(className="cdfParamId")              → 列出该对象全部属性
   search_cdf_attr(className="cdfParamId", keyword="param")  → 按关键词过滤
@@ -21,6 +21,9 @@ import json
 import sys
 from pathlib import Path
 from html import unescape
+from threading import RLock
+
+from knowledge_virtuoso._paths import atomic_write_json, index_path
 
 for _s in (sys.stdout, sys.stderr):
     if hasattr(_s, "reconfigure"):
@@ -29,10 +32,10 @@ for _s in (sys.stdout, sys.stderr):
         except Exception:
             pass
 
-_SCRIPT_DIR = Path(__file__).resolve().parent.parent
-_DEFAULT_INDEX = _SCRIPT_DIR / "data" / "index.json"
+_DEFAULT_INDEX = index_path("cdfdb")
 
 _data: dict | None = None
+_lock = RLock()
 
 # ─── 类 → 简短描述 ───
 CLASS_DESC = {
@@ -173,15 +176,15 @@ def extract_all(doc_path: str) -> dict:
 def build_from_html(doc_path: str | None = None) -> dict:
     """从 chap21.html 解析，返回与 JSON 相同结构的 dict。"""
     if doc_path is None:
-        doc_root = os.environ.get("SKILL_DOC_DIR")
+        doc_root = os.environ.get("VIRTUOSO_DOC_DIR")
         if not doc_root:
             raise FileNotFoundError(
-                "index.json 缺失，且 SKILL_DOC_DIR 未设置，无法重建。"
-                "请设置 SKILL_DOC_DIR 或运行 python -B lib/database/cdfdb/core/catalog.py")
+                "index.json 缺失，且 VIRTUOSO_DOC_DIR 未设置，无法重建。"
+                "请设置 VIRTUOSO_DOC_DIR 或运行 knowledge-virtuoso-build cdfdb")
         doc_path = os.path.join(doc_root, "skartistref", "chap21.html")
 
     if not Path(doc_path).exists():
-        raise FileNotFoundError(f"文档不存在: {doc_path}，请检查 SKILL_DOC_DIR 环境变量")
+        raise FileNotFoundError(f"文档不存在: {doc_path}，请检查 VIRTUOSO_DOC_DIR 环境变量")
 
     return extract_all(doc_path)
 
@@ -189,12 +192,27 @@ def build_from_html(doc_path: str | None = None) -> dict:
 def _load() -> dict:
     global _data
     if _data is None:
-        try:
-            with open(_DEFAULT_INDEX, encoding="utf-8") as f:
-                _data = json.load(f)
-        except (OSError, json.JSONDecodeError) as exc:
-            raise RuntimeError(f"cdfdb_attr index unavailable: {_DEFAULT_INDEX}. Explicitly rebuild the attribute index; queries never write it. {exc}") from exc
+        with _lock:
+            if _data is None:
+                try:
+                    with open(_DEFAULT_INDEX, encoding="utf-8") as f:
+                        _data = json.load(f)
+                except (OSError, json.JSONDecodeError) as primary:
+                    _data = _rebuild(primary)
     return _data
+
+
+def _rebuild(primary: Exception) -> dict:
+    doc_root = os.environ.get("VIRTUOSO_DOC_DIR")
+    if not doc_root:
+        raise RuntimeError(
+            f"cdfdb_attr 索引不可用: {_DEFAULT_INDEX} ({primary})。"
+            f"设置 VIRTUOSO_DOC_DIR 后可自动从官方 doc 重建，或运行: knowledge-virtuoso-build cdfdb"
+        ) from primary
+    print(f"cdfdb_attr 索引缺失/损坏 ({_DEFAULT_INDEX}): {primary}；从 {doc_root!r} 重建", file=sys.stderr)
+    payload = build_from_html()
+    atomic_write_json(_DEFAULT_INDEX, payload)
+    return payload
 
 
 def search_cdf_attr(className: str = "", keyword: str = "") -> list[dict]:
@@ -233,16 +251,14 @@ def main() -> None:
     import argparse
     parser = argparse.ArgumentParser(description="从 skartistref/chap21.html 提取 CDF 对象属性")
     parser.add_argument("--doc", default=None,
-                        help="chap21.html 路径 (默认取 SKILL_DOC_DIR/skartistref/chap21.html)")
+                        help="chap21.html 路径 (默认取 VIRTUOSO_DOC_DIR/skartistref/chap21.html)")
     parser.add_argument("--output", default=str(_DEFAULT_INDEX), help="输出 JSON 路径")
     args = parser.parse_args()
 
     result = build_from_html(args.doc)
 
     output_path = Path(args.output)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(result, f, indent=2, ensure_ascii=False)
+    atomic_write_json(output_path, result)
     print(f"\n已导出到 {output_path}")
     print(f"  classes:     {len(result['classes'])} 个 CDF 对象类")
     print(f"  attributes:  {len(result['attributes'])} 个属性")

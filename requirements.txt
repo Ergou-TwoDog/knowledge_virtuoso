@@ -1,2 +1,0 @@
-# Python >= 3.10; minimum version not independently verified.
-mcp==1.9.4
