@@ -111,8 +111,8 @@ async def skill_language_search_components(prefix: str = "", keywords: str = "",
       prefix:   前缀过滤（如 "tech"、"db"、"le"）。留空不过滤前缀。
       keywords: 空格分隔关键词（如 "find via def"）。留空返回该前缀所有函数。
 
-    关键词按**驼峰边界自动拆词**——"createRect"、"create rect"、完整名 "dbCreateRect"
-    三者等价，不必手动拆分。多个词是“都要命中”的交集。
+    关键词按**驼峰自动拆词**，且对无边界写法兜底——"createRect"、"create rect"、
+    "createrect"、完整名 "dbCreateRect" 都能命中，不必手动拆分；多个词是“都要命中”的交集。
 
     示例:
       prefix="tech" keywords="find via def"  → techFindViaDefByName

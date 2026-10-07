@@ -805,6 +805,22 @@ def _query_tokens(raw: str) -> list[str]:
     return [word.casefold() for word in raw.split() if word]
 
 
+def _flatten_search(raw_query: str, prefix_filter: str | None = None) -> list[str]:
+    """压平兜底:去掉大小写边界与空白后做子串匹配。
+
+    仅当精确匹配与拆词匹配都落空时使用,用于接住 'createrect' 这类无大小写边界、
+    拆不出词的输入。
+    """
+    flattened = re.sub(r"[\s_]+", "", raw_query.casefold())
+    if not flattened:
+        return []
+    return sorted(
+        name for name, entry in _index.items()
+        if (not prefix_filter or entry.get("prefix") == prefix_filter)
+        and flattened in name.casefold()
+    )
+
+
 def search_page(prefix: str = "", keywords: str = "", offset: int = 0, limit: int = 30) -> dict:
     if type(offset) is not int or type(limit) is not int or offset < 0 or not 1 <= limit <= 500:
         raise ValueError("offset must be a nonnegative integer; limit must be 1..500")
@@ -815,6 +831,8 @@ def search_page(prefix: str = "", keywords: str = "", offset: int = 0, limit: in
         query = raw_query.casefold()
         exact = [n for n in _index if n.casefold() == query and (not prefix or _index[n]["prefix"] == prefix)]
         matches = exact or _search_by_tokens(_query_tokens(raw_query), prefix or None)
+        if not matches:
+            matches = _flatten_search(raw_query, prefix or None)
         names = matches[offset:offset + limit]
         return {"names": names, "total": len(matches), "offset": offset, "limit": limit,
                 "next_offset": offset + len(names) if offset + len(names) < len(matches) else None}
