@@ -113,6 +113,7 @@ async def skill_language_search_components(prefix: str = "", keywords: str = "",
 
     关键词按**驼峰自动拆词**，且对无边界写法兜底——"createRect"、"create rect"、
     "createrect"、完整名 "dbCreateRect" 都能命中，不必手动拆分；多个词是“都要命中”的交集。
+    未命中时会给出相近名建议（若指定了 prefix，则限同前缀内）。
 
     示例:
       prefix="tech" keywords="find via def"  → techFindViaDefByName
@@ -129,7 +130,11 @@ async def skill_language_search_components(prefix: str = "", keywords: str = "",
         ctx = f"prefix='{prefix}'" if prefix else ""
         ctx += " " if prefix and keywords else ""
         ctx += f"keywords='{keywords}'" if keywords else ""
-        return f"未找到匹配 {ctx} 的函数。"
+        message = f"未找到匹配 {ctx} 的函数。"
+        hints = skill_language.suggest_names(keywords, prefix=prefix)
+        if hints:
+            message += "\n相近的官方函数: " + "、".join(hints)
+        return message
 
     lines = [f"匹配总数 {page['total']}；offset={offset}，本页 {len(matches)} 个，limit={limit}"]
     if page["next_offset"] is not None:

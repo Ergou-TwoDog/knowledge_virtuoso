@@ -876,19 +876,20 @@ def query_function(func_name: str, doc_root: str | None = None) -> dict | None:
     }
 
 
-def suggest_names(func_name: str, limit: int = 5) -> list[str]:
+def suggest_names(func_name: str, limit: int = 5, prefix: str = "") -> list[str]:
     """给出与 func_name 相近的官方函数名,供“未找到”时提示。
 
     先用名称编辑距离(处理拼写,如 dbCreateRct → dbCreateRect),再用拆词重叠兜底
     (处理片段、词序)。拼写优先是刻意的:公共 token(如 db/create)会让一大族函数平票,
-    仅靠拆词重叠无法把真正接近的那个排上来。
+    仅靠拆词重叠无法把真正接近的那个排上来。prefix 非空时只在同前缀内给建议。
     """
     query = func_name.strip()
     if not query:
         return []
+    prefix = prefix.strip()
     with _index_lock:
         _build_index()
-        names = list(_index.keys())
+        names = [n for n in _index if not prefix or _index[n].get("prefix") == prefix]
         tokens = {name: set(_index[name].get("tokens", [])) for name in names}
 
     suggestions: list[str] = []
