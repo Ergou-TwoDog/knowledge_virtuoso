@@ -10,6 +10,7 @@ library.
 
 from __future__ import annotations
 
+import difflib
 import json
 import os
 import re
@@ -792,15 +793,28 @@ def _search_by_tokens(words: list[str], prefix_filter: str | None = None) -> lis
     return sorted(_index.keys() if candidates is None else candidates)
 
 
+def _query_tokens(raw: str) -> list[str]:
+    """把查询串按驼峰/空白拆成检索词,使查词与索引的拆词一致。
+
+    'createRect' 与 'create rect' 等价;纯单字符等拆不出词的输入退回原始词,
+    以保留既有的子串匹配行为(不因拆词把查询变空而放大召回)。
+    """
+    tokens = _tokenize_name(raw)
+    if tokens:
+        return tokens
+    return [word.casefold() for word in raw.split() if word]
+
+
 def search_page(prefix: str = "", keywords: str = "", offset: int = 0, limit: int = 30) -> dict:
     if type(offset) is not int or type(limit) is not int or offset < 0 or not 1 <= limit <= 500:
         raise ValueError("offset must be a nonnegative integer; limit must be 1..500")
     with _index_lock:
         _build_index()
         prefix = prefix.strip()
-        query = keywords.strip().casefold()
+        raw_query = keywords.strip()
+        query = raw_query.casefold()
         exact = [n for n in _index if n.casefold() == query and (not prefix or _index[n]["prefix"] == prefix)]
-        matches = exact or _search_by_tokens(query.split(), prefix or None)
+        matches = exact or _search_by_tokens(_query_tokens(raw_query), prefix or None)
         names = matches[offset:offset + limit]
         return {"names": names, "total": len(matches), "offset": offset, "limit": limit,
                 "next_offset": offset + len(names) if offset + len(names) < len(matches) else None}
@@ -842,6 +856,48 @@ def query_function(func_name: str, doc_root: str | None = None) -> dict | None:
         "status": entry.get("status", "active"),
         "field_status": entry.get("field_status", {}),
     }
+
+
+def suggest_names(func_name: str, limit: int = 5) -> list[str]:
+    """给出与 func_name 相近的官方函数名,供“未找到”时提示。
+
+    先用名称编辑距离(处理拼写,如 dbCreateRct → dbCreateRect),再用拆词重叠兜底
+    (处理片段、词序)。拼写优先是刻意的:公共 token(如 db/create)会让一大族函数平票,
+    仅靠拆词重叠无法把真正接近的那个排上来。
+    """
+    query = func_name.strip()
+    if not query:
+        return []
+    with _index_lock:
+        _build_index()
+        names = list(_index.keys())
+        tokens = {name: set(_index[name].get("tokens", [])) for name in names}
+
+    suggestions: list[str] = []
+    seen: set[str] = set()
+
+    folded = {name.casefold(): name for name in names}
+    for close in difflib.get_close_matches(query.casefold(), list(folded), n=limit, cutoff=0.6):
+        name = folded[close]
+        if name not in seen:
+            seen.add(name)
+            suggestions.append(name)
+    if len(suggestions) >= limit:
+        return suggestions
+
+    q_tokens = set(_tokenize_name(query))
+    if q_tokens:
+        ranked = sorted(
+            ((-len(q_tokens & tokens[name]), len(name), name)
+             for name in names if q_tokens & tokens[name])
+        )
+        for _, _, name in ranked:
+            if name not in seen:
+                seen.add(name)
+                suggestions.append(name)
+            if len(suggestions) >= limit:
+                break
+    return suggestions
 
 
 def coverage_report() -> dict[str, object]:

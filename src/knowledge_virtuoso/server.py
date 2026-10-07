@@ -39,13 +39,17 @@ async def skill_language_search_doc(func_name: str, detail: str = "brief") -> st
     """从 IC618 文档中查询 SKILL 函数的签名、参数、返回值、示例。
 
     参数:
-      func_name: 函数名，如 "dbCreateRect"
+      func_name: 函数名，如 "dbCreateRect"。需是**完整名**；不确定拼法时先用
+                 skill_language_search_components 搜到名字再查。未命中会给出相近名建议。
       detail:   返回粒度。brief=签名+来源+参数+返回(默认)；signature=仅签名；full=全部(含描述+示例)
     """
     if detail not in {"signature", "brief", "full"}:
         raise ValueError("detail must be signature, brief, or full")
     info = skill_language.query_function(func_name)
     if info is None:
+        hints = skill_language.suggest_names(func_name)
+        if hints:
+            return f"未找到函数: {func_name}\n相近的官方函数: " + "、".join(hints)
         return f"未找到函数: {func_name}"
 
     head = [f"函数: {info['name']}", f"签名: {info['signature']}"]
@@ -107,8 +111,12 @@ async def skill_language_search_components(prefix: str = "", keywords: str = "",
       prefix:   前缀过滤（如 "tech"、"db"、"le"）。留空不过滤前缀。
       keywords: 空格分隔关键词（如 "find via def"）。留空返回该前缀所有函数。
 
+    关键词按**驼峰边界自动拆词**——"createRect"、"create rect"、完整名 "dbCreateRect"
+    三者等价，不必手动拆分。多个词是“都要命中”的交集。
+
     示例:
       prefix="tech" keywords="find via def"  → techFindViaDefByName
+      prefix="db" keywords="createRect"      → dbCreateRect（驼峰自动拆开）
       prefix="db" keywords="create path"     → dbCreatePath
       prefix="tech" keywords=""              → 列出所有 tech 前缀函数（最多30）
     """

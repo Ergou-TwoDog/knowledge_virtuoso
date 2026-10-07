@@ -104,7 +104,7 @@ knowledge_virtuoso/
 | `techdb_search_attr` | `className=""`, `keyword=""` | `{"className":"viaDefs","keyword":"name"}` |
 | `cdfdb_search_attr` | `className=""`, `keyword=""` | `{"className":"cdfParamId","keyword":"value"}` |
 
-函数搜索至少提供 prefix/keywords 一个非空条件，主要匹配名称及拆词，不是自然语言语义搜索。支持完整函数名；offset 非负，limit 为 1–500，按返回的 next offset 翻页。
+函数搜索至少提供 prefix/keywords 一个非空条件，主要匹配名称及拆词，不是自然语言语义搜索。关键词按**驼峰边界自动拆词**——`createRect`、`create rect`、完整名 `dbCreateRect` 三者等价，不必手动拆分；offset 非负，limit 为 1–500，按返回的 next offset 翻页。查询单函数（`skill_language_search_doc`）未命中时会给出相近名建议。
 
 详情粒度：`signature` 返回主声明及必要说明/弃用提示；`brief` 加简短描述、来源定位、参数和返回值；`full` 另含可用的多声明、正文参数/返回说明、参数分组、示例、参考链接及异常字段状态。`text_fallback` 表示保留正文但未结构化，`unparsed` 表示未可靠提取；不能根据空数组猜测没有参数或返回值。
 
