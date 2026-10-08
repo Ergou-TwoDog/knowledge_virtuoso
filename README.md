@@ -41,7 +41,6 @@ knowledge_virtuoso/
 ├── CLAUDE.md
 ├── pyproject.toml      # 构建与依赖声明；首次 uv 运行生成 uv.lock
 ├── .gitignore
-├── .mcp.json           # 本项目自用 MCP 配置
 └── src/
     └── knowledge_virtuoso/          # 唯一顶层包
         ├── __init__.py  __main__.py
@@ -71,7 +70,7 @@ knowledge_virtuoso/
 
 ### 本项目
 
-根 `.mcp.json` 已提供以下配置（`<仓库绝对路径>` 替换为本仓库实际位置）：
+本仓库自测用的 MCP 配置是**本地文件、不随仓库分发**的：`.mcp.json` 已列入 `.gitignore`，克隆后需自行创建（`<仓库绝对路径>` 替换为本仓库实际位置）：
 
 ```json
 {
@@ -80,13 +79,17 @@ knowledge_virtuoso/
       "type": "stdio",
       "command": "uv",
       "args": ["run", "--directory", "<仓库绝对路径>", "knowledge-virtuoso"],
-      "env": { "VIRTUOSO_DOC_DIR": "${VIRTUOSO_DOC_DIR:-}", "VIRTUOSO_DATA_DIR": "${VIRTUOSO_DATA_DIR:-}" }
+      "env": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "VIRTUOSO_DOC_DIR": "${VIRTUOSO_DOC_DIR:-}",
+        "VIRTUOSO_DATA_DIR": "${VIRTUOSO_DATA_DIR:-}"
+      }
     }
   }
 }
 ```
 
-手动协议入口为 `uv run knowledge-virtuoso` 或 `python -m knowledge_virtuoso`。这不是交互式查询终端，stdin/stdout 专用于 MCP。加载配置或重启客户端后使用；Claude Code 中完整工具名通常带 `mcp__virtuoso__` 前缀。
+项目根 `.mcp.json` 由 Claude Code 按**路径**加载，与是否被 git 跟踪无关，所以忽略它不影响本机生效（仍会经过项目级配置的信任确认）。手动协议入口为 `uv run knowledge-virtuoso` 或 `python -m knowledge_virtuoso`。这不是交互式查询终端，stdin/stdout 专用于 MCP。加载配置或重启客户端后使用；Claude Code 中完整工具名通常带 `mcp__virtuoso__` 前缀。
 
 ### 外部项目引用
 

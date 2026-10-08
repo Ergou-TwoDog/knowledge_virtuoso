@@ -24,5 +24,9 @@ build/
 # Claude Code 本地个人配置
 .claude/settings.local.json
 
+# 本项目自测用的 MCP 配置：内容含本机绝对路径，不随仓库分发。
+# 按项目根路径加载，与 git 跟踪无关，克隆后需自行创建，见 README「MCP 接入」。
+.mcp.json
+
 # 项目记忆本地数据
 .project-memory/
