@@ -22,7 +22,21 @@
 }
 ```
 
-`uvx` 会从 git 解析、构建并运行 `knowledge-virtuoso` 入口，依赖（`mcp==1.9.4`）自动装入隔离环境；可加 `@v0.1.3` 固定版本。**索引不随包分发**，首次查询需能重建，见「索引恢复与官方文档」。本项目不修改使用方配置。
+`uvx` 会从 git 解析、构建并运行 `knowledge-virtuoso` 入口，依赖（`mcp==1.9.4`）自动装入隔离环境；可加 `@v0.1.3` 固定版本。本项目不修改使用方配置。
+
+**首次使用前必须让服务找到官方 doc，否则每次查询都会失败。** 索引不随包分发，只落在平台数据目录；服务在启动和建立连接时都不读索引，所以**「连接成功、工具列表正常」并不代表可查询**——索引缺失要等第一次查询才暴露。二选一：
+
+```bash
+# ① 在启动 MCP 客户端的环境里设置；只在进程启动时读取，改后须重启客户端
+export VIRTUOSO_DOC_DIR='/path/to/IC618/doc'        # bash / Git Bash
+# PowerShell 用：$env:VIRTUOSO_DOC_DIR = 'D:\path\to\IC618\doc'
+# （PowerShell 的 set 是 Set-Variable 的别名，set VAR=... 不设置环境变量）
+
+# ② 或预生成索引（functions / db / techdb / cdfdb）
+uvx --from git+https://github.com/Ergou-TwoDog/knowledge_virtuoso knowledge-virtuoso-build functions
+```
+
+两者都没有时，查询会**报错**并给出索引路径与修复命令，不会返回空结果。若改写进 MCP 配置的 `env`，`"${VIRTUOSO_DOC_DIR:-}"` 只是**转发**启动环境的值，环境里没有就等同未设置；要写字面路径，只能放在使用方自己的私有配置里。重建与恢复细节见「索引恢复与官方文档」。
 
 ### 本项目开发
 
