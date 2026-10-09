@@ -7,16 +7,17 @@
 | 字段 | 来源及含义 |
 |---|---|
 | name / functions 的 key | 官方 topic 名称；逗号共享条目按成员拆分；一个 marker 含多个可调用 h3 时按真实标题拆分 |
+| kind / file / docset | 条目类型，当前恒为 `function`，不承载区分信息；file 为相对 doc 根的源文件路径（与 `source.file` 相同，两处重复）；docset 为该路径的首段目录，即 `docset == file.split("/")[0]`（实测 7667/7667，可由 file 完全推出，不携带额外信息） |
 | signature | 声明区 dl/pre/code 的主声明，不取示例区调用 |
 | signatures | 同一选定 topic 的多个有效声明，去重；不宣称合并所有同名文档语义 |
 | signature_note / derivation_basis | 共享声明说明及原文依据。assoc、assq 使用 assv 共享声明但不伪造自身签名；28 个 c…r 名称取自官方 possible combinations 段落，保留族声明，不输出伪造的逐成员声明 |
 | description | Description 正文及表格文本，保留换行、重复章节 |
-| arguments / argument_groups | 表格参数和层级，保留原兼容字段 |
+| arguments / argument_groups | 表格参数和层级，保留原兼容字段。两者参数名集合一致（实测 7665/7667），argument_groups 的嵌套 groups 恒空，6799 个组中 6790 个组名就是 Arguments，仅 4 条条目出现自定义组名——多数条目里它与 arguments 重复，因此查询仅在分组非默认时才输出 |
 | returns | 表格返回值；Errors 独立分节，不混作返回值 |
-| arguments_text / returns_text / errors_text | 正文章节回查文本，包括非表格 fallback，例如 error never returns |
+| arguments_text / returns_text / errors_text | 正文章节回查文本，用于结构化失败时的 fallback：`err`、`error` 的 returns_text 即官方原文 “Never returns a value.”（此前此处误记为 errors_text 的例子）。arguments_text/returns_text 多数条目非空（6802/7064 条），但内容与 arguments/returns 表格重叠，仅在表格为空时才作为正文补充返回。errors_text 取自独立的 Errors 分节；实测 25 个入库文档集**均无该分节**（全 doc 根下的 Errors 标题都落在 dracula、spectre、assembler 等未入库文档集），故该字段一直为空——是源文档没有，不是解析失败或漏抓 |
 | example | Examples 文本，保留换行，避免注释与下一行调用相连；不保留精确排版 |
 | references | Reference/Related Topics/See Also 的文本和原始 href。相对链接以 source.file 所在目录解析 |
-| source | file、topic、marker_text、anchor、anchors。marker_text 保留原官方标记，即使与真实标题不一致；anchor 必须实际存在 |
+| source | file、topic、marker_text、anchor、anchors。marker_text 保留原官方标记，即使与真实标题不一致；anchor 必须实际存在。anchors 是该 topic 内全部元素 `name`/`id` 属性的去重清单（保序），主体是官方文档工具为每段生成的数字编号（如 `"1217188"`），不含说明文本；anchor 从中选取——函数名在清单内就取函数名，否则取首项，用于拼接 `<doc 根>/<source.file>#<source.anchor>` 回查。实测 7667 条全部带该字段，单条 4～746 个，与函数用法无关，查询输出不再携带 |
 | sources | 同名补充来源定位；主正文优先 active，其他来源仅追踪定位，不合并全部正文 |
 | field_status | present、text_fallback、documented_none、not_documented、unparsed；signature 另有 shared_declaration。明确 None. 不等于缺文档或解析失败 |
 | status | 现有 deprecated 文本启发式，不能视作产品支持认证 |
