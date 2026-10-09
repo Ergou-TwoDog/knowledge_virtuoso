@@ -9,7 +9,10 @@ description = "Virtuoso 官方知识库 MCP 服务（SKILL 函数与 db/techdb/c
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.10"
-dependencies = ["mcp==1.9.4"]
+# pydantic 2.14.0 移除了 eval_type_backport，而 mcp==1.9.4 的 fastmcp 仍在导入它；
+# mcp 自身只声明 pydantic>=2.7.2,<3.0.0，未覆盖该破坏。加下界沿用其声明，加上界挡住
+# 新解析装到 2.14+ 导致 import 失败。上游修复后可移除。
+dependencies = ["mcp==1.9.4", "pydantic>=2.7.2,<2.14"]
 
 [project.scripts]
 knowledge-virtuoso = "knowledge_virtuoso.server:main"
