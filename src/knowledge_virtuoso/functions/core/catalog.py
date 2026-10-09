@@ -169,13 +169,32 @@ def _normalize_label(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip().rstrip(":.").casefold()
 
 
+_RETURNS_LABEL_RE = re.compile(r"^(?:values? returned|return values?|returns)$")
+
+# 官方文档里标题本身的排版异常，逐字照抄（每例 1 个函数）：
+# asiMapInstanceName「value returned\」、nlGetModelName「value returne」、
+# axlToolSetSetupOptions「value returnedz」、dbCellViewHasVirtHier「value returned4」、
+# dbDeleteSigNetExpr「values return」、ocnxlOutputSpiceScript「.value returned」、
+# vfoGRMaximizeShapes「value returnedd」。
+# 只做字面量精确匹配，不做模糊容错——宽松到按“含 return”判定的规则会把
+# geHiDragFig 的「Example 1 With Returned Value」这类示例标题误判为返回值小节。
+_RETURNS_LABEL_TYPOS = frozenset({
+    "value returned\\", "value returne", "value returnedz", "value returned4",
+    "values return", ".value returned", "value returnedd",
+})
+
+
 def _section_label(text: str) -> tuple[str | None, str]:
     """Return (semantic section, heading remainder), if ``text`` is a label."""
     normalized = _normalize_label(text)
+    # 返回值标题在官方文档里单复数混用（实测全库：Value Returned 7740、Returns 2817、
+    # Return Values 770、Return Value 662、Values Returned 378 次）。此前只认前三种，
+    # 实测导致 290 个函数的返回值小节未被识别、返回值表被并进参数小节。
+    if _RETURNS_LABEL_RE.match(normalized) or normalized in _RETURNS_LABEL_TYPOS:
+        return "returns", ""
     names = (
         ("description", ("description",)),
         ("arguments", ("argument", "arguments")),
-        ("returns", ("value returned", "return values", "returns")),
         ("example", ("example", "examples")),
         ("terminal", ("reference", "related topics", "see also", "references")),
         ("errors", ("error", "errors", "error conditions")),
