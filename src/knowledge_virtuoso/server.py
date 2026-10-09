@@ -33,6 +33,24 @@ from knowledge_virtuoso.database.cdfdb.core import catalog as cdfdb_attr
 
 mcp = FastMCP("virtuoso")
 
+# brief 模式下描述保留的字符数；超出时明确标注截断，不静默丢弃。
+_DESCRIPTION_LIMIT = 600
+
+
+def _continuation(text: str, indent: str = "    ") -> str:
+    """给多行描述的续行补缩进，使其在视觉上仍归属所属条目。"""
+    return text.replace("\n", "\n" + indent)
+
+
+def _grouping_is_informative(groups: list[dict]) -> list[dict]:
+    """只保留含真实分组信息的部分；默认单组 Arguments 不重复输出。"""
+    return [
+        g for g in groups
+        if g.get("name") != "Arguments" or g.get("groups") or any(
+            a.get("group") for a in g.get("arguments", [])
+        )
+    ]
+
 
 @mcp.tool()
 async def skill_language_search_doc(func_name: str, detail: str = "brief") -> str:
@@ -55,50 +73,84 @@ async def skill_language_search_doc(func_name: str, detail: str = "brief") -> st
     head = [f"函数: {info['name']}", f"签名: {info['signature']}"]
     if info.get("status") == "deprecated":
         head.append("状态: 已弃用（Cadence 文档仍保留该可调用函数）")
-
     if info.get("signature_note"):
-        head.append(info["signature_note"])
+        head.append("签名说明: " + info["signature_note"])
 
     if detail == "signature":
         return "\n".join(head)
 
+    source = info.get("source") or {}
+    origin = source.get("file") or info.get("source_file", "")
+    if source.get("anchor") and source["anchor"] != info["name"]:
+        origin += "#" + source["anchor"]
+
     lines = head[:]
     description = info.get("description", "")
-    lines.append(f"描述: {description if detail == 'full' else description[:600]}")
-    lines.append(f"来源: {info['source_file']}")
-    lines.append("原文定位: " + json.dumps(info.get("source", {}), ensure_ascii=False))
+    if detail != "full" and len(description) > _DESCRIPTION_LIMIT:
+        cut = len(description) - _DESCRIPTION_LIMIT
+        lines.append(f"描述: {description[:_DESCRIPTION_LIMIT]}"
+                     f'…（已截断 {cut} 字符；detail="full" 取全文）')
+    else:
+        lines.append(f"描述: {description}")
+    lines.append(f"来源: {origin}")
+
     if detail == "full":
-        for key in ("signatures", "arguments_text", "returns_text", "errors_text", "references", "sources", "derivation_basis"):
-            if info.get(key):
-                lines.append(key + ": " + json.dumps(info[key], ensure_ascii=False))
+        # 只补前面没有的信息：多声明、结构化失败时的正文 fallback、真实补充来源。
+        extra_signatures = (info.get("signatures") or [])[1:]
+        if extra_signatures:
+            lines.append("其他签名: " + " | ".join(extra_signatures))
+        if not info.get("arguments") and info.get("arguments_text"):
+            lines.append("参数正文: " + _continuation(info["arguments_text"]))
+        if not info.get("returns") and info.get("returns_text"):
+            lines.append("返回正文: " + _continuation(info["returns_text"]))
+        references = info.get("references") or {}
+        links = " ".join(
+            f"{link['text']}({link['href']})" for link in references.get("links", [])
+        )
+        summary = " ".join(part for part in (references.get("text"), links) if part)
+        if summary:
+            lines.append("相关: " + summary)
+        extra_sources = (info.get("sources") or [])[1:]
+        if extra_sources:
+            lines.append("其他来源: " + ", ".join(
+                f"{s['file']}#{s['anchor']}" if s.get("anchor") else s.get("file", "")
+                for s in extra_sources
+            ))
+        basis = info.get("derivation_basis")
+        if basis:
+            lines.append("共享声明依据: topic=" + str(basis.get("topic", "")))
         abnormal = {k: v for k, v in info.get("field_status", {}).items() if v != "present"}
         if abnormal:
-            lines.append("field_status: " + json.dumps(abnormal, ensure_ascii=False))
+            lines.append("解析状态: " + json.dumps(abnormal, ensure_ascii=False))
 
     if info.get("arguments"):
         lines.append("\n参数:")
         for a in info["arguments"]:
             group = f" [{a['group']}]" if a.get("group") else ""
-            lines.append(f"  {a['name']}{group} — {a['desc']}")
-    if detail == "full" and info.get("argument_groups"):
-        lines.append("\n参数层级:")
-
-        def append_group(group: dict, depth: int = 1) -> None:
-            indent = "  " * depth
-            lines.append(f"{indent}{group['name']}")
-            for argument in group.get("arguments", []):
-                lines.append(f"{indent}  {argument['name']} — {argument['desc']}")
-            for child in group.get("groups", []):
-                append_group(child, depth + 1)
-
-        for group in info["argument_groups"]:
-            append_group(group)
+            lines.append(f"  {a['name']}{group} — {_continuation(a['desc'])}")
     if info.get("returns"):
         lines.append("\n返回:")
         for r in info["returns"]:
-            lines.append(f"  {r['value']} — {r['desc']}")
-    if detail == "full" and info.get("example"):
-        lines.append(f"\n示例:\n  {info['example']}")
+            lines.append(f"  {r['value']} — {_continuation(r['desc'])}")
+
+    if detail == "full":
+        groups = _grouping_is_informative(info.get("argument_groups") or [])
+        if groups:
+            lines.append("\n参数分组:")
+
+            def append_group(group: dict, depth: int = 1) -> None:
+                indent = "  " * depth
+                lines.append(f"{indent}{group['name']}")
+                for argument in group.get("arguments", []):
+                    lines.append(f"{indent}  {argument['name']} — "
+                                 f"{_continuation(argument['desc'], indent + '    ')}")
+                for child in group.get("groups", []):
+                    append_group(child, depth + 1)
+
+            for group in groups:
+                append_group(group)
+        if info.get("example"):
+            lines.append(f"\n示例:\n  {info['example']}")
 
     return "\n".join(lines)
 
@@ -170,7 +222,8 @@ async def db_search_attr(objType: str = "", keyword: str = "") -> str:
     lines.append(f"  {'name':25s} {'rw':4s} {'type':15s} desc")
     lines.append(f"  {'-'*25} {'-'*4} {'-'*15} {'-'*30}")
     for r in results:
-        lines.append(f"  {r['name']:25s} {r['rw']:4s} {r['type']:15s} {r['desc'][:60]}")
+        desc = r["desc"] if len(r["desc"]) <= 60 else r["desc"][:59] + "…"
+        lines.append(f"  {r['name']:25s} {r['rw']:4s} {r['type']:15s} {desc}")
     return "\n".join(lines)
 
 
@@ -195,11 +248,20 @@ async def techdb_search_attr(className: str = "", keyword: str = "") -> str:
         ctx = f"类='{className}'" if className else "全部类"
         ctx += f" keyword='{keyword}'" if keyword else ""
         return f"未找到匹配 {ctx} 的 tech 属性。"
+    # rw 在该索引里恒为 "?"，无信息量时不占列。
+    show_rw = any(r["rw"] != "?" for r in results)
     lines = [f"匹配 {len(results)} 个 tech 属性:"]
-    lines.append(f"  {'name':25s} {'rw':2s} {'type':10s} 所属类")
-    lines.append(f"  {'-'*25} {'-'*2} {'-'*10} {'-'*30}")
+    if show_rw:
+        lines.append(f"  {'name':25s} {'rw':2s} {'type':10s} 所属类")
+        lines.append(f"  {'-'*25} {'-'*2} {'-'*10} {'-'*30}")
+    else:
+        lines.append(f"  {'name':25s} {'type':10s} 所属类")
+        lines.append(f"  {'-'*25} {'-'*10} {'-'*30}")
     for r in results:
-        lines.append(f"  {r['name']:25s} {r['rw']:2s} {r['type']:10s} {','.join(r['classes'])}")
+        if show_rw:
+            lines.append(f"  {r['name']:25s} {r['rw']:2s} {r['type']:10s} {','.join(r['classes'])}")
+        else:
+            lines.append(f"  {r['name']:25s} {r['type']:10s} {','.join(r['classes'])}")
     return "\n".join(lines)
 
 
@@ -227,7 +289,8 @@ async def cdfdb_search_attr(className: str = "", keyword: str = "") -> str:
     lines.append(f"  {'name':25s} {'rw':4s} {'type':10s} desc")
     lines.append(f"  {'-'*25} {'-'*4} {'-'*10} {'-'*40}")
     for r in results:
-        lines.append(f"  {r['name']:25s} {r['rw']:4s} {r['type']:10s} {r['desc'][:55]}")
+        desc = r["desc"] if len(r["desc"]) <= 55 else r["desc"][:54] + "…"
+        lines.append(f"  {r['name']:25s} {r['rw']:4s} {r['type']:10s} {desc}")
     return "\n".join(lines)
 
 
