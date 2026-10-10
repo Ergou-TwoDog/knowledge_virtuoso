@@ -44,7 +44,10 @@ _SECTION_POLICY = {
     "prerequisites": "brief",
     "interactive_function": "brief",
     "associated_options": "brief",
-    "option_descriptions": "brief",
+    # 选项说明是"选项字典"，abs* 家族里单函数可达 4.8 万字；进 brief 会让 brief 无上界
+    # （absAbstract brief 50,958 字 ≈ full）。它属于澄清语义，与 example 同类，移到 full；
+    # 关联选项（选项名 + 一行说明）留在 brief——那才是"缺了就写不出调用"的部分。
+    "option_descriptions": "full",
     "example": "full",
     "additional_information": "full",
     "related_functions": "full",
@@ -53,6 +56,9 @@ _SECTION_POLICY = {
     "overview": "full",
     "errors": "full",
 }
+
+# 参数/返回值的正文块在 brief 档被略去时给一行指针，免得"选项说明没给"被读成"没有选项"。
+_POINTER_SECTIONS = {"option_descriptions": "选项说明"}
 _SECTION_TITLES = {
     "prerequisites": "前置条件",
     "interactive_function": "交互式函数",
@@ -115,6 +121,86 @@ def _uncovered_lines(text: str, items: list[dict]) -> str:
 # 正文残段小于这个长度就不输出（分隔线、表头单词一类不值得占上下文）。
 _MIN_RESIDUAL = 40
 _SEPARATOR_RE = re.compile(r"[-–—]{1,2}")
+
+
+def _sig_params(decl_text: str) -> list[str]:
+    """签名里的 ?参数 名（按出现顺序去重）。"""
+    out: list[str] = []
+    for match in re.finditer(r"\?([A-Za-z_]\w*)", decl_text or ""):
+        if match.group(1) not in out:
+            out.append(match.group(1))
+    return out
+
+
+def _table_params(items: list[dict]) -> list[str]:
+    """参数表里的 ?参数 名（按出现顺序去重；位置参数不计）。"""
+    out: list[str] = []
+    for item in items:
+        match = re.search(r"\?([A-Za-z_]\w*)", item.get("name", ""))
+        if match and match.group(1) not in out:
+            out.append(match.group(1))
+    return out
+
+
+def _near(a: str, b: str) -> bool:
+    """编辑距离 ≤ 1（官方笔误多是少写/多写一个字母）。"""
+    if abs(len(a) - len(b)) > 1:
+        return False
+    if len(a) == len(b):
+        return sum(x != y for x, y in zip(a, b)) <= 1
+    short, long = (a, b) if len(a) < len(b) else (b, a)
+    for i in range(len(long)):
+        if long[:i] + long[i + 1:] == short:
+            return True
+    return False
+
+
+def _param_check(decl_text: str, items: list[dict]) -> str:
+    """签名里的 ?参数 与参数表名字对账。
+
+    官方文档偶有笔误、漏列或单复数不一致（实测 67 个函数：`?cvId` 在表里写作 `?cdId`、
+    `?beginExt` 写作 `?beginnExt`、`?recreateAll` 写作 `?g_recreateAll`）。渲染器同时握着
+    `decl` 与参数表，这一行能直接挡住"照参数表写却对不上签名"的坏调用。
+    """
+    sig, table = _sig_params(decl_text), _table_params(items)
+    if not sig or not table:
+        return ""
+    only_sig = [name for name in sig if name not in table]
+    only_table = [name for name in table if name not in sig]
+    if not only_sig and not only_table:
+        return ""
+    paired_sig: set[str] = set()
+    paired_table: set[str] = set()
+    notes = []
+    for name in only_sig:
+        for other in only_table:
+            if other in paired_table:
+                continue
+            if name in other or other in name or _near(name, other):
+                notes.append(f"?{name} 在参数表写作 ?{other}")
+                paired_sig.add(name)
+                paired_table.add(other)
+                break
+    parts = [f"签名 {len(sig)} 个 ?参数 / 参数表 {len(table)} 条"]
+    if notes:
+        parts.append("；".join(notes) + "（疑官方笔误，以原文为准）")
+    missing = [name for name in only_sig if name not in paired_sig]
+    if missing:
+        parts.append("签名有而参数表未列: " + " ".join(f"?{n}" for n in missing))
+    extra = [name for name in only_table if name not in paired_table]
+    if extra:
+        parts.append("参数表有而签名未见: " + " ".join(f"?{n}" for n in extra))
+    return "校验: " + "；".join(parts)
+
+
+def _body_label(kind: str, state: str | None, with_items: bool) -> str:
+    """正文块的标题：把解析状态说给读者，也避免"条目之外的散文"被误读成参数条目。"""
+    if state in {"text_fallback", "unparsed"}:
+        why = "官方原文未结构化" if state == "text_fallback" else "官方原文未能可靠提取"
+        return f"{kind}（{why}，以下照录原文）"
+    if with_items:
+        return f"{kind}（条目之外，原文散文，非结构化条目）"
+    return kind
 
 
 def _section_text(sections: dict, key: str) -> str:
@@ -189,11 +275,28 @@ async def skill_language_search_doc(
         if extra_declarations:
             lines.append("其他声明: " + " | ".join(extra_declarations))
         reference = content.get("reference") or {}
-        links = " ".join(f"{link['text']}({link['href']})"
-                         for link in reference.get("links", []))
-        summary = " ".join(part for part in (reference.get("text"), links) if part)
+        seen_links: set[str] = set()
+        rendered_links = []
+        for link in reference.get("links", []):
+            text = (link.get("text") or "").strip()
+            if not text or text in seen_links:
+                continue
+            seen_links.add(text)
+            href = link.get("href") or ""
+            # 页内数字锚点（#787126）是文档工具生成的定位标记，对使用函数无信息量；同名链接去重。
+            rendered_links.append(f"{text}({href})" if href and not href.startswith("#") else text)
+        reference_text = (reference.get("text") or "").strip()
+        # 正文常常就是同一批链接名的罗列（还带换行，会把一行撑成多行）：与链接合并去重，
+        # 免得同一批函数名出现两遍；正文里链接没覆盖到的名字并入链接。
+        text_names = re.findall(r"[A-Za-z_]\w*", reference_text)
+        if text_names and rendered_links:
+            covered = sum(1 for name in text_names if name in seen_links)
+            if covered >= 0.6 * len(text_names):
+                rendered_links += [name for name in text_names if name not in seen_links]
+                reference_text = ""
+        summary = " ".join(part for part in (reference_text, " ".join(rendered_links)) if part)
         if summary:
-            lines.append("相关: " + summary)
+            lines.append("相关: " + " ".join(summary.split()))
         if info.get("also_at"):
             lines.append("其他来源: " + ", ".join(
                 f"{s['file']}#{s['anchor']}" if s.get("anchor") else s.get("file", "")
@@ -208,37 +311,48 @@ async def skill_language_search_doc(
 
     # 参数：根参数 + 子参数列表（ROD 等函数）；子列表嵌在根参数之后缩进输出。
     # 条目之外若还有正文（老式排版的散排单元格、散文段落），补在条目后——否则整段到不了 LLM。
-    arguments = content.get("arguments")
-    if arguments:
-        root = arguments.get("root", {})
-        lists = arguments.get("lists", [])
-        rendered: list[dict] = []
-        if root.get("items") or lists:
-            lines.append("\n参数:")
-            if root.get("title"):
-                lines.append(f"  [{root['title']}]")
-            for item in root.get("items", []):
-                lines.append(f"  {item['name']} — {_continuation(item['desc'])}")
-                for value in item.get("values") or []:
-                    lines.append(f"      取值 {value['value']} — "
-                                 f"{_continuation(value['desc'], '      ')}")
-                rendered.append(item)
-            for group in lists:
-                parent = group.get("parent") or {}
-                if parent.get("arg"):
-                    link = f"（属于 {parent['arg']}）"
-                elif group.get("list_type"):
-                    link = "（未连接到根参数）"
-                else:
-                    link = ""
-                lines.append(f"  子参数 [{group['title']}]{link}:")
-                for item in group.get("items", []):
-                    lines.append(f"    {item['name']} — {_continuation(item['desc'], '      ')}")
-                    rendered.append(item)
-        residual = _uncovered_lines(arguments.get("text", ""), rendered)
-        if len(residual) >= _MIN_RESIDUAL:
-            lines.append("\n参数正文（条目之外）:\n  "
-                         + _continuation(_capped(residual, detail), "  "))
+    field_status = info.get("field_status") or {}
+    arguments = content.get("arguments") or {}
+    root = arguments.get("root") or {}
+    lists = arguments.get("lists") or []
+    arg_items = list(root.get("items") or [])
+    for group in lists:
+        arg_items += list(group.get("items") or [])
+    rendered_items: list[dict] = []
+    if arg_items or lists:
+        lines.append("\n参数:")
+        check = _param_check(declaration["text"], arg_items)
+        if check:
+            lines.append("  " + check)
+        if root.get("title"):
+            lines.append(f"  主参数组 [{root['title']}]:")
+        for item in root.get("items") or []:
+            lines.append(f"  {item['name']} — {_continuation(item['desc'])}")
+            for value in item.get("values") or []:
+                lines.append(f"      取值 {value['value']} — "
+                             f"{_continuation(value['desc'], '      ')}")
+            rendered_items.append(item)
+        for group in lists:
+            parent = group.get("parent") or {}
+            if parent.get("arg"):
+                link = f"（属于 {parent['arg']}）"
+            elif group.get("list_type"):
+                link = "（未连接到根参数）"
+            else:
+                link = ""
+            lines.append(f"  子参数 [{group['title']}]{link}:")
+            for item in group.get("items") or []:
+                lines.append(f"    {item['name']} — {_continuation(item['desc'], '      ')}")
+                rendered_items.append(item)
+    residual = _uncovered_lines(arguments.get("text", ""), rendered_items)
+    if len(residual) >= _MIN_RESIDUAL:
+        label = _body_label("参数正文", field_status.get("arguments"), bool(rendered_items))
+        lines.append(f"\n{label}:\n  " + _continuation(_capped(residual, detail), "  "))
+    elif not arg_items and not lists and field_status.get("arguments") == "not_documented":
+        # 有签名参数、官方却没给参数说明：说清是"没文档"而不是"不吃参数"。
+        count = len(_sig_params(declaration["text"]))
+        if count:
+            lines.append(f"\n参数:（官方未提供参数说明；签名含 {count} 个 ?参数，见来源原文）")
 
     returns = content.get("returns") or {}
     if returns.get("items"):
@@ -247,12 +361,13 @@ async def skill_language_search_doc(
             lines.append(f"  {item['value']} — {_continuation(item['desc'])}")
         residual = _uncovered_lines(returns.get("text", ""), returns["items"])
         if len(residual) >= _MIN_RESIDUAL:
-            lines.append("\n返回正文（条目之外）:\n  "
-                         + _continuation(_capped(residual, detail), "  "))
+            label = _body_label("返回正文", field_status.get("returns"), True)
+            lines.append(f"\n{label}:\n  " + _continuation(_capped(residual, detail), "  "))
     else:
         residual = _uncovered_lines(returns.get("text", ""), [])
         if len(residual) >= _MIN_RESIDUAL:
-            lines.append("\n返回正文:\n  " + _continuation(_capped(residual, detail), "  "))
+            label = _body_label("返回正文", field_status.get("returns"), False)
+            lines.append(f"\n{label}:\n  " + _continuation(_capped(residual, detail), "  "))
 
     level = _LEVEL[detail]
     rendered: set[str] = set()
@@ -271,6 +386,20 @@ async def skill_language_search_doc(
         if section:
             lines.extend(_render_section(key, section))
             rendered.add(key)
+
+    # 本档略去、但属参数信息的节给一行指针（abs* 家族参数表为空，选项字典是唯一载体），
+    # 免得"选项说明没给"被读成"没有选项"。
+    for key, title in _POINTER_SECTIONS.items():
+        section = content.get(key)
+        if not section or key in rendered or _LEVEL[_SECTION_POLICY[key]] <= level:
+            continue
+        size = len(section.get("text") or "") + sum(
+            len(row.get("name", "")) + len(row.get("desc", ""))
+            for row in section.get("items") or [])
+        if size >= _MIN_RESIDUAL:
+            count = len(section.get("items") or [])
+            lines.append(f'{title}:（{count} 条，{size} 字；detail="full" 或 '
+                         f'sections=["{key}"] 取）')
 
     return "\n".join(lines)
 
