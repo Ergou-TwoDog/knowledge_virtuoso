@@ -181,7 +181,8 @@ ROD 函数的参数分两层：根参数，加上若干"子参数列表"（如 `
 中位 260）；`skel` 面向"**写调用**"（签名 + 参数关键字/类型 + 取值/默认，不含量词解释）；
 `brief` 放"缺了就写错或写不出调用"的节（前置条件 44 例、选项字典 38 例、交互式提示 21 例）；
 `full` 放澄清语义与导航类。全库体量：digest 2.10 M、skel 2.10 M、brief 6.03 M
-（skel 与 digest 均约为 brief 的 **35%**）。
+（digest 为 brief 的 34%、skel 为 37%）。**skel 不是有界档**：`digest` 有 900 字硬上限
+（实测 max 793），`skel` 是**按比例**的——ROD 族因签名不截断、默认值行多，最大 9,477 字。
 
 **输出形式约定**（便于程序化切分）：单行项用行内前缀（`函数:`、`签名:`、`描述:`、
 `来源:`、`解析状态:`、`省略:`），多行块用独占一行的节标题（`参数:`、`返回:`、`示例:`）——
@@ -202,11 +203,20 @@ detail="full"（参数名、允许取值与 Default 已保留）`。全库只有
 （实测 531 个参数的这类事实**只出现在说明首行**，所以 skel 从首行里从事实词处截取原文片段，
 续行整行保留）。两个档位都只做筛选与空白重排：签名去掉空白后与原文逐字相同。
 
+**"取值/默认值"的判据只有一个**：`\b[Dd]efaults?\b|\b[Vv]alid [Vv]alues?\b|默认|取值`。
+三条实测教训——① **大小写与写法都要认**：官方混用 `Default:`、`The default value is 0.`、
+`By default,`、`Defaults to`；只匹大写 `Default` 会让 674 个参数（391 个函数）的默认值在
+skel 里消失（`abeLayerGrow` 的 `?north`、`abeElapsedTime` 的 `?reset`）；
+② **必须有词边界**：否则 `formDefaultAction`、`g_defaultValue` 这类标识符里的 "Default"
+会被当成事实，凭空保留整行脱节碎片；③ **首行片段从句子开头截取**（上限 160 字）——
+`The default value is 0.` 而不是 `default value is 0.`。brief 的参数块预算与 skel 的
+片段选取共用这一个判据，保证"brief 留下的"与"skel 保留的"不会各说各话。
+
 **参数块篇幅预算**（仅 brief）：参数块超过 12,000 字时，保留每个参数的首行与含
 `Default`／`Valid Values`／`取值` 的行，其余说明续文移入 `full`，块尾显式标注
 `省略: 参数说明续文 26 条共 11,489 字 → detail="full"（参数名、允许取值与 Default 已保留）`。
-实测只影响 4 个函数（`rodCreatePath` 35,266→**25,082**、`rodCreateRect`
-28,913→**17,381**、`hiCreateAppForm` 16,593→**5,724**、`hiCreateReportField` 15,366→**6,573**）；
+实测只影响 4 个函数（`rodCreatePath` 35,266→**26,128**、`rodCreateRect`
+28,913→**18,399**、`hiCreateAppForm` 16,593→**6,367**、`hiCreateReportField` 15,366→**6,858**）；
 参数密集但无长散文的（如 `hnlInitMap`）不触发。
 
 **为什么要标注而不静默截断**：续行里约 82% 不是取值/默认值，而是约束类文字
@@ -236,6 +246,7 @@ type-in fields.`、`Callback parameter list: (o_session r_form r_field)`）—�
 | 参考链接 | 曾泄漏页内数字锚点并重复两遍（`hiCreateTreeTable` 的相关块 2,263 字/14 行）→ 去锚点、同名去重、与正文名字罗列合并，降到 761 字/1 行；跨页链接进一步由 `strcmp(stringfunc.html)` 改为 `strcmp [stringfunc.html]`——圆括号形式像函数调用，且与同行的裸名字不一致（156 个函数/267 处，仅 `full` 档的 `相关:` 行） |
 | 参数文档缺失时静默 | 14 个函数签名有参数而 `arguments: not_documented` → 输出 `参数:（官方未提供参数说明；签名含 N 个 ?参数，见来源原文）` |
 | 重复长段落是否折叠 | **不折叠**：`rodCreatePath` 的 4 个 `?prop` 分属根参数表与 3 个子参数列表，`absAbstract` 的 76 条选项说明无重名、无重复长描述——重复来自官方原文，折叠会丢掉"属于哪个子列表"的信息 |
+| 第三轮：skel 丢"写在首行句子里的默认值" | **真缺陷**（`abeLayerGrow ?north` 的 `The default value is 0.`、`abeElapsedTime ?reset` 的 `By default, …` 等 674 个参数/391 个函数）。根因是判据 `Default\|Valid [Vv]alues` **区分大小写、无词边界**；已改为大小写不敏感 + `\b` + 句子开头截取（见 §8）。同时修复"`formDefaultAction` 被当成事实"的误留，以及 digest 无条件声称省略完整签名。复核方还指出我们 §10 的"事实缺失 0 条"是**用实现自己的正则验自己**（循环论证）——已换用与实现不同的判据重验：参数块事实出现次数 brief 5,011 / skel 5,044，**0 个函数 skel 少于 brief** |
 | 节标题两种写法 | 保持"单行项行内前缀、多行块独占一行"，并用上文两行正则把切分规则写明 |
 | 省 token 方案（消费方提案：分档而不是压缩） | 采纳 **`digest`＋`skel`＋统一的 `省略:` 指针＋检索行带摘要**。诊断复算后确认：brief 的字节不在"散文"，而在**每参数首行**（`rodCreatePath` 首行 17,524 字里 15,802 是描述文字，占 brief 63%）——所以不该压 brief，而是另开档位。**不采纳**"条目行只留第一句"（会剪掉 `Note:`/`must be`/`ignored unless` 这类约束，与"宁可长、不可缺"相反）。回归：`signature`/`full` 全库逐字未变，`brief` 只有 24 个函数的指针行改写（0 处非指针变化） |
 

@@ -126,7 +126,10 @@ _SEPARATOR_RE = re.compile(r"[-–—]{1,2}")
 # 实测超预算的只有 4 个函数（rodCreatePath、rodCreateRect、hiCreateAppForm、
 # hiCreateReportField）；参数密集但无长散文的（如 hnlInitMap）不受影响。
 _ARGS_BUDGET = 12000
-_FACT_LINE_RE = re.compile(r"Default|Valid [Vv]alues|取值")
+# 取值/默认值所在的行（brief 预算据此保留、skel 据此片段截取）：判据必须只有一个，
+# 否则"brief 留下的"与"skel 保留的"会各说各话。见 _fact_fragments 的两条实测教训。
+_FACT_WORD_RE = re.compile(r"\b[Dd]efaults?\b|\b[Vv]alid [Vv]alues?\b|默认|取值")
+_FACT_LINE_RE = _FACT_WORD_RE
 
 # 解析状态用面向读者的措辞，不暴露内部字段名与枚举值。
 _STATE_TEXT = {
@@ -325,22 +328,36 @@ def _omit(fragments: list[str], target: str) -> str:
     return f"{_POINTER}{'；'.join(fragments)} → {target}"
 
 
-_FACT_WORD_RE = re.compile(r"Default|Valid [Vv]alues|取值")
+_FACT_SENTENCE_CAP = 160
 
 
 def _fact_fragments(desc: str) -> list[str]:
-    """参数说明里含 `Default` / `Valid values` / `取值` 的片段（逐字）。
+    """参数说明里含默认值/允许取值的片段（逐字）。
 
-    实测 531 个参数的这类事实**只出现在说明首行**（如
-    ``Kind of object to be named. Valid values: 'net, 'instance…``），
-    所以 skel 不能只看续行：首行从事实词处截取，续行整行保留。
+    两条实测教训：
+
+    1. **大小写与写法都要认**。官方混用 ``Default:``、``The default value is 0.``、
+       ``By default,``、``Defaults to``；上一版只匹 `Default`，导致 674 个参数（391 个函数）
+       的默认值在 skel 里消失（如 abeLayerGrow 的 `?north`、abeElapsedTime 的 `?reset`）。
+    2. **词边界**。用 `\\b` 才不会把 `formDefaultAction`、`g_defaultValue` 这类标识符里的
+       "Default" 当成事实，凭空保留一整行脱节的表格碎片。
+
+    首行的片段从**句子开头**截取（上限 160 字），续行整行保留——保证片段读得通。
     """
     out = []
     for index, line in enumerate((desc or "").split("\n")):
         match = _FACT_WORD_RE.search(line)
         if not match:
             continue
-        out.append(line if index else line[match.start():])
+        if index:
+            out.append(line)
+            continue
+        start = 0
+        for boundary in re.finditer(r"(?<=[.;:])\s", line[:match.start()]):
+            start = boundary.end()
+        if match.start() - start > _FACT_SENTENCE_CAP:
+            start = match.start()
+        out.append(line[start:])
     return out
 
 
@@ -391,10 +408,14 @@ async def skill_language_search_doc(
     content = info.get("sections", {})
     sections = sections or []
     if detail == "digest":
-        # 选函数用：一行，长度与文档体量脱钩；省略什么由指针行说明。
+        # 选函数用：一行，长度与文档体量脱钩；省略什么由指针行说明——
+        # 只在签名真的被截断时才说"完整签名"，否则消费方会为不存在的剩余签名再多拉一次。
+        omitted = ["参数说明", "示例与补充说明"]
+        if len(_reflow(declaration.get("text", ""))) > _SIG_BOUND:
+            omitted.insert(0, "完整签名")
         return "\n".join([
             _digest_of(info["name"], info),
-            _omit(["完整签名", "参数说明", "示例与补充说明"], 'detail="skel" / "brief" / "full"'),
+            _omit(omitted, 'detail="skel" / "brief" / "full"'),
         ])
     head = [f"函数: {info['name']}", f"签名: {declaration['text']}"]
     if info.get("status") == "deprecated":
