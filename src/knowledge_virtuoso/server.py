@@ -38,7 +38,7 @@ mcp = FastMCP("virtuoso")
 _DESCRIPTION_LIMIT = 600
 
 # 工具层取舍策略：索引如实收录 doc 的全部节，这里决定哪些节进哪个粒度档。
-# 依据见 docs/index-v3-design.md 5.1——brief 放"缺了就写错或写不出调用"的节
+# 依据见 functions/data/mapping.md「工具层的取舍」——brief 放"缺了就写错或写不出调用"的节
 # （前置条件、交互式提示、选项字典），full 放澄清语义与导航类。改这张表零重建。
 _SECTION_POLICY = {
     "prerequisites": "brief",

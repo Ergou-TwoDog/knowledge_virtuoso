@@ -256,7 +256,7 @@ _SECTION_LABELS = (
 )
 
 
-# 索引 sections / field_status 覆盖的规范节名（顺序固定，便于对照 docs/index-v3-design.md）。
+# 索引 sections / field_status 覆盖的规范节名（顺序固定，便于对照 functions/data/mapping.md）。
 _CANONICAL_SECTIONS = (
     "description", "arguments", "returns", "example", "reference", "related_functions",
     "prerequisites", "additional_information", "interactive_function", "associated_options",

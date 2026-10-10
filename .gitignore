@@ -30,3 +30,7 @@ build/
 
 # 项目记忆本地数据
 .project-memory/
+
+# 本地设计/审计笔记：不进仓库。索引与工具层的设计说明随包发布，见
+# src/knowledge_virtuoso/functions/data/mapping.md「字段映射与设计」。
+docs/

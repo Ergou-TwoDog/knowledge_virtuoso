@@ -55,8 +55,6 @@ knowledge_virtuoso/
 ├── CLAUDE.md
 ├── pyproject.toml      # 构建与依赖声明；首次 uv 运行生成 uv.lock
 ├── .gitignore
-├── docs/
-│   └── index-v3-design.md         # 索引 v3 设计（忠实还原 + 工具层取舍）
 └── src/
     └── knowledge_virtuoso/          # 唯一顶层包
         ├── __init__.py  __main__.py
@@ -65,7 +63,7 @@ knowledge_virtuoso/
         ├── cli.py                   # knowledge-virtuoso-build
         ├── functions/
         │   ├── core/catalog.py      # SKILL 函数解析、查询与恢复
-        │   └── data/mapping.md      # 字段映射与解析边界（随包）
+        │   └── data/mapping.md      # 字段映射与设计（随包）
         └── database/
             ├── db/core/catalog.py       # 基本数据库对象属性
             ├── techdb/core/catalog.py   # 技术库对象属性
@@ -74,7 +72,7 @@ knowledge_virtuoso/
 
 `core/` 存解析与查询实现；db、techdb、cdfdb 各自独立、互不导入。**包内不含索引**——索引写到平台数据目录（见下），因此 wheel 体积小、可反复 `uvx` 冷启动。
 
-维护对象为包内解析器、工具与索引；不直接手改生成 JSON。字段与解析边界见 [src/knowledge_virtuoso/functions/data/mapping.md](src/knowledge_virtuoso/functions/data/mapping.md)。原文地址按实际 IC618 doc 根目录拼接 `source.file` 与 `source.anchor`，相对参考链接以 source.file 所在目录解析。
+维护对象为包内解析器、工具与索引；不直接手改生成 JSON。**索引字段、解析边界、设计原则与工具层取舍都在随包发布的 [src/knowledge_virtuoso/functions/data/mapping.md](src/knowledge_virtuoso/functions/data/mapping.md)**（设计文档不单独放在仓库里）。原文地址按实际 IC618 doc 根目录拼接 `source.file` 与 `source.anchor`，相对参考链接以 source.file 所在目录解析。
 
 ### 开发验证
 
