@@ -161,33 +161,51 @@ ROD 函数的参数分两层：根参数，加上若干"子参数列表"（如 `
 
 `server.py` 的策略表决定哪个节进哪个 `detail` 档（改它零重建，索引照收全部节）：
 
-| 节 | `signature` | `brief`（默认） | `full` |
-|---|---|---|---|
-| `decl` | ✅ | ✅ | ✅ |
-| `description`（缺 `description` 时用 `definition` 顶） | | ✅ | ✅ |
-| `arguments`（root + lists 嵌套渲染 + values） | | ✅ | ✅ |
-| `arguments`/`returns` 的**条目之外正文**（消去已渲染条目后的残段） | | ✅（截断 600 字并标注） | ✅（全文） |
-| `returns` | | ✅ | ✅ |
-| `prerequisites` / `interactive_function` / `associated_options` | | ✅ | ✅ |
-| `option_descriptions` | | 仅一行指针（`N 条，X 字`） | ✅ |
-| 参数表**校验行**（签名 `?参数` 与参数表名字对账） | | ✅ | ✅ |
-| 签名有 `?参数` 而官方未给参数说明时的说明行 | | ✅ | ✅ |
-| `example` / `additional_information` / `related_functions` / `reference` / `format` / `purpose` / `overview` / `errors` | | | ✅ |
-| `status: deprecated` 提示 | ✅ | ✅ | ✅ |
-| `field_status` 异常项（中文措辞） | | | ✅ |
+| 节 | `digest` | `skel` | `signature` | `brief`（默认） | `full` |
+|---|---|---|---|---|---|
+| `decl` | 有界（≤320 字，截断标注） | ✅（完整，不截断） | ✅ | ✅ | ✅ |
+| `description`（缺 `description` 时用 `definition` 顶） | 仅首句 | | ✅ | ✅ | ✅ |
+| `arguments`（root + lists 嵌套渲染 + values） | | 仅「关键字 类型」+ 取值/默认原文 | | ✅ | ✅ |
+| `arguments`/`returns` 的**条目之外正文**（消去已渲染条目后的残段） | | | | ✅（截断 600 字并标注） | ✅（全文） |
+| `returns` | 仅取值名 | 仅取值名 | | ✅ | ✅ |
+| `prerequisites` / `interactive_function` / `associated_options` | | | | ✅ | ✅ |
+| `option_descriptions` | | | | 仅指针 | ✅ |
+| 参数表**校验行**（签名 `?参数` 与参数表名字对账） | | ✅ | | ✅ | ✅ |
+| 签名有 `?参数` 而官方未给参数说明时的说明行 | | | | ✅ | ✅ |
+| `example` / `additional_information` / `related_functions` / `reference` / `format` / `purpose` / `overview` / `errors` | | | | | ✅ |
+| `status: deprecated` / 共享声明提示 | ✅（标记） | ✅ | ✅ | ✅ | ✅ |
+| `field_status` 异常项（中文措辞） | | | | | ✅ |
+| `省略:` 指针行 | ✅ | ✅ | | 有省略时 | |
 
-档位依据：`brief` 放"缺了就写错或写不出调用"的节（前置条件 44 例、选项字典 38 例、
-交互式提示 21 例），`full` 放澄清语义与导航类。
+档位依据：`digest` 面向"**挑函数**"（横向比较候选，长度与文档体量脱钩：全库 max 798 字、
+中位 260）；`skel` 面向"**写调用**"（签名 + 参数关键字/类型 + 取值/默认，不含量词解释）；
+`brief` 放"缺了就写错或写不出调用"的节（前置条件 44 例、选项字典 38 例、交互式提示 21 例）；
+`full` 放澄清语义与导航类。全库体量：digest 2.10 M、skel 2.10 M、brief 6.03 M
+（skel 与 digest 均约为 brief 的 **35%**）。
 
 **输出形式约定**（便于程序化切分）：单行项用行内前缀（`函数:`、`签名:`、`描述:`、
-`来源:`、`解析状态:`），多行块用独占一行的节标题（`参数:`、`返回:`、`示例:`）——块内条目
-再缩进一层。两行正则够用：块标题 `^[^ \t].*:$`，块内条目首行 `^ +.+? — `（其后缩进更深
-的行属于上一条目）。`主参数组 […]`／`子参数 […]（属于 …）` 标识分组，不与参数条目同级。
+`来源:`、`解析状态:`、`省略:`），多行块用独占一行的节标题（`参数:`、`返回:`、`示例:`）——
+块内条目再缩进一层。两行正则够用：块标题 `^[^ \t].*:$`，块内条目首行 `^ +.+? — `
+（其后缩进更深的行属于上一条目）。`主参数组 […]`／`子参数 […]（属于 …）` 标识分组，
+不与参数条目同级。**检索**：`skill_language_search_components` 每行默认附一行 `digest`
+（`with_digest=false` 只回名字与来源），`digest`/`skel` 都可直接作为 `detail` 传给
+`skill_language_search_doc`。
+
+**省略指针统一格式**：`省略: <省了什么> → detail="X"`（机器可识别的前缀 `省略: `）。现有
+两处指针都改用它——选项字典 `省略: 选项说明 76 条共 45,951 字 → detail="full" 或
+sections=["option_descriptions"]`、参数块预算 `省略: 参数说明续文 N 条共 X 字 →
+detail="full"（参数名、允许取值与 Default 已保留）`。全库只有 24 个函数的 brief 因此改写。
+
+**新档位的两条硬约束**（审计方验收标准）：`digest` 全库 max ≤900 字（实测 798）；
+`skel` 里 `?kw` 集合 ⊇ 签名参数（签名在 skel 里**不截断**——实测有 2 个函数签名超 320 字，
+截断会让签名里的 `?参数` 无处可查）、且参数表的 `Default`/`Valid values` 一条不丢
+（实测 531 个参数的这类事实**只出现在说明首行**，所以 skel 从首行里从事实词处截取原文片段，
+续行整行保留）。两个档位都只做筛选与空白重排：签名去掉空白后与原文逐字相同。
 
 **参数块篇幅预算**（仅 brief）：参数块超过 12,000 字时，保留每个参数的首行与含
 `Default`／`Valid Values`／`取值` 的行，其余说明续文移入 `full`，块尾显式标注
-`（已把 N 个参数的说明续文移到 detail="full"，共 X 字；参数名、允许取值与 Default 均完整
-保留）`。实测只影响 4 个函数（`rodCreatePath` 35,266→**25,082**、`rodCreateRect`
+`省略: 参数说明续文 26 条共 11,489 字 → detail="full"（参数名、允许取值与 Default 已保留）`。
+实测只影响 4 个函数（`rodCreatePath` 35,266→**25,082**、`rodCreateRect`
 28,913→**17,381**、`hiCreateAppForm` 16,593→**5,724**、`hiCreateReportField` 15,366→**6,573**）；
 参数密集但无长散文的（如 `hnlInitMap`）不触发。
 
@@ -219,6 +237,7 @@ type-in fields.`、`Callback parameter list: (o_session r_form r_field)`）—�
 | 参数文档缺失时静默 | 14 个函数签名有参数而 `arguments: not_documented` → 输出 `参数:（官方未提供参数说明；签名含 N 个 ?参数，见来源原文）` |
 | 重复长段落是否折叠 | **不折叠**：`rodCreatePath` 的 4 个 `?prop` 分属根参数表与 3 个子参数列表，`absAbstract` 的 76 条选项说明无重名、无重复长描述——重复来自官方原文，折叠会丢掉"属于哪个子列表"的信息 |
 | 节标题两种写法 | 保持"单行项行内前缀、多行块独占一行"，并用上文两行正则把切分规则写明 |
+| 省 token 方案（消费方提案：分档而不是压缩） | 采纳 **`digest`＋`skel`＋统一的 `省略:` 指针＋检索行带摘要**。诊断复算后确认：brief 的字节不在"散文"，而在**每参数首行**（`rodCreatePath` 首行 17,524 字里 15,802 是描述文字，占 brief 63%）——所以不该压 brief，而是另开档位。**不采纳**"条目行只留第一句"（会剪掉 `Note:`/`must be`/`ignored unless` 这类约束，与"宁可长、不可缺"相反）。回归：`signature`/`full` 全库逐字未变，`brief` 只有 24 个函数的指针行改写（0 处非指针变化） |
 
 ## 10. 验收记录（v3 落地时）
 

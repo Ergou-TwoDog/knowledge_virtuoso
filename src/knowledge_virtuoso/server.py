@@ -227,6 +227,123 @@ def _body_label(kind: str, state: str | None, with_items: bool) -> str:
     return kind
 
 
+# ─── 两个省 token 的新档位 ─────────────────────────────────────────
+# digest：选函数用的一行摘要，长度与文档体量脱钩（硬上限 900 字，全库实测 max 737）。
+# skel：写调用用的骨架，只给"关键字 类型 + 取值/默认（逐字）+ 返回 + 来源 + 校验行"，
+#       说明正文一律移出并给出指针。两者都只重排/筛选已有内容，不新造信息。
+_DIGEST_MAX = 900
+_SIG_BOUND = 320          # digest/skel 里的签名上限（超出截断并标注）
+_SIG_WIDTH = 88           # 签名折行宽度
+_POINTER = "省略: "        # 统一的省略指针前缀，便于程序化识别
+
+
+def _reflow(text: str) -> str:
+    """把官方签名里的换行与多余空白压平（仅新档位使用；老档位逐字保留原文）。"""
+    return re.sub(r"\s+", " ", text or "").strip()
+
+
+def _wrap(text: str, width: int = _SIG_WIDTH, indent: str = "      ") -> list[str]:
+    """按宽度折行；续行缩进，使"签名:"块读起来是一个整体。"""
+    lines, current = [], ""
+    for word in text.split(" "):
+        if current and len(current) + 1 + len(word) > width:
+            lines.append(current)
+            current = word
+        else:
+            current = f"{current} {word}".strip()
+    if current:
+        lines.append(current)
+    return [lines[0]] + [indent + x for x in lines[1:]] if lines else []
+
+
+def _sig_block(declaration: dict, bound: int | None = _SIG_BOUND) -> list[str]:
+    """新档位的签名块：压平原文换行后折行。
+
+    digest 有 900 字硬上限，故按 `bound` 截断并标注；**skel 不截断**——它是"写调用"
+    那一档，签名必须完整（实测有 2 个函数的签名超出 320 字，截断会让签名里的 ?参数
+    无处可查）。
+    """
+    signature = _reflow(declaration.get("text", ""))
+    if bound and len(signature) > bound:
+        signature = signature[:bound].rstrip() + "…（签名截断）"
+    lines = _wrap(signature)
+    lines[0] = "签名: " + lines[0]
+    if declaration.get("shared_from"):
+        lines.append(f"      （取自共享主题 {declaration['shared_from']}，非本函数单独文档化的签名）")
+    return lines
+
+
+def _digest_of(name: str, entry: dict) -> str:
+    """一行摘要：名字（状态标记）+ 有界签名 + 描述首句 + 返回 + 来源。"""
+    declaration = (entry.get("decl") or [{}])[0]
+    signature = _reflow(declaration.get("text", ""))
+    if len(signature) > _SIG_BOUND:
+        signature = signature[:_SIG_BOUND].rstrip() + "…"
+    content = entry.get("sections") or {}
+    description = _reflow(_section_text(content, "description") or _section_text(content, "definition"))
+    first_sentence = re.split(r"(?<=[.;])\s", description, maxsplit=1)[0] if description else ""
+    returns = ", ".join(row.get("value", "")
+                        for row in ((content.get("returns") or {}).get("items") or [])[:3])
+    marks = []
+    if entry.get("status") == "deprecated":
+        marks.append("已弃用")
+    if declaration.get("shared_from"):
+        marks.append("共享声明")
+    line = " | ".join(part for part in (
+        name + (f"（{'、'.join(marks)}）" if marks else ""),
+        signature,
+        first_sentence,
+        f"返回: {returns}" if returns else "",
+        (entry.get("where") or {}).get("file", ""),
+    ) if part)
+    if len(line) > _DIGEST_MAX:
+        line = line[:_DIGEST_MAX].rstrip() + "…"
+    return line
+
+
+def _arg_plan(root: dict, lists: list[dict]) -> list:
+    """参数块按输出顺序的渲染计划：字符串=分组标题行，元组=(条目首行, 续行列表)。"""
+    plan: list = []
+    for item in root.get("items") or []:
+        plan.append(_arg_entry(item, "  "))
+    for group in lists:
+        parent = group.get("parent") or {}
+        if parent.get("arg"):
+            link = f"（属于 {parent['arg']}）"
+        elif group.get("list_type"):
+            link = "（未连接到根参数）"
+        else:
+            link = ""
+        plan.append(f"  子参数 [{group['title']}]{link}:")
+        for item in group.get("items") or []:
+            plan.append(_arg_entry(item, "    "))
+    return plan
+
+
+def _omit(fragments: list[str], target: str) -> str:
+    """统一的省略指针：`省略: <省了什么> → detail="X"`，任何省略都必须有这一行。"""
+    return f"{_POINTER}{'；'.join(fragments)} → {target}"
+
+
+_FACT_WORD_RE = re.compile(r"Default|Valid [Vv]alues|取值")
+
+
+def _fact_fragments(desc: str) -> list[str]:
+    """参数说明里含 `Default` / `Valid values` / `取值` 的片段（逐字）。
+
+    实测 531 个参数的这类事实**只出现在说明首行**（如
+    ``Kind of object to be named. Valid values: 'net, 'instance…``），
+    所以 skel 不能只看续行：首行从事实词处截取，续行整行保留。
+    """
+    out = []
+    for index, line in enumerate((desc or "").split("\n")):
+        match = _FACT_WORD_RE.search(line)
+        if not match:
+            continue
+        out.append(line if index else line[match.start():])
+    return out
+
+
 def _section_text(sections: dict, key: str) -> str:
     return (sections.get(key) or {}).get("text", "")
 
@@ -251,14 +368,18 @@ async def skill_language_search_doc(
     参数:
       func_name: 函数名，如 "dbCreateRect"。需是**完整名**；不确定拼法时先用
                  skill_language_search_components 搜到名字再查。未命中会给出相近名建议。
-      detail:   返回粒度。brief=签名+来源+参数+返回(默认)；signature=仅签名；full=全部(含描述+示例)
+      detail:   返回粒度。**digest**=一行摘要（名字+有界签名+描述首句+返回+来源，≤900 字，
+                用于在候选之间挑函数）；**skel**=调用骨架（完整签名+校验行+每个参数的
+                「关键字 类型」+取值/默认原文+返回+来源，用于写调用）；brief=签名+来源+
+                参数+返回(默认)；signature=仅签名；full=全部(含描述+示例)。
+                任何档位省略了内容都会有 `省略: …` 一行指明去哪一档取。
       sections: 额外索取的节名列表，可选项：prerequisites、interactive_function、
                  associated_options、option_descriptions、example、additional_information、
                  related_functions、format、purpose、overview、reference。
                  描述/参数/返回值由 detail 控制，不接受显式索取。
     """
-    if detail not in _LEVEL:
-        raise ValueError("detail must be signature, brief, or full")
+    if detail not in _LEVEL and detail not in {"digest", "skel"}:
+        raise ValueError("detail must be digest, skel, signature, brief, or full")
     info = skill_language.query_function(func_name)
     if info is None:
         hints = skill_language.suggest_names(func_name)
@@ -269,6 +390,12 @@ async def skill_language_search_doc(
     declaration = info["decl"][0]
     content = info.get("sections", {})
     sections = sections or []
+    if detail == "digest":
+        # 选函数用：一行，长度与文档体量脱钩；省略什么由指针行说明。
+        return "\n".join([
+            _digest_of(info["name"], info),
+            _omit(["完整签名", "参数说明", "示例与补充说明"], 'detail="skel" / "brief" / "full"'),
+        ])
     head = [f"函数: {info['name']}", f"签名: {declaration['text']}"]
     if info.get("status") == "deprecated":
         head.append("状态: 已弃用（Cadence 文档仍保留该可调用函数）")
@@ -357,7 +484,50 @@ async def skill_language_search_doc(
 
     # 参数：根参数 + 子参数列表（ROD 等函数）；子列表嵌在根参数之后缩进输出。
     # 条目之外若还有正文（老式排版的散排单元格、散文段落），补在条目后——否则整段到不了 LLM。
-    rendered_items: list[dict] = []
+    arg_plan = _arg_plan(root, lists)
+    if detail == "skel":
+        out = [f"函数: {info['name']}"] + _sig_block(declaration, bound=None)
+        out.append(f"来源: {origin}")
+        check = _param_check(declaration["text"], arg_items)
+        entries = [e for e in arg_plan if isinstance(e, tuple)]
+        if arg_plan:
+            out.append("")
+            out.append("参数:")
+            if check:
+                out.append("  " + check)
+            for entry in arg_plan:
+                if isinstance(entry, str):
+                    out.append(entry)
+                    continue
+                head_line, cont = entry
+                name_part = head_line.split(" — ", 1)[0]
+                out.append(name_part)
+                pad = " " * (len(name_part) - len(name_part.lstrip()) + 2)
+                head_desc = head_line.split(" — ", 1)[1] if " — " in head_line else ""
+                out += [pad + frag for frag in _fact_fragments(head_desc)]
+                out += [x for x in cont if _FACT_LINE_RE.search(x)]
+        if ret_items:
+            out.append("")
+            out.append("返回: " + " / ".join(x.get("value", "") for x in ret_items))
+        elif ret_residual:
+            out.append("")
+            out.append(f'{_POINTER}返回值是原文散文（{len(ret_residual):,} 字） → detail="brief"')
+        total_desc = kept_desc = params_with_desc = 0
+        for head_line, cont in entries:
+            head_desc = head_line.split(" — ", 1)[1] if " — " in head_line else ""
+            desc_all = head_desc + "\n".join([""] + cont)
+            if desc_all.strip():
+                params_with_desc += 1
+            total_desc += len(desc_all)
+            kept_desc += sum(len(f) for f in _fact_fragments(head_desc)) \
+                + sum(len(x) for x in cont if _FACT_LINE_RE.search(x))
+        omitted_chars = max(0, total_desc - kept_desc)
+        if omitted_chars or args_residual:
+            out.append("")
+            out.append(f'{_POINTER}参数说明 {params_with_desc} 条共 {omitted_chars:,} 字 → detail="brief"；'
+                       f'示例、补充说明、相关函数、选项说明 → detail="full"')
+        return "\n".join(out)
+
     moved_notes = 0
     if arg_items or lists:
         lines.append("\n参数:")
@@ -366,31 +536,10 @@ async def skill_language_search_doc(
             lines.append("  " + check)
         if root.get("title"):
             lines.append(f"  主参数组 [{root['title']}]:")
-        # 先排好"输出计划"（字符串=原样输出的一行；元组=一个参数的 首行+续行），
-        # 再按整块字数决定 brief 是否裁剪续文；顺序与旧版逐字一致。
-        plan: list = []
-        for item in root.get("items") or []:
-            plan.append(_arg_entry(item, "  "))
-            rendered_items.append(item)
-        for group in lists:
-            parent = group.get("parent") or {}
-            if parent.get("arg"):
-                link = f"（属于 {parent['arg']}）"
-            elif group.get("list_type"):
-                link = "（未连接到根参数）"
-            else:
-                link = ""
-            plan.append(f"  子参数 [{group['title']}]{link}:")
-            for item in group.get("items") or []:
-                plan.append(_arg_entry(item, "    "))
-                rendered_items.append(item)
-        size = sum(len(e[0]) + sum(len(x) for x in e[1]) for e in plan if isinstance(e, tuple))
-        trimmed_off = sum(len(x) for e in plan if isinstance(e, tuple)
-                          for x in e[1] if not _FACT_LINE_RE.search(x))
-        keep_chars = sum(len(x) for e in plan if isinstance(e, tuple)
-                         for x in e[1] if _FACT_LINE_RE.search(x))
+        size = sum(len(e[0]) + sum(len(x) for x in e[1])
+                   for e in arg_plan if isinstance(e, tuple))
         trim = detail != "full" and size > _ARGS_BUDGET
-        for entry in plan:
+        for entry in arg_plan:
             if isinstance(entry, str):
                 lines.append(entry)
                 continue
@@ -401,12 +550,12 @@ async def skill_language_search_doc(
                 moved_notes += 1
             lines.extend(kept)
         if moved_notes:
-            lines.append(f'    （已把 {moved_notes} 个参数的说明续文移到 detail="full"，'
-                         f"共 {trimmed_off:,} 字；参数名、允许取值与 Default 均完整保留"
-                         f"（保留行 {keep_chars:,} 字））")
+            lines.append("")
+            lines.append(_omit([f"参数说明续文 {moved_notes} 条共 {size - sum(len(x) for e in arg_plan if isinstance(e, tuple) for x in e[1] if _FACT_LINE_RE.search(x)):,} 字"],
+                               'detail="full"') + "（参数名、允许取值与 Default 已保留）")
     residual = args_residual
     if len(residual) >= _MIN_RESIDUAL:
-        label = _body_label("参数正文", field_status.get("arguments"), bool(rendered_items))
+        label = _body_label("参数正文", field_status.get("arguments"), bool(arg_items))
         lines.append(f"\n{label}:\n  " + _continuation(_capped(residual, detail), "  "))
     elif not arg_items and not lists and field_status.get("arguments") == "not_documented":
         # 有签名参数、官方却没给参数说明：说清是"没文档"而不是"不吃参数"。
@@ -458,19 +607,21 @@ async def skill_language_search_doc(
             for row in section.get("items") or [])
         if size >= _MIN_RESIDUAL:
             count = len(section.get("items") or [])
-            lines.append(f'{title}:（{count} 条，{size} 字；detail="full" 或 '
-                         f'sections=["{key}"] 取）')
+            lines.append(_omit([f"{title} {count} 条共 {size:,} 字"],
+                               f'detail="full" 或 sections=["{key}"]'))
 
     return "\n".join(lines)
 
 
 @mcp.tool()
-async def skill_language_search_components(prefix: str = "", keywords: str = "", offset: int = 0, limit: int = 30) -> str:
+async def skill_language_search_components(prefix: str = "", keywords: str = "", offset: int = 0, limit: int = 30, with_digest: bool = True) -> str:
     """按前缀 + 关键词组合搜索 SKILL 函数名。推荐优先使用！
 
     参数:
       prefix:   前缀过滤（如 "tech"、"db"、"le"）。留空不过滤前缀。
       keywords: 空格分隔关键词（如 "find via def"）。留空返回该前缀所有函数。
+      with_digest: 每行附带一行摘要（签名 + 描述首句 + 返回 + 来源），便于在候选之间挑选；
+                 只要名字与来源时置 false（每行省约 100–200 字）。
 
     关键词按**驼峰自动拆词**，且对无边界写法兜底——"createRect"、"create rect"、
     "createrect"、完整名 "dbCreateRect" 都能命中，不必手动拆分；多个词是“都要命中”的交集。
@@ -500,10 +651,16 @@ async def skill_language_search_components(prefix: str = "", keywords: str = "",
     lines = [f"匹配总数 {page['total']}；offset={offset}，本页 {len(matches)} 个，limit={limit}"]
     if page["next_offset"] is not None:
         lines.append(f"下一页: offset={page['next_offset']}, limit={limit}")
+    if with_digest:
+        lines.append('（每行 = 摘要；完整签名与参数说明用 skill_language_search_doc '
+                     'detail="skel"/"brief"）')
     for name in matches:
         entry = skill_language._index.get(name, {})
-        fpath = (entry.get("where") or {}).get("file", "?")
-        lines.append(f"  {name:45s} {fpath}")
+        if with_digest:
+            lines.append("  " + _digest_of(name, entry))
+        else:
+            fpath = (entry.get("where") or {}).get("file", "?")
+            lines.append(f"  {name:45s} {fpath}")
     return "\n".join(lines)
 
 
