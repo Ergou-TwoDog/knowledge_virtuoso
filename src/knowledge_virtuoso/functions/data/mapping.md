@@ -187,8 +187,8 @@ ROD 函数的参数分两层：根参数，加上若干"子参数列表"（如 `
 **参数块篇幅预算**（仅 brief）：参数块超过 12,000 字时，保留每个参数的首行与含
 `Default`／`Valid Values`／`取值` 的行，其余说明续文移入 `full`，块尾显式标注
 `（已把 N 个参数的说明续文移到 detail="full"，共 X 字；参数名、允许取值与 Default 均完整
-保留）`。实测只影响 4 个函数（`rodCreatePath` 35,266→25,069、`rodCreateRect`
-28,913→17,368、`hiCreateAppForm` 16,593→5,714、`hiCreateReportField` 15,366→6,563）；
+保留）`。实测只影响 4 个函数（`rodCreatePath` 35,266→**25,082**、`rodCreateRect`
+28,913→**17,381**、`hiCreateAppForm` 16,593→**5,724**、`hiCreateReportField` 15,366→**6,573**）；
 参数密集但无长散文的（如 `hnlInitMap`）不触发。
 
 **为什么要标注而不静默截断**：续行里约 82% 不是取值/默认值，而是约束类文字
@@ -197,8 +197,9 @@ type-in fields.`、`Callback parameter list: (o_session r_form r_field)`）—�
 那一类，必须让消费方知道"说明被移到 full 了"。
 
 **其他取舍**：描述超长在 brief 截断并标注字符数；来源写作 `文件[#锚点]`，锚点与函数名
-相同时不重复；参考链接去锚点（页内 `#787126` 与跨页 `…#PCRE_CASELESS` 都去、跨页保留
-文件名）并同名去重，正文若只是同一批链接名的罗列则与链接合并；`解析状态` 只列
+相同时不重复；参考链接去锚点（页内 `#787126` 与跨页 `…#PCRE_CASELESS` 都去）并同名去重，
+跨页链接以**方括号**标注所在文件（`strcmp [stringfunc.html]`）——用圆括号会被读成"函数调用"，
+且与同一行里的裸名字形式不一致；正文若只是同一批链接名的罗列则与链接合并；`解析状态` 只列
 `text_fallback`/`unparsed`/`shared_declaration` 三种真异常，用中文措辞（如
 `示例节官方原文未能可靠提取`），已由正文块标题写明状态的节不重复列；techdb 的 `rw` 列在
 该库恒为 `?`，无信息量时省略。
@@ -211,10 +212,10 @@ type-in fields.`、`Callback parameter list: (o_session r_form r_field)`）—�
 
 | 项 | 结论与处置 |
 |---|---|
-| brief 无上界 | `absAbstract` brief 曾 50,958 字（≈full），全在 `option_descriptions`（45,951 字）→ 该节移到 full，brief 给一行指针；`associated_options`（选项名+一行说明）仍留 brief。全库 brief>8K 由 20 个降到 17 个，再经参数块预算降到 4 个 |
+| brief 无上界 | `absAbstract` brief 曾 50,958 字（≈full），全在 `option_descriptions`（45,951 字）→ 该节移到 full，brief 给一行指针；`associated_options`（选项名+一行说明）仍留 brief。全库 brief>8K 由 20 个降到 17 个，再经参数块预算降到 **15 个**（4 个被裁剪的函数里 2 个落到 8K 以下） |
 | 签名与参数表名字不一致 | 74 个函数（`?cvId`↔`?cdId`、`?beginExt`↔`?beginnExt`、`?recreateAll`↔`?g_recreateAll`）→ 参数块首行输出**校验行**，含疑笔误配对与仅一方有的名字 |
 | `解析状态` 措辞 | 曾输出原始 dict（`{"example": "unparsed"}`，134 个函数）→ 改中文措辞、不暴露字段名与枚举值 |
-| 参考链接 | 曾泄漏页内数字锚点并重复两遍（`hiCreateTreeTable` 的相关块 2,263 字/14 行）→ 去锚点、同名去重、与正文名字罗列合并，降到 761 字/1 行 |
+| 参考链接 | 曾泄漏页内数字锚点并重复两遍（`hiCreateTreeTable` 的相关块 2,263 字/14 行）→ 去锚点、同名去重、与正文名字罗列合并，降到 761 字/1 行；跨页链接进一步由 `strcmp(stringfunc.html)` 改为 `strcmp [stringfunc.html]`——圆括号形式像函数调用，且与同行的裸名字不一致（156 个函数/267 处，仅 `full` 档的 `相关:` 行） |
 | 参数文档缺失时静默 | 14 个函数签名有参数而 `arguments: not_documented` → 输出 `参数:（官方未提供参数说明；签名含 N 个 ?参数，见来源原文）` |
 | 重复长段落是否折叠 | **不折叠**：`rodCreatePath` 的 4 个 `?prop` 分属根参数表与 3 个子参数列表，`absAbstract` 的 76 条选项说明无重名、无重复长描述——重复来自官方原文，折叠会丢掉"属于哪个子列表"的信息 |
 | 节标题两种写法 | 保持"单行项行内前缀、多行块独占一行"，并用上文两行正则把切分规则写明 |

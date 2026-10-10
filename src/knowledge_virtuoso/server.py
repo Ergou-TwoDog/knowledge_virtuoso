@@ -323,8 +323,11 @@ async def skill_language_search_doc(
             seen_links.add(text)
             # 锚点（页内 `#787126` 与跨页 `…#PCRE_CASELESS`）是文档工具生成的定位标记，
             # 对使用函数无信息量；跨页链接保留文件名，页内链接只留名字。
+            # 文件名用方括号而非圆括号：`nconc(list.html)` 会被读成"函数调用"，
+            # 且与同一行里的裸名字形式不一致；`nconc [list.html]` 与 `来源: 文件[#锚点]`
+            # 的方括号约定一致，切分规则只剩"名字 + 可选 [文件]"。
             href = (link.get("href") or "").split("#")[0]
-            rendered_links.append(f"{text}({href})" if href else text)
+            rendered_links.append(f"{text} [{href}]" if href else text)
         reference_text = (reference.get("text") or "").strip()
         # 正文常常就是同一批链接名的罗列（还带换行，会把一行撑成多行）：与链接合并去重，
         # 免得同一批函数名出现两遍；正文里链接没覆盖到的名字并入链接。
