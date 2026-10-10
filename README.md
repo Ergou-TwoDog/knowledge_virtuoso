@@ -118,7 +118,7 @@ knowledge_virtuoso/
 | 工具 | 参数 | 示例 |
 |---|---|---|
 | `skill_language_search_components` | `prefix=""`, `keywords=""`, `offset=0`, `limit=30` | `{"prefix":"db","keywords":"create rect"}` |
-| `skill_language_search_doc` | 必填 `func_name`, `detail="brief"` | `{"func_name":"dbCreateRect","detail":"full"}` |
+| `skill_language_search_doc` | 必填 `func_name`, `detail="brief"`, `sections=null` | `{"func_name":"dbCreateRect","detail":"full"}` |
 | `db_search_attr` | `objType=""`, `keyword=""` | `{"objType":"rect","keyword":"bBox"}` |
 | `techdb_search_attr` | `className=""`, `keyword=""` | `{"className":"viaDefs","keyword":"name"}` |
 | `cdfdb_search_attr` | `className=""`, `keyword=""` | `{"className":"cdfParamId","keyword":"value"}` |

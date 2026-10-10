@@ -150,10 +150,13 @@ I/O 从 25 MB 降到 2 MB。
 代价：索引变为二进制后不能再用编辑器直接查看或 grep，排障需 `gzip -dc` 解压查看；
 `db`/`techdb`/`cdfdb` 三个属性库索引体积极小（合计约 100 KB），仍保持明文缩进 JSON。
 
-## 5. MCP 工具层
+## 5. MCP 工具层（已实现）
 
-工具名与参数不变（5 个工具，`detail` 三档语义不变），新增可选开关 `sections=[...]`
-用于显式索取任意节。
+工具名与参数不变（5 个工具，`detail` 三档语义不变），另加可选开关 `sections=[...]`：
+可显式索取 `prerequisites`、`interactive_function`、`associated_options`、
+`option_descriptions`、`example`、`additional_information`、`related_functions`、
+`format`、`purpose`、`overview`、`reference` 中的任意节，把该节拉进本次返回；未识别的
+节名被忽略。`description`/`arguments`/`returns` 由 `detail` 控制，不接受显式索取。
 
 ### 5.1 输出选择策略表
 
@@ -206,7 +209,7 @@ I/O 从 25 MB 降到 2 MB。
 - 加载器与工具层必须同版本发布；旧 v2 索引按既有策略视为不兼容并触发重建；
 - README「详情粒度」段与 mapping.md 字段表需同步重写。
 
-## 7. 验收标准
+## 7. 验收标准（已按此验收，结果见下）
 
 1. **忠实性抽样**：20 个函数逐字对照原文，必含 ROD 的 `lists`、`abs*` 的选项节、
    合并标题的 `hiCreateTreeTable`、只有 `definition` 的 3 例；
@@ -216,13 +219,23 @@ I/O 从 25 MB 降到 2 MB。
 4. **输出侧**：三个 `detail` 档 + 命中/未命中/弃用/共享声明四个分支走真实 MCP stdio；
 5. **体积**：记录紧凑与 gzip 后大小。
 
-## 8. 落地顺序
+## 8. 落地顺序（四步均已完成）
 
-| 步 | 内容 | 验证 |
+| 步 | 内容 | 状态 |
 |---|---|---|
-| 1 | 解析器：标签表扩到 16 类 + `<br>` 合并标题规则 | 重建 → returns/example 折错位消失 |
-| 2 | 解析器：`arguments.{root,lists,parent,values}` + `field_status` 规范名 | 重建 → ROD 8 组 + 空组 + `abs*` 选项 + 合并标题逐一对照 |
-| 3 | 存储：紧凑 + LF + gzip | 读取正确性与体积 |
-| 4 | 工具层：策略表 + 嵌套渲染 + 节名标注 | 真实 stdio 三个粒度 |
+| 1 | 解析器：标签表扩到 16 类 + `<br>` 合并标题规则 | ✅ `ad2c18b`（返回值标签）＋ 后续提交 |
+| 2 | 解析器：`arguments.{root,lists,parent,values}` + `field_status` 规范名 + `sections` 收录 | ✅ `76ba499`、`efd0f86` |
+| 3 | 存储：紧凑 + gzip | ✅ `0663a53` |
+| 4 | 工具层：策略表 + 嵌套渲染 + 节名标注 + `sections` 开关 | ✅ 验收结果见下 |
 
-第 1 步的 `returns` 标签部分已在 commit `ad2c18b` 完成（含 7 个笔误字面量）。
+## 9. 验收结果（实测）
+
+- **忠实性抽样 20 个函数**（含 ROD 的 `lists`、`abs*` 的选项节、`hiCreateTreeTable` 的合并
+  标题、只有 `definition` 的 `pstddev`、`geHiDragFig` 的编号示例）：索引 `sections` 的键与
+  原文识别出的节**零不一致**；各节文本与原文**逐字一致**（0 处差异）。
+- `field_status` 每条恒定 17 键（16 节 + `decl`），无缺键。
+- 真实 MCP stdio：三个 `detail` 档 + 命中/未命中/弃用/共享声明四个分支 + `sections` 开关
+  （含未识别节名被忽略）全部通过。
+- 体积：v2 磁盘 37.23 MB → v3 **2.12 MB**。
+- 已知遗留：`error` 一类"返回值是散文"的节由 `returns.text`（返回正文）承载；
+  官方标题笔误 7 例以字面量处理，若上游修正可逐条删除。

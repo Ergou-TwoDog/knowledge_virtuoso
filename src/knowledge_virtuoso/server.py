@@ -58,6 +58,7 @@ _SECTION_TITLES = {
     "associated_options": "关联选项",
     "option_descriptions": "选项说明",
     "example": "示例",
+    "reference": "参考链接",
     "additional_information": "补充说明",
     "related_functions": "相关函数",
     "format": "格式",
@@ -89,13 +90,19 @@ def _render_section(key: str, section: dict) -> list[str]:
 
 
 @mcp.tool()
-async def skill_language_search_doc(func_name: str, detail: str = "brief") -> str:
+async def skill_language_search_doc(
+    func_name: str, detail: str = "brief", sections: list[str] | None = None
+) -> str:
     """从 IC618 文档中查询 SKILL 函数的签名、参数、返回值、示例。
 
     参数:
       func_name: 函数名，如 "dbCreateRect"。需是**完整名**；不确定拼法时先用
                  skill_language_search_components 搜到名字再查。未命中会给出相近名建议。
       detail:   返回粒度。brief=签名+来源+参数+返回(默认)；signature=仅签名；full=全部(含描述+示例)
+      sections: 额外索取的节名列表，可选项：prerequisites、interactive_function、
+                 associated_options、option_descriptions、example、additional_information、
+                 related_functions、format、purpose、overview、reference。
+                 描述/参数/返回值由 detail 控制，不接受显式索取。
     """
     if detail not in _LEVEL:
         raise ValueError("detail must be signature, brief, or full")
@@ -107,7 +114,8 @@ async def skill_language_search_doc(func_name: str, detail: str = "brief") -> st
         return f"未找到函数: {func_name}"
 
     declaration = info["decl"][0]
-    sections = info.get("sections", {})
+    content = info.get("sections", {})
+    sections = sections or []
     head = [f"函数: {info['name']}", f"签名: {declaration['text']}"]
     if info.get("status") == "deprecated":
         head.append("状态: 已弃用（Cadence 文档仍保留该可调用函数）")
@@ -119,7 +127,7 @@ async def skill_language_search_doc(func_name: str, detail: str = "brief") -> st
 
     lines = head[:]
     # 描述：description 缺失时用 definition 顶上——取舍在工具层，索引里两节各留各的。
-    body = _section_text(sections, "description") or _section_text(sections, "definition")
+    body = _section_text(content, "description") or _section_text(content, "definition")
     if detail != "full" and len(body) > _DESCRIPTION_LIMIT:
         cut = len(body) - _DESCRIPTION_LIMIT
         lines.append(f"描述: {body[:_DESCRIPTION_LIMIT]}"
@@ -137,7 +145,7 @@ async def skill_language_search_doc(func_name: str, detail: str = "brief") -> st
         extra_declarations = [d["text"] for d in info["decl"][1:] if d.get("text")]
         if extra_declarations:
             lines.append("其他声明: " + " | ".join(extra_declarations))
-        reference = sections.get("reference") or {}
+        reference = content.get("reference") or {}
         links = " ".join(f"{link['text']}({link['href']})"
                          for link in reference.get("links", []))
         summary = " ".join(part for part in (reference.get("text"), links) if part)
@@ -152,7 +160,7 @@ async def skill_language_search_doc(func_name: str, detail: str = "brief") -> st
             lines.append("解析状态: " + json.dumps(abnormal, ensure_ascii=False))
 
     # 参数：根参数 + 子参数列表（ROD 等函数）；子列表嵌在根参数之后缩进输出。
-    arguments = sections.get("arguments")
+    arguments = content.get("arguments")
     if arguments:
         root = arguments.get("root", {})
         lists = arguments.get("lists", [])
@@ -179,7 +187,7 @@ async def skill_language_search_doc(func_name: str, detail: str = "brief") -> st
         elif detail == "full" and arguments.get("text"):
             lines.append("\n参数正文:\n  " + _continuation(arguments["text"], "  "))
 
-    returns = sections.get("returns") or {}
+    returns = content.get("returns") or {}
     if returns.get("items"):
         lines.append("\n返回:")
         for item in returns["items"]:
@@ -188,11 +196,22 @@ async def skill_language_search_doc(func_name: str, detail: str = "brief") -> st
         lines.append("\n返回正文:\n  " + _continuation(returns["text"], "  "))
 
     level = _LEVEL[detail]
+    rendered: set[str] = set()
     for key in _SECTION_POLICY:
-        section = sections.get(key)
+        section = content.get(key)
         if not section or _LEVEL[_SECTION_POLICY[key]] > level:
             continue
         lines.extend(_render_section(key, section))
+        rendered.add(key)
+    # 显式索取：sections=[...] 把指定节拉进本次返回，不改策略表、不需重建索引。
+    requestable = set(_SECTION_TITLES) | {"reference"}
+    for key in sections:
+        if key in rendered or key not in requestable:
+            continue
+        section = content.get(key)
+        if section:
+            lines.extend(_render_section(key, section))
+            rendered.add(key)
 
     return "\n".join(lines)
 
