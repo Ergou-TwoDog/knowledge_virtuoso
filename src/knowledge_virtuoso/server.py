@@ -36,20 +36,56 @@ mcp = FastMCP("virtuoso")
 # brief 模式下描述保留的字符数；超出时明确标注截断，不静默丢弃。
 _DESCRIPTION_LIMIT = 600
 
+# 工具层取舍策略：索引如实收录 doc 的全部节，这里决定哪些节进哪个粒度档。
+# 依据见 docs/index-v3-design.md 5.1——brief 放"缺了就写错或写不出调用"的节
+# （前置条件、交互式提示、选项字典），full 放澄清语义与导航类。改这张表零重建。
+_SECTION_POLICY = {
+    "prerequisites": "brief",
+    "interactive_function": "brief",
+    "associated_options": "brief",
+    "option_descriptions": "brief",
+    "example": "full",
+    "additional_information": "full",
+    "related_functions": "full",
+    "format": "full",
+    "purpose": "full",
+    "overview": "full",
+    "errors": "full",
+}
+_SECTION_TITLES = {
+    "prerequisites": "前置条件",
+    "interactive_function": "交互式函数",
+    "associated_options": "关联选项",
+    "option_descriptions": "选项说明",
+    "example": "示例",
+    "additional_information": "补充说明",
+    "related_functions": "相关函数",
+    "format": "格式",
+    "purpose": "用途",
+    "overview": "总览",
+    "errors": "错误",
+}
+_LEVEL = {"signature": 0, "brief": 1, "full": 2}
+
 
 def _continuation(text: str, indent: str = "    ") -> str:
     """给多行描述的续行补缩进，使其在视觉上仍归属所属条目。"""
     return text.replace("\n", "\n" + indent)
 
 
-def _grouping_is_informative(groups: list[dict]) -> list[dict]:
-    """只保留含真实分组信息的部分；默认单组 Arguments 不重复输出。"""
-    return [
-        g for g in groups
-        if g.get("name") != "Arguments" or g.get("groups") or any(
-            a.get("group") for a in g.get("arguments", [])
-        )
-    ]
+def _section_text(sections: dict, key: str) -> str:
+    return (sections.get(key) or {}).get("text", "")
+
+
+def _render_section(key: str, section: dict) -> list[str]:
+    """把一节渲染成带节名的行；表格行按「名 — 说明」输出，避免错位阅读。"""
+    lines = [f"\n{_SECTION_TITLES.get(key, key)}:"]
+    if section.get("text"):
+        lines.append("  " + _continuation(section["text"].strip(), "  "))
+    for row in section.get("items", []):
+        name = row.get("name") or row.get("value", "")
+        lines.append(f"  {name} — {_continuation(row.get('desc', ''), '    ')}")
+    return lines
 
 
 @mcp.tool()
@@ -61,7 +97,7 @@ async def skill_language_search_doc(func_name: str, detail: str = "brief") -> st
                  skill_language_search_components 搜到名字再查。未命中会给出相近名建议。
       detail:   返回粒度。brief=签名+来源+参数+返回(默认)；signature=仅签名；full=全部(含描述+示例)
     """
-    if detail not in {"signature", "brief", "full"}:
+    if detail not in _LEVEL:
         raise ValueError("detail must be signature, brief, or full")
     info = skill_language.query_function(func_name)
     if info is None:
@@ -70,87 +106,93 @@ async def skill_language_search_doc(func_name: str, detail: str = "brief") -> st
             return f"未找到函数: {func_name}\n相近的官方函数: " + "、".join(hints)
         return f"未找到函数: {func_name}"
 
-    head = [f"函数: {info['name']}", f"签名: {info['signature']}"]
+    declaration = info["decl"][0]
+    sections = info.get("sections", {})
+    head = [f"函数: {info['name']}", f"签名: {declaration['text']}"]
     if info.get("status") == "deprecated":
         head.append("状态: 已弃用（Cadence 文档仍保留该可调用函数）")
-    if info.get("signature_note"):
-        head.append("签名说明: " + info["signature_note"])
-
+    if declaration.get("shared_from"):
+        head.append(f"签名说明: 该声明取自共享主题 {declaration['shared_from']}，"
+                    "不是本函数单独文档化的签名")
     if detail == "signature":
         return "\n".join(head)
 
-    source = info.get("source") or {}
-    origin = source.get("file") or info.get("source_file", "")
-    if source.get("anchor") and source["anchor"] != info["name"]:
-        origin += "#" + source["anchor"]
-
     lines = head[:]
-    description = info.get("description", "")
-    if detail != "full" and len(description) > _DESCRIPTION_LIMIT:
-        cut = len(description) - _DESCRIPTION_LIMIT
-        lines.append(f"描述: {description[:_DESCRIPTION_LIMIT]}"
+    # 描述：description 缺失时用 definition 顶上——取舍在工具层，索引里两节各留各的。
+    body = _section_text(sections, "description") or _section_text(sections, "definition")
+    if detail != "full" and len(body) > _DESCRIPTION_LIMIT:
+        cut = len(body) - _DESCRIPTION_LIMIT
+        lines.append(f"描述: {body[:_DESCRIPTION_LIMIT]}"
                      f'…（已截断 {cut} 字符；detail="full" 取全文）')
     else:
-        lines.append(f"描述: {description}")
+        lines.append(f"描述: {body}")
+
+    where = info.get("where", {})
+    origin = where.get("file", "")
+    if where.get("anchor") and where["anchor"] != info["name"]:
+        origin += "#" + where["anchor"]
     lines.append(f"来源: {origin}")
 
     if detail == "full":
-        # 只补前面没有的信息：多声明、结构化失败时的正文 fallback、真实补充来源。
-        extra_signatures = (info.get("signatures") or [])[1:]
-        if extra_signatures:
-            lines.append("其他签名: " + " | ".join(extra_signatures))
-        if not info.get("arguments") and info.get("arguments_text"):
-            lines.append("参数正文: " + _continuation(info["arguments_text"]))
-        if not info.get("returns") and info.get("returns_text"):
-            lines.append("返回正文: " + _continuation(info["returns_text"]))
-        references = info.get("references") or {}
-        links = " ".join(
-            f"{link['text']}({link['href']})" for link in references.get("links", [])
-        )
-        summary = " ".join(part for part in (references.get("text"), links) if part)
+        extra_declarations = [d["text"] for d in info["decl"][1:] if d.get("text")]
+        if extra_declarations:
+            lines.append("其他声明: " + " | ".join(extra_declarations))
+        reference = sections.get("reference") or {}
+        links = " ".join(f"{link['text']}({link['href']})"
+                         for link in reference.get("links", []))
+        summary = " ".join(part for part in (reference.get("text"), links) if part)
         if summary:
             lines.append("相关: " + summary)
-        extra_sources = (info.get("sources") or [])[1:]
-        if extra_sources:
+        if info.get("also_at"):
             lines.append("其他来源: " + ", ".join(
                 f"{s['file']}#{s['anchor']}" if s.get("anchor") else s.get("file", "")
-                for s in extra_sources
-            ))
-        basis = info.get("derivation_basis")
-        if basis:
-            lines.append("共享声明依据: topic=" + str(basis.get("topic", "")))
+                for s in info["also_at"]))
         abnormal = {k: v for k, v in info.get("field_status", {}).items() if v != "present"}
         if abnormal:
             lines.append("解析状态: " + json.dumps(abnormal, ensure_ascii=False))
 
-    if info.get("arguments"):
-        lines.append("\n参数:")
-        for a in info["arguments"]:
-            group = f" [{a['group']}]" if a.get("group") else ""
-            lines.append(f"  {a['name']}{group} — {_continuation(a['desc'])}")
-    if info.get("returns"):
+    # 参数：根参数 + 子参数列表（ROD 等函数）；子列表嵌在根参数之后缩进输出。
+    arguments = sections.get("arguments")
+    if arguments:
+        root = arguments.get("root", {})
+        lists = arguments.get("lists", [])
+        if root.get("items") or lists:
+            lines.append("\n参数:")
+            if root.get("title"):
+                lines.append(f"  [{root['title']}]")
+            for item in root.get("items", []):
+                lines.append(f"  {item['name']} — {_continuation(item['desc'])}")
+                for value in item.get("values") or []:
+                    lines.append(f"      取值 {value['value']} — "
+                                 f"{_continuation(value['desc'], '      ')}")
+            for group in lists:
+                parent = group.get("parent") or {}
+                if parent.get("arg"):
+                    link = f"（属于 {parent['arg']}）"
+                elif group.get("list_type"):
+                    link = "（未连接到根参数）"
+                else:
+                    link = ""
+                lines.append(f"  子参数 [{group['title']}]{link}:")
+                for item in group.get("items", []):
+                    lines.append(f"    {item['name']} — {_continuation(item['desc'], '      ')}")
+        elif detail == "full" and arguments.get("text"):
+            lines.append("\n参数正文:\n  " + _continuation(arguments["text"], "  "))
+
+    returns = sections.get("returns") or {}
+    if returns.get("items"):
         lines.append("\n返回:")
-        for r in info["returns"]:
-            lines.append(f"  {r['value']} — {_continuation(r['desc'])}")
+        for item in returns["items"]:
+            lines.append(f"  {item['value']} — {_continuation(item['desc'])}")
+    elif detail == "full" and returns.get("text"):
+        lines.append("\n返回正文:\n  " + _continuation(returns["text"], "  "))
 
-    if detail == "full":
-        groups = _grouping_is_informative(info.get("argument_groups") or [])
-        if groups:
-            lines.append("\n参数分组:")
-
-            def append_group(group: dict, depth: int = 1) -> None:
-                indent = "  " * depth
-                lines.append(f"{indent}{group['name']}")
-                for argument in group.get("arguments", []):
-                    lines.append(f"{indent}  {argument['name']} — "
-                                 f"{_continuation(argument['desc'], indent + '    ')}")
-                for child in group.get("groups", []):
-                    append_group(child, depth + 1)
-
-            for group in groups:
-                append_group(group)
-        if info.get("example"):
-            lines.append(f"\n示例:\n  {info['example']}")
+    level = _LEVEL[detail]
+    for key in _SECTION_POLICY:
+        section = sections.get(key)
+        if not section or _LEVEL[_SECTION_POLICY[key]] > level:
+            continue
+        lines.extend(_render_section(key, section))
 
     return "\n".join(lines)
 
@@ -193,7 +235,7 @@ async def skill_language_search_components(prefix: str = "", keywords: str = "",
         lines.append(f"下一页: offset={page['next_offset']}, limit={limit}")
     for name in matches:
         entry = skill_language._index.get(name, {})
-        fpath = entry.get("file", "?")
+        fpath = (entry.get("where") or {}).get("file", "?")
         lines.append(f"  {name:45s} {fpath}")
     return "\n".join(lines)
 

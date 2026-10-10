@@ -1,28 +1,102 @@
-# IC618 官方函数索引字段映射
+# IC618 官方函数索引字段映射（v3）
 
-结构仍为 v2：`schema_version`、`corpus`、`functions`。兼容有效旧 v1 平面索引读取，不自动迁移。查询按健康内存 → JSON → doc 恢复；仅 JSON 缺失、损坏、空记录或不兼容时，允许从显式 `doc_root` 或 MCP 进程环境 `VIRTUOSO_DOC_DIR` 重建并原子写回对应 JSON。默认索引位于平台数据目录（`VIRTUOSO_DATA_DIR` 可覆盖）下的 `functions/index.json`，显式来源按规范绝对路径区分（不解析符号链接别名）。
+结构为 v3：`schema_version`（=3）、`corpus`、`functions`。设计动机与取舍策略见
+[docs/index-v3-design.md](../../../../docs/index-v3-design.md)：**索引如实还原官方 doc 的
+节结构，取舍上移到 MCP 工具层**。v2 索引不再兼容，加载时按版本不符报错并提示重建。
 
-加载时校验根、版本、非空函数记录及查询消费字段基本类型，局部构造主/关键词/前缀三索引；写入成功后才发布内存与统计。RLock 保证检查、恢复、发布和一致读取；doc 目录无效、空解析、读取或写入失败不发布半成品，保留实际 JSON/doc 错因，恢复日志只写 stderr。健康判断为 ready、字典类型、主索引非空和三字典长度快照（O(1)，前缀可为空），不保证发现等量或嵌套损坏。不热更新、不因零匹配而重建；缺签名的旧记录不补造签名，也不另读 HTML。
+查询按健康内存 → JSON → doc 恢复；仅 JSON 缺失、损坏、版本不符或空记录时，允许从显式
+`doc_root` 或 MCP 进程环境 `VIRTUOSO_DOC_DIR` 重建并原子写回。默认索引位于平台数据目录
+（`VIRTUOSO_DATA_DIR` 可覆盖）下的 `functions/index.json`。
 
-| 字段 | 来源及含义 |
+## 一条记录
+
+| 字段 | 含义 |
 |---|---|
-| name / functions 的 key | 官方 topic 名称；逗号共享条目按成员拆分；一个 marker 含多个可调用 h3 时按真实标题拆分 |
-| kind / file / docset | 条目类型，当前恒为 `function`，不承载区分信息；file 为相对 doc 根的源文件路径（与 `source.file` 相同，两处重复）；docset 为该路径的首段目录，即 `docset == file.split("/")[0]`（实测 7667/7667，可由 file 完全推出，不携带额外信息） |
-| signature | 声明区 dl/pre/code 的主声明，不取示例区调用 |
-| signatures | 同一选定 topic 的多个有效声明，去重；不宣称合并所有同名文档语义 |
-| signature_note / derivation_basis | 共享声明说明及原文依据。assoc、assq 使用 assv 共享声明但不伪造自身签名；28 个 c…r 名称取自官方 possible combinations 段落，保留族声明，不输出伪造的逐成员声明 |
-| description | Description 正文及表格文本，保留换行、重复章节 |
-| arguments / argument_groups | 表格参数和层级，保留原兼容字段。两者参数名集合一致（实测 7665/7667），argument_groups 的嵌套 groups 恒空，6799 个组中 6790 个组名就是 Arguments，仅 4 条条目出现自定义组名——多数条目里它与 arguments 重复，因此查询仅在分组非默认时才输出 |
-| returns | 表格返回值；Errors 独立分节，不混作返回值 |
-| arguments_text / returns_text / errors_text | 正文章节回查文本，用于结构化失败时的 fallback：`err`、`error` 的 returns_text 即官方原文 “Never returns a value.”（此前此处误记为 errors_text 的例子）。arguments_text/returns_text 多数条目非空（6802/7064 条），但内容与 arguments/returns 表格重叠，仅在表格为空时才作为正文补充返回。errors_text 取自独立的 Errors 分节；实测 25 个入库文档集**均无该分节**（全 doc 根下的 Errors 标题都落在 dracula、spectre、assembler 等未入库文档集），故该字段一直为空——是源文档没有，不是解析失败或漏抓 |
-| example | Examples 文本，保留换行，避免注释与下一行调用相连；不保留精确排版 |
-| references | Reference/Related Topics/See Also 的文本和原始 href。相对链接以 source.file 所在目录解析 |
-| source | file、topic、marker_text、anchor、anchors。marker_text 保留原官方标记，即使与真实标题不一致；anchor 必须实际存在。anchors 是该 topic 内全部元素 `name`/`id` 属性的去重清单（保序），主体是官方文档工具为每段生成的数字编号（如 `"1217188"`），不含说明文本；anchor 从中选取——函数名在清单内就取函数名，否则取首项，用于拼接 `<doc 根>/<source.file>#<source.anchor>` 回查。实测 7667 条全部带该字段，单条 4～746 个，与函数用法无关，查询输出不再携带 |
-| sources | 同名补充来源定位；主正文优先 active，其他来源仅追踪定位，不合并全部正文 |
-| field_status | present、text_fallback、documented_none、not_documented、unparsed；signature 另有 shared_declaration。明确 None. 不等于缺文档或解析失败 |
-| status | 现有 deprecated 文本启发式，不能视作产品支持认证 |
-| prefix / tokens | 函数名拆词生成，用于精确名、领域前缀、拆词搜索；非描述检索 |
+| `type` | 记录种类，当前恒为 `function`（结构锚点） |
+| `decl` | 声明列表，`[{text, shared_from}]`。`text` 为声明原文（保留原换行）；`shared_from` 非 null 表示该声明取自该共享主题，**不是本函数单独文档化的签名**（如 assoc/assq 取自 assv） |
+| `where` | 主来源定位：`file`、`topic`、`marker_text`（保留原官方标记，可能与真实标题不一致）、`anchor`（必须实际存在，用于拼 `<doc 根>/<file>#<anchor>` 回查） |
+| `also_at` | 同名补充来源的定位列表（v2 的 `sources[1:]`） |
+| `sections` | 见下。**稀疏**：官方 doc 有哪些节就记哪些 |
+| `status` | `active` / `deprecated`；deprecated 为文本启发式，不能视作产品认证 |
+| `field_status` | 16 个规范节名 + `decl`（共 17 键）的解析状态 |
 
-HTML 以 UTF-8 容错读取；原文个别非 UTF-8 字节可能丢弃。字体、颜色、图片和完整排版不保留。遇到 not_documented/unparsed 或自然语言约束，应回到 `<实际 IC618 doc 根目录>/<source.file>#<source.anchor>`（doc 根目录取显式 `doc_root` 或服务进程的 `VIRTUOSO_DOC_DIR`），不要根据空列表猜测无参数或无返回。
+**不落盘的字段**（加载时按函数名重算或可由其他字段推出，故不存）：`prefix`、`tokens`
+（v2 存了，现由函数名重算）；`docset`（= `where.file` 首段目录）；顶层 `file`（与
+`where.file` 同值）；`source.anchors`（官方文档工具生成的页内数字锚点，与函数用法无关，
+回查只需单数 `anchor`）；`kind`（存为 `type`）。
 
-范围为代码 `_SKILL_DOC_DIRS` 白名单，本次增加 ocnxl、aelref；不把其他目录中的配置项、C++ 或示例函数视为官方可调用函数。目录外候选只是待人工核查样本，未收录且不代表总数。构建统计可在成功构建后通过 `coverage_report()` 或 CLI `--report` 查看；历史对比报告已清理，不随运行文件交付。
+## sections 的 16 个规范节名
+
+标题先归一（大小写、单复数、结尾冒号句点），再映射到规范键；**变体写法全部合并**，
+实测语料里的写法见括号内次数：
+
+| 规范键 | 原文标题变体 |
+|---|---|
+| `description` | description |
+| `arguments` | argument、arguments；含 `<br>` 合并标题（见下） |
+| `returns` | value returned(7165)、values returned(272)、return value(17)、return values(6) |
+| `example` | example、examples、example 1/2/3/4/5、example for integrators、`example: …`、`example to …`、`examples of …`、exampleexample（前缀规则覆盖） |
+| `reference` | reference、references、related topic、related topics、see also |
+| `related_functions` | related function、related functions |
+| `prerequisites` | prerequisite、prerequisites |
+| `additional_information` | additional information（含 `additional information (advanced nodes only)`） |
+| `interactive_function` | interactive function |
+| `associated_options` | associated option、associated options |
+| `option_descriptions` | option description、option descriptions |
+| `purpose` / `format` / `definition` / `overview` | 同名（本语料各 1～4 例） |
+| `errors` | error、errors、error conditions（本语料 2 例） |
+
+**已实测的官方标题笔误**作为字面量单独处理，且**不做模糊匹配**——宽松到"标题含 return"
+会把 `Example 1 With Returned Value` 这类示例标题误判成返回值小节。当前收录：
+`value returned\`、`value returne`、`value returnedz`、`value returned4`、`values return`、
+`.value returned`、`value returnedd`。
+
+**节内容形态**：`arguments` 为结构化树；`returns` 为 `{items:[{value,desc}]}`；
+`reference` 为 `{text, links:[{text,href}]}`；其余节为 `{text}`，含表格时另给
+`items:[{name,desc}]`。多行文本保留换行。
+
+## arguments 的嵌套结构（ROD 子参数列表）
+
+ROD 函数的参数分两层：根参数，加上若干"子参数列表"（如 `?subRectArray l_subrectArgs`
+的值里可用的参数）。原文把父子关系放在**标题**里——根参数节标题是 `<br><br>` 合并标题
+（`Arguments<br><br>Master Path Arguments`），每个子列表是同级的独立 `<h4>`，标题形如
+`Subrectangle Arguments (l_subrectArgs)`。
+
+```jsonc
+"arguments": {
+  "root": { "title": "Master Path Arguments", "items": [ {name, desc, values} ] },
+  "lists": [ { "title": "Subrectangle Arguments", "list_type": "l_subrectArgs",
+               "parent": { "arg": "?subRectArray l_subrectArgs...",
+                           "type": "l_subRectArgs", "match": "case_insensitive" },
+               "items": [ {name, desc, values} ] } ]
+}
+```
+
+- `list_type` 取自标题括号内的 token；`parent` 按该 token 与根参数的类型 token 匹配，
+  **忽略大小写**（原文自身存在 `l_subrectArgs` vs `l_subRectArgs`、`l_encSubpathArgs` vs
+  `l_encSubPathArgs` 的不一致，`match` 字段标明是 `exact` 还是 `case_insensitive`）；
+  命中 0/多处时为 `null`。
+- 空列表节（如 `ROD Connectivity Arguments for Polygons`）如实保留，`parent` 为 null。
+- `values` 是紧随该参数的**允许取值表**（行首为单个 `'symbol` 字面量，如 `?selectMode`
+  后的 `'single/'browse/…`）。带第二个 token 的行（如 `'name t_name`）是属性列表字段，
+  不归入取值。
+- `...` 不能当"列表参数"标记：本语料仅 16 处，且混用 ROD 列表与 `defmethod(g_exp1 ...)`
+  这类变参。
+
+## 解析边界
+
+- **`<br>` 合并标题**：按拆开后的后半部分判定——后半是已识别节名（如
+  `Arguments<br>Values Returned`）则视为**两个节**，参数表归 arguments、节尾部非参数表归
+  returns；后半不是节名（如 `Arguments<br><br>Master Path Arguments`）则为**节内子范围**，
+  记为 `arguments.root.title`。
+- **未识别的 h4** 作为所属节的正文子标题保留在该节 `text` 内，不单列成节、也不折进邻节
+  语义（实测 5.4% 的 topic 含此类自由子标题）。
+- `mapping.md` 只覆盖上述规范节；`field_status` 是唯一"非从原文抄来"的字段，它记录解析
+  过程的事实，是"这一节官网上没有"与"有但解析失败"可分的依据。
+- HTML 以 UTF-8 容错读取；字体、颜色、图片和完整排版不保留。遇到
+  `not_documented`/`unparsed` 或自然语言约束，应回到
+  `<实际 doc 根>/<where.file>#<where.anchor>`，不要根据空列表猜测无参数或无返回。
+- 范围为代码 `_SKILL_DOC_DIRS` 白名单，不把其他目录中的配置项、C++ 或示例函数视为官方
+  可调用函数。构建统计可用 `coverage_report()`，或模块 CLI 的 `--report`
+  （`python -m knowledge_virtuoso.functions.core.catalog --doc-root <doc> --report`；
+  注意 `knowledge-virtuoso-build` 没有该开关）。
