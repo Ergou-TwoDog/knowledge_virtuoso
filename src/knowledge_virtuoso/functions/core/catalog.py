@@ -11,6 +11,7 @@ library.
 from __future__ import annotations
 
 import difflib
+import gzip
 import json
 import os
 import re
@@ -934,15 +935,23 @@ def _index_envelope(entries: dict[str, dict]) -> dict:
 
 
 def _write_index(json_path: str | Path, entries: dict[str, dict]) -> None:
+    """原子写入索引：紧凑分隔符 + LF 换行 + gzip。
+
+    索引体积的绝大部分是表示开销而非不可约信息：紧凑化去掉约 28% 的缩进空白，
+    gzip 再去掉键名与短语重复。代价是文件不能再直接 grep，排障需解压查看。
+    """
     path = Path(json_path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    payload = _index_envelope(entries)
+    payload = json.dumps(
+        _index_envelope(entries), ensure_ascii=False, separators=(",", ":")
+    ).encode("utf-8")
     import tempfile
     temporary = None
     try:
-        with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", dir=path.parent, delete=False) as stream:
+        with tempfile.NamedTemporaryFile(mode="wb", dir=path.parent, delete=False) as stream:
             temporary = Path(stream.name)
-            stream.write(json.dumps(payload, indent=2, ensure_ascii=False) + "\n")
+            # mtime=0 让同样的内容产出同样的字节，便于比较与复现。
+            stream.write(gzip.compress(payload, 9, mtime=0))
         temporary.replace(path)
     finally:
         if temporary and temporary.exists():
@@ -965,7 +974,10 @@ class IndexLoadError(RuntimeError):
 
 
 def _build_from_json(json_path: str | Path) -> tuple[dict, dict, dict]:
-    data = json.loads(Path(json_path).read_text(encoding="utf-8"))
+    raw = Path(json_path).read_bytes()
+    if raw[:2] == b"\x1f\x8b":  # v3 起索引 gzip 落盘；仍兼容未压缩的 JSON
+        raw = gzip.decompress(raw)
+    data = json.loads(raw.decode("utf-8"))
     if not isinstance(data, dict):
         raise ValueError("index root must be an object")
     if "schema_version" in data:

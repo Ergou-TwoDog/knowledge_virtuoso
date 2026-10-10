@@ -147,6 +147,8 @@ uv run python -m knowledge_virtuoso.functions.core.catalog dbCreateRect
 
 可用环境变量 `VIRTUOSO_DATA_DIR`（绝对路径）覆盖。四个库各占一份 `<目录>/<库>/index.json`（`functions`、`db`、`techdb`、`cdfdb`）。索引目录在进程启动时读取，改后需重启服务。
 
+函数库索引是**紧凑 JSON 经 gzip 压缩**的（约 2 MB，加载时自动解压），因此不能直接查看或 grep，排障用 `gzip -dc <索引> | head`；三个属性库索引仍是明文 JSON。
+
 **四库统一惰性重建**：查询时加载对应 JSON；缺失、损坏或空记录时，若进程环境设了 `VIRTUOSO_DOC_DIR`（真实 IC618 doc 根），自动从官方 doc 重建、原子写回索引目录并返回结果；未设则报出含索引路径与修复提示的错误（提示运行 `knowledge-virtuoso-build`）。首次全量函数重建可能较慢，重建日志写 stderr。
 
 函数库另有内存层：**健康内存 → 有效 JSON → 官方 doc 构建非空索引、原子写盘、发布内存**；全部失败则报告实际原因。读取、解析或写入失败不发布半成品。函数内存健康检查只检查 ready、字典类型、非空主索引与长度快照，不检测等量篡改或嵌套损坏；正常内存不自动热更新，零匹配不触发重建。

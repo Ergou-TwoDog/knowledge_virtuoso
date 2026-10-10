@@ -4,6 +4,10 @@
 [docs/index-v3-design.md](../../../../docs/index-v3-design.md)：**索引如实还原官方 doc 的
 节结构，取舍上移到 MCP 工具层**。v2 索引不再兼容，加载时按版本不符报错并提示重建。
 
+**存储形式**：紧凑 JSON（无缩进空白）经 **gzip** 压缩后落盘，约 2 MB；加载时按 gzip 魔数
+`1f 8b` 识别并解压，未压缩的 JSON 仍可读。因此**不能用编辑器直接查看或 grep**，排障请用
+`gzip -dc <索引> | head`。`db`/`techdb`/`cdfdb` 三个属性库索引体积很小，仍是明文 JSON。
+
 查询按健康内存 → JSON → doc 恢复；仅 JSON 缺失、损坏、版本不符或空记录时，允许从显式
 `doc_root` 或 MCP 进程环境 `VIRTUOSO_DOC_DIR` 重建并原子写回。默认索引位于平台数据目录
 （`VIRTUOSO_DATA_DIR` 可覆盖）下的 `functions/index.json`。
