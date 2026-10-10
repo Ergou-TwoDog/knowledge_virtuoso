@@ -220,6 +220,9 @@ _CANONICAL_SECTIONS = (
 # sections 里结构化构造的节（其余节走 _section_content 的通用整理）。
 _EXPLICIT_SECTIONS = ("description", "arguments", "returns", "example")
 
+# 加载时由函数名重算的派生字段，不写进索引文件。
+_DERIVED_KEYS = ("prefix", "tokens")
+
 
 def _list_type(title: str) -> str | None:
     """从子参数列表标题里取括号内的类型名，如 ``Subrectangle Arguments (l_subrectArgs)``。"""
@@ -854,8 +857,10 @@ def _rebuild_runtime_indexes(entries: dict[str, dict]) -> tuple[dict, dict, dict
             raise ValueError("function name must be a nonempty string")
         require(raw, dict, name)
         entry = deepcopy(raw)
-        entry.setdefault("prefix", "")
-        entry.setdefault("tokens", _tokenize_name(name))  # 不落盘，加载时由函数名重算
+        # prefix / tokens 不落盘、加载时无条件由函数名重算（不信任文件里的旧值）。
+        prefix_match = _PREFIX_RE.match(name)
+        entry["prefix"] = prefix_match.group(1) if prefix_match else ""
+        entry["tokens"] = _tokenize_name(name)
         require(entry.get("where", {}), dict, f"{name}.where")
         require(entry["where"].get("file", ""), str, f"{name}.where.file")
         require(entry.get("decl", []), list, f"{name}.decl")
@@ -920,7 +925,11 @@ def _index_envelope(entries: dict[str, dict]) -> dict:
             "product": "Cadence IC618",
             "scope": "official-skill-callables",
         },
-        "functions": dict(sorted(entries.items())),
+        # 派生字段不落盘：加载时按函数名重算。
+        "functions": {
+            name: {k: v for k, v in entry.items() if k not in _DERIVED_KEYS}
+            for name, entry in sorted(entries.items())
+        },
     }
 
 
