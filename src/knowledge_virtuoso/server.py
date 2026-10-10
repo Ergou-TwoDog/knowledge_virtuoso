@@ -24,6 +24,7 @@ knowledge_virtuoso.server — MCP Server: SKILL 函数知识库查询服务。
 """
 
 import json
+import re
 
 from mcp.server.fastmcp import FastMCP
 from knowledge_virtuoso.functions.core import catalog as skill_language
@@ -72,6 +73,48 @@ _LEVEL = {"signature": 0, "brief": 1, "full": 2}
 def _continuation(text: str, indent: str = "    ") -> str:
     """给多行描述的续行补缩进，使其在视觉上仍归属所属条目。"""
     return text.replace("\n", "\n" + indent)
+
+
+def _capped(text: str, detail: str) -> str:
+    """brief 档截断长正文，并明确标注截断字符数，不静默丢弃。"""
+    if detail != "full" and len(text) > _DESCRIPTION_LIMIT:
+        return (f"{text[:_DESCRIPTION_LIMIT]}"
+                f'…（已截断 {len(text) - _DESCRIPTION_LIMIT} 字符；detail="full" 取全文）')
+    return text
+
+
+def _uncovered_lines(text: str, items: list[dict]) -> str:
+    """参数/返回值正文里**没有被结构化条目覆盖**的部分。
+
+    索引如实收录每节正文；其中老式排版（hiSetCursor 的连续 ``<p>`` 单元格、纯散文段落）
+    没有条目承载，此前在"有条目就不打正文"的取舍下整段到不了 LLM。这里逐行消去已渲染过的
+    条目文本，返回剩下的部分——既补上散文，又不与条目重复。
+    """
+    pieces = sorted(
+        {piece.strip() for item in items for field in ("name", "desc")
+         for piece in (item.get(field) or "").split("\n") if len(piece.strip()) >= 3},
+        key=len, reverse=True,
+    )
+    rendered_blob = " ".join(pieces)
+    out = []
+    for line in (text or "").split("\n"):
+        rest = " ".join(line.split()).strip()
+        if not rest:
+            continue
+        for piece in pieces:
+            if piece in rest:
+                rest = " ".join(rest.replace(piece, " ").split())
+        rest = rest.strip(" -–—\t")
+        # 已被条目渲染过的（含作为某条目说明前缀的短行）不再重复输出。
+        if len(rest) < 3 or rest in rendered_blob or _SEPARATOR_RE.fullmatch(rest):
+            continue
+        out.append(rest)
+    return "\n".join(out)
+
+
+# 正文残段小于这个长度就不输出（分隔线、表头单词一类不值得占上下文）。
+_MIN_RESIDUAL = 40
+_SEPARATOR_RE = re.compile(r"[-–—]{1,2}")
 
 
 def _section_text(sections: dict, key: str) -> str:
@@ -155,15 +198,21 @@ async def skill_language_search_doc(
             lines.append("其他来源: " + ", ".join(
                 f"{s['file']}#{s['anchor']}" if s.get("anchor") else s.get("file", "")
                 for s in info["also_at"]))
-        abnormal = {k: v for k, v in info.get("field_status", {}).items() if v != "present"}
+        # 只报需要留意的解析异常：正文保留但未结构化、未能可靠提取、声明取自共享主题。
+        # `not_documented`/`documented_none` 是"官网上没有"而非异常，全量列出会让 full 档
+        # 多出十几条噪声（小函数里能占全文三成），需要时可回查索引的 field_status。
+        abnormal = {k: v for k, v in info.get("field_status", {}).items()
+                    if v in {"text_fallback", "unparsed", "shared_declaration"}}
         if abnormal:
             lines.append("解析状态: " + json.dumps(abnormal, ensure_ascii=False))
 
     # 参数：根参数 + 子参数列表（ROD 等函数）；子列表嵌在根参数之后缩进输出。
+    # 条目之外若还有正文（老式排版的散排单元格、散文段落），补在条目后——否则整段到不了 LLM。
     arguments = content.get("arguments")
     if arguments:
         root = arguments.get("root", {})
         lists = arguments.get("lists", [])
+        rendered: list[dict] = []
         if root.get("items") or lists:
             lines.append("\n参数:")
             if root.get("title"):
@@ -173,6 +222,7 @@ async def skill_language_search_doc(
                 for value in item.get("values") or []:
                     lines.append(f"      取值 {value['value']} — "
                                  f"{_continuation(value['desc'], '      ')}")
+                rendered.append(item)
             for group in lists:
                 parent = group.get("parent") or {}
                 if parent.get("arg"):
@@ -184,16 +234,25 @@ async def skill_language_search_doc(
                 lines.append(f"  子参数 [{group['title']}]{link}:")
                 for item in group.get("items", []):
                     lines.append(f"    {item['name']} — {_continuation(item['desc'], '      ')}")
-        elif detail == "full" and arguments.get("text"):
-            lines.append("\n参数正文:\n  " + _continuation(arguments["text"], "  "))
+                    rendered.append(item)
+        residual = _uncovered_lines(arguments.get("text", ""), rendered)
+        if len(residual) >= _MIN_RESIDUAL:
+            lines.append("\n参数正文（条目之外）:\n  "
+                         + _continuation(_capped(residual, detail), "  "))
 
     returns = content.get("returns") or {}
     if returns.get("items"):
         lines.append("\n返回:")
         for item in returns["items"]:
             lines.append(f"  {item['value']} — {_continuation(item['desc'])}")
-    elif detail == "full" and returns.get("text"):
-        lines.append("\n返回正文:\n  " + _continuation(returns["text"], "  "))
+        residual = _uncovered_lines(returns.get("text", ""), returns["items"])
+        if len(residual) >= _MIN_RESIDUAL:
+            lines.append("\n返回正文（条目之外）:\n  "
+                         + _continuation(_capped(residual, detail), "  "))
+    else:
+        residual = _uncovered_lines(returns.get("text", ""), [])
+        if len(residual) >= _MIN_RESIDUAL:
+            lines.append("\n返回正文:\n  " + _continuation(_capped(residual, detail), "  "))
 
     level = _LEVEL[detail]
     rendered: set[str] = set()

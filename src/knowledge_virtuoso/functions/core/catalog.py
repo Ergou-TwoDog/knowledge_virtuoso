@@ -124,10 +124,55 @@ class _TopicHTMLParser(HTMLParser):
             self.stack[-1].children.append(data)
 
 
+def _row_cell_count(tr: _Node) -> int:
+    return sum(1 for child in tr.children if isinstance(child, _Node) and child.tag in {"td", "th"})
+
+
+def _wrap_orphan_rows(root: _Node) -> None:
+    """把裸 ``<tr>`` 收进合成表格。
+
+    老式排版里 ``</table>`` 之后会继续出现属于同一张表的 ``<tr>``（实测 hiSetCursor 的
+    光标常量表：前 37 行在 ``<table>`` 内，其后 165 个单元格以裸 ``<tr><td><p>`` 续排）。
+    不处理时，这些单元格的 ``<p>`` 会被当成独立段落，整表内容只剩纯文本、没有条目。
+    这里把同一父节点下连续出现（≥3 行）、且每行至少两个单元格的 ``<tr>`` 段包成
+    ``<table>``，交由常规表格解析按行读取；少于 3 行不动，避免把版式行当表格。
+    """
+    def visit(node: _Node) -> None:
+        if node.tag == "table":
+            return
+        rebuilt: list[_Node | str] = []
+        run: list[_Node] = []
+
+        def flush() -> None:
+            if len(run) >= 3:
+                rebuilt.append(_Node("table", {}, list(run), order=run[0].order))
+            else:
+                rebuilt.extend(run)
+            run.clear()
+
+        for child in node.children:
+            if isinstance(child, _Node) and child.tag == "tr" and _row_cell_count(child) >= 2:
+                run.append(child)
+                continue
+            # 行与行之间的空白文本节点（HTML 缩进）不能断开连续行，随行一起收进合成表。
+            if isinstance(child, str) and not child.strip() and run:
+                run.append(child)
+                continue
+            flush()
+            rebuilt.append(child)
+            if isinstance(child, _Node):
+                visit(child)
+        flush()
+        node.children = rebuilt
+
+    visit(root)
+
+
 def _parse_topic_html(topic: str) -> _Node:
     parser = _TopicHTMLParser()
     parser.feed(topic)
     parser.close()
+    _wrap_orphan_rows(parser.root)
     return parser.root
 
 
@@ -408,23 +453,72 @@ def _append_text(old: str, extra: str) -> str:
     return (old + "\n" + extra).strip() if old and extra else old or extra
 
 
+_NAME_TOKEN_RE = re.compile(r"^(?:[?@])?[A-Za-z_][\w.>\-]*\(?\)?:?$")
+_NAME_COLON_RE = re.compile(r"^([A-Za-z_][\w.]*):\s*\S")
+_ENGLISH_WORD_RE = re.compile(r"[A-Z][a-z]+$")
+_CONSTANT_SLASH_RE = re.compile(r"[A-Za-z_][\w.]*\s*/\s*\S+")
+
+
+def _name_head(text: str) -> bool:
+    """这一行是"名称行"还是"说明/散文行"（只用于首列被占位的行，见 _parse_table_items）。
+
+    实测四种名称形状，其余一律按说明处理——判宽了会把 ``Valid Values: …``、
+    ``For Sampling:``、``Note: …``、``Equivalent to setting …`` 这类散文切成假条目：
+
+    1. 单个标识符——``hicArrow``；
+    2. 名称与说明挤在同一格、冒号紧跟首个标识符——``gdmStateCI: File is managed…``；
+    3. 恰好两个词、第二词不以小写开头——``t_viewName Symbol``；
+    4. 常量与其值同格——``PCRE_CASELESS / 0x00000001``。
+
+    首词是普通英文单词（``For``/``When``/``The``/``Note``/``See``）的一律不算名称。
+    """
+    tokens = text.split()
+    if not tokens or _ENGLISH_WORD_RE.fullmatch(tokens[0]):
+        return False
+    match = _NAME_COLON_RE.match(text)
+    if match and not _ENGLISH_WORD_RE.fullmatch(match.group(1)):
+        return True
+    if len(tokens) == 1:
+        return bool(_NAME_TOKEN_RE.match(tokens[0]))
+    if len(tokens) == 2 and _NAME_TOKEN_RE.match(tokens[0]) and not tokens[1][:1].islower():
+        return True
+    return bool(_CONSTANT_SLASH_RE.fullmatch(text))
+
+
 def _parse_table_items(table: _Node, key: str) -> list[dict[str, str]]:
-    """Read a two-column documentation table, including split continuation rows."""
+    """Read a documentation table, including split continuation rows.
+
+    实测老式排版会把内容整体右移一格（项目符号图片或 ``&nbsp;`` 占住首列），
+    例如 ``['', 'gdmStateCI: File is managed…']``；旧实现直接丢弃这类行，
+    整表只剩纯文本。这里按行的**内容**判定：名称行照常建条目，散文行并入上一条目
+    的说明（pcreCompile 的名字一行、说明下一行即属此类），两者都不是则不动。
+    """
     result: list[dict[str, str]] = []
     for row in _table_rows(table):
         texts = [text.strip() for text, _ in row]
         nonempty = [text for text in texts if text]
         if not nonempty or all(_is_column_header(text) for text in nonempty):
             continue
-        first = texts[0] if texts else ""
-        rest = "\n".join(text for text in texts[1:] if text).strip()
-        if len(texts) == 1:
-            # A full-width row is either a standalone name/value or a heading.
-            if _is_column_header(first):
+        lead = next(index for index, text in enumerate(texts) if text)
+        if lead:
+            # 首列被占位：内容单元格看形状决定是名称还是上一行的说明。
+            if not _name_head(texts[lead]):
+                if result:
+                    result[-1]["desc"] = _append_text(
+                        result[-1]["desc"], "\n".join(text for text in texts[lead:] if text))
                 continue
-            item = {key: first, "desc": ""}
-            result.append(item)
-            continue
+            first = texts[lead]
+            rest = "\n".join(text for text in texts[lead + 1:] if text).strip()
+        else:
+            first = texts[0]
+            rest = "\n".join(text for text in texts[1:] if text).strip()
+            if len(texts) == 1:
+                # A full-width row is either a standalone name/value or a heading.
+                if _is_column_header(first):
+                    continue
+                item = {key: first, "desc": ""}
+                result.append(item)
+                continue
         # Certain older layouts place the visual two columns in a nested table.
         # In that form our structural row has exactly one visible cell, but the
         # flattened text is still an identifier followed by prose.  Do not use

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "knowledge-virtuoso"
-version = "0.1.6"
+version = "0.1.7"
 description = "Virtuoso 官方知识库 MCP 服务（SKILL 函数与 db/techdb/cdfdb 属性查询）"
 readme = "README.md"
 license = { text = "MIT" }
