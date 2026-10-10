@@ -122,6 +122,30 @@ def _uncovered_lines(text: str, items: list[dict]) -> str:
 _MIN_RESIDUAL = 40
 _SEPARATOR_RE = re.compile(r"[-–—]{1,2}")
 
+# brief 档参数块的字数预算：超过则把说明续文移入 full，但**保留参数名、允许取值与 Default**。
+# 实测超预算的只有 4 个函数（rodCreatePath、rodCreateRect、hiCreateAppForm、
+# hiCreateReportField）；参数密集但无长散文的（如 hnlInitMap）不受影响。
+_ARGS_BUDGET = 12000
+_FACT_LINE_RE = re.compile(r"Default|Valid [Vv]alues|取值")
+
+# 解析状态用面向读者的措辞，不暴露内部字段名与枚举值。
+_STATE_TEXT = {
+    "text_fallback": "官方原文保留但未结构化",
+    "unparsed": "官方原文未能可靠提取",
+    "shared_declaration": "声明取自共享主题",
+}
+
+
+def _arg_entry(item: dict, indent: str) -> tuple[str, list[str]]:
+    """把一个参数条目拆成「首行 + 续行」，供 brief 档按预算裁剪说明续文。"""
+    desc_lines = (item.get("desc") or "").split("\n")
+    head = f"{indent}{item['name']} — {desc_lines[0]}"
+    cont = [indent + "  " + line for line in desc_lines[1:]]
+    for value in item.get("values") or []:
+        desc = (value.get("desc") or "").replace("\n", "\n" + indent + "    ")
+        cont.append(f"{indent}    取值 {value['value']} — {desc}")
+    return head, cont
+
 
 def _sig_params(decl_text: str) -> list[str]:
     """签名里的 ?参数 名（按出现顺序去重）。"""
@@ -270,6 +294,21 @@ async def skill_language_search_doc(
         origin += "#" + where["anchor"]
     lines.append(f"来源: {origin}")
 
+    # 参数/返回值先算好：正文块的标题会写明解析状态，所以 `解析状态` 行不再重复列这两节。
+    field_status = info.get("field_status") or {}
+    arguments = content.get("arguments") or {}
+    root = arguments.get("root") or {}
+    lists = arguments.get("lists") or []
+    arg_items = list(root.get("items") or [])
+    for group in lists:
+        arg_items += list(group.get("items") or [])
+    args_residual = _uncovered_lines(arguments.get("text", ""), arg_items)
+    returns = content.get("returns") or {}
+    ret_items = returns.get("items") or []
+    ret_residual = _uncovered_lines(returns.get("text", ""), ret_items)
+    labeled = {key for key, residual in (("arguments", args_residual), ("returns", ret_residual))
+               if len(residual) >= _MIN_RESIDUAL and field_status.get(key) in _STATE_TEXT}
+
     if detail == "full":
         extra_declarations = [d["text"] for d in info["decl"][1:] if d.get("text")]
         if extra_declarations:
@@ -282,9 +321,10 @@ async def skill_language_search_doc(
             if not text or text in seen_links:
                 continue
             seen_links.add(text)
-            href = link.get("href") or ""
-            # 页内数字锚点（#787126）是文档工具生成的定位标记，对使用函数无信息量；同名链接去重。
-            rendered_links.append(f"{text}({href})" if href and not href.startswith("#") else text)
+            # 锚点（页内 `#787126` 与跨页 `…#PCRE_CASELESS`）是文档工具生成的定位标记，
+            # 对使用函数无信息量；跨页链接保留文件名，页内链接只留名字。
+            href = (link.get("href") or "").split("#")[0]
+            rendered_links.append(f"{text}({href})" if href else text)
         reference_text = (reference.get("text") or "").strip()
         # 正文常常就是同一批链接名的罗列（还带换行，会把一行撑成多行）：与链接合并去重，
         # 免得同一批函数名出现两遍；正文里链接没覆盖到的名字并入链接。
@@ -301,24 +341,21 @@ async def skill_language_search_doc(
             lines.append("其他来源: " + ", ".join(
                 f"{s['file']}#{s['anchor']}" if s.get("anchor") else s.get("file", "")
                 for s in info["also_at"]))
-        # 只报需要留意的解析异常：正文保留但未结构化、未能可靠提取、声明取自共享主题。
-        # `not_documented`/`documented_none` 是"官网上没有"而非异常，全量列出会让 full 档
-        # 多出十几条噪声（小函数里能占全文三成），需要时可回查索引的 field_status。
+        # 只报需要留意的解析异常，且用面向读者的措辞（不暴露内部字段名与枚举值）。
+        # `not_documented`/`documented_none` 是"官网上没有"而非异常，不列。
+        # 参数/返回值正文块的标题已经写明了状态，这里不重复列这两节。
         abnormal = {k: v for k, v in info.get("field_status", {}).items()
-                    if v in {"text_fallback", "unparsed", "shared_declaration"}}
+                    if v in _STATE_TEXT and k not in labeled}
         if abnormal:
-            lines.append("解析状态: " + json.dumps(abnormal, ensure_ascii=False))
+            parts = [_STATE_TEXT[v] if k == "decl"
+                     else f"{_SECTION_TITLES.get(k, k)}节{_STATE_TEXT[v]}"
+                     for k, v in abnormal.items()]
+            lines.append("解析状态: " + "；".join(parts))
 
     # 参数：根参数 + 子参数列表（ROD 等函数）；子列表嵌在根参数之后缩进输出。
     # 条目之外若还有正文（老式排版的散排单元格、散文段落），补在条目后——否则整段到不了 LLM。
-    field_status = info.get("field_status") or {}
-    arguments = content.get("arguments") or {}
-    root = arguments.get("root") or {}
-    lists = arguments.get("lists") or []
-    arg_items = list(root.get("items") or [])
-    for group in lists:
-        arg_items += list(group.get("items") or [])
     rendered_items: list[dict] = []
+    moved_notes = 0
     if arg_items or lists:
         lines.append("\n参数:")
         check = _param_check(declaration["text"], arg_items)
@@ -326,11 +363,11 @@ async def skill_language_search_doc(
             lines.append("  " + check)
         if root.get("title"):
             lines.append(f"  主参数组 [{root['title']}]:")
+        # 先排好"输出计划"（字符串=原样输出的一行；元组=一个参数的 首行+续行），
+        # 再按整块字数决定 brief 是否裁剪续文；顺序与旧版逐字一致。
+        plan: list = []
         for item in root.get("items") or []:
-            lines.append(f"  {item['name']} — {_continuation(item['desc'])}")
-            for value in item.get("values") or []:
-                lines.append(f"      取值 {value['value']} — "
-                             f"{_continuation(value['desc'], '      ')}")
+            plan.append(_arg_entry(item, "  "))
             rendered_items.append(item)
         for group in lists:
             parent = group.get("parent") or {}
@@ -340,11 +377,31 @@ async def skill_language_search_doc(
                 link = "（未连接到根参数）"
             else:
                 link = ""
-            lines.append(f"  子参数 [{group['title']}]{link}:")
+            plan.append(f"  子参数 [{group['title']}]{link}:")
             for item in group.get("items") or []:
-                lines.append(f"    {item['name']} — {_continuation(item['desc'], '      ')}")
+                plan.append(_arg_entry(item, "    "))
                 rendered_items.append(item)
-    residual = _uncovered_lines(arguments.get("text", ""), rendered_items)
+        size = sum(len(e[0]) + sum(len(x) for x in e[1]) for e in plan if isinstance(e, tuple))
+        trimmed_off = sum(len(x) for e in plan if isinstance(e, tuple)
+                          for x in e[1] if not _FACT_LINE_RE.search(x))
+        keep_chars = sum(len(x) for e in plan if isinstance(e, tuple)
+                         for x in e[1] if _FACT_LINE_RE.search(x))
+        trim = detail != "full" and size > _ARGS_BUDGET
+        for entry in plan:
+            if isinstance(entry, str):
+                lines.append(entry)
+                continue
+            head, cont = entry
+            lines.append(head)
+            kept = [x for x in cont if _FACT_LINE_RE.search(x)] if trim else cont
+            if trim and len(kept) != len(cont):
+                moved_notes += 1
+            lines.extend(kept)
+        if moved_notes:
+            lines.append(f'    （已把 {moved_notes} 个参数的说明续文移到 detail="full"，'
+                         f"共 {trimmed_off:,} 字；参数名、允许取值与 Default 均完整保留"
+                         f"（保留行 {keep_chars:,} 字））")
+    residual = args_residual
     if len(residual) >= _MIN_RESIDUAL:
         label = _body_label("参数正文", field_status.get("arguments"), bool(rendered_items))
         lines.append(f"\n{label}:\n  " + _continuation(_capped(residual, detail), "  "))
@@ -355,16 +412,16 @@ async def skill_language_search_doc(
             lines.append(f"\n参数:（官方未提供参数说明；签名含 {count} 个 ?参数，见来源原文）")
 
     returns = content.get("returns") or {}
-    if returns.get("items"):
+    if ret_items:
         lines.append("\n返回:")
-        for item in returns["items"]:
+        for item in ret_items:
             lines.append(f"  {item['value']} — {_continuation(item['desc'])}")
-        residual = _uncovered_lines(returns.get("text", ""), returns["items"])
+        residual = ret_residual
         if len(residual) >= _MIN_RESIDUAL:
             label = _body_label("返回正文", field_status.get("returns"), True)
             lines.append(f"\n{label}:\n  " + _continuation(_capped(residual, detail), "  "))
     else:
-        residual = _uncovered_lines(returns.get("text", ""), [])
+        residual = ret_residual
         if len(residual) >= _MIN_RESIDUAL:
             label = _body_label("返回正文", field_status.get("returns"), False)
             lines.append(f"\n{label}:\n  " + _continuation(_capped(residual, detail), "  "))
