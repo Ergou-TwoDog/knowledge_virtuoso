@@ -66,8 +66,11 @@ _prefix_index: dict[str, set[str]] = {}
 _index_built = False
 _last_report: dict[str, object] = {}
 _index_lock = RLock()
-_index_source: str | None = None
+# 当前内存索引由哪些源合成：第一个恒为官方索引，其后为零个或多个 custom 源。
+_index_sources: tuple[str, ...] = ()
 _index_lengths: tuple[int, int, int] = (0, 0, 0)
+# VIRTUOSO_CUSTOM_INDEX 的解析结果缓存（进程内首次调用时解析，改环境后需重启）。
+_custom_paths_cache: tuple[str, ...] | None = None
 
 
 @dataclass
@@ -994,20 +997,53 @@ def _canonical_index_path(path: str | Path) -> str:
     return os.path.normcase(os.path.abspath(os.fspath(path)))
 
 
-def _memory_healthy(source: str) -> bool:
+_CUSTOM_INDEX_ENV = "VIRTUOSO_CUSTOM_INDEX"
+
+
+def custom_index_paths() -> tuple[str, ...]:
+    """额外的、与官方同构（v3 envelope）的 custom 索引路径。
+
+    取环境变量 ``VIRTUOSO_CUSTOM_INDEX``，按 ``os.pathsep`` 分隔多项；每项可以是索引
+    文件，或含若干 ``*.json`` 的目录。结果在进程内首次调用时解析并缓存（与 data_dir
+    同语义：改环境后需重启），使健康查询不 stat 磁盘。官方索引路径会被剔除，避免自己
+    叠自己。
+    """
+    global _custom_paths_cache
+    if _custom_paths_cache is not None:
+        return _custom_paths_cache
+    official = _canonical_index_path(_DEFAULT_INDEX_JSON)
+    resolved: list[str] = []
+    for part in os.environ.get(_CUSTOM_INDEX_ENV, "").split(os.pathsep):
+        part = part.strip()
+        if not part:
+            continue
+        path = Path(part).expanduser()
+        children = sorted(str(child) for child in path.glob("*.json")) if path.is_dir() else [str(path)]
+        resolved.extend(_canonical_index_path(child) for child in children)
+    seen: set[str] = set()
+    unique: list[str] = []
+    for item in resolved:
+        if item != official and item not in seen:
+            seen.add(item)
+            unique.append(item)
+    _custom_paths_cache = tuple(unique)
+    return _custom_paths_cache
+
+
+def _memory_healthy(sources: tuple[str, ...]) -> bool:
     """O(1) guard, not a detector for equal-size or nested-value corruption."""
-    return (_index_built and _index_source == source
+    return (_index_built and _index_sources == sources
             and isinstance(_index, dict) and bool(_index)
             and isinstance(_keyword_index, dict) and isinstance(_prefix_index, dict)
             and (len(_index), len(_keyword_index), len(_prefix_index)) == _index_lengths)
 
 
-def _publish(runtime: tuple[dict, dict, dict], source: str, report: dict) -> None:
+def _publish(runtime: tuple[dict, dict, dict], sources: tuple[str, ...], report: dict) -> None:
     """Caller holds _index_lock; published dictionaries are never mutated here."""
-    global _index, _keyword_index, _prefix_index, _index_source
+    global _index, _keyword_index, _prefix_index, _index_sources
     global _index_lengths, _index_built, _last_report
     _index, _keyword_index, _prefix_index = runtime
-    _index_source = source
+    _index_sources = tuple(sources)
     _index_lengths = tuple(len(part) for part in runtime)
     _last_report = report
     _index_built = True
@@ -1059,7 +1095,7 @@ def build_index_file(doc_root: str, output_path: str | Path) -> int:
         entries, report = _candidate_entries(doc_root)
         runtime = _rebuild_runtime_indexes(entries)
         _write_index(source, runtime[0])
-        _publish(runtime, source, report)
+        _publish(runtime, (source,), report)
         return len(runtime[0])
 
 
@@ -1067,7 +1103,12 @@ class IndexLoadError(RuntimeError):
     """Neither JSON nor configured official docs could restore the index."""
 
 
-def _build_from_json(json_path: str | Path) -> tuple[dict, dict, dict]:
+def _read_index_entries(json_path: str | Path, *, require_envelope: bool = False) -> dict:
+    """读取一份索引（gzip 或明文）→ ``functions`` 记录字典。
+
+    ``require_envelope`` 为真时只接受 v3 envelope（含 ``schema_version``），用于 custom
+    源：契约要求 custom 索引与官方同构，非 envelope 形态（如按文件分组的 list）一律拒绝。
+    """
     raw = Path(json_path).read_bytes()
     if raw[:2] == b"\x1f\x8b":  # v3 起索引 gzip 落盘；仍兼容未压缩的 JSON
         raw = gzip.decompress(raw)
@@ -1077,43 +1118,76 @@ def _build_from_json(json_path: str | Path) -> tuple[dict, dict, dict]:
     if "schema_version" in data:
         if type(data["schema_version"]) is not int or data["schema_version"] != _SCHEMA_VERSION:
             raise ValueError(
-                f"索引格式版本不兼容（文件为 {data['schema_version']}，当前需要 {_SCHEMA_VERSION}）；"
-                "请重建索引：knowledge-virtuoso-build functions")
+                f"索引格式版本不兼容（文件为 {data['schema_version']}，当前需要 {_SCHEMA_VERSION}）")
         entries = data.get("functions")
+    elif require_envelope:
+        raise ValueError("custom 索引必须是 v3 envelope（含 schema_version=3）")
     else:
         entries = data  # Legacy flat records; no invented documentation fields.
-    return _rebuild_runtime_indexes(entries)
+    return entries
 
 
 def _build_index(doc_root: str | None = None, index_json: str | Path | None = None) -> None:
     global _index_built
-    source = _canonical_index_path(_DEFAULT_INDEX_JSON if index_json is None else index_json)
+    official = _canonical_index_path(_DEFAULT_INDEX_JSON if index_json is None else index_json)
+    extras = () if index_json is not None else custom_index_paths()
+    sources = (official,) + tuple(extras)
     with _index_lock:
-        if _memory_healthy(source):
+        if _memory_healthy(sources):
             return
         # Failed recovery/source switches must never serve the previous map.
         _index_built = False
         try:
-            runtime = _build_from_json(source)
+            entries = _read_index_entries(official)
+            _rebuild_runtime_indexes(entries)  # 官方记录校验，失败同样走 doc 恢复
         except (OSError, ValueError, TypeError, RecursionError) as exc:
             json_reason = f"{type(exc).__name__}: {exc}"
         else:
-            _publish(runtime, source, {})
+            _publish_merged(entries, sources)
             return
         root = doc_root if doc_root is not None else os.environ.get("VIRTUOSO_DOC_DIR")
-        print(f"SKILL index JSON unavailable ({source}): {json_reason}; recovering from doc {root!r}", file=sys.stderr)
+        print(f"SKILL index JSON unavailable ({official}): {json_reason}; recovering from doc {root!r}; "
+              "或运行 knowledge-virtuoso-build functions", file=sys.stderr)
         try:
             if not root:
                 raise ValueError(
-                    f"doc_root not configured; set VIRTUOSO_DOC_DIR to rebuild {source}, "
+                    f"doc_root not configured; set VIRTUOSO_DOC_DIR to rebuild {official}, "
                     f"or run: knowledge-virtuoso-build functions"
                 )
-            build_index_file(root, source)
+            entries, _report = _candidate_entries(root)
+            _write_index(official, entries)
         except (OSError, ValueError, TypeError, RecursionError) as exc:
             raise IndexLoadError(
-                f"Index recovery failed. JSON {source}: {json_reason}; "
-                f"doc {root!r}: {type(exc).__name__}: {exc}"
+                f"Index recovery failed. JSON {official}: {json_reason}; "
+                f"doc {root!r}: {type(exc).__name__}: {exc}; "
+                "请重建索引：knowledge-virtuoso-build functions"
             ) from exc
+        _publish_merged(entries, sources)
+
+
+def _publish_merged(entries: dict, sources: tuple[str, ...]) -> None:
+    """把官方记录与各 custom 源合并、校验后发布（caller 持有 _index_lock）。
+
+    custom 逐源读取；坏源（缺失/损坏/非 envelope）跳过并警告，不拖垮服务。同名时 custom
+    覆盖官方（二次开发的定位即扩展/打补丁），遮蔽写 stderr 警告，避免官方文档被静默隐藏。
+    """
+    merged = dict(entries)
+    for extra in sources[1:]:
+        try:
+            custom = _read_index_entries(extra, require_envelope=True)
+            if not custom:
+                print(f"自定义索引为空，忽略: {extra}", file=sys.stderr)
+                continue
+            _rebuild_runtime_indexes(custom)  # 先独立校验，坏源不进合并
+        except (OSError, ValueError, TypeError, RecursionError) as exc:
+            print(f"自定义索引跳过（{type(exc).__name__}: {exc}）: {extra}", file=sys.stderr)
+            continue
+        for name, record in custom.items():
+            if name in merged:
+                print(f"自定义索引覆盖同名函数 {name}: {extra}", file=sys.stderr)
+            merged[name] = record
+    runtime = _rebuild_runtime_indexes(merged)
+    _publish(runtime, sources, {})
 
 
 def _search_by_tokens(words: list[str], prefix_filter: str | None = None) -> list[str]:

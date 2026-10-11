@@ -96,7 +96,8 @@ knowledge_virtuoso/
       "env": {
         "PYTHONDONTWRITEBYTECODE": "1",
         "VIRTUOSO_DOC_DIR": "${VIRTUOSO_DOC_DIR:-}",
-        "VIRTUOSO_DATA_DIR": "${VIRTUOSO_DATA_DIR:-}"
+        "VIRTUOSO_DATA_DIR": "${VIRTUOSO_DATA_DIR:-}",
+        "VIRTUOSO_CUSTOM_INDEX": "${VIRTUOSO_CUSTOM_INDEX:-}"
       }
     }
   }
@@ -132,6 +133,8 @@ knowledge_virtuoso/
 **参数块的篇幅预算**（仅 brief 档）：参数块超过 12,000 字时，保留每个参数的**首行**与含 `Default`／`Valid Values`／`取值` 的行，其余说明续文移入 `full`，并在块尾标注 `（已把 N 个参数的说明续文移到 detail="full"，共 X 字；参数名、允许取值与 Default 均完整保留）`。`full` 档不受影响。实测只影响 4 个函数（`rodCreatePath`、`rodCreateRect`、`hiCreateAppForm`、`hiCreateReportField`）；参数密集但没有长散文的（如 `hnlInitMap`）不触发。
 
 `解析状态` 只报需要留意的异常——`text_fallback`、`unparsed`、`shared_declaration`——且用中文措辞、不暴露内部字段名与枚举值（如 `解析状态: 示例节官方原文未能可靠提取`）；参数/返回值正文块的标题已写明状态的节不重复列。`not_documented`/`documented_none`（"官网上没有"而非异常）不逐条列出，需要时回查索引的 `field_status`。不能根据空数组猜测没有参数或返回值。
+
+**二次开发函数（custom）**：索引可另加载与本库同构的 custom 索引（见「索引恢复与官方文档 → 自定义（二次开发）索引」）。这类条目渲染时标为 `自定义`——`digest` 与搜索摘要的名字带 `（自定义）`，`signature`/`brief`/`full`/`skel` 各档另多一行 `状态: 自定义函数（二次开发），需先 load("src/…") 才能调用`（`load()` 前提取自记录的 `origin_meta.custom.load`）。官方条目没有该行。
 
 输出形式约定（便于程序化切分）：单行项用行内前缀（`函数:`、`签名:`、`描述:`、`来源:`、`解析状态:`），多行块用独占一行的节标题（`参数:`、`返回:`、`示例:`）——块内条目再缩进一层，`主参数组 […]`／`子参数 […]（属于 …）` 标识分组，不与参数条目同级。用两行正则即可切分：块标题 = `^[^ \t].*:$`（行首无空格且以冒号结尾），块内条目首行 = `^ +.+? — `（行首有空格、含 ` — `），其后缩进更深的行属于上一条目。
 
@@ -172,6 +175,14 @@ export VIRTUOSO_DOC_DIR='/path/to/IC618/doc'
 doc 根需直接包含 `sklangref/`、`skdfref/`、`sktechfile/`、`skartistref/` 等目录。随后从此环境启动 MCP 客户端；修改另一终端的环境不会改变已有进程。doc 必须可读，索引目录必须可写。属性库各自读取对应 HTML（见「显式重建」），缺失字段不猜测。
 
 每个 stdio 客户端通常启动独立进程，共享磁盘索引但不共享内存。单进程内用 RLock 保护加载与重建；没有跨进程写入协调，并发首查可能同时触发同一索引重建。维护重建建议停止相关服务、避免并行写入；更新后重启所有相关服务。本项目不提供网络服务或跨进程锁。
+
+### 自定义（二次开发）索引
+
+MCP 工具除官方索引外，还可**同时加载多个与本库同构的 custom 索引**，用环境变量 `VIRTUOSO_CUSTOM_INDEX` 配置（`os.pathsep` 分隔多项；每项是索引文件，或含若干 `*.json` 的目录）。custom 索引须是**同样的 v3 envelope**（`{schema_version:3, corpus, functions:{<名>:<记录>}}`），由二次开发工具（如 `skill_dev_kit`）自行产出，本项目**不产出、不修改**它。变量在进程启动时读取，改后需重启服务。
+
+例（`skill_dev_kit` 产出并把 MCP 指向它）：`python tools/gen_records.py src/ --json --out records.json`（省略 `--out` 则信封打到 stdout），再将 `VIRTUOSO_CUSTOM_INDEX` 设为 `records.json`（或它所在目录）。
+
+加载与合并规则：官方索引恒为基准；custom 逐源读取，**坏源（缺失、损坏、非 v3 envelope、记录不合法）跳过并在 stderr 警告，不影响官方查询**；同名时**custom 覆盖官方**（二次开发的定位即扩展／打补丁），遮蔽写 stderr 警告。custom 记录比官方多三处扩展位 `origin`／`origin_meta`／`lint`，渲染时据此标注（见「五个查询工具」）；官方条目无这些键、行为不变。**未设该变量时，加载与渲染与只用官方索引时逐字一致。** 自定义索引只在**函数库**（`skill_language_*`）生效，三个属性库不读它。
 
 ## 显式重建
 

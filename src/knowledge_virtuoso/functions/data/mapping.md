@@ -149,6 +149,28 @@ ROD 函数的参数分两层：根参数，加上若干"子参数列表"（如 `
 `doc_root` 或 MCP 进程环境 `VIRTUOSO_DOC_DIR` 重建并原子写回。默认索引位于平台数据目录
 （`VIRTUOSO_DATA_DIR` 可覆盖）下的 `functions/index.json`；索引不随包分发。
 
+### 6.1 自定义（二次开发）索引的加载与合并
+
+除官方索引外，可另加载多个**与本库同构（同为 v3 envelope）**的 custom 索引，来自二次开发
+包（如 `skill_dev_kit`）。路径由环境变量 `VIRTUOSO_CUSTOM_INDEX` 给出（`os.pathsep` 分隔，
+每项为索引文件或含 `*.json` 的目录）；进程内首次调用时解析并缓存（改后需重启），使健康查询
+不 stat 磁盘。本项目**只读消费、不产出** custom 索引。
+
+合并策略（`_build_index` → `_publish_merged`）：
+
+- 官方索引恒为基准，且**必须可用**（不可用时仍走既有 doc 恢复）。
+- custom 逐源读取。**只收 v3 envelope**——非 envelope（如按文件分组的 `[{path, functions}]`
+  list、缺 `schema_version` 的扁平记录）判为坏源，跳过并在 stderr 警告。
+- **坏源隔离**：任一 custom 源读取或校验（`_rebuild_runtime_indexes`）失败，只跳过该源、
+  警告，不影响官方与其余 custom 源。
+- **同名覆盖**：custom 与官方（或更早的 custom 源）同名时，custom **覆盖**，遮蔽写 stderr
+  警告——二次开发的定位即扩展／打补丁，但"掩盖了官方文档"这件事要留痕。
+- 未设 `VIRTUOSO_CUSTOM_INDEX` 时 `sources = (官方,)`，加载行为与只用官方索引逐字一致。
+
+custom 记录比官方多三处扩展位（`origin`／`origin_meta`／`lint`），由 `_rebuild_runtime_indexes`
+的 `deepcopy` 原样透传（该函数不校验顶层扩展键，只按名重算 `prefix`/`tokens`）。渲染层据
+`origin == "custom"` 标注并显示 `origin_meta.custom.load`（见 §8）。自定义索引只在函数库生效。
+
 ## 7. 版本与兼容性
 
 - `schema_version` = **3**；`decl`/`sections`/`where`/`also_at` 键名、由数组改为
@@ -174,6 +196,7 @@ ROD 函数的参数分两层：根参数，加上若干"子参数列表"（如 `
 | 签名有 `?参数` 而官方未给参数说明时的说明行 | | | | ✅ | ✅ |
 | `example` / `additional_information` / `related_functions` / `reference` / `format` / `purpose` / `overview` / `errors` | | | | | ✅ |
 | `status: deprecated` / 共享声明提示 | ✅（标记） | ✅ | ✅ | ✅ | ✅ |
+| `origin: custom`（自定义函数，名字带 `（自定义）` 标记；另加 `load()` 前提行） | ✅（名字标记） | ✅ | ✅ | ✅ | ✅ |
 | `field_status` 异常项（中文措辞） | | | | | ✅ |
 | `省略:` 指针行 | ✅ | ✅ | | 有省略时 | |
 

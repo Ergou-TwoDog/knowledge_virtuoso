@@ -292,6 +292,8 @@ def _digest_of(name: str, entry: dict) -> str:
         marks.append("已弃用")
     if declaration.get("shared_from"):
         marks.append("共享声明")
+    if entry.get("origin") == "custom":
+        marks.append("自定义")
     line = " | ".join(part for part in (
         name + (f"（{'、'.join(marks)}）" if marks else ""),
         signature,
@@ -302,6 +304,19 @@ def _digest_of(name: str, entry: dict) -> str:
     if len(line) > _DIGEST_MAX:
         line = line[:_DIGEST_MAX].rstrip() + "…"
     return line
+
+
+def _custom_note(entry: dict) -> str | None:
+    """custom（二次开发）条目的调用前提行；官方条目无 ``origin`` 键，返回 ``None``。
+
+    二次开发函数必须先 ``load()`` 才能调用——这个前提官方文档没有，只能从记录的
+    ``origin_meta.custom.load`` 取；不给出来，LLM 就会写出对不上真实环境的调用。
+    """
+    if entry.get("origin") != "custom":
+        return None
+    meta = (entry.get("origin_meta") or {}).get("custom") or {}
+    load = (meta.get("load") or "").strip()
+    return ("状态: 自定义函数（二次开发）" + (f"，需先 {load} 才能调用" if load else ""))
 
 
 def _arg_plan(root: dict, lists: list[dict]) -> list:
@@ -423,6 +438,9 @@ async def skill_language_search_doc(
     if declaration.get("shared_from"):
         head.append(f"签名说明: 该声明取自共享主题 {declaration['shared_from']}，"
                     "不是本函数单独文档化的签名")
+    custom_note = _custom_note(info)
+    if custom_note:
+        head.append(custom_note)
     if detail == "signature":
         return "\n".join(head)
 
@@ -508,6 +526,8 @@ async def skill_language_search_doc(
     arg_plan = _arg_plan(root, lists)
     if detail == "skel":
         out = [f"函数: {info['name']}"] + _sig_block(declaration, bound=None)
+        if custom_note:
+            out.append(custom_note)
         out.append(f"来源: {origin}")
         check = _param_check(declaration["text"], arg_items)
         entries = [e for e in arg_plan if isinstance(e, tuple)]
