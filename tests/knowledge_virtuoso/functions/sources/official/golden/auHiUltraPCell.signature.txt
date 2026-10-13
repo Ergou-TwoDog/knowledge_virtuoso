@@ -1,0 +1,4 @@
+函数: auHiUltraPCell
+签名: auHiUltraPCell([
+t_filename ])
+=> t / nil

@@ -1,0 +1,2 @@
+auHiUltraPCell | auHiUltraPCell([ t_filename ]) => t / nil | Displays the Ultra Pcell form to let you create an Ultra Pcell by compiling multiple Pcells into one cell. | 返回: t, nil | skpcellref/graphicalFunctions.html
+省略: 参数说明；示例与补充说明 → detail="skel" / "brief" / "full"

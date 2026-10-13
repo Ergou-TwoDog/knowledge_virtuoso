@@ -1,0 +1,19 @@
+{
+ "params": {
+  "className": "",
+  "keyword": "objType"
+ },
+ "rows": [
+  {
+   "name": "objType",
+   "rw": "?",
+   "type": "",
+   "desc": "A list of via definition types, stdViaDef or customViaDef .",
+   "classes": [
+    "viaDefs",
+    "viaVariants",
+    "siteDefs"
+   ]
+  }
+ ]
+}

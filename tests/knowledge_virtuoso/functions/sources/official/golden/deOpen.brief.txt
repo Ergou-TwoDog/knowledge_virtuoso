@@ -1,0 +1,64 @@
+函数: deOpen
+签名: deOpen( [
+l_fileSpec [ g_winSpec [ t_accessMode [ t_appName g_sessionWindow g_saveSessionHistory] ] ] ] )
+=> w_window / nil
+描述: Takes a design specification and a window specification and attempts to install the design in the specified window.
+The following environment variables set the defaults for the Open File form:
+graphic defaultNewCellName
+graphic defaultNewLibName
+graphic defaultNewViewName
+graphic defaultOpenCellName
+graphic defaultOpenLibName
+graphic defaultOpenViewName
+If a configuration cellview is given as an argument, a SKILL symbol named 'hierEditor is returned. The value for 'hierEditor varies based on the type of cellview opened.
+When a configuration cellview as well as a top level schematic is opened, …（已截断 793 字符；detail="full" 取全文）
+来源: skdfref/chap3.html
+
+参数:
+  l_fileSpec — Disembodied property list which can be nil or contain one or more of the following elements:
+  l_fileSpec->libName — Cellview library name
+    (string)
+  l_fileSpec->libId — Cellview library ID
+    (dbId)
+  l_fileSpec->cellName — Cellview cell name
+    (string)
+  l_fileSpec->viewName — Cellview view name
+    (string)
+  l_fileSpec->viewId — Cellview view ID
+    (dbId)
+  l_fileSpec->viewNameList — viewName switch list
+    (string)
+  l_fileSpec->accessMode — Desired access mode
+    (string)
+  l_fileSpec->instanceName — Instance name specification
+    (string)
+  l_fileSpec->hierarchy — Instance hierarchy specification
+    (string)
+  l_fileSpec->configL — Hierarchy manager configuration
+    (list)
+  g_winSpec — Determines whether to use an old window or create a new one, and if a new one, what its creation parameters are.
+  w_window — Uses the given window.
+  nil — Creates a window in a default location.
+  l_bBox — Creates a window with the given bBox.
+  'interactive — Creates a window, user specifies bBox.
+    If an existing window is given, the current contents will be removed after the data trigger returns successfully. Then the new design as is installed as the top-level design. If the stack could not be successfully cleared, the data trigger will be called again with action "close" to close the data file. If a new window is created, it will not be displayed until the end of the process. This minimizes the amount of work involved in the creation and display of the various parts of the window.
+    If g_winSpec is defaulted (or nil is passed), the view is checked for the property defaultWindowBox. If this property exists, that box is used for the window. If that property does not exist, the Design Editor chooses its own box.
+  t_accessMode — Access mode desired for the design, and will be edit or read. (These correspond, respectively, to the UNIX modes a and r, which can also be used.) If the user does not have a license for the application required to edit the design, the access mode passed to the trigger might differ. In this case, the user is given a chance to abort the open sequence.
+    The access mode can be supplied as an optional parameter after g_winSpec or as part of l_fileSpec. This is for compatibility with older code. If both exist and are different, t_accessMode overrides l_fileSpec->accessMode. If neither is specified, then the access mode defaults to edit.
+  t_appName — Name of an application sub type which is to be the application installed when the window is opened. t_appName must be the name of some sub type in the sub type tree registered with the view type of the specified view.
+    If it is found, the root class registration is used to open the data and create the context, but the sub type hierarchy is used to determine licensing and bindkeys, and the application's menu trigger is called to generate the banner menus.
+  g_sessionWindow — If the session window is specified, tabs are used instead of new windows.
+  g_saveSessionHistory — If set to t, the function stores the "top level opens" to history. The opens are saved to history in the following scenarios:
+    (a) When the function is called with l_fileSpec->libName/cellName/viewName, and without l_fileSpec->hierarchy and l_fileSpec->hierList. This is similar to the case when a cellview is opened from Library Manager or Hierarchy Editor.
+    (b) When the function is called without l_fileSpec->libName/cellName/viewName, but with l_fileSpec->hierarchy such that only a single level of hierarchy is specified.
+    Note: In both (a) and (b) above, if the l_fileSpec argument is not specified or is partially specified as shown in the following examples, the File--Open form will be launched, however, the history will be saved.
+    l_fileSpec <- '(nil libName "amsPLL" cellName "vco")
+    l_fileSpec <- '(nil hierarchy "/{amsPLL vco}")
+    Note: If the l_fileSpec argument is not specified, is empty (""), or nil; the value of the g_saveSessionHistory argument is not considered, and the deOpen function will store all opens to history.
+
+参数正文（条目之外，原文散文，非结构化条目）:
+  If enough information is supplied for DE to verify the existence of the design without further interaction, it will do so. If not, then DE displays a form asking the user to supply the missing arguments. Either the library name or library ID can be supplied. If both are supplied, they must be consistent or a warning is given. Similarly, either the view name or the view ID can be supplied, and if both are supplied, they must be consistent.
+  The view name list field is optional, and if supplied, is used to determine the view switched into. The view name list is a string which contains a list of v…（已截断 5964 字符；detail="full" 取全文）
+
+返回:
+  w_window — The name of the window opened. If a window was supplied as input, then it can be returned unless it could not be used for some reason.

@@ -1,0 +1,2 @@
+error | error( [ S_message1 [ S_message2 ] ... ] ) => none | Prints error messages and calls err. | sklangref/funcprog.html
+省略: 参数说明；示例与补充说明 → detail="skel" / "brief" / "full"

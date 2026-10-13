@@ -1,0 +1,23 @@
+函数: error
+签名: error( [
+S_message1 [ S_message2 ] ... ]
+)
+=> none
+描述: Prints error messages and calls err.
+Prints the S_message1 and S_message2 error messages if they are given and then calls err, causing an error. The first argument can be a format string, which causes the rest of the arguments to be printed in that format.
+来源: sklangref/funcprog.html
+
+参数:
+  S_message1 — Message string or symbol.
+  S_message2 — More message strings or symbols. More than two arguments should be given only if the first argument is a format string.
+
+返回正文（官方原文未结构化，以下照录原文）:
+  Prints the S_message1 and S_message2 error messages if they are given and then calls err, causing an error. error never returns.
+
+示例:
+  error( "myFunc" "Bad List")
+  Prints *Error* myFunc: Bad List
+  error( "bad args - %s %d %L" "name" 100 '(1 2 3) )
+  Prints *Error* bad args - name 100 (1 2 3)
+  errset( error( "test" ) t) => nil
+  Prints out *Error* test and returns nil.

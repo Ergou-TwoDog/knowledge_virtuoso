@@ -1,0 +1,8 @@
+匹配 5 个属性:
+  name                      rw   type            desc
+  ------------------------- ---- --------------- ------------------------------
+  bBox                      ro   bBox            包围盒（rect/dot/ellipse/textDisplay 可写）
+  blockageBBox              ro   bBox            Blockage bBox.
+  ellipseBBox               rw   bBox            Bounding box of the ellipse containing the arc.
+  guideBBox                 ro   bBox            Guide bBox.
+  steinerBBox               ro   bBox            Steiner bBox.

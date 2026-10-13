@@ -1,0 +1,92 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "geCopySelSet( [\nw_windowId ] [ l_sourcePt ]\n[ l_destPt ]\n)\n=> t / nil",
+   "shared_from": null
+  }
+ ],
+ "where": {
+  "file": "skdfref/chap1.html",
+  "topic": "geCopySelSet",
+  "marker_text": "geCopySelSet",
+  "anchor": "geCopySelSet"
+ },
+ "also_at": [],
+ "sections": {
+  "description": {
+   "text": "Procedural interface to copy the selected set."
+  },
+  "arguments": {
+   "root": {
+    "title": null,
+    "items": [
+     {
+      "name": "w_windowId",
+      "desc": "Window ID of the window to use. If not specified, the current window is used.",
+      "values": null
+     },
+     {
+      "name": "l_sourcePt",
+      "desc": "The starting point for the copy.",
+      "values": null
+     },
+     {
+      "name": "l_destPt",
+      "desc": "The destination point for the copy.",
+      "values": null
+     }
+    ]
+   },
+   "lists": [],
+   "text": "w_windowId\nWindow ID of the window to use. If not specified, the current window is used.\nl_sourcePt\nThe starting point for the copy.\nl_destPt\nThe destination point for the copy."
+  },
+  "returns": {
+   "items": [
+    {
+     "value": "t",
+     "desc": "The selected objects are copied."
+    },
+    {
+     "value": "nil",
+     "desc": "The selected objects are not copied."
+    }
+   ],
+   "text": "t\nThe selected objects are copied.\nnil\nThe selected objects are not copied."
+  },
+  "example": {
+   "text": "geCopySelSet(hiGetCurrentWindow()list(456.7 234.5)list(678.9 567.8))\nCopies objects in the selected set from the current window to the current window."
+  },
+  "interactive_function": {
+   "text": "Enter this function with only the window ID argument; the system prompts you for the starting and destination point that encloses the objects to be copied. If w_windowId is not specified, the current window is used."
+  }
+ },
+ "field_status": {
+  "description": "present",
+  "arguments": "present",
+  "returns": "present",
+  "example": "present",
+  "reference": "not_documented",
+  "related_functions": "not_documented",
+  "prerequisites": "not_documented",
+  "additional_information": "not_documented",
+  "interactive_function": "present",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "not_documented",
+  "overview": "not_documented",
+  "errors": "not_documented",
+  "decl": "present"
+ },
+ "status": "active",
+ "prefix": "ge",
+ "tokens": [
+  "ge",
+  "copy",
+  "sel",
+  "set"
+ ],
+ "name": "geCopySelSet"
+}

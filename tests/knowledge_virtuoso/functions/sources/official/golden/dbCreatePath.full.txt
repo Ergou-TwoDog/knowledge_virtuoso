@@ -1,0 +1,33 @@
+函数: dbCreatePath
+签名: dbCreatePath(
+d_cellView txl_layerPurposel_points
+n_width
+[ t_pathStyle ]
+)
+=> d_path / nil
+描述: Creates a path.
+Note: dbCreatePath is a core database SKILL function that checks only for even multiples of database units to create a path. As a result, the created path can be off grid. To create a path with required constraints and additional level of automation use an end-application SKILL function, such as leCreatePath.
+来源: skdfref/chap2.html
+
+参数:
+  d_cellView — The cellview.
+  txl_layerPurpose — Name, number, or a list of layer or layer-purpose pair.
+    For more information, see Type txl_layerPurpose.
+  t_purpose — Purpose, if not specified, defaults to drawing.
+  l_points — Point list; must contain at least two points.
+    For more information, see Type l_point.
+  n_width — Path width specified in user units.
+  t_pathStyle — Path style, defaults to truncateExtend.
+    For more information, see Type t_pathStyle.
+
+返回:
+  d_path — The dbObject of the path.
+  nil — The path is not created.
+
+示例:
+  dbCreatePath(cv 2 list(0:0 0:1 1:1 1:0) 4 "extendExtend")
+  dbCreatePath(cv list("background" "drawing") list(1:6 1:1 2:1) 2 )
+  dbCreatePath(cv list ("background") list(0:0 1:0 1:2 2:3) 2 "squareFlush")
+  Note: if you specify a list of points where more than two points have the same X coordinate or the same Y coordinate, a message is generated
+  Note: If you specify a list of points where more than two points have the same X coordinate or the same Y coordinate, a message is generated in the CIW. For example, the following code generates a warning message in the CIW:
+  dbCreatePath(cv list("metal3" "drawing") '((2 2) (2 4) (2 6)) 2)

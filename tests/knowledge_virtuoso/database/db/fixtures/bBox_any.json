@@ -1,0 +1,38 @@
+{
+ "params": {
+  "objType": "",
+  "keyword": "bBox"
+ },
+ "rows": [
+  {
+   "name": "bBox",
+   "rw": "ro",
+   "type": "bBox",
+   "desc": "包围盒（rect/dot/ellipse/textDisplay 可写）"
+  },
+  {
+   "name": "blockageBBox",
+   "rw": "ro",
+   "type": "bBox",
+   "desc": "Blockage bBox."
+  },
+  {
+   "name": "ellipseBBox",
+   "rw": "rw",
+   "type": "bBox",
+   "desc": "Bounding box of the ellipse containing the arc."
+  },
+  {
+   "name": "guideBBox",
+   "rw": "ro",
+   "type": "bBox",
+   "desc": "Guide bBox."
+  },
+  {
+   "name": "steinerBBox",
+   "rw": "ro",
+   "type": "bBox",
+   "desc": "Steiner bBox."
+  }
+ ]
+}

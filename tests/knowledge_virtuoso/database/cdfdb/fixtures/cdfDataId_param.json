@@ -1,0 +1,17 @@
+{
+ "params": {
+  "className": "cdfDataId",
+  "keyword": "param"
+ },
+ "rows": [
+  {
+   "name": "parameters",
+   "rw": "ro",
+   "type": "l_objId",
+   "desc": "List of parameters attached to this g_cdfDataId . This field is not editable.",
+   "classes": [
+    "cdfDataId"
+   ]
+  }
+ ]
+}

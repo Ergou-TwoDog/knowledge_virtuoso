@@ -1,0 +1,9 @@
+函数: abeLayerGrow
+签名: abeLayerGrow(
+o_abeInputLayer o_abeOutputLayer
+[ ?north g_sizeNorth ] [ ?south g_sizeSouth ]
+[ ?east g_sizeEast ]
+[ ?west g_sizeWest]
+[ ?queue g_queue ]
+)
+=> t / nil

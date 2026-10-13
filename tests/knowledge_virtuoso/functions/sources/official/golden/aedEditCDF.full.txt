@@ -1,0 +1,11 @@
+函数: aedEditCDF
+签名: aedEditCDF([ ?
+libName t_libraryName ]
+[ ?cellName t_cellName ][ ?cdfType t_cdfType ]
+)
+=> t
+描述: Opens the Edit CDF form to the library, cell, and CDF type specified by libraryName, cellName, and cdfType.
+libraryName and cellName must be strings referring to an existing library or cell, and cdfType must be `effective', `base', or `user'.
+来源: skartistref/chap21.html
+
+参数:（官方未提供参数说明；签名含 2 个 ?参数，见来源原文）

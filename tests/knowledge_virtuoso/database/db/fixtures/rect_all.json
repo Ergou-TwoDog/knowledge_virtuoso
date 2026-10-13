@@ -1,0 +1,158 @@
+{
+ "params": {
+  "objType": "rect",
+  "keyword": ""
+ },
+ "rows": [
+  {
+   "name": "assocTextDisplays",
+   "rw": "ro",
+   "type": "l_objId",
+   "desc": "List of text displays associated with the cellview."
+  },
+  {
+   "name": "bBox",
+   "rw": "ro",
+   "type": "bBox",
+   "desc": "包围盒（rect/dot/ellipse/textDisplay 可写）"
+  },
+  {
+   "name": "cellView",
+   "rw": "ro",
+   "type": "objId",
+   "desc": "所属 cellview ID"
+  },
+  {
+   "name": "children",
+   "rw": "ro",
+   "type": "l_objId",
+   "desc": "List of objects that have this mosaic as their parent."
+  },
+  {
+   "name": "connRoutes",
+   "rw": "ro",
+   "type": "l_objId",
+   "desc": "A list of all routes that connected to this instTerm."
+  },
+  {
+   "name": "figGroup",
+   "rw": "ro",
+   "type": "objId",
+   "desc": "所属 figGroup"
+  },
+  {
+   "name": "groupMembers",
+   "rw": "ro",
+   "type": "l_objId",
+   "desc": "List of all group members that exist in the cellview."
+  },
+  {
+   "name": "isAnyInst",
+   "rw": "ro",
+   "type": "boolean",
+   "desc": "t=instance, nil=shape"
+  },
+  {
+   "name": "isShape",
+   "rw": "ro",
+   "type": "boolean",
+   "desc": "t=shape, nil=instance"
+  },
+  {
+   "name": "isUnshielded",
+   "rw": "rw",
+   "type": "boolean",
+   "desc": "是否未屏蔽"
+  },
+  {
+   "name": "layerName",
+   "rw": "ro",
+   "type": "string",
+   "desc": "Name of the layer."
+  },
+  {
+   "name": "layerNum",
+   "rw": "ro",
+   "type": "integer",
+   "desc": "Layer number of this layer."
+  },
+  {
+   "name": "lpp",
+   "rw": "rw",
+   "type": "list",
+   "desc": "layer-purpose pair"
+  },
+  {
+   "name": "markers",
+   "rw": "ro",
+   "type": "l_objId",
+   "desc": "List of all markers that exist in the cellview."
+  },
+  {
+   "name": "matchPoints",
+   "rw": "rw",
+   "type": "boolean",
+   "desc": "子对象点匹配"
+  },
+  {
+   "name": "net",
+   "rw": "rw",
+   "type": "objId",
+   "desc": "Net to which the instTerm is attached."
+  },
+  {
+   "name": "objType",
+   "rw": "ro",
+   "type": "string",
+   "desc": "Type of the object, in this case \"cellview\" ."
+  },
+  {
+   "name": "parent",
+   "rw": "ro",
+   "type": "objId",
+   "desc": "Parent net if this is a child net, otherwise nil."
+  },
+  {
+   "name": "pin",
+   "rw": "ro",
+   "type": "objId",
+   "desc": "Pin object if the mosaic is associated with a pin."
+  },
+  {
+   "name": "prop",
+   "rw": "ro",
+   "type": "l_objId",
+   "desc": "属性列表"
+  },
+  {
+   "name": "purpose",
+   "rw": "rw",
+   "type": "string",
+   "desc": "Layer purpose."
+  },
+  {
+   "name": "routeStatus",
+   "rw": "rw",
+   "type": "string",
+   "desc": "normal/fixed/locked"
+  },
+  {
+   "name": "shieldedNet1",
+   "rw": "rw",
+   "type": "netId",
+   "desc": "屏蔽 net 1"
+  },
+  {
+   "name": "shieldedNet2",
+   "rw": "rw",
+   "type": "netId",
+   "desc": "屏蔽 net 2"
+  },
+  {
+   "name": "textDisplays",
+   "rw": "ro",
+   "type": "l_objId",
+   "desc": "List of text displays owned by the cellview."
+  }
+ ]
+}

@@ -1,0 +1,539 @@
+函数: absAbstract
+签名: absAbstract()
+=> 0 / 1
+描述: Runs the Abstract step for selected cells and creates an abstract view for those cells based on the options set using absSetBinOption.
+来源: sklayoutref/abs.html
+
+返回:
+  0 — Returns 0 if an error is encountered.
+  1 — Returns 1 if the function executes successfully.
+
+关联选项:
+  [AbstractAdjustBoundaryPinsSig { true | false }]
+  [AbstractAdjustBoundaryPinsPwr { true | false }]
+  [AbstractAdjustBoundaryPinsSigDist distance]
+  [AbstractAdjustBoundaryPinsPwrDist distance]
+  [AbstractAdjustRingPinsPwr { true | false }]
+  [AbstractAdjustRingPinsDist distance]
+  [AbstractAdjustFollowRingPin { true | false }]
+  [AbstractAdjustPowerGeometryGroups { single | separate | overlap }]
+  [AbstractAdjustPowerGeometryGroupsEastWest { single | separate | overlap | none }]
+  [AbstractAdjustEdgeTowardsCore]
+  [AbstractAdjustClassCoreNets net_name]
+  [AbstractAdjustIncludeAllShapes { true | false }]
+  [AbstractAdjustCopyClassCorePort { true | false }]
+  [AbstractAdjustPinsTouchBoundary { true | false }]
+  [AbstractAdjustPreserveViasPwr { true | false }]
+  [AbstractAdjustPowerRailOp net_name]
+  [AbstractAdjustPowerRailOpTable net_spec]
+  [AbstractAdjustPowerRailWidth width]
+  [AbstractAdjustAllowPin geom_spec]
+  [AbstractAdjustAvoidPin geom_spec]
+  [AbstractBlockageTable layer_names]
+  [AbstractBlockageDetailedLayers layer_names]
+  [AbstractBlockageCoverLayers layer_names]
+  [AbstractBlockageShrinkWrapLayers layer_names]
+  [AbstractBlockageCutAroundPin]
+  [AbstractBlockageMaxRoutingSpace]
+  [AbstractBlockageCorridorCut]
+  [AbstractBlockagePinCutWindow distance]
+  [AbstractBlockageDownPinCutWindow distance]
+  [AbstractBlockageCutForAboveLayers]
+  [AbstractBlockageShrinkAdjust distance]
+  [AbstractBlockageShrinkTracks number_of_tracks]
+  [AbstractBlockageUserDefinedDistanceForAddBack distance]
+  [AbstractBlockageUserDefinedWidth width]
+  [AbstractBlockageCoverLayersDist distance]
+  [AbstractZeroSpacingBlockage { true | false }]
+  [AbstractDensity { true | false }]
+  [AbstractDensityUseSignalLayers { true | false }]
+  [AbstractDensityUseAntennaLayers { true | false }]
+  [AbstractDensityUsePwrLayers { true | false }]
+  [AbstractDensityLayers layer_name geom_spec]
+  [AbstractDensityWindowWidth layer_name value]
+  [AbstractDensityWindowHeight layer_name value]
+  [AbstractDensityDefaultWindowWidth value]
+  [AbstractDensityDefaultWindowHeight value]
+  [AbstractPinFracture { true | false }]
+  [AbstractBlockageFracture { true | false }]
+  [AbstractAdjustStairStepCover { full | truncate | partial }]
+  [AbstractAdjustStairStepWidth width]
+  [AbstractSiteName site_name]
+  [AbstractSiteNameDefine site_name]
+  [AbstractSiteArrayPattern { true | false }]
+  [AbstractSiteArrayCells sub-cellview site]
+  [AbstractOverlapLayerAction { off | always | as needed }]
+  [AbstractOverlapLayers layers]
+  [AbstractOverlapLayerSize size]
+  [AbstractOverlapLayerSmoothFactor size]
+  [AbstractGridMode { report | calculate | calculate M1 | calculate M2 | off }]
+  [AbstractUpdateTechFile { true | false }]
+  [AbstractMetal1Pitch value]
+  [AbstractMetal1Offset value]
+  [AbstractMetal2Pitch value]
+  [AbstractMetal2Offset value]
+  [AbstractMetal1PitchPercent value]
+  [AbstractMetal2PitchPercent value]
+  [AbstractDiagonalVias { true | false }]
+  [AbstractGridDistanceMetric { maxxy | euclidean }]
+  [AbstractPinStretchOutPrb { true | false }]
+  [AbstractBlockageEXCEPTPGNET]
+  [AbstractTopLayerCoverBlockage {Routing Layer}]
+  [AbstractBlockageUserDefinedSpacing]
+  [BlockageCutVia]
+  [BlockageLargePurposeList]
+  [BlockageLargeShape]
+  [BlockageLargeShapePct]
+
+选项说明:
+  AbstractAdjustBoundaryPinsSig { true | false }
+  Makes the signal pin shapes created during extraction square.
+  AbstractAdjustBoundaryPinsPwr { true | false }
+  Makes the power pin shapes created during extraction square.
+  AbstractAdjustBoundaryPinsSigDist distance
+  Specifies the distance (in microns) at which the signal net geometries should be from the boundary so that they can be considered as boundary pins. The geometries that are within the specified distance from the boundary are squared.
+  By default, the shape(s) closest to the boundary is squared.
+  AbstractAdjustBoundaryPinsPwrDist distance
+  Specifies the distance (in microns) at which the power net geometries should be from the boundary so that they can be considered as boundary pins. The geometries that are within the specified distance from the boundary are squared.
+  By default, the shape(s) closest to the boundary is squared.
+  AbstractAdjustRingPinsPwr { true | false }
+  Creates ring pins where any shapes in a power net are found to form a ring.
+  This argument is valid only when processing blocks and is mutually exclusive with the AbstractAdjustBoundaryPinsPwr argument.
+  AbstractAdjustRingPinsDist distance
+  Specifies in microns the maximum distance from the boundary that extracted power net geometry can be in order for it to be considered part of the ring and therefore to be included in the abstract as pin geometry.
+  This argument is valid only if you are processing a block and if AbstractAdjustRingPinsPwr is true.
+  AbstractAdjustFollowRingPin { true | false }
+  Specifies that all pin shapes, including the ones that do not form the ring, are considered as pins in the final abstract.
+  If the option is set to true and no value is specified for the AbstractAdjustRingPinsDist option, only the pin shapes whose distance from the boundary is the same or less than the distance of the farthest edge of the ring pin shape are included in the abstract. If the option is set to true and a value is specified for the AbstractAdjustRingPinsDist option, pin shapes are included in the abstract only if their distance from the boundary is within the distance specified for the option.
+  Specify an arbitrarily large value for the AbstractAdjustRingPinsDist option so that no filtering happens based on the distance you specify.
+  AbstractAdjustPowerGeometryGroups { single | separate | overlap }
+  Controls how power shapes are grouped into LEF PORTS.
+  single creates a single LEF PORT for all the power shapes.
+  separate creates a separate LEF PORT for each power shape.
+  overlap forms LEF PORTS from groups of overlapping power pins. This means that the power shapes that overlap go into the same LEF PORT.
+  AbstractAdjustPowerGeometryGroupsEastWest { single | separate | overlap | none }
+  Controls how power shapes touching the east or west edge of a cellview are grouped into LEF PORTS. The remaining shapes that do not touch the east or west side are grouped according to the AbstractAdjustPowerGeometryGroups option.
+  single creates a single LEF PORT for all the power shapes touching the east or west edge.
+  separate creates a separate LEF PORT for each power shape touching the east or west edge.
+  overlap forms LEF PORTS from groups of overlapping power pins touching the east or west edge. This means that the power shapes that overlap go into the same LEF PORT.
+  By default, this option is set to None
+  A power shape touching the east or west edge as well as one of either the north or the south edge is grouped as per the AbstractAdjustPowerGeometryGroupsEastWest option. Even a shape touching the north and south edges in addition to touching either the east or the west edge is grouped as per the AbstractAdjustPowerGeometryGroupsEastWest option.
+  AbstractAdjustEdgeTowardsCore
+  Specifies the direction of the CORE-facing edge. This argument is available only when a pad cell in the IO bin is being processed. You can specify multiple directions of the CORE-facing edge. The valid values for the CORE-facing edge are, north, south, east, west, or a combination of any of the four core edges.
+  AbstractAdjustClassCoreNets net_name
+  Specifies which nets should have CLASS CORE ports. Accepts a regular expression; for example,
+  ^((V(DD|CC))|(v(dd|cc)))(!)?$
+  AbstractAdjustIncludeAllShapes { true | false }
+  Specifies that multiple ports that are equidistant from the core-facing edge of a pad are considered as CLASS CORE ports. Only the geometries with their center lines perpendicular to the core-facing edge are considered. This option is applicable to pad cells that are processed in the IO bin.
+  This option is set to false by default, which means that only the geometry closest to the core-facing edge becomes a CLASS CORE port. When you set the option to true, all the geometries equidistant from the core-facing edge are considered as CLASS CORE ports.
+  AbstractAdjustCopyClassCorePort { true | false }
+  Duplicates any geometry found to belong to a CLASS CORE port on the net (set using the AbstractAdjustClassCoreNets argument) in a non-CLASS CORE port in the exported abstract LEF.
+  AbstractAdjustPinsTouchBoundary { true | false }
+  Specifies that only pins that touch the boundary of the cell become CLASS CORE ports in LEF.
+  AbstractAdjustPreserveViasPwr { true | false }
+  Preserves existing layouts rather than removing them when the absAbstract function is run.
+  AbstractAdjustPowerRailOp net_name
+  Specifies the net name whose power and ground rail characteristics you want to set.
+  AbstractAdjustPowerRailOpTable net_spec
+  Specifies the characteristics of the power and ground rails for the current bin.
+  The net_spec takes the form
+  netName shape width offset
+  netName is the name of a net.
+  shape can be one of calculate, feedthru, abutment or None
+  width is the rail width in microns (must be non-negative float)
+  offset is the rail offset in microns (any float)
+  AbstractAdjustPowerRailWidth width
+  Sets the rail width value for the net specified by AbstractAdjustPowerRailOp.
+  AbstractAdjustAllowPin geom_spec
+  Specifies a geometric operation to describe the regions where pins are to be allowed.
+  AbstractAdjustAvoidPin geom_spec
+  Specifies a geometric operation to describe the regions where pins are to be avoided.
+  AbstractBlockageTable layer_names
+  Specifies the layers on which to create blockages. This controls the final blockage geometry in the abstract.
+  AbstractBlockageDetailedLayers layer_names
+  Specifies the layers for which a detailed blockage model is to be created. The detailed blockage model generates blockages only where there are real shapes in the cell on the layer.
+  AbstractBlockageCoverLayers layer_names
+  Specifies the layers for which a cover blockage model is to be created. A cover blockage blocks the entire area that is not occupied by pin shapes, effectively blocking a layer for routing
+  AbstractBlockageShrinkWrapLayers layer_names
+  Specifies the layers for which a shrink wrap blockage model is to be generated. The shrink wrap blockage model fills in smaller, less useful free spaces and leaves larger spaces in the cell open. This allows over-the-cell routing without modeling each obstruction individually.
+  AbstractBlockageCutAroundPin
+  Controls whether the blockage around a pin is cut for allowing the router to access the pin. If this option is enabled, the blockage is cut at min-spacing distance around pins.
+  AbstractBlockageMaxRoutingSpace
+  Controls whether blockage is to be created around a block to drive the external routes maximum distance away from the block.
+  This option is valid only if AbstractBlockageCutAroundPin has been enabled. When both AbstractBlockageCutAroundPin and AbstractBlockageMaxSpacingRoute are enabled, the AbstractBlockageCorridorCut option is ineffective even if enabled.
+  AbstractBlockageCorridorCut
+  Controls whether corridors are cut out around pins for allowing routers to access internal pins.
+  This option is valid only if AbstractBlockageCutAroundPin has been enabled. This option is ineffective when both AbstractBlockageCutAroundPin and AbstractBlockageMaxSpacingRoute have been enabled.
+  AbstractBlockagePinCutWindow distance
+  Specifies the distance to cut around pins on the same layer. If set as 0, the blockage completely covers the design, including the pin shape, and there is no pin cut out.
+  AbstractBlockageDownPinCutWindow distance
+  Specifies the distance to cut around pins on the layer below.
+  AbstractBlockageCutForAboveLayers
+  Specifies a valid metal layer that contains pins and the size of the pin cutouts to be created in the blockage layers above this layer. For example,
+  absSetBinOption("Block" "AbstractBlockageCutForAboveLayers" "Metal2 (Metal4 0.2)")
+  AbstractBlockageRoutingChannelOnLayers
+  Specifies the shape of the routing channel to be created when generating the cover blockage. For example,
+  absSetBinOption ("Block" "AbstractBlockageRoutingChannelOnLayers" "(Metal1 (y0 drawing)) (Metal2 (y0 drawing))")
+  AbstractBlockageShrinkAdjust distance
+  Specifies a minimum distance in microns between blockages. Blockages separated by a distance less than or equal to the specified distance are merged.
+  This option is valid only for layers specified by AbstractBlockageShrinkWrapLayers.
+  AbstractBlockageShrinkTracks number_of_tracks
+  Specifies the minimum number of tracks between blockages. Blockages separated by a distance less than or equal to the specified number of tracks are merged.
+  This option is valid only for layers specified by AbstractBlockageShrinkWrapLayers.
+  AbstractBlockageUserDefinedDistanceForAddBack distance
+  Specifies the distance within which the geometries need to be added back when Abstract Generator creates a cover blockage with pin cutout.
+  AbstractBlockageUserDefinedWidth width
+  Sets the effective width attribute for layer blockages. This value can be set only if the spacing value is set to zero. The AbstractBlockageUserDefinedWidth option takes only positive float values, for example:
+  absSetBinOption( "Block" "AbstractBlockageUserDefinedWidth" "(Metal1 5.0) (Metal2 4.0)")
+  AbstractBlockageCoverLayersDist distance
+  Specifies the minimum distance between a cover blockage and the cell boundary. If you do not specify a distance, the abstract generator uses a distance equal to one half of the minimum layer separation.
+  This option is valid only for layers specified by AbstractBlockageCoverLayers.
+  AbstractZeroSpacingBlockage { true | false }
+  By default, the option is set to false. The working of this option depends on the value set for the option AbstractBlockagePinCutWindow:
+  AbstractBlockagePinCutWindow is non-zero or is not specified
+  In this case, the following situations are possible:
+  AbstractZeroSpacingBlockage is true: The blockage around the pin is cut out at zero spacing from the pin.
+  AbstractZeroSpacingBlockage is false: The blockage around the pin is cut out at default spacing from the pin.
+  AbstractBlockagePinCutWindow is 0
+  If set as 0, this option overrides any value set for the option AbstractZeroSpacingBlockage. In this scenario, the blockage completely covers the design, including the pin shape, and there is no pin cut out.
+  AbstractDensity { true | false }
+  Specifies whether the abstract generator is to generate the metal density information. The default value of this option is false.
+  AbstractDensityUseSignalLayers { true | false }
+  Directs the abstract generator to use the same geometry specifications for metal density calculation as are specified for signal extraction using the ExtractLayersSig option.
+  The default value of AbstractDensityUseSignalLayers is false.
+  Setting this option to true automatically sets the AbstractDensityUsePwrLayers and AbstractDensityUseAntennaLayers options to false.
+  AbstractDensityUseAntennaLayers { true | false }
+  Directs the abstract generator to use the same geometry specifications for metal density calculation as will be used for process antenna calculation. In other words, to specify the layers and their geometry specifications, use the ExtractAntennaLayers option if the ExtractDiffAntennaLayers option is set to true; otherwise use the ExtractLayersSig option.
+  The default value of AbstractDensityUseAntennaLayers is false.
+  Setting this option to true automatically sets the AbstractDensityUseSignalLayers and AbstractDensityUsePwrLayers options to false.
+  AbstractDensityUsePwrLayers { true | false }
+  Directs the abstract generator to use the same geometry specifications for metal density calculation as are specified for power net extraction using the ExtractLayersPwr option.
+  The default value of AbstractDensityUsePwrLayers is false.
+  Setting this option to true automatically sets the AbstractDensityUseSignalLayers and AbstractDensityUseAntennaLayers options to false.
+  AbstractDensityLayers layer_name geom_spec
+  Specifies the exclusive metal layers along with their geometry specifications that are to be considered by the abstract generator for metal density calculation.
+  For example,
+  AbstractDensityLayers "Metal1 Metal2 Metal3 (Metal4 (Metal4 drawing)) Metal5 Metal6"
+  The default value for this option is a list of all metal layers:
+  AbstractDensityLayers "Metal1 Metal2 Metal3 Metal4 Metal5 Metal6"
+  AbstractDensityWindowWidth layer_name value
+  Specifies the width of the density window for a particular layer. For example,
+  AbstractDensityWindowWidth "(Metal1 10.0)"
+  If you do not specify a value for a layer, the value specified for the AbstractDensityDefaultWindowWidth option is taken as the default.
+  AbstractDensityWindowHeight layer_name value
+  Specifies the height of the density window for a particular layer. For example,
+  AbstractDensityWindowHeight "(Metal1 10.0)"
+  If you do not specify a value for a layer, the value specified for the AbstractDensityDefaultWindowHeight option is taken as the default.
+  AbstractDensityDefaultWindowWidth value
+  Specifies the default width of the density window when no width value is specified for a particular layer. For example,
+  AbstractDensityDefaultWindowWidth "30.0"
+  You can override the default value (20.0) for the width of the density window by using this option.
+  AbstractDensityDefaultWindowHeight value
+  Specifies the default height of the density window when no height value is specified for a particular layer. For example,
+  AbstractDensityDefaultWindowHeight "40.0"
+  You can override the default value (20.0) for the height of the density window by using this option.
+  AbstractPinFracture { true | false }
+  Controls whether the abstract generator creates each pin shape as a set of maximum rectangles or as a polygon. This lets you model 45-degree pins if your design requires it.
+  If true, the abstract generator creates each pin shape as a set of maximum rectangles. This is recommended if the abstracts are to be routed using Silicon Ensemble or Encounter.
+  If false, the abstract generator creates each blockage shape as a polygon. This is the default setting and is recommended if the abstracts are to be routed using the IC Shape-Based Router.
+  AbstractBlockageFracture { true | false }
+  Controls whether the abstract generator creates each blockage shape as a set of maximum rectangles or as a polygon.
+  If true, the abstract generator creates each blockage shape as a set of maximum rectangles. This is recommended if the abstracts are to be routed using Silicon Ensemble or Encounter.
+  If false, the abstract generator creates each blockage shape as a polygon. This is the default and is recommended if the abstracts are to be routed using the IC Shape-Based Router.
+  AbstractAdjustStairStepCover { full | truncate | partial }
+  Controls the degree to which stair-step blockages cover 45-degree geometry.
+  AbstractAdjustStairStepWidth width
+  Specifies the width of the blockage geometry to be created to cover 45-degree shapes.
+  AbstractSiteName site_name
+  Specifies a site name to be applied to all cells in the current bin.
+  AbstractSiteNameDefine site_name
+  Specify the name of a new site to be used by all cells in the current bin. If the site does not already exist, the abstract generator defines it in the technology file.
+  AbstractSiteArrayPattern { true | false }
+  Specifies if the abstract generator is to calculate site pattern for the gate-array sub-cellviews specified in the option AbstractSiteArrayCells.
+  AbstractSiteArrayCells sub-cellview site
+  Specifies the mapping of sub-cellviews to sites for calculating site patterns.
+  AbstractOverlapLayerAction { off | always | as needed }
+  Specifies whether the abstract generator is to create an overlap boundary.
+  always means that the abstract generator always creates an overlap boundary. Any existing overlap layer geometry is overwritten.
+  as needed means that the abstract generator creates an overlap boundary if it is not already present or if it is present and was previously calculated by the abstract generator.
+  off means that the abstract generator never creates an overlap boundary.
+  AbstractOverlapLayers layers
+  Specifies the layers to be used in calculating the overlap layer boundary. The boundary is drawn so that it encloses all the geometry found on these layers.
+  The argument is valid only if you set AbstractOverlapLayerAction to always or as needed.
+  AbstractOverlapLayerSize size
+  Specifies in microns how much an overlap layer is to be grown.
+  Use this option to ensure that the placement of cells with abutting overlap layers does not lead to geometry contained in these cells causing violations.
+  AbstractOverlapLayerSmoothFactor size
+  Controls the shape of the overlap layer produced.
+  Use this option to create simpler overlap boundary shapes, typically when processing blocks. The abstract generator takes the computed overlap boundary and removes any cut-outs with a maximum dimension less than the specified distance.
+  AbstractGridMode { report | calculate | calculate M1 | calculate M2 | off }
+  Specifies the grid analysis mode for standard cell bins.
+  In report mode, you can specify
+  AbstractMetal1Pitch
+  AbstractMetal1Offset
+  AbstractMetal2Pitch
+  AbstractMetal2Offset
+  But not
+  AbstractMetal1PitchPercent
+  AbstractMetal2PitchPercent
+  In calculate mode, you can specify
+  AbstractMetal1PitchPercent
+  AbstractMetal2PitchPercent
+  But not
+  AbstractMetal1Pitch
+  AbstractMetal1Offset
+  AbstractMetal2Pitch
+  AbstractMetal2Offset
+  In calculate_M1 mode, you can specify
+  AbstractMetal2Pitch
+  AbstractMetal2Offset
+  AbstractMetal1PitchPercent
+  But not
+  AbsabstractMetal1Pitch
+  AbstractMetal1Offset
+  AbstractMetal2PitchPercent
+  In calculate_M2 mode, you can specify
+  AbstractMetal1Pitch
+  AbstractMetal1Offset
+  AbstractMetal2PitchPercent
+  But not
+  AbstractMetal2Pitch
+  AbstractMetal2Offset
+  AbstractMetal1PitchPercent
+  AbstractUpdateTechFile { true | false }
+  Controls whether the technology file is update with the calculated grid.
+  AbstractMetal1Pitch value
+  Specifies the metal1 layer pitch value (for core cells only).
+  If you run AbstractGridMode in report mode, these are the values that are used in the report. If you run grid analysis in calculate mode, these values are overwritten with the new best grid values for the layers being calculated.
+  AbstractMetal1Offset value
+  Specifies the metal1 layer offset value (for core cells only).
+  If you run AbstractGridMode in report mode, these are the values that are used in the report. If you run grid analysis in calculate mode, these values are overwritten with the new best grid values for the layers being calculated.
+  AbstractMetal2Pitch value
+  Specifies the metal2 layer pitch value (for core cells only).
+  If you run AbstractGridMode in report mode, these are the values that are used in the report. If you run grid analysis in calculate mode, these values are overwritten with the new best grid values for the layers being calculated.
+  AbstractMetal2Offset value
+  Specifies the metal2 layer offset value (for core cells only).
+  If you run AbstractGridMode in report mode, these are the values that are used in the report. If you run grid analysis in calculate mode, these values are overwritten with the new best grid values for the layers being calculated.
+  AbstractMetal1PitchPercent value
+  Sets the upper limit for pitches considered during pitch calculation for the metal1 layer.
+  This argument is valid only if AbstractGridMode is using set to use one of the calculation values.
+  AbstractMetal2PitchPercent value
+  Sets the upper limit for pitches considered during pitch calculation for metal2 layer.
+  This argument is valid only if AbstractGridMode is using set to use one of the calculation values.
+  AbstractDiagonalVias { true | false }
+  Controls whether or not the pitches calculated will let vias be placed diagonally adjacent to each other.
+  When this option is true, the calculated pitches are larger than they would otherwise be in order to accommodate diagonal via placement.
+  AbstractGridDistanceMetric { maxxy | euclidean }
+  Controls how the clearance check between a pin geometry and its neighboring geometries is applied.
+  euclidean means that the distance between two rectangles is the shortest straight line between them.
+  maxxy means that the distance is the greater of the vertical and horizontal distance between the two rectangles.
+  AbstractPinStretchOutPrb { true | false }
+  Allows pins to be stretched outside the PR boundary. By default, this option is off.
+  AbstractBlockageEXCEPTPGNET
+  This option is set for blocks that want to block routing on a given layer except for power and ground routing. This is typically true for analog or memory blocks that are sensitive to noise, and do not want to allow signal routing on the layers immediately above the block.
+  When the option is set, then all the blockages generated by Abstract on given metal layers will have the EXCEPTPGNET LEF attribute in the LEF file.
+  AbstractTopLayerCoverBlockage {Routing Layer}
+  Specifies the top metal layer for cover blockage in the layout dual view. This option is added only for Layout dual view and will not cause any conflict with the normal cover blockage option that Abstract Generator has. The already existing cover blockage options in Abstract Generator have different use model and may lead to confusion.
+  Note: The AbstractTopLayerCoverBlockage argument can only be used when the AnnotateLayoutDualView option is set to true.
+  AbstractBlockageUserDefinedSpacing
+  Allows you to specify SPACING on the blockages. The value of SPACING specified by this option will supersede the SPACING specified by the Abstract Generator on the blockage. The default value for this otpion is absSetBinOption("Core""AbstractBlockageUserDefinedSpacing" ""). However, the expected value is absSetBinOption("Core" "AbstractBlockageUserDefinedSpacing" " (M1 1.0) (M2 2.0)").This will specify the blockages of layer M1 with spacing 1.0 and blockages on layer M2 with spacing 2.0.
+  BlockageCutVia
+  When set to true, the abstract generator cuts a window large enough for a via to be dropped to that pin. When set to false, the abstract generator cuts a window around the pin based on the range-based spacing rule for the pin width.
+  BlockageLargePurposeList
+  Specifies the purposes of the big blockages.
+  BlockageLargeShape
+  Enables the abstract generator to look for big blockages in the current design abstract.
+  BlockageLargeShapePct
+  Specifies the percentage by which the size of the big blockages needs to be increased.
+  AbstractAdjustBoundaryPinsSig { true | false } — Makes the signal pin shapes created during extraction square.
+  AbstractAdjustBoundaryPinsPwr { true | false } — Makes the power pin shapes created during extraction square.
+  AbstractAdjustBoundaryPinsSigDist distance — Specifies the distance (in microns) at which the signal net geometries should be from the boundary so that they can be considered as boundary pins. The geometries that are within the specified distance from the boundary are squared.
+    By default, the shape(s) closest to the boundary is squared.
+  AbstractAdjustBoundaryPinsPwrDist distance — Specifies the distance (in microns) at which the power net geometries should be from the boundary so that they can be considered as boundary pins. The geometries that are within the specified distance from the boundary are squared.
+    By default, the shape(s) closest to the boundary is squared.
+  AbstractAdjustRingPinsPwr { true | false } — Creates ring pins where any shapes in a power net are found to form a ring.
+    This argument is valid only when processing blocks and is mutually exclusive with the AbstractAdjustBoundaryPinsPwr argument.
+  AbstractAdjustRingPinsDist distance — Specifies in microns the maximum distance from the boundary that extracted power net geometry can be in order for it to be considered part of the ring and therefore to be included in the abstract as pin geometry.
+    This argument is valid only if you are processing a block and if AbstractAdjustRingPinsPwr is true.
+  AbstractAdjustFollowRingPin { true | false } — Specifies that all pin shapes, including the ones that do not form the ring, are considered as pins in the final abstract.
+    If the option is set to true and no value is specified for the AbstractAdjustRingPinsDist option, only the pin shapes whose distance from the boundary is the same or less than the distance of the farthest edge of the ring pin shape are included in the abstract. If the option is set to true and a value is specified for the AbstractAdjustRingPinsDist option, pin shapes are included in the abstract only if their distance from the boundary is within the distance specified for the option.
+    Specify an arbitrarily large value for the AbstractAdjustRingPinsDist option so that no filtering happens based on the distance you specify.
+  AbstractAdjustPowerGeometryGroups { single | separate | overlap } — Controls how power shapes are grouped into LEF PORTS.
+    single creates a single LEF PORT for all the power shapes.
+    separate creates a separate LEF PORT for each power shape.
+    overlap forms LEF PORTS from groups of overlapping power pins. This means that the power shapes that overlap go into the same LEF PORT.
+  AbstractAdjustPowerGeometryGroupsEastWest { single | separate | overlap | none } — Controls how power shapes touching the east or west edge of a cellview are grouped into LEF PORTS. The remaining shapes that do not touch the east or west side are grouped according to the AbstractAdjustPowerGeometryGroups option.
+    single creates a single LEF PORT for all the power shapes touching the east or west edge.
+    separate creates a separate LEF PORT for each power shape touching the east or west edge.
+    overlap forms LEF PORTS from groups of overlapping power pins touching the east or west edge. This means that the power shapes that overlap go into the same LEF PORT.
+    By default, this option is set to None
+    A power shape touching the east or west edge as well as one of either the north or the south edge is grouped as per the AbstractAdjustPowerGeometryGroupsEastWest option. Even a shape touching the north and south edges in addition to touching either the east or the west edge is grouped as per the AbstractAdjustPowerGeometryGroupsEastWest option.
+  AbstractAdjustEdgeTowardsCore — Specifies the direction of the CORE-facing edge. This argument is available only when a pad cell in the IO bin is being processed. You can specify multiple directions of the CORE-facing edge. The valid values for the CORE-facing edge are, north, south, east, west, or a combination of any of the four core edges.
+  AbstractAdjustClassCoreNets net_name — Specifies which nets should have CLASS CORE ports. Accepts a regular expression; for example,
+    ^((V(DD|CC))|(v(dd|cc)))(!)?$
+  AbstractAdjustIncludeAllShapes { true | false } — Specifies that multiple ports that are equidistant from the core-facing edge of a pad are considered as CLASS CORE ports. Only the geometries with their center lines perpendicular to the core-facing edge are considered. This option is applicable to pad cells that are processed in the IO bin.
+    This option is set to false by default, which means that only the geometry closest to the core-facing edge becomes a CLASS CORE port. When you set the option to true, all the geometries equidistant from the core-facing edge are considered as CLASS CORE ports.
+  AbstractAdjustCopyClassCorePort { true | false } — Duplicates any geometry found to belong to a CLASS CORE port on the net (set using the AbstractAdjustClassCoreNets argument) in a non-CLASS CORE port in the exported abstract LEF.
+  AbstractAdjustPinsTouchBoundary { true | false } — Specifies that only pins that touch the boundary of the cell become CLASS CORE ports in LEF.
+  AbstractAdjustPreserveViasPwr { true | false } — Preserves existing layouts rather than removing them when the absAbstract function is run.
+  AbstractAdjustPowerRailOp net_name — Specifies the net name whose power and ground rail characteristics you want to set.
+  AbstractAdjustPowerRailOpTable net_spec — Specifies the characteristics of the power and ground rails for the current bin.
+    The net_spec takes the form
+    netName shape width offset
+    netName is the name of a net.
+    shape can be one of calculate, feedthru, abutment or None
+    width is the rail width in microns (must be non-negative float)
+    offset is the rail offset in microns (any float)
+  AbstractAdjustPowerRailWidth width — Sets the rail width value for the net specified by AbstractAdjustPowerRailOp.
+  AbstractAdjustAllowPin geom_spec — Specifies a geometric operation to describe the regions where pins are to be allowed.
+  AbstractAdjustAvoidPin geom_spec — Specifies a geometric operation to describe the regions where pins are to be avoided.
+  AbstractBlockageTable layer_names — Specifies the layers on which to create blockages. This controls the final blockage geometry in the abstract.
+  AbstractBlockageDetailedLayers layer_names — Specifies the layers for which a detailed blockage model is to be created. The detailed blockage model generates blockages only where there are real shapes in the cell on the layer.
+  AbstractBlockageCoverLayers layer_names — Specifies the layers for which a cover blockage model is to be created. A cover blockage blocks the entire area that is not occupied by pin shapes, effectively blocking a layer for routing
+  AbstractBlockageShrinkWrapLayers layer_names — Specifies the layers for which a shrink wrap blockage model is to be generated. The shrink wrap blockage model fills in smaller, less useful free spaces and leaves larger spaces in the cell open. This allows over-the-cell routing without modeling each obstruction individually.
+  AbstractBlockageCutAroundPin — Controls whether the blockage around a pin is cut for allowing the router to access the pin. If this option is enabled, the blockage is cut at min-spacing distance around pins.
+  AbstractBlockageMaxRoutingSpace — Controls whether blockage is to be created around a block to drive the external routes maximum distance away from the block.
+    This option is valid only if AbstractBlockageCutAroundPin has been enabled. When both AbstractBlockageCutAroundPin and AbstractBlockageMaxSpacingRoute are enabled, the AbstractBlockageCorridorCut option is ineffective even if enabled.
+  AbstractBlockageCorridorCut — Controls whether corridors are cut out around pins for allowing routers to access internal pins.
+    This option is valid only if AbstractBlockageCutAroundPin has been enabled. This option is ineffective when both AbstractBlockageCutAroundPin and AbstractBlockageMaxSpacingRoute have been enabled.
+  AbstractBlockagePinCutWindow distance — Specifies the distance to cut around pins on the same layer. If set as 0, the blockage completely covers the design, including the pin shape, and there is no pin cut out.
+  AbstractBlockageDownPinCutWindow distance — Specifies the distance to cut around pins on the layer below.
+  AbstractBlockageCutForAboveLayers — Specifies a valid metal layer that contains pins and the size of the pin cutouts to be created in the blockage layers above this layer. For example,
+    absSetBinOption("Block" "AbstractBlockageCutForAboveLayers" "Metal2 (Metal4 0.2)")
+  AbstractBlockageRoutingChannelOnLayers — Specifies the shape of the routing channel to be created when generating the cover blockage. For example,
+    absSetBinOption ("Block" "AbstractBlockageRoutingChannelOnLayers" "(Metal1 (y0 drawing)) (Metal2 (y0 drawing))")
+  AbstractBlockageShrinkAdjust distance — Specifies a minimum distance in microns between blockages. Blockages separated by a distance less than or equal to the specified distance are merged.
+    This option is valid only for layers specified by AbstractBlockageShrinkWrapLayers.
+  AbstractBlockageShrinkTracks number_of_tracks — Specifies the minimum number of tracks between blockages. Blockages separated by a distance less than or equal to the specified number of tracks are merged.
+    This option is valid only for layers specified by AbstractBlockageShrinkWrapLayers.
+  AbstractBlockageUserDefinedDistanceForAddBack distance — Specifies the distance within which the geometries need to be added back when Abstract Generator creates a cover blockage with pin cutout.
+  AbstractBlockageUserDefinedWidth width — Sets the effective width attribute for layer blockages. This value can be set only if the spacing value is set to zero. The AbstractBlockageUserDefinedWidth option takes only positive float values, for example:
+    absSetBinOption( "Block" "AbstractBlockageUserDefinedWidth" "(Metal1 5.0) (Metal2 4.0)")
+  AbstractBlockageCoverLayersDist distance — Specifies the minimum distance between a cover blockage and the cell boundary. If you do not specify a distance, the abstract generator uses a distance equal to one half of the minimum layer separation.
+    This option is valid only for layers specified by AbstractBlockageCoverLayers.
+  AbstractZeroSpacingBlockage { true | false } — By default, the option is set to false. The working of this option depends on the value set for the option AbstractBlockagePinCutWindow:
+    AbstractBlockagePinCutWindow is non-zero or is not specified
+    In this case, the following situations are possible:
+    AbstractZeroSpacingBlockage is true: The blockage around the pin is cut out at zero spacing from the pin.
+    AbstractZeroSpacingBlockage is false: The blockage around the pin is cut out at default spacing from the pin.
+    AbstractBlockagePinCutWindow is 0
+    If set as 0, this option overrides any value set for the option AbstractZeroSpacingBlockage. In this scenario, the blockage completely covers the design, including the pin shape, and there is no pin cut out.
+  AbstractDensity { true | false } — Specifies whether the abstract generator is to generate the metal density information. The default value of this option is false.
+  AbstractDensityUseSignalLayers { true | false } — Directs the abstract generator to use the same geometry specifications for metal density calculation as are specified for signal extraction using the ExtractLayersSig option.
+    The default value of AbstractDensityUseSignalLayers is false.
+    Setting this option to true automatically sets the AbstractDensityUsePwrLayers and AbstractDensityUseAntennaLayers options to false.
+  AbstractDensityUseAntennaLayers { true | false } — Directs the abstract generator to use the same geometry specifications for metal density calculation as will be used for process antenna calculation. In other words, to specify the layers and their geometry specifications, use the ExtractAntennaLayers option if the ExtractDiffAntennaLayers option is set to true; otherwise use the ExtractLayersSig option.
+    The default value of AbstractDensityUseAntennaLayers is false.
+    Setting this option to true automatically sets the AbstractDensityUseSignalLayers and AbstractDensityUsePwrLayers options to false.
+  AbstractDensityUsePwrLayers { true | false } — Directs the abstract generator to use the same geometry specifications for metal density calculation as are specified for power net extraction using the ExtractLayersPwr option.
+    The default value of AbstractDensityUsePwrLayers is false.
+    Setting this option to true automatically sets the AbstractDensityUseSignalLayers and AbstractDensityUseAntennaLayers options to false.
+  AbstractDensityLayers layer_name geom_spec — Specifies the exclusive metal layers along with their geometry specifications that are to be considered by the abstract generator for metal density calculation.
+    For example,
+    AbstractDensityLayers "Metal1 Metal2 Metal3 (Metal4 (Metal4 drawing)) Metal5 Metal6"
+    The default value for this option is a list of all metal layers:
+    AbstractDensityLayers "Metal1 Metal2 Metal3 Metal4 Metal5 Metal6"
+  AbstractDensityWindowWidth layer_name value — Specifies the width of the density window for a particular layer. For example,
+    AbstractDensityWindowWidth "(Metal1 10.0)"
+    If you do not specify a value for a layer, the value specified for the AbstractDensityDefaultWindowWidth option is taken as the default.
+  AbstractDensityWindowHeight layer_name value — Specifies the height of the density window for a particular layer. For example,
+    AbstractDensityWindowHeight "(Metal1 10.0)"
+    If you do not specify a value for a layer, the value specified for the AbstractDensityDefaultWindowHeight option is taken as the default.
+  AbstractDensityDefaultWindowWidth value — Specifies the default width of the density window when no width value is specified for a particular layer. For example,
+    AbstractDensityDefaultWindowWidth "30.0"
+    You can override the default value (20.0) for the width of the density window by using this option.
+  AbstractDensityDefaultWindowHeight value — Specifies the default height of the density window when no height value is specified for a particular layer. For example,
+    AbstractDensityDefaultWindowHeight "40.0"
+    You can override the default value (20.0) for the height of the density window by using this option.
+  AbstractPinFracture { true | false } — Controls whether the abstract generator creates each pin shape as a set of maximum rectangles or as a polygon. This lets you model 45-degree pins if your design requires it.
+    If true, the abstract generator creates each pin shape as a set of maximum rectangles. This is recommended if the abstracts are to be routed using Silicon Ensemble or Encounter.
+    If false, the abstract generator creates each blockage shape as a polygon. This is the default setting and is recommended if the abstracts are to be routed using the IC Shape-Based Router.
+  AbstractBlockageFracture { true | false } — Controls whether the abstract generator creates each blockage shape as a set of maximum rectangles or as a polygon.
+    If true, the abstract generator creates each blockage shape as a set of maximum rectangles. This is recommended if the abstracts are to be routed using Silicon Ensemble or Encounter.
+    If false, the abstract generator creates each blockage shape as a polygon. This is the default and is recommended if the abstracts are to be routed using the IC Shape-Based Router.
+  AbstractAdjustStairStepCover { full | truncate | partial } — Controls the degree to which stair-step blockages cover 45-degree geometry.
+  AbstractAdjustStairStepWidth width — Specifies the width of the blockage geometry to be created to cover 45-degree shapes.
+  AbstractSiteName site_name — Specifies a site name to be applied to all cells in the current bin.
+  AbstractSiteNameDefine site_name — Specify the name of a new site to be used by all cells in the current bin. If the site does not already exist, the abstract generator defines it in the technology file.
+  AbstractSiteArrayPattern { true | false } — Specifies if the abstract generator is to calculate site pattern for the gate-array sub-cellviews specified in the option AbstractSiteArrayCells.
+  AbstractSiteArrayCells sub-cellview site — Specifies the mapping of sub-cellviews to sites for calculating site patterns.
+  AbstractOverlapLayerAction { off | always | as needed } — Specifies whether the abstract generator is to create an overlap boundary.
+    always means that the abstract generator always creates an overlap boundary. Any existing overlap layer geometry is overwritten.
+    as needed means that the abstract generator creates an overlap boundary if it is not already present or if it is present and was previously calculated by the abstract generator.
+    off means that the abstract generator never creates an overlap boundary.
+  AbstractOverlapLayers layers — Specifies the layers to be used in calculating the overlap layer boundary. The boundary is drawn so that it encloses all the geometry found on these layers.
+    The argument is valid only if you set AbstractOverlapLayerAction to always or as needed.
+  AbstractOverlapLayerSize size — Specifies in microns how much an overlap layer is to be grown.
+    Use this option to ensure that the placement of cells with abutting overlap layers does not lead to geometry contained in these cells causing violations.
+  AbstractOverlapLayerSmoothFactor size — Controls the shape of the overlap layer produced.
+    Use this option to create simpler overlap boundary shapes, typically when processing blocks. The abstract generator takes the computed overlap boundary and removes any cut-outs with a maximum dimension less than the specified distance.
+  AbstractGridMode { report | calculate | calculate M1 | calculate M2 | off } — Specifies the grid analysis mode for standard cell bins.
+    In report mode, you can specify
+    AbstractMetal1Pitch
+    AbstractMetal1Offset
+    AbstractMetal2Pitch
+    AbstractMetal2Offset
+    But not
+    AbstractMetal1PitchPercent
+    AbstractMetal2PitchPercent
+    In calculate mode, you can specify
+    AbstractMetal1PitchPercent
+    AbstractMetal2PitchPercent
+    But not
+    AbstractMetal1Pitch
+    AbstractMetal1Offset
+    AbstractMetal2Pitch
+    AbstractMetal2Offset
+    In calculate_M1 mode, you can specify
+    AbstractMetal2Pitch
+    AbstractMetal2Offset
+    AbstractMetal1PitchPercent
+    But not
+    AbsabstractMetal1Pitch
+    AbstractMetal1Offset
+    AbstractMetal2PitchPercent
+    In calculate_M2 mode, you can specify
+    AbstractMetal1Pitch
+    AbstractMetal1Offset
+    AbstractMetal2PitchPercent
+    But not
+    AbstractMetal2Pitch
+    AbstractMetal2Offset
+    AbstractMetal1PitchPercent
+  AbstractUpdateTechFile { true | false } — Controls whether the technology file is update with the calculated grid.
+  AbstractMetal1Pitch value — Specifies the metal1 layer pitch value (for core cells only).
+    If you run AbstractGridMode in report mode, these are the values that are used in the report. If you run grid analysis in calculate mode, these values are overwritten with the new best grid values for the layers being calculated.
+  AbstractMetal1Offset value — Specifies the metal1 layer offset value (for core cells only).
+    If you run AbstractGridMode in report mode, these are the values that are used in the report. If you run grid analysis in calculate mode, these values are overwritten with the new best grid values for the layers being calculated.
+  AbstractMetal2Pitch value — Specifies the metal2 layer pitch value (for core cells only).
+    If you run AbstractGridMode in report mode, these are the values that are used in the report. If you run grid analysis in calculate mode, these values are overwritten with the new best grid values for the layers being calculated.
+  AbstractMetal2Offset value — Specifies the metal2 layer offset value (for core cells only).
+    If you run AbstractGridMode in report mode, these are the values that are used in the report. If you run grid analysis in calculate mode, these values are overwritten with the new best grid values for the layers being calculated.
+  AbstractMetal1PitchPercent value — Sets the upper limit for pitches considered during pitch calculation for the metal1 layer.
+    This argument is valid only if AbstractGridMode is using set to use one of the calculation values.
+  AbstractMetal2PitchPercent value — Sets the upper limit for pitches considered during pitch calculation for metal2 layer.
+    This argument is valid only if AbstractGridMode is using set to use one of the calculation values.
+  AbstractDiagonalVias { true | false } — Controls whether or not the pitches calculated will let vias be placed diagonally adjacent to each other.
+    When this option is true, the calculated pitches are larger than they would otherwise be in order to accommodate diagonal via placement.
+  AbstractGridDistanceMetric { maxxy | euclidean } — Controls how the clearance check between a pin geometry and its neighboring geometries is applied.
+    euclidean means that the distance between two rectangles is the shortest straight line between them.
+    maxxy means that the distance is the greater of the vertical and horizontal distance between the two rectangles.
+  AbstractPinStretchOutPrb { true | false } — Allows pins to be stretched outside the PR boundary. By default, this option is off.
+  AbstractBlockageEXCEPTPGNET — This option is set for blocks that want to block routing on a given layer except for power and ground routing. This is typically true for analog or memory blocks that are sensitive to noise, and do not want to allow signal routing on the layers immediately above the block.
+    When the option is set, then all the blockages generated by Abstract on given metal layers will have the EXCEPTPGNET LEF attribute in the LEF file.
+  AbstractTopLayerCoverBlockage {Routing Layer} — Specifies the top metal layer for cover blockage in the layout dual view. This option is added only for Layout dual view and will not cause any conflict with the normal cover blockage option that Abstract Generator has. The already existing cover blockage options in Abstract Generator have different use model and may lead to confusion.
+    Note: The AbstractTopLayerCoverBlockage argument can only be used when the AnnotateLayoutDualView option is set to true.
+  AbstractBlockageUserDefinedSpacing — Allows you to specify SPACING on the blockages. The value of SPACING specified by this option will supersede the SPACING specified by the Abstract Generator on the blockage. The default value for this otpion is absSetBinOption("Core""AbstractBlockageUserDefinedSpacing" ""). However, the expected value is absSetBinOption("Core" "AbstractBlockageUserDefinedSpacing" " (M1 1.0) (M2 2.0)").This will specify the blockages of layer M1 with spacing 1.0 and blockages on layer M2 with spacing 2.0.
+  BlockageCutVia — When set to true, the abstract generator cuts a window large enough for a via to be dropped to that pin. When set to false, the abstract generator cuts a window around the pin based on the range-based spacing rule for the pin width.
+  BlockageLargePurposeList — Specifies the purposes of the big blockages.
+  BlockageLargeShape — Enables the abstract generator to look for big blockages in the current design abstract.
+  BlockageLargeShapePct — Specifies the percentage by which the size of the big blockages needs to be increased.
+
+示例:
+  absSetBinOption "Core" "AbstractAdjustBoundaryPinsPwr" "true"
+  => t
+  absSetBinOption "Core" "AbstractAdjustPowerGeometryGroups" "single"
+  => t
+  absAbstract
+  => 1
+  Specifies a number of power net options for cells in the Core bin and runs the Abstract step.

@@ -1,0 +1,49 @@
+函数: hiCreateAppForm
+签名: hiCreateAppForm( ?name s_name ?fields l_fieldEntries [ ?attachmentList
+      l_fieldAttachments ] [ ?tabOrderIsAddOrder g_tabOrderIsAddOrder ] [ ?formTitle
+      t_formTitle ] [ ?callback g_callback ] [ ?unmapAfterCB g_unmapAfterCB ] [ ?mapCB
+      g_mapCallback ] [ ?formType s_formType ] [ ?dialogStyle s_dialogStyle ] [ ?buttonLayout
+      g_buttonLayout ] [ ?buttonDisabled s_buttonDisabled ] [ ?help g_help ] [ ?initialSize
+      g_initialSize ] [ ?minSize g_minSize ] [ ?maxSize g_maxSize ] [ ?dontBlock g_dontBlock ]
+      [ ?fieldFocus s_fieldFocus ] [ ?plist g_plist ] [ ?baseName s_baseName ] ) => r_form
+来源: skuiref/chap8.html
+
+参数:
+  ?name s_name
+  ?fields l_fieldEntries
+    By default, the fields appear in a column on the form, in the order in which they are listed. To manipulate the order and position of form fields, use two-dimensional attributes. If you use two-dimensional attributes, each field entry for l_fieldEntries will be a list containing a field descriptor and the two-dimensional attributes for that field. For example, a field entry could be:
+  ?attachmentList l_fieldAttachments
+  ?tabOrderIsAddOrder g_tabOrderIsAddOrder
+    The default value of g_tabOrderIsAddOrder is nil.
+  ?formTitle t_formTitle
+  ?callback g_callback
+  ?unmapAfterCB g_unmapAfterCB
+    The default value is nil. If you use hiSetCallbackStatus in your callback routine, you must set the value of g_unmapAfterCB to t or the callback status will be ignored.
+  ?mapCB g_mapCallback
+  ?formType s_formType
+    Possible choices include 'nonoptions (default), or 'options. Options forms must be modeless.
+  ?dialogStyle s_dialogStyle
+    The default value of this argument is 'modeless.
+  ?buttonLayout g_buttonLayout
+    'OKCancelDefApply (default)
+    'HideCancelDefLast (default)
+    Def denotes the Defaults button;
+    When this variable is set, the g_buttonLayout argument is searched for the button whose text equals the value of the variable. The first button that is found becomes the default button.
+  ?buttonDisabled s_buttonDisabled
+  ?help g_help
+    (If you do not want to use the default .tgf help file mechanism, you can specify your own callback for the Help button; see Specifying Your Own Callback.)
+  ?initialSize g_initialSize
+  ?minSize g_minSize
+    The default minimum width is a few pixels wider than the width of the button banner and the default minimum height is a few pixels more than the height of the button banner.
+  ?maxSize g_maxSize
+    The default maximum size is the size of the screen.
+  ?dontBlock g_dontBlock
+    The default is nil.
+  ?fieldFocus s_fieldFocus
+    Possible choices are 'editableTypein (default) and 'allTypein.
+  ?plist g_plist
+  ?baseName s_baseName
+
+返回: r_form
+
+省略: 参数说明 20 条共 13,196 字 → detail="brief"；示例、补充说明、相关函数、选项说明 → detail="full"

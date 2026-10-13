@@ -1,0 +1,96 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "pstddev(\no_waveformn_from\nn_to\n[ n_period [ n_sfactor ] ])\n=> o_waveform / nil",
+   "shared_from": null
+  }
+ ],
+ "where": {
+  "file": "oceanref/chap10.html",
+  "topic": "pstddev",
+  "marker_text": "pstddev",
+  "anchor": "pstddev"
+ },
+ "also_at": [],
+ "sections": {
+  "arguments": {
+   "root": {
+    "title": null,
+    "items": [
+     {
+      "name": "o_waveform",
+      "desc": "Waveform object representing simulation results that can be displayed as a series of points on a grid. (A waveform object identifier looks like srrWave:XXXXX.).",
+      "values": null
+     },
+     {
+      "name": "n_from",
+      "desc": "Starting numeric value for the range on the X-axis.",
+      "values": null
+     },
+     {
+      "name": "n_to",
+      "desc": "Ending numeric value for the range on the X-axis.",
+      "values": null
+     },
+     {
+      "name": "n_period",
+      "desc": "Numeric value for the period of the input waveform.",
+      "values": null
+     },
+     {
+      "name": "n_sfactor",
+      "desc": "Sampling factor. This can be increased in order to increase the accuracy of the output. Default value: 1",
+      "values": null
+     }
+    ]
+   },
+   "lists": [],
+   "text": "o_waveform\nWaveform object representing simulation results that can be displayed as a series of points on a grid. (A waveform object identifier looks like srrWave:XXXXX.).\nn_from\nStarting numeric value for the range on the X-axis.\nn_to\nEnding numeric value for the range on the X-axis.\nn_period\nNumeric value for the period of the input waveform.\nn_sfactor\nSampling factor. This can be increased in order to increase the accuracy of the output. Default value: 1"
+  },
+  "returns": {
+   "items": [
+    {
+     "value": "o_waveform",
+     "desc": "Returns a waveform representing the periodic standard deviation of a family of signals."
+    },
+    {
+     "value": "nil",
+     "desc": "Returns nil and an error message otherwise."
+    }
+   ],
+   "text": "o_waveform\nReturns a waveform representing the periodic standard deviation of a family of signals.\nnil\nReturns nil and an error message otherwise."
+  },
+  "example": {
+   "text": "pstddev( v(\"/net8\") ?from 1n ?to 20n ?period 2n ?sfactor 1)\nReturns the value of the periodic standard deviation for the family of waveforms representing the voltage of \"/net8\""
+  },
+  "definition": {
+   "text": "Computes the periodic standard deviation of a family of signals for each time point."
+  }
+ },
+ "field_status": {
+  "description": "not_documented",
+  "arguments": "present",
+  "returns": "present",
+  "example": "present",
+  "reference": "not_documented",
+  "related_functions": "not_documented",
+  "prerequisites": "not_documented",
+  "additional_information": "not_documented",
+  "interactive_function": "not_documented",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "present",
+  "overview": "not_documented",
+  "errors": "not_documented",
+  "decl": "present"
+ },
+ "status": "active",
+ "prefix": "",
+ "tokens": [
+  "pstddev"
+ ],
+ "name": "pstddev"
+}

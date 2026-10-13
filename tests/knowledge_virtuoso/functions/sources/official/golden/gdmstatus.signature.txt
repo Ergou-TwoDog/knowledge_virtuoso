@@ -1,0 +1,5 @@
+函数: gdmstatus
+签名: gdmstatus({
+G_gdmSpec | q_gdmSpecList }x_information
+)
+=> l_fileStatus / nil

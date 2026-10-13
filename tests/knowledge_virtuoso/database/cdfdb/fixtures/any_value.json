@@ -1,0 +1,26 @@
+{
+ "params": {
+  "className": "",
+  "keyword": "value"
+ },
+ "rows": [
+  {
+   "name": "defValue",
+   "rw": "rw",
+   "type": "",
+   "desc": "Default value of the parameter. You must specify this field. This field is editable.",
+   "classes": [
+    "cdfParamId"
+   ]
+  },
+  {
+   "name": "value",
+   "rw": "rw",
+   "type": "",
+   "desc": "Current value of the parameter. This field is editable.",
+   "classes": [
+    "cdfParamId"
+   ]
+  }
+ ]
+}

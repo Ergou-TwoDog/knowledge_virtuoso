@@ -1,0 +1,2 @@
+dbCreateRect | dbCreateRect( d_cellView txl_layerPurposel_bBox ) => d_rect / nil | Creates a rectangle. | 返回: d_rect, nil | skdfref/chap2.html
+省略: 参数说明；示例与补充说明 → detail="skel" / "brief" / "full"

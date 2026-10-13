@@ -1,0 +1,122 @@
+函数: hiCreateTreeTable
+签名: hiCreateTreeTable(
+?name s_name
+[ ?title t_title ][ ?choice
+g_choice ]
+[ ?value g_value ]
+[ ?defValue g_defaultValue ]
+[ ?help g_fieldHelp ]
+[ ?headers g_headers ][ ?sort
+l_sort ]
+[ ?callback g_callback ][ ?enableDeselectCB
+g_enableDeselectCB ]
+[ ?expandCallback g_expandCallback ]
+[ ?collapseCallback g_collapseCallback ][ ?sortCallback
+g_sortCallback ]
+[ ?nextField g_nextField ]
+[ ?titleAlignment g_titleAlignment ]
+[ ?selectMode s_selectMode ]
+[ ?invisible g_invisible ][ ?enabled
+g_enabled ]
+[ ?altRowHilight g_rowHighlight ])
+=> r_fieldHandle
+描述: Creates a tree table field. If you have already created a tree, you can specify it when you create the field; otherwise you can add a tree later to the field. To create a tree, use hiCreateTree and other tree table field functions.
+For details about the tree table field API, see Overview. For an example of how to create a tree table field, see Examples.
+来源: skuiref/chap8.html
+
+参数:
+  ?name s_name — Handle to the tree table field. To reference it, use:
+    formHandle->hiFieldSym
+  ?title t_title — Title of the tree table field, which is displayed above the tree.
+  ?choice g_choice — The tree that the tree table field contains. This is the return value of hiCreateTree.
+    To retrieve or change the value of g_choice, use:
+    formHandle->hiFieldSym->choice
+  ?value g_value — The initial value of the field, indicating which items in the tree table field are selected when the form first appears.
+    Specify g_value as a list of item symbols.
+    After the form is instantiated, you can use the value property to retrieve or change the list of currently selected items. To retrieve the list of selected items, use the following syntax:
+    formHandle->hiFieldSym->value
+    To change the list of selected items with the value property, use the following syntax:
+    formHandle->hiFieldSym->value = listOfItems
+    Setting the value through the value property always triggers the callback of the tree table field. If you want to set the value without triggering the callback, use the functions hiTreeTableSelectItem, hiTreeTableSelectItems, or hiTreeTableSelectAllItems, with the g_notify argument set to nil.
+  ?defValue g_defaultValue — Default value of the field, indicating which items in the tree table are selected when the Defaults button is clicked.
+    Specify g_defaultValue as a list of item symbols.
+    After the form is instantiated, you can use the defValue property to retrieve or change the default value. Use the following syntax for the defValue property:
+    formHandle->hiFieldSym->defValue
+  ?help g_fieldHelp — A string, symbol, list of strings, or list of symbols used to reference help. If this argument is not specified, s_name is used. This argument is currently not used.
+  ?headers g_headers — The list of columns in the tree table field. Specify each column as a list that contains the following elements:
+    '(columnName columnWidth colNameAlignment type sortable compareFunction)
+    columnName is the heading of the column
+    columnWidth is the initial width of the column. The width can be changed interactively after the form is created.
+    colNameAlignment is the alignment of the column heading and the data in the column: 'left, 'right, or 'center
+    This should be of type symbol.
+    type is the type of data in the column: 'int, 'float[n], or 'string. You can specify float in the following ways:
+    'floatn (where n is the number of decimal points to be displayed in the float field). For example, 'float4.
+    'float (which defaults to 'float3)
+    This should be of type symbol.
+    sortable indicates if the column is sortable. Specify t if you want the column to be sortable; nil otherwise. The report field can sort integer, float, and string data. Clicking on the column header sorts the data in the column.
+    compareFunction is the name (string) of the optional sorting function you write if you want to sort the data yourself. The return value of this sorting function must be -1, 0, or 1.
+    You need to specify type, sortable, and compareFunction only if you want the column to be sortable.
+    After the tree table is displayed, you can choose which columns you want to display. To do so, right-click on the tree table title, and in the pop-up menu that appears, select the columns you want to display and deselect the columns that you want to hide. By default, all the columns are displayed.
+    After the form is instantiated, you can use the headers property to retrieve or change the header. Use the following syntax to set the header property:
+    formHandle->hiFieldSym->headers = newHeader
+  ?sort l_sort — Indicates which column is sorted when the tree table first appears. Specify l_sort as a list of two elements:
+    '(columnToSort sortDirection)
+    where columnToSort is an integer indicating the column to sort (the first column is 0, the second is 1, and so on) and sortDirection is t or nil (t indicates descending order, nil indicates ascending order).
+    You can also use the sort property to sort a column after the form is instantiated.
+    Use the following format for the sort property:
+    formHandle->hiFieldSym->sort
+    Clicking on the column header sorts the column. Clicking again on the column header changes the sorting direction, from ascending to descending or vice versa.
+  ?callback g_callback — A string or symbol that specifies the name of the SKILL function to be called when items are selected in the tree table field. If you want the callback function to also be called when items are deselected, specify t as the value of the ?enableDeselectCB argument.
+    The callback function is passed two arguments:
+    the field name (symbol)
+    the list of selected items (list of symbols)
+    The default value of g_callback is an empty string ("").
+  ?enableDeselectCB g_enableDeselectCB — t or nil. Specify t if you want the callback function (specified with the ?callback argument) to be called when items are deselected, in addition to being called when items are selected. If you specify nil, the callback function is called only when items are selected.
+    The default value of g_enableDeselectCB is nil.
+  ?expandCallback g_expandCallback — The SKILL function that is called when any tree node is expanded.
+    The expand callback function is passed two arguments:
+    the field name (symbol)
+    the name of the expanded item (symbol)
+    The default value of g_expandCallback is an empty string ("").
+  ?collapseCallback g_collapseCallback — The SKILL function that is called when any tree node is collapsed.
+    The collapse callback function is passed two arguments:
+    the field name (symbol)
+    the name of the collapsed item (symbol)
+    The default value of g_collapseCallback is an empty string ("").
+  ?sortCallback g_sortCallback — The SKILL function that is called when a column is sorted.
+    The sort callback function is passed two arguments:
+    the field name (symbol)
+    list(columnToSort sortDirection)
+    where columnToSort is an integer indicating the column to sort (the first column is 0, the second is 1, and so on) and sortDirection is t or nil (t indicates descending order, nil indicates ascending order).
+    The default value of g_sortCallback is an empty string ("").
+  ?nextField g_nextField — Symbol or string indicating the next field to bring into focus when the Tab key is pressed. If you specify nil or do not specify this argument, the Tab traversal order is determined by the tabOrderIsAddOrder argument of hiCreateAppForm or hiCreateScrollRegion. If the tabOrderIsAddOrder argument is not set or if its value is nil, the default traversal order is based on the form layout --left-to-right and top-to-bottom-- beginning with the field at the top-left corner of the form.
+  ?titleAlignment g_titleAlignment — Alignment of the title of the tree table field. Use one of the following values:
+    'left
+    'right
+    'center
+    The default value is 'left.
+  ?selectMode s_selectMode — Specifies the selection mode for the tree table field. Use one of the following symbols:
+      取值 'single — Only one item can be selected at a time. Click to select the item.
+      To deselect an item, click it again or select another item.
+      取值 'browse — One item always remains selected. Click to select the item.
+      To deselect an item, select another item.
+      取值 'multiple — Multiple items can be selected at a time. When you select an item, its selection state (selected or unselected) is toggled and the other items are unchanged.
+      取值 'extended — When you select an item, any previously-selected item is unselected. However, if you press CTRL and click an item, its selection state (selected or unselected) is toggled and the other items are not changed. If you press SHIFT and click an item, all the items between the current item and the clicked item are selected. Multiple items can also be selected by dragging the mouse over them.
+  ?invisible g_invisible — Specifies whether the layout and the fields within are invisible. The default value is nil.
+  ?enabled g_enabled — Specifies whether the fields in the layout are enabled. The default value is t.
+  ?altRowHilight g_rowHighlight — Specifies whether background of alternate rows in the table should be highlighted. The default is nil, which means that highlight is not enabled.
+
+参数正文（条目之外，原文散文，非结构化条目）:
+  'single
+  Only one item can be selected at a time. Click to select the item.
+  To deselect an item, click it again or select another item.
+  'browse
+  One item always remains selected. Click to select the item.
+  To deselect an item, select another item.
+  'multiple
+  Multiple items can be selected at a time. When you select an item, its selection state (selected or unselected) is toggled and the other items are unchanged.
+  'extended
+  When you select an item, any previously-selected item is unselected. However, if you press CTRL and click an item, its selection state (selected or unselected) is toggled and th…（已截断 384 字符；detail="full" 取全文）
+
+返回:
+  r_fieldHandle — Handle to the tree table field.

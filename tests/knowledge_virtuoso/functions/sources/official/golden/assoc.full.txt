@@ -1,0 +1,28 @@
+函数: assoc
+签名: assv(
+g_key l_alist
+)
+=> l_association / nil
+签名说明: 该声明取自共享主题 assoc, assq, assv，不是本函数单独文档化的签名
+描述: The assoc, assq, and assv functions find the first list in l_alist whose car field is g_key and return that list. assq uses eq to compare g_key with the car fields of the lists in alist. assoc uses equal. assv uses eqv.
+The association list, l_alist, must be a list of lists. An association list is a standard data structure that has the form ((key1 value1) (key2 value2) (key3 value3) ...). These functions find the first list in l_alist whose car field is g_key and return that list. assq uses eq to compare g_key with the car fields of the lists in l_alist. assv uses eqv. assoc uses equal.
+来源: sklangref/datastruct.html
+相关: eq [logicalrel.html] equal [logicalrel.html] eqv [logicalrel.html]
+解析状态: 声明取自共享主题
+
+参数:
+  g_key — An arbitrary object as the search key.
+  l_alist — Association list. Must be a list of lists.
+
+返回:
+  l_association — The returned list is always an element of l_alist.
+  nil — If no list in l_alist has g_key, as its car.
+
+示例:
+  e = '((a 1) (b 2) (c 3))
+  (assq 'a e) => (a 1)
+  (assq 'b e) => (b 2)
+  (assq 'd e) => nil
+  (assq (list 'a) '(((a)) ((b)) ((c)))) => nil
+  (assoc (list 'a) '(((a)) ((b)) ((c)))) => ((a))
+  (assv 5 '((2 3) (5 7) (11 13))) => (5 7)

@@ -1,0 +1,2 @@
+syntheticUniqueFunc（自定义） | syntheticUniqueFunc( t_in ) => t_out / nil | 手写夹具：只存在于 custom 索引里，官方没有同名函数。 | 返回: t_out | src/test/syntheticUniqueFunc.il
+省略: 参数说明；示例与补充说明 → detail="skel" / "brief" / "full"

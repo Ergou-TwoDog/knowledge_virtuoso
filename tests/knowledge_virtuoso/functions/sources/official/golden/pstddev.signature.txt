@@ -1,0 +1,6 @@
+函数: pstddev
+签名: pstddev(
+o_waveformn_from
+n_to
+[ n_period [ n_sfactor ] ])
+=> o_waveform / nil

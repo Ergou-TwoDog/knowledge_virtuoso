@@ -1,0 +1,10 @@
+函数: auHiUltraPCell
+签名: auHiUltraPCell([ t_filename ]) => t / nil
+来源: skpcellref/graphicalFunctions.html
+
+参数:
+  t_filename
+
+返回: t / nil
+
+省略: 参数说明 1 条共 112 字 → detail="brief"；示例、补充说明、相关函数、选项说明 → detail="full"

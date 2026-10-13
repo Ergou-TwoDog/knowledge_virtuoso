@@ -1,0 +1,10 @@
+{
+ "func_name": "noSuchFuncXYZ",
+ "hints": [
+  "sevNoLog",
+  "leWENoSnap",
+  "leArrowFunc",
+  "sevNoDesign",
+  "axlNoSession"
+ ]
+}

@@ -1,0 +1,12 @@
+函数: assoc
+签名: assv( g_key l_alist ) => l_association / nil
+      （取自共享主题 assoc, assq, assv，非本函数单独文档化的签名）
+来源: sklangref/datastruct.html
+
+参数:
+  g_key
+  l_alist
+
+返回: l_association / nil
+
+省略: 参数说明 2 条共 80 字 → detail="brief"；示例、补充说明、相关函数、选项说明 → detail="full"

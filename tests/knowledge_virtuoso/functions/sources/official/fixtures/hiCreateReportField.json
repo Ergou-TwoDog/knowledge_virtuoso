@@ -1,0 +1,212 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "hiCreateReportField(\n?name s_fieldName\n[ ?title t_title ][ ?titleAlignment g_titleAlignment ]\n[ ?headers g_headers ]\n[ ?choices l_choices ]\n[ ?value g_value ]\n[ ?defValue g_defaultValue ]\n[ ?returnPackedValue g_returnPackedValue ]\n[ ?help g_fieldHelp ]\n[ ?callback g_callback ]\n[ ?enableDeselectCB S_enableDeselectCB ]\n[ ?doubleClickCB g_doubleClickCB ]\n[ ?sortCallback g_sortCallback ]\n[ ?sort l_sort ]\n[ ?selectMode s_selectMode ]\n[ ?invisible g_invisible ]\n[ ?enabled g_enabled ]\n[ ?nextField g_nextField ]\n[ ?altRowHilight g_rowHighlight ]\n)\n=> r_fieldHandle",
+   "shared_from": null
+  }
+ ],
+ "where": {
+  "file": "skuiref/chap8.html",
+  "topic": "hiCreateReportField",
+  "marker_text": "hiCreateReportField",
+  "anchor": "hiCreateReportField"
+ },
+ "also_at": [],
+ "sections": {
+  "description": {
+   "text": "Creates a report field, which you can use to display information in a complex format. For example, you can display a table with sortable columns. The items in a report field can be selected but they cannot be edited.\nThis field can also have a context menu, that is, a pop-up menu that is displayed when you right-click on the field. See Creating Context Menus for Fields for more information.\nFor information on creating tooltips for fields, see Creating Tool Tips for Fields."
+  },
+  "arguments": {
+   "root": {
+    "title": null,
+    "items": [
+     {
+      "name": "?name s_name",
+      "desc": "Handle to the field. To reference it, use:\nformHandle->hiFieldSym",
+      "values": null
+     },
+     {
+      "name": "?title t_title",
+      "desc": "Report title, which is displayed above the report.",
+      "values": null
+     },
+     {
+      "name": "?titleAlignment g_titleAlignment",
+      "desc": "Alignment of the report title. Use one of the following values:\n'left\n'center\n'right\nThe default value is 'left.",
+      "values": null
+     },
+     {
+      "name": "?headers g_headers",
+      "desc": "The list of columns in the report. Specify each column as a list that contains the following elements:\n'(columnName columnWidth colNameAlignment type sortable comparisonFunction userData)\ncolumnName is the heading of the column\ncolumnWidth is the initial width of the column. The width can be changed interactively after the form is created.\nNote: If the column width is set to 0, the column will be hidden in the report.\ncolNameAlignment is the alignment of the column heading and the data in the column: 'left, 'right, or 'center\ntype is the type of data in the column: 'int, 'float[n], or 'string. You can specify float in the following ways:\n'floatn (where n is the number of decimal points to be displayed in the float field). For example, 'float4.\n'float (which defaults to 'float3)\n'scientificn (where n is an optional integer specifying the precision). For example, 'scientific4.\n'scientific (which defaults to 'scientific3)\nsortable indicates if the column is sortable. Specify t if you want the column to be sortable; nil, otherwise. The report field can sort integer, float, and string data. Clicking on the column header sorts the data in the column.\ncomparisonFunction (optional) is the name (string) of the comparison function that will be called by the sorting algorithm. The comparison function is called with two arguments that point to the elements being compared. The return value of this sorting function must be -1, 0, or 1.\ncomparisonFunction(row1 row2 userData)\nwhere row1 and row2 are members of the l_choices list (that is, they are entire rows, not just the specific elements in the columns).\nIf userData is nil, comparisonFunction is called as described in comparisonFunction above.\nYou need to specify type, sortable, compareFunction, and userData only if you want the column to be sortable.\nOnce the report field is instantiated, you can modify the headers (specifically, the name, width, and alignment of the columns) with the headers property by using the following commands:\nform->reportField->headers=newHeaders\nor (putprop form->reportField newHeaders 'headers)\nwhere newHeaders is a list in the same format as the g_headers argument described above except that only columnName, columnWidth, and colNameAlignment values will be used (the remaining values, if specified, are ignored). Also, any nil elements in the newHeaders list are ignored and do not replace the corresponding elements in the existing headers list.\nFor example, if the old headers list is:\n'((\"one\" 100 left) (\"two\" 200 right float) (\"three\" 300 center))\nand the new headers list is:\n'(nil (\"TWO\" nil left int))\nthen the new headers will be:\n'((\"one\" 100 left) (\"TWO\" 200 left float) (\"three\" 300 center))",
+      "values": null
+     },
+     {
+      "name": "?choices l_choices",
+      "desc": "List containing the items in the report. Each item forms a row of the report. For example:\n?choices list(\nlist(1 \"ABC\" \"buy\" 62.0 \"Buy & Hold\")\nlist(2 \"DEF\" \"sell\" 17.0 \"Sell\")\nlist(3 \"XYZ\" \"hold\" 9.5 \"Hold\")\n)\nTo retrieve or change the value of l_choices, use:\nformHandle->hiFieldSym->choices",
+      "values": null
+     },
+     {
+      "name": "?value g_value",
+      "desc": "Initial value of the field, indicating which items in the report are selected when the form first appears.\nSpecify g_value as a list of integers in the ascending order, in which each integer represents an item in ?choices. The first item in ?choices is 0, the second item is 1, the third item is 2, and so on. You can specify a range of items as a list within the list.\nFor example:\n?value '(1 3 6);selects items 1, 3, 6\n?value '('(2 4)); selects items 2, 3, 4\n?value '('(1 3) 9 11); selects items 1, 2, 3, 9, 11\nAfter the form is instantiated, you can use the value property to retrieve or change the list of currently selected items. To retrieve the list of selected items, use the following syntax:\nformHandle->hiFieldSym->value\nThe value property returns a list of integers. This list will contain packed values if the g_returnPackedValue argument is t (see the description of g_returnPackedValue for more information).\nTo change the list of selected items with the value property, use the following syntax:\nformHandle->hiFieldSym->value = listOfItems\nSetting the value through the value property always triggers the callback of the report field. If you want to set the value without triggering the callback, use the functions hiReportSelectItem, hiReportSelectItems, or hiReportSelectAllItems, with the g_notify argument set to nil.",
+      "values": null
+     },
+     {
+      "name": "?defValue g_defaultValue",
+      "desc": "Default value of the field, indicating which items in the report are selected when the Defaults button is clicked. After the form is instantiated, you can use the defValue property to retrieve or change the default value.\nSpecify g_defaultValue as a list of integers in the ascending order, in which each integer represents an item in ?choices. The first item in ?choices is 0, the second item is 1, the third item is 2, and so on. You can specify a range of items as a list within the list.\nFor example:\n?defValue '(1 3 6) ; selects items 1, 3, 6\n?defValue '('(2 4)) ; selects items 2, 3, 4\n?defValue '('(1 3) 9 11) ; selects items 1, 2, 3, 9, 11\nUse the following syntax for the defValue property\nformHandle->hiFieldSym->defValue\nThe defValue property returns a list of integers. This list will contain packed values if the g_returnPackedValue argument is t (see the description of g_returnPackedValue for more information).",
+      "values": null
+     },
+     {
+      "name": "?returnPackedValue g_returnPackedValue",
+      "desc": "t or nil. Specify t if you want the value, defValue, and lastValue properties to return packed values. Otherwise, specify nil. g_returnPackedValue also determines whether the second argument passed to S_callback contains packed values.\nA packed value is a range of items specified as a list within the list. For example, if items 1, 2, 3, 4, 5, 9, and 11 are selected in the report, the value property will return the following:\n'('(1 5) 9 11) ; if g_returnPackedValue is t\n'(1 2 3 4 5 9 11) ; if g_returnPackedValue is nil",
+      "values": null
+     },
+     {
+      "name": "?help g_fieldHelp",
+      "desc": "A string or symbol used to reference help. If not specified, s_fieldName is used. This argument is currently not used.",
+      "values": null
+     },
+     {
+      "name": "?callback g_callback",
+      "desc": "A string, a symbol, or a function object that specifies the name of the callback function to be called when items are selected. If you want the callback to also be called when items are deselected, specify t as the value of the ?enableDeselectCB argument.\nIf you specify a symbol for this argument, or a non-empty string without space or parentheses, it is assumed to be the callback function name. The callback function is passed two arguments. The first argument is the symbol representing the field name. The second argument is a list of integers representing the selected items of the report (the first item is 0, the second item is 1, and so forth). The second argument will contain packed values if the value of the g_returnPackedValue argument is t (see the description of g_returnPackedValue for more information).\nIf you specify a string with space or parentheses for this argument, it is assumed to be a SKILL expression and is passed to SKILL to be evaluated.\nFor example:\nprocedure( reportCB(fieldName selectedItems \"sl\") printf( \"Report field callback, fieldName = %L, selectedItems = %L\" fieldName selectedItems )\nreportField = hiCreateReportField(\n?name 'reportField?title \"Report Field\"\n?selectMode 'single\n?headers '((\"Property\" 120 'left)\n(\"Operator\" 70 'left)\n(\"Value\" 120 'left))\n?value '((\"test\" \"==\" \"argh\")\n(\"test2\" \">\" \"argh\")\n(\"test3\" \"<\" \"test4\"))\n?callback 'reportCB\n)\nreportField can also take a single click ?callback called hiClickedCallback, which will enable you to retrieve selected column, row or symbol information for a mouse click selection. For example:\n(defun myClickedCallback (fieldSymbol row column \"sxx\")...)\nrptProps->hiClickedCallback='myClickedCallback\nIf specified, clicking on a reportField item will cause hiClickedCallback to be applied. The callback then is passed three arguments; fieldSymbol, row number and column number, where both row and column numbers are zero-based. Here hiClickedCallback is called before hiReportSelectItems is executed.",
+      "values": null
+     },
+     {
+      "name": "?enableDeselectCB S_enableDeselectCB",
+      "desc": "t or nil. Specify t if you want the callback procedure (specified with the ?callback argument) to be called when items are deselected, in addition to being called when items are selected. If you specify nil, the callback procedure is called only when items are selected.\nThe default value of S_enableDeselectCB is nil.",
+      "values": null
+     },
+     {
+      "name": "?doubleClickCB g_doubleClickCB",
+      "desc": "A string, symbol or function object specifying the callback procedure to be called when an item is double-clicked.\nIf specified as a symbol, the procedure will be passed two arguments. The first argument is a string representing the report field name; the second argument is an integer representing the item that was double-clicked (the first item is 0, the second item is 1, and so forth).\nIf specified as a string, the string is evaluated and the callback function is not passed any arguments.\nThe default value of this argument is an empty string (\"\"), which means that a double-click callback has not been specified.\nIf specified as a function object, it is passed following arguments:\n< double click callback > ( o_field g_scope x_item_index )\nwhere o_field is the report field, g_scope specifies where the report is instantiated, and x_item_index is the index of the item being double-clicked.",
+      "values": null
+     },
+     {
+      "name": "?sortCallback g_sortCallback",
+      "desc": "A string, symbol, or function object type callback that is used to notify when the field is sorted. The sort callback procedure is passed two arguments. The first argument is the field name symbol; the second argument is list(columnToSort sortDirection), where columnToSort is an integer indicating the column to sort (the first column is 0, the second is 1, and so on) and sortDirection is t or nil (t indicates descending order, nil indicates ascending order). The sorting is then done by the comparisonFunction, which is passed as part of the column description in the ?headers argument.\nIf callback is of function object type, it is passed following arguments:\n< sort callback > ( o_field g_scope l_sort_property )\n, where l_sort_property is a list of (columnToSort sortDirection). Same as that used to sort callback of string or symbol type.",
+      "values": null
+     },
+     {
+      "name": "?sort l_sort",
+      "desc": "Indicates which column is sorted when the form first appears. Specify l_sort as a list of two elements:\n'(columnToSort sortDirection)\nwhere columnToSort is an integer indicating the column to sort (the first column is 0, the second is 1, and so on) and sortDirection is t or nil (t indicates descending order, nil indicates ascending order).\nYou can also use the sort property to sort a column after the form is instantiated.\nUse the following format for the sort property:\nformHandle->hiFieldSym->sort\nClicking on the column header sorts the column. Clicking again on the column header changes the sorting direction, from ascending to descending or vice versa.",
+      "values": null
+     },
+     {
+      "name": "?selectMode s_selectMode",
+      "desc": "Specifies the selection mode for the report field. Use one of the following symbols:",
+      "values": [
+       {
+        "value": "'single",
+        "desc": "Only one item can be selected at a time. Click to select the item.\nTo deselect an item, click it again or select another item."
+       },
+       {
+        "value": "'multiple",
+        "desc": "Multiple items can be selected. Click to select the items.\nTo deselect an item, click it again."
+       },
+       {
+        "value": "'browse",
+        "desc": "One item always remains selected. Click or drag to select the item.\nTo deselect an item, select another item."
+       },
+       {
+        "value": "'extended",
+        "desc": "One or more items always remain selected. Multiple contiguous ranges of items can be selected. Click to select a single item. Click and drag to select a range of items. Press the CTRL key and click to select an additional item or a range of additional items.\nTo deselect an item, press the CTRL key and click the item. CTRL+click also deselects the last selected item.\nYou can also use CTRL+SHIFT to select or deselect a range of items."
+       }
+      ]
+     },
+     {
+      "name": "?invisible g_invisible",
+      "desc": "Specifies whether the layout and the fields within are invisible. The default value is nil.",
+      "values": null
+     },
+     {
+      "name": "?enabled g_enabled",
+      "desc": "Specifies whether the fields in the layout are enabled. The default value is t.",
+      "values": null
+     },
+     {
+      "name": "?nextField g_nextField",
+      "desc": "Symbol or string indicating the next field to bring into focus when the Tab key is pressed. If you specify nil or do not specify this argument, the Tab traversal order is determined by the tabOrderIsAddOrder argument of hiCreateAppForm or hiCreateScrollRegion. If the tabOrderIsAddOrder argument is not set or if its value is nil, the default traversal order is based on the form layout --left-to-right and top-to-bottom-- beginning with the field at the top-left corner of the form.",
+      "values": null
+     },
+     {
+      "name": "?altRowHilight g_rowHighlight",
+      "desc": "Specifies whether background of alternate rows in the table should be highlighted. The default is nil, which means that highlight is not enabled.",
+      "values": null
+     }
+    ]
+   },
+   "lists": [],
+   "text": "?name s_name\nHandle to the field. To reference it, use:\nformHandle->hiFieldSym\n?title t_title\nReport title, which is displayed above the report.\n?titleAlignment g_titleAlignment\nAlignment of the report title. Use one of the following values:\n'left\n'center\n'right\nThe default value is 'left.\n?headers g_headers\nThe list of columns in the report. Specify each column as a list that contains the following elements:\n'(columnName columnWidth colNameAlignment type sortable comparisonFunction userData)\ncolumnName is the heading of the column\ncolumnWidth is the initial width of the column. The width can be changed interactively after the form is created.\nNote: If the column width is set to 0, the column will be hidden in the report.\ncolNameAlignment is the alignment of the column heading and the data in the column: 'left, 'right, or 'center\ntype is the type of data in the column: 'int, 'float[n], or 'string. You can specify float in the following ways:\n'floatn (where n is the number of decimal points to be displayed in the float field). For example, 'float4.\n'float (which defaults to 'float3)\n'scientificn (where n is an optional integer specifying the precision). For example, 'scientific4.\n'scientific (which defaults to 'scientific3)\nsortable indicates if the column is sortable. Specify t if you want the column to be sortable; nil, otherwise. The report field can sort integer, float, and string data. Clicking on the column header sorts the data in the column.\ncomparisonFunction (optional) is the name (string) of the comparison function that will be called by the sorting algorithm. The comparison function is called with two arguments that point to the elements being compared. The return value of this sorting function must be -1, 0, or 1.\ncomparisonFunction(row1 row2 userData)\nwhere row1 and row2 are members of the l_choices list (that is, they are entire rows, not just the specific elements in the columns).\nIf userData is nil, comparisonFunction is called as described in comparisonFunction above.\nYou need to specify type, sortable, compareFunction, and userData only if you want the column to be sortable.\nOnce the report field is instantiated, you can modify the headers (specifically, the name, width, and alignment of the columns) with the headers property by using the following commands:\nform->reportField->headers=newHeaders\nor (putprop form->reportField newHeaders 'headers)\nwhere newHeaders is a list in the same format as the g_headers argument described above except that only columnName, columnWidth, and colNameAlignment values will be used (the remaining values, if specified, are ignored). Also, any nil elements in the newHeaders list are ignored and do not replace the corresponding elements in the existing headers list.\nFor example, if the old headers list is:\n'((\"one\" 100 left) (\"two\" 200 right float) (\"three\" 300 center))\nand the new headers list is:\n'(nil (\"TWO\" nil left int))\nthen the new headers will be:\n'((\"one\" 100 left) (\"TWO\" 200 left float) (\"three\" 300 center))\n?choices l_choices\nList containing the items in the report. Each item forms a row of the report. For example:\n?choices list(\nlist(1 \"ABC\" \"buy\" 62.0 \"Buy & Hold\")\nlist(2 \"DEF\" \"sell\" 17.0 \"Sell\")\nlist(3 \"XYZ\" \"hold\" 9.5 \"Hold\")\n)\nTo retrieve or change the value of l_choices, use:\nformHandle->hiFieldSym->choices\n?value g_value\nInitial value of the field, indicating which items in the report are selected when the form first appears.\nSpecify g_value as a list of integers in the ascending order, in which each integer represents an item in ?choices. The first item in ?choices is 0, the second item is 1, the third item is 2, and so on. You can specify a range of items as a list within the list.\nFor example:\n?value '(1 3 6);selects items 1, 3, 6\n?value '('(2 4)); selects items 2, 3, 4\n?value '('(1 3) 9 11); selects items 1, 2, 3, 9, 11\nAfter the form is instantiated, you can use the value property to retrieve or change the list of currently selected items. To retrieve the list of selected items, use the following syntax:\nformHandle->hiFieldSym->value\nThe value property returns a list of integers. This list will contain packed values if the g_returnPackedValue argument is t (see the description of g_returnPackedValue for more information).\nTo change the list of selected items with the value property, use the following syntax:\nformHandle->hiFieldSym->value = listOfItems\nSetting the value through the value property always triggers the callback of the report field. If you want to set the value without triggering the callback, use the functions hiReportSelectItem, hiReportSelectItems, or hiReportSelectAllItems, with the g_notify argument set to nil.\n?defValue g_defaultValue\nDefault value of the field, indicating which items in the report are selected when the Defaults button is clicked. After the form is instantiated, you can use the defValue property to retrieve or change the default value.\nSpecify g_defaultValue as a list of integers in the ascending order, in which each integer represents an item in ?choices. The first item in ?choices is 0, the second item is 1, the third item is 2, and so on. You can specify a range of items as a list within the list.\nFor example:\n?defValue '(1 3 6) ; selects items 1, 3, 6\n?defValue '('(2 4)) ; selects items 2, 3, 4\n?defValue '('(1 3) 9 11) ; selects items 1, 2, 3, 9, 11\nUse the following syntax for the defValue property\nformHandle->hiFieldSym->defValue\nThe defValue property returns a list of integers. This list will contain packed values if the g_returnPackedValue argument is t (see the description of g_returnPackedValue for more information).\n?returnPackedValue g_returnPackedValue\nt or nil. Specify t if you want the value, defValue, and lastValue properties to return packed values. Otherwise, specify nil. g_returnPackedValue also determines whether the second argument passed to S_callback contains packed values.\nA packed value is a range of items specified as a list within the list. For example, if items 1, 2, 3, 4, 5, 9, and 11 are selected in the report, the value property will return the following:\n'('(1 5) 9 11) ; if g_returnPackedValue is t\n'(1 2 3 4 5 9 11) ; if g_returnPackedValue is nil\n?help g_fieldHelp\nA string or symbol used to reference help. If not specified, s_fieldName is used. This argument is currently not used.\n?callback g_callback\nA string, a symbol, or a function object that specifies the name of the callback function to be called when items are selected. If you want the callback to also be called when items are deselected, specify t as the value of the ?enableDeselectCB argument.\nIf you specify a symbol for this argument, or a non-empty string without space or parentheses, it is assumed to be the callback function name. The callback function is passed two arguments. The first argument is the symbol representing the field name. The second argument is a list of integers representing the selected items of the report (the first item is 0, the second item is 1, and so forth). The second argument will contain packed values if the value of the g_returnPackedValue argument is t (see the description of g_returnPackedValue for more information).\nIf you specify a string with space or parentheses for this argument, it is assumed to be a SKILL expression and is passed to SKILL to be evaluated.\nFor example:\nprocedure( reportCB(fieldName selectedItems \"sl\") printf( \"Report field callback, fieldName = %L, selectedItems = %L\" fieldName selectedItems )\nreportField = hiCreateReportField(\n?name 'reportField?title \"Report Field\"\n?selectMode 'single\n?headers '((\"Property\" 120 'left)\n(\"Operator\" 70 'left)\n(\"Value\" 120 'left))\n?value '((\"test\" \"==\" \"argh\")\n(\"test2\" \">\" \"argh\")\n(\"test3\" \"<\" \"test4\"))\n?callback 'reportCB\n)\nreportField can also take a single click ?callback called hiClickedCallback, which will enable you to retrieve selected column, row or symbol information for a mouse click selection. For example:\n(defun myClickedCallback (fieldSymbol row column \"sxx\")...)\nrptProps->hiClickedCallback='myClickedCallback\nIf specified, clicking on a reportField item will cause hiClickedCallback to be applied. The callback then is passed three arguments; fieldSymbol, row number and column number, where both row and column numbers are zero-based. Here hiClickedCallback is called before hiReportSelectItems is executed.\n?enableDeselectCB S_enableDeselectCB\nt or nil. Specify t if you want the callback procedure (specified with the ?callback argument) to be called when items are deselected, in addition to being called when items are selected. If you specify nil, the callback procedure is called only when items are selected.\nThe default value of S_enableDeselectCB is nil.\n?doubleClickCB g_doubleClickCB\nA string, symbol or function object specifying the callback procedure to be called when an item is double-clicked.\nIf specified as a symbol, the procedure will be passed two arguments. The first argument is a string representing the report field name; the second argument is an integer representing the item that was double-clicked (the first item is 0, the second item is 1, and so forth).\nIf specified as a string, the string is evaluated and the callback function is not passed any arguments.\nThe default value of this argument is an empty string (\"\"), which means that a double-click callback has not been specified.\nIf specified as a function object, it is passed following arguments:\n< double click callback > ( o_field g_scope x_item_index )\nwhere o_field is the report field, g_scope specifies where the report is instantiated, and x_item_index is the index of the item being double-clicked.\n?sortCallback g_sortCallback\nA string, symbol, or function object type callback that is used to notify when the field is sorted. The sort callback procedure is passed two arguments. The first argument is the field name symbol; the second argument is list(columnToSort sortDirection), where columnToSort is an integer indicating the column to sort (the first column is 0, the second is 1, and so on) and sortDirection is t or nil (t indicates descending order, nil indicates ascending order). The sorting is then done by the comparisonFunction, which is passed as part of the column description in the ?headers argument.\nIf callback is of function object type, it is passed following arguments:\n< sort callback > ( o_field g_scope l_sort_property )\n, where l_sort_property is a list of (columnToSort sortDirection). Same as that used to sort callback of string or symbol type.\n?sort l_sort\nIndicates which column is sorted when the form first appears. Specify l_sort as a list of two elements:\n'(columnToSort sortDirection)\nwhere columnToSort is an integer indicating the column to sort (the first column is 0, the second is 1, and so on) and sortDirection is t or nil (t indicates descending order, nil indicates ascending order).\nYou can also use the sort property to sort a column after the form is instantiated.\nUse the following format for the sort property:\nformHandle->hiFieldSym->sort\nClicking on the column header sorts the column. Clicking again on the column header changes the sorting direction, from ascending to descending or vice versa.\n?selectMode s_selectMode\nSpecifies the selection mode for the report field. Use one of the following symbols:\n'single\nOnly one item can be selected at a time. Click to select the item.\nTo deselect an item, click it again or select another item.\n'multiple\nMultiple items can be selected. Click to select the items.\nTo deselect an item, click it again.\n'browse\nOne item always remains selected. Click or drag to select the item.\nTo deselect an item, select another item.\n'extended\nOne or more items always remain selected. Multiple contiguous ranges of items can be selected. Click to select a single item. Click and drag to select a range of items. Press the CTRL key and click to select an additional item or a range of additional items.\nTo deselect an item, press the CTRL key and click the item. CTRL+click also deselects the last selected item.\nYou can also use CTRL+SHIFT to select or deselect a range of items.\nThe default mode is 'extended.\nYou can modify the value of this argument with the selectMode property. For example:\nformHandle->fieldSym->selectMode = 'single\n?invisible g_invisible\nSpecifies whether the layout and the fields within are invisible. The default value is nil.\n?enabled g_enabled\nSpecifies whether the fields in the layout are enabled. The default value is t.\n?nextField g_nextField\nSymbol or string indicating the next field to bring into focus when the Tab key is pressed. If you specify nil or do not specify this argument, the Tab traversal order is determined by the tabOrderIsAddOrder argument of hiCreateAppForm or hiCreateScrollRegion. If the tabOrderIsAddOrder argument is not set or if its value is nil, the default traversal order is based on the form layout --left-to-right and top-to-bottom-- beginning with the field at the top-left corner of the form.\n?altRowHilight g_rowHighlight\nSpecifies whether background of alternate rows in the table should be highlighted. The default is nil, which means that highlight is not enabled."
+  },
+  "returns": {
+   "items": [
+    {
+     "value": "r_fieldHandle",
+     "desc": "Handle to the report field."
+    }
+   ],
+   "text": "r_fieldHandle\nHandle to the report field."
+  },
+  "reference": {
+   "text": "hiReportSelectItem, hiReportSelectItems, hiReportSelectAllItems,\nhiReportDeselectItem, hiReportDeselectItems, hiReportDeselectAllItems,\nhiReportGetSelectedItems",
+   "links": [
+    {
+     "text": "hiReportSelectItem",
+     "href": "#780722"
+    },
+    {
+     "text": "hiReportSelectItems",
+     "href": "#780727"
+    },
+    {
+     "text": "hiReportSelectAllItems",
+     "href": "#780732"
+    },
+    {
+     "text": "hiReportDeselectItem",
+     "href": "#780737"
+    },
+    {
+     "text": "hiReportDeselectItems",
+     "href": "#780742"
+    },
+    {
+     "text": "hiReportDeselectAllItems",
+     "href": "#780747"
+    },
+    {
+     "text": "hiReportGetSelectedItems",
+     "href": "#780752"
+    }
+   ]
+  }
+ },
+ "field_status": {
+  "description": "present",
+  "arguments": "present",
+  "returns": "present",
+  "example": "not_documented",
+  "reference": "present",
+  "related_functions": "not_documented",
+  "prerequisites": "not_documented",
+  "additional_information": "not_documented",
+  "interactive_function": "not_documented",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "not_documented",
+  "overview": "not_documented",
+  "errors": "not_documented",
+  "decl": "present"
+ },
+ "status": "active",
+ "prefix": "hi",
+ "tokens": [
+  "hi",
+  "create",
+  "report",
+  "field"
+ ],
+ "name": "hiCreateReportField"
+}

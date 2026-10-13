@@ -1,0 +1,180 @@
+{
+ "params": {
+  "className": "viaDefs",
+  "keyword": ""
+ },
+ "rows": [
+  {
+   "name": "cellName",
+   "rw": "?",
+   "type": "l_string",
+   "desc": "( customViaDefs ) A list of cell names for the custom vias.",
+   "classes": [
+    "viaDefs"
+   ]
+  },
+  {
+   "name": "implant1",
+   "rw": "?",
+   "type": "l_objId",
+   "desc": "( stdViaDefs ) A list of database identifiers identifying the first implant layer of the vias.",
+   "classes": [
+    "viaDefs"
+   ]
+  },
+  {
+   "name": "implant2",
+   "rw": "?",
+   "type": "l_objId",
+   "desc": "( stdViaDefs ) A list of database identifiers identifying the second implant layer of the vias.",
+   "classes": [
+    "viaDefs"
+   ]
+  },
+  {
+   "name": "layer1",
+   "rw": "?",
+   "type": "l_objId",
+   "desc": "A list of database identifiers identifying the first layer in the derived layers",
+   "classes": [
+    "derivedLayers",
+    "viaDefs",
+    "viaSpecs"
+   ]
+  },
+  {
+   "name": "layer1Num",
+   "rw": "?",
+   "type": "l_string",
+   "desc": "A list of layer numbers identifying the first layer in the derived layers",
+   "classes": [
+    "derivedLayers",
+    "viaDefs",
+    "viaSpecs"
+   ]
+  },
+  {
+   "name": "layer2",
+   "rw": "?",
+   "type": "l_objId",
+   "desc": "A list of database identifiers identifying the second layer in the derived layers",
+   "classes": [
+    "derivedLayers",
+    "viaDefs",
+    "viaSpecs"
+   ]
+  },
+  {
+   "name": "layer2Num",
+   "rw": "?",
+   "type": "l_string",
+   "desc": "A list of layer numbers identifying the second layer in the derived layers",
+   "classes": [
+    "derivedLayers",
+    "viaDefs",
+    "viaSpecs"
+   ]
+  },
+  {
+   "name": "libName",
+   "rw": "?",
+   "type": "string",
+   "desc": "The name of the technology database identified by techID .",
+   "classes": [
+    "techID",
+    "viaDefs"
+   ]
+  },
+  {
+   "name": "name",
+   "rw": "?",
+   "type": "l_string",
+   "desc": "A list of layer names.",
+   "classes": [
+    "layers",
+    "derivedLayers",
+    "purposeDefs",
+    "lps",
+    "viaDefs",
+    "viaVariants",
+    "siteDefs",
+    "snapPatternDefs",
+    "widthSpacingSnapPatternDefs"
+   ]
+  },
+  {
+   "name": "objType",
+   "rw": "?",
+   "type": "",
+   "desc": "A list of via definition types, stdViaDef or customViaDef .",
+   "classes": [
+    "viaDefs",
+    "viaVariants",
+    "siteDefs"
+   ]
+  },
+  {
+   "name": "params",
+   "rw": "?",
+   "type": "",
+   "desc": "A list of derived layer parameters",
+   "classes": [
+    "derivedLayers",
+    "viaDefs",
+    "viaVariants"
+   ]
+  },
+  {
+   "name": "resistancePerCut",
+   "rw": "?",
+   "type": "",
+   "desc": "A list of resistance values assigned per cut.",
+   "classes": [
+    "viaDefs"
+   ]
+  },
+  {
+   "name": "tech",
+   "rw": "?",
+   "type": "l_objId",
+   "desc": "A list of database identifiers identifying the technology databases in which the layer-purpose pairs are defined.",
+   "classes": [
+    "lps",
+    "viaDefs",
+    "viaVariants",
+    "viaSpecs",
+    "siteDefs"
+   ]
+  },
+  {
+   "name": "techFile",
+   "rw": "?",
+   "type": "l_objId",
+   "desc": "A list of database identifiers identifying the technology databases in which the layer-purpose pairs are defined.",
+   "classes": [
+    "lps",
+    "viaDefs",
+    "viaSpecs",
+    "siteDefs"
+   ]
+  },
+  {
+   "name": "viewName",
+   "rw": "?",
+   "type": "l_string",
+   "desc": "( customViaDefs ) A list of view names for the custom vias.",
+   "classes": [
+    "viaDefs"
+   ]
+  },
+  {
+   "name": "wellOrSubstrate",
+   "rw": "?",
+   "type": "l_objId",
+   "desc": "( stdViaDefs ) A list of database identifiers identifying the well and substrate layers of the vias.",
+   "classes": [
+    "viaDefs"
+   ]
+  }
+ ]
+}

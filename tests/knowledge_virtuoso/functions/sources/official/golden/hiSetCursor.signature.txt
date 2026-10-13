@@ -1,0 +1,4 @@
+函数: hiSetCursor
+签名: hiSetCursor(
+w_windowIdx_cursor
+)=> t / nil

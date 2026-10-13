@@ -1,0 +1,22 @@
+函数: hiCreateTreeTable
+签名: hiCreateTreeTable(
+?name s_name
+[ ?title t_title ][ ?choice
+g_choice ]
+[ ?value g_value ]
+[ ?defValue g_defaultValue ]
+[ ?help g_fieldHelp ]
+[ ?headers g_headers ][ ?sort
+l_sort ]
+[ ?callback g_callback ][ ?enableDeselectCB
+g_enableDeselectCB ]
+[ ?expandCallback g_expandCallback ]
+[ ?collapseCallback g_collapseCallback ][ ?sortCallback
+g_sortCallback ]
+[ ?nextField g_nextField ]
+[ ?titleAlignment g_titleAlignment ]
+[ ?selectMode s_selectMode ]
+[ ?invisible g_invisible ][ ?enabled
+g_enabled ]
+[ ?altRowHilight g_rowHighlight ])
+=> r_fieldHandle

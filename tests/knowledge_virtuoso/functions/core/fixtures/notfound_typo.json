@@ -1,0 +1,10 @@
+{
+ "func_name": "dbCreatRect",
+ "hints": [
+  "dbCreateRect",
+  "rodCreateRect",
+  "dbCreateNet",
+  "dbCreateDot",
+  "dbCreateArc"
+ ]
+}

@@ -1,0 +1,59 @@
+函数: hiCreateAppForm
+签名: hiCreateAppForm(
+?name s_name ?fields l_fieldEntries
+[ ?attachmentList l_fieldAttachments ]
+[ ?tabOrderIsAddOrder g_tabOrderIsAddOrder ]
+[ ?formTitle t_formTitle ]
+[ ?callback g_callback ]
+[ ?unmapAfterCB g_unmapAfterCB ]
+[ ?mapCB g_mapCallback ]
+[ ?formType s_formType ]
+[ ?dialogStyle s_dialogStyle ]
+[ ?buttonLayout g_buttonLayout ]
+[ ?buttonDisabled s_buttonDisabled ]
+[ ?help g_help ]
+[ ?initialSize g_initialSize ]
+[ ?minSize g_minSize ]
+[ ?maxSize g_maxSize ]
+[ ?dontBlock g_dontBlock ]
+[ ?fieldFocus s_fieldFocus ]
+[ ?plist g_plist ]
+[ ?baseName s_baseName ]
+)
+=> r_form
+描述: Returns the SKILL representation of a form with the specified field entries, setting it to the specified name. All standard forms, from simple forms to property lists, are generated using hiCreateAppForm, with varying field entries. Use this function instead of hiCreateForm.
+Note: Do not use any predefined property names (of HI forms, tab fields, tab pages, or scroll regions) as field names on your forms. Using the predefined names results in an error. To avoid the error, it is recommended that you either use a different field name or add a non-Cadence style prefix to the field name. Cadence a…（已截断 106 字符；detail="full" 取全文）
+来源: skuiref/chap8.html
+
+参数:
+  ?name s_name — Global SKILL symbol used to reference this form.
+  ?fields l_fieldEntries — List of field descriptors returned from the field creation routines. You must use at least one field entry. There is no upper limit on the number of field entries you specify.
+    By default, the fields appear in a column on the form, in the order in which they are listed. To manipulate the order and position of form fields, use two-dimensional attributes. If you use two-dimensional attributes, each field entry for l_fieldEntries will be a list containing a field descriptor and the two-dimensional attributes for that field. For example, a field entry could be:
+  ?attachmentList l_fieldAttachments — List of field attachments. Field attachments determine how the two-dimensional attributes for a field are used to position that field in the form. The first field attachment is applied to the first field in l_fieldEntries, the second to the second field, and so forth. You must have the same number of attachments in l_fieldAttachments as the number of fields in l_fieldEntries. If you do not want to specify a field attachment for a field, use nil or 0.
+  ?tabOrderIsAddOrder g_tabOrderIsAddOrder — t or nil. Determines the order in which fields are traversed when the Tab key is pressed. If you specify t, the nextField property is automatically set for the fields and the traversal order is the order in which fields are added to the form (that is, the order in which they are listed in the l_fieldEntries list). If you specify nil, the traversal order is based on the form layout --left-to-right and top-to-bottom-- beginning with the field in the top left corner of the form. The default value of g_tabOrderIsAddOrder is nil.
+  ?formTitle t_formTitle — Name that appears in the window manager banner of the form.
+  ?callback g_callback — Used to specify the SKILL functions (callbacks) that execute after you select Apply, OK, or Cancel in the form.
+  ?unmapAfterCB g_unmapAfterCB — If set to t, the form is removed (unmapped) from the screen after the user's callback is executed. If set to nil, the form is removed before the callback is invoked. The default value is nil. If you use hiSetCallbackStatus in your callback routine, you must set the value of g_unmapAfterCB to t or the callback status will be ignored.
+  ?mapCB g_mapCallback — Specifies the callback to be invoked when the form is mapped, that is, when hiDisplayForm is called for a form that is not currently mapped. Specify either the name (string), symbol of the map callback function, or the function object.
+  ?formType s_formType — Possible choices include 'nonoptions (default), or 'options. Options forms must be modeless.
+  ?dialogStyle s_dialogStyle — One of the following symbols, which determines the blocking behavior of the form:
+    The default value of this argument is 'modeless.
+  ?buttonLayout g_buttonLayout — Used to specify the buttons that appear at the bottom of the form. g_buttonLayout can be in one of the following formats:
+    'OKCancelDefApply (default)
+    'HideCancelDefLast (default)
+    Def denotes the Defaults button;
+    When this variable is set, the g_buttonLayout argument is searched for the button whose text equals the value of the variable. The first button that is found becomes the default button.
+  ?buttonDisabled s_buttonDisabled — List of buttons that are disabled when the form appears. You can change this value with the hiSetFormButtonEnabled function.
+  ?help g_help — Specify g_help as a single string, single symbol, list of strings, or list of symbols that will be used to reference a .tgf help file. (If you do not want to use the default .tgf help file mechanism, you can specify your own callback for the Help button; see Specifying Your Own Callback.)
+  ?initialSize g_initialSize — The size of the form when it first appears. g_initialSize accepts the following values:
+  ?minSize g_minSize — The minimum size of the form, specified as a list of width and height or width:height. The minimum size excludes the window manager's title and border. The default minimum width is a few pixels wider than the width of the button banner and the default minimum height is a few pixels more than the height of the button banner.
+  ?maxSize g_maxSize — The maximum size of the form, specified as a list of width and height or width:height. The maximum size excludes the window manager's title and border. The default maximum size is the size of the screen.
+  ?dontBlock g_dontBlock — If set to t, a call to hiDisplayForm() on this form will immediately return t. The default is nil.
+  ?fieldFocus s_fieldFocus — Optional argument used to determine which type-in fields can accept focus through tabbing or clicking the mouse. Possible choices are 'editableTypein (default) and 'allTypein.
+  ?plist g_plist — Indicates whether or not this is a "property list" form.
+  ?baseName s_baseName — If specified, it indicates that the form name is to be used for help.
+
+省略: 参数说明续文 14 条共 14,422 字 → detail="full"（参数名、允许取值与 Default 已保留）
+
+返回:
+  r_form — SKILL structure representing the form.

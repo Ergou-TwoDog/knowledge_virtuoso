@@ -1,0 +1,38 @@
+{
+ "params": {
+  "objType": "inst",
+  "keyword": "name"
+ },
+ "rows": [
+  {
+   "name": "baseName",
+   "rw": "ro",
+   "type": "string",
+   "desc": "Returns base name for the busNetDef."
+  },
+  {
+   "name": "cellName",
+   "rw": "ro",
+   "type": "string",
+   "desc": "Name of the cell."
+  },
+  {
+   "name": "libName",
+   "rw": "ro",
+   "type": "string",
+   "desc": "Name of the library that contains the cellview."
+  },
+  {
+   "name": "name",
+   "rw": "rw",
+   "type": "string",
+   "desc": "实例名称"
+  },
+  {
+   "name": "viewName",
+   "rw": "ro",
+   "type": "string",
+   "desc": "Name of the view."
+  }
+ ]
+}

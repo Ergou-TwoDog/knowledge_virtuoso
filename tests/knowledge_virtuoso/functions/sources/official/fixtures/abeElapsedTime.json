@@ -1,0 +1,74 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "abeElapsedTime([ ?reset\ng_reset ])\n=> g_time",
+   "shared_from": null
+  }
+ ],
+ "where": {
+  "file": "sklayoutref/abe.html",
+  "topic": "abeElapsedTime",
+  "marker_text": "abeElapsedTime",
+  "anchor": "abeElapsedTime"
+ },
+ "also_at": [],
+ "sections": {
+  "description": {
+   "text": "Returns the elapsed time for the current ABE session."
+  },
+  "arguments": {
+   "root": {
+    "title": null,
+    "items": [
+     {
+      "name": "?reset g_reset",
+      "desc": "A Boolean value that resets the clock to zero if set to t. By default, the clock is not reset.",
+      "values": null
+     }
+    ]
+   },
+   "lists": [],
+   "text": "?reset g_reset\nA Boolean value that resets the clock to zero if set to t. By default, the clock is not reset."
+  },
+  "returns": {
+   "items": [
+    {
+     "value": "g_time",
+     "desc": "Elapsed time in seconds."
+    }
+   ],
+   "text": "g_time\nElapsed time in seconds."
+  },
+  "example": {
+   "text": "abeElapsedTime()\nReturns the elapsed time.\nabeElapsedTime( ?reset t )\nReturns the elapsed time, then resets the elapsed time clock to zero."
+  }
+ },
+ "field_status": {
+  "description": "present",
+  "arguments": "present",
+  "returns": "present",
+  "example": "present",
+  "reference": "not_documented",
+  "related_functions": "not_documented",
+  "prerequisites": "not_documented",
+  "additional_information": "not_documented",
+  "interactive_function": "not_documented",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "not_documented",
+  "overview": "not_documented",
+  "errors": "not_documented",
+  "decl": "present"
+ },
+ "status": "active",
+ "prefix": "abe",
+ "tokens": [
+  "abe",
+  "elapsed",
+  "time"
+ ],
+ "name": "abeElapsedTime"
+}

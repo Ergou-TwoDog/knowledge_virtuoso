@@ -1,0 +1,5 @@
+函数: error
+签名: error( [
+S_message1 [ S_message2 ] ... ]
+)
+=> none

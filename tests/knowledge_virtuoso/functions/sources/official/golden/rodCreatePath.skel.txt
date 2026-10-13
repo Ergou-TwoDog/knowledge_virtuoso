@@ -1,0 +1,187 @@
+函数: rodCreatePath
+签名: rodCreatePath( [ ?name S_name][ ?layer txl_layer ] [ ?width n_width ] [ ?pts l_pts ] [
+      ?justification S_justification ] [ ?offset n_offset ] [ ?endType S_endType ] [ ?beginExt
+      n_beginExt ] [ ?endExt n_endExt ] [ ?choppable g_choppable ] [ ?cvId d_cvId ] [ ?fromObj
+      Rl_fromObj ] [ ?size txf_size ] [ ?startHandle l_startHandle ] [ ?endHandle l_endHandle
+      ] [ ?prop l_prop ] [rodConnectivityArgs... ] ;start ROD Connectivity Arguments
+      (rodConnectivityArgs) [ ?netName S_netName ] [ ?termName S_termName ] [ ?termIOType
+      S_termIOType ] [ ?pin g_pin ] [ ?pinAccessDir tl_pinAccessDir ] [ ?pinLabel g_pinLabel ]
+      [ ?pinLabelHeight n_pinLabelHeight ] [ ?pinLabelLayer txl_pinLabelLayer ] [
+      ?pinLabelFont S_pinLabelFont ] [ ?pinLabelDrafting g_pinLabelDrafting ] [
+      ?pinLabelOrient S_pinLabelOrient ] [ ?pinLabelOffsetPoint l_pinLabelOffsetPoint ] [
+      ?pinLabelJust S_pinLabelJust ] [ ?pinLabelRefHandle S_pinLabelRefHandle ] ;end ROD
+      Connectivity Arguments [ ?offsetSubPath l_offsetSubpathArgs... ] ;start Offset Subpath
+      Arguments (l_offsetSubpathArgs) list( list( [ ?layer txl_layer ] [ ?width n_width ] [
+      ?sep n_sep ] [ ?justification S_justification ] [ ?beginOffset n_beginOffset ] [
+      ?endOffset n_endOffset ] [ ?choppable g_choppable ] [ ?prop l_prop ] ;repeat ROD
+      Connectivity Arguments here );end first offset subpath list ... );end offset subpath
+      lists ;end Offset Subpath Arguments [ ?encSubPath l_encSubpathArgs... ] ;start Enclosure
+      Subpath Arguments (l_encSubpathArgs) list( list( [ ?layer txl_layer ] [ ?enclosure
+      n_enclosure ] [ ?beginOffset n_beginOffset ] [ ?endOffset n_endOffset ] [ ?choppable
+      g_choppable ] [ ?prop l_prop ] ;repeat ROD Connectivity Arguments here );end first
+      enclosure subpath list ... ;end of enclosure subpath lists ;end Enclosure Subpath
+      Arguments [ ?subRect l_subrectArgs... ] ;start Subrectangle Arguments (l_subrectArgs)
+      list( list( [ ?layer txl_layer ] [ ?width n_width ] [ ?length n_length ] [ ?gap S_gap ]
+      [ ?sep n_sep ] [ ?justification S_justification ] [ ?beginOffset n_beginOffset ] [
+      ?endOffset n_endOffset ] [ ?beginSegOffset n_beginSegOffset ] [ ?endSegOffset
+      n_endSegOffset ] [ ?space n_space ] [ ?choppable g_choppable ] [ ?prop l_prop ] ;repeat
+      ROD Connectivity Arguments here [ ?diagonal g_diagonalSubRect ] );end first subrectangle
+      list ... ;end subrectangle lists );end Subrectangle Arguments );end rodCreatePath =>
+      R_rodObj / nil
+来源: rodskillref/chap1.html
+
+参数:
+  校验: 签名 43 个 ?参数 / 参数表 40 条；?beginExt 在参数表写作 ?beginnExt；?cvId 在参数表写作 ?cdId；?netName 在参数表写作 ?netname；?pinLabelOrient 在参数表写作 ?pinLabelpinLabelOrient（疑官方笔误，以原文为准）；签名有而参数表未列: ?offsetSubPath ?encSubPath ?subRect
+  ?name S_name
+    Default: pathn
+  ?layer txl_layer
+    Default Purpose: drawing
+  ?width n_width
+    Default: the minWidth rule for the master path layer from the technology file
+  ?pts l_pts
+    Default: none
+  ?justification S_justification
+    Valid Values: center, left, right
+    Default: center
+  ?offset n_offset
+    Default: 0
+  ?endType S_endType
+    Valid Values: flush, offset, octagon, variable
+    Default: flush
+  ?beginnExt n_beginExt
+    Default: 0
+  ?endExt n_endExt
+    Default: 0
+  ?choppable g_choppable
+    Default: t
+  ?cdId d_cvId
+    If rodCreatePath occurs in the body of a pcDefinePCell function or tcCreateCDSDeviceClass function call, the default value is pcCellView or tcCellView, respectively; otherwise, this argument is required.
+    Default: none
+  ?fromObj Rl_fromObj
+    Default: none
+  ?size txf_size
+    By default, the generated path has four segments and forms a ring. A positive number creates a path that is longer than the circumference of the bounding box; a negative number creates a path that is shorter than the circumference of the bounding box.
+    If you specify a source object (Rl_fromObj) but do not specify txf_size, then txf_size defaults to 0.0. If you specify txf_size, you must also specify Rl_fromObj, or the system reports an error.
+    Default: 0.0
+  ?startHandle S_startHandle
+    Valid Values: startn, midn, endn, startLast, midLast, endLast
+    Default: start0
+  ?endHandle S_endHandle
+    Valid Values: startn, midn, endn, startLast, midLast, endLast
+    Default: start0
+  ?prop l_prop
+    Default: nil
+  rodConnectivityArgs...
+  l_offsetSubpathArgs...
+  l_encSubPathArgs...
+  l_subRectArgs...
+  子参数 [ROD Connectivity Arguments (rodConnectivityArgs)]（属于 rodConnectivityArgs...）:
+    ?netname S_netName
+      Default: nil
+    ?termName S_termName
+      Default: nil
+    ?termIOType S_termIOType
+      Valid Values: input, output, inputOutput, switch, jumper
+      Default: inputOutput
+      Valid Values: input, output, inputOutput, switch, jumper
+      Default: inputOutput
+    ?pin g_pin
+      Valid Values: t, nil
+      Default: nil
+    ?pinAccessDir tl_pinAccessDir
+      Valid Values: top, bottom, left, right, any, none, or a list containing any of these values
+      Default: any
+    ?pinLabel g_pinLabel
+      Valid Values: t, nil
+      Default: nil
+    ?pinLabelHeight n_pinLabelHeight
+      Default: 1
+    ?pinLabelLayer txl_pinLabelLayer
+      When you specify only the layer, the purpose defaults to the purpose defined by l_layer. When you specify neither layer nor purpose, both layer and purpose default to the values defined by l_layer.
+      Default: layer specified by l_layer; purpose specified by l_layer
+    ?pinLabelFont S_pinLabelFont
+      Valid Values: euroStyle, gothic, math, roman, script, stick, swedish
+      Default: stick
+    ?pinLabelDrafting g_pinLabelDrafting
+      Valid Values: t, nil
+      Default: t
+    ?pinLabelpinLabelOrient S_pinLabelOrient
+      Valid Values:
+      Default: R0
+    ?pinLabelOffsetPoint l_pinLabelOffsetPoint
+      Default: 0:0
+    ?pinLabelJust S_pinLabelJust
+      Valid Values:
+      Default: centerCenter
+    ?pinLabelRefHandle S_pinLabelRefHandle
+      Valid Values for bounding box point handles:
+      Valid Values for segment point handles for all ROD shapes:
+      Valid Values for segment point handles for ROD paths:
+      Default: the bounding box point handle centerCenter
+  子参数 [Offset Subpath Arguments (l_offsetSubpathArgs)]（属于 l_offsetSubpathArgs...）:
+    ?layer txl_layer
+      Default Purpose: drawing
+    ?width n_width
+      Default: minWidth for the offset subpath layer from the technology file
+    ?sep n_sep
+      Default: 0
+    ?justification S_justification
+      Valid Values: center, left, right
+      Default: center
+    ?beginOffset n_beginOffset
+      Default: n_endOffset if specified; otherwise 0
+    ?endOffset n_endOffset
+      Default: n_beginOffset if specified; otherwise 0
+    ?choppable g_choppable
+      Default: t
+    ?prop l_prop
+      Default: nil
+  子参数 [Enclosure Subpath Arguments (l_encSubpathArgs)]（属于 l_encSubPathArgs...）:
+    ?layer txl_layer
+      Default Purpose: drawing
+    ?enclosure n_enclosure
+      Default: minEnclosure rule from the technology file for master path layer to subpath layer
+    ?beginOffset n_beginOffset
+      Default: n_endOffset if specified; otherwise the negative of n_enclosure
+    ?endOffset n_endOffset
+      Default: n_beginOffset if specified; otherwise the negative of n_enclosure
+    ?choppable g_choppable
+      Default: t
+    ?prop l_prop
+      Default: nil
+  子参数 [Subrectangle Arguments (l_subrectArgs)]（属于 l_subRectArgs...）:
+    ?layer txl_layer
+      Default Purpose: drawing
+    ?width n_width
+      Default: n_length if specified; otherwise minWidth for the subrectangle layer from the technology file
+    ?length n_length
+      Default: n_width if specified; otherwise, minWidth for the subrectangle layer from the technology file
+    ?gap S_gap
+      When the value of S_gap is distribute and there is only one subrectangle, the value of the distributeSingleSubRect environment variable determines where the single subrectangle is placed. When nil, which is the default, the subrectangle is offset as specified by n_beginOffset and n_endOffset. When t, the subrectangle is centered (but placed on grid), and n_beginOffset and n_endOffset are ignored.
+      Valid Values: distribute, minimum
+      Default: distribute
+    ?sep n_sep
+      Default: 0
+    ?justification S_justification
+      Valid Values: center, left, right
+      Default: center
+    ?beginOffset n_beginOffset
+      Default: n_endOffset if specified; otherwise 0
+    ?endOffset n_endOffset
+      Default: n_beginOffset if specified; otherwise 0
+    ?beginSegOffset n_beginSegOffset
+      If the segment begins before the full distance specified by n_beginSegOffset, then n_beginSegOffset is not applied, and a subrectangle could be placed at the corner of the subrectangle path. When applying offset specifications, the system will not create a spacing error; if the first subrectangle in a segment would be too close to the last subrectangle in the previous segment, the system discards the last subrectangle in the previous segment. This could result in more space at the corner than desired. Default: 0.0
+    ?endSegOffset n_endSegOffset
+      Default: 0.0
+    ?space n_space
+      Default: minSpacing for the subrectangle layer from the technology file
+    ?choppable g_choppable
+      Default: t
+    ?prop l_prop
+      Default: nil
+    ?diagonal g_diagonalSubRect
+      Default: nil
+
+返回: R_rodObj / nil
+
+省略: 参数说明 62 条共 24,771 字 → detail="brief"；示例、补充说明、相关函数、选项说明 → detail="full"

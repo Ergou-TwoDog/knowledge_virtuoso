@@ -1,0 +1,29 @@
+函数: hnlInitMap
+签名: hnlInitMap(
+x_maxNameLength x_maxInstNameLength
+x_maxModelNameLength
+x_maxNetNameLength
+x_maxTermNameLengtht_namePrefix
+t_netNamePrefix
+t_instNamePrefix
+t_modelNamePrefix
+t_termNamePrefixt_hierarchyDelimeter
+l_invalidFirstChars
+l_invalidCharsInName
+l_hnlMapNetFirstChar
+l_hnlMapNetInName
+l_hnlMapInstFirstChar
+l_hnlMapInstInName
+l_hnlMapModelFirstChar
+l_hnlMapModelInName
+l_hnlMapTermFirstCharl_hnlMapTermInName
+t_mapName
+t_designName
+t_viewList
+t_stopListl_hnlInvalidNames
+l_hnlInvalidNetNames
+l_hnlInvalidInstNames
+l_hnlInvalidModelNames
+l_hnlInvalidTermNames
+)
+=> t / nil

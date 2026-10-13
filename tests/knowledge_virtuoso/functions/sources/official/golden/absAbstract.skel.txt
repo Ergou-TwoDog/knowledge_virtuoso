@@ -1,0 +1,5 @@
+函数: absAbstract
+签名: absAbstract() => 0 / 1
+来源: sklayoutref/abs.html
+
+返回: 0 / 1

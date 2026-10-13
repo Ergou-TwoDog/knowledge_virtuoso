@@ -1,0 +1,12 @@
+函数: dbCreateRect
+签名: dbCreateRect( d_cellView txl_layerPurposel_bBox ) => d_rect / nil
+来源: skdfref/chap2.html
+
+参数:
+  d_cellView
+  txl_layerPurpose
+  l_bBox
+
+返回: d_rect / nil
+
+省略: 参数说明 3 条共 188 字 → detail="brief"；示例、补充说明、相关函数、选项说明 → detail="full"

@@ -1,0 +1,8 @@
+匹配总数 93；offset=0，本页 5 个，limit=5
+下一页: offset=5, limit=5
+（每行 = 摘要；完整签名与参数说明用 skill_language_search_doc detail="skel"/"brief"）
+  dbCreateArc | dbCreateArc( d_cellView txl_layerPurposel_ellipse_bBox l_arc_bBox ) => d_arc / nil | Creates an arc. | 返回: d_arc, nil | skdfref/chap2.html
+  dbCreateAreaBlockage | dbCreateAreaBlockage( d_cellviewIdl_points [ d_owner ]) => d_areaBlockageId / nil | Creates an area blockage object of the type placement in the given cellview. | 返回: d_areaBlockageId, nil | skdfref/chap2.html
+  dbCreateAreaBoundary | dbCreateAreaBoundary( d_cellviewIdl_points [ t_name = nil] [ lt_edgeNames = nil] ) => d_areaBoundaryId / nil | Creates an area boundary object in the specified cellview. | 返回: d_areaBoundaryId, nil | skdfref/chap2.html
+  dbCreateAreaHalo | dbCreateAreaHalo( d_ownerIdn_topOffset n_bottomOffset n_leftOffset n_rightOffset )=> d_areaHaloId / nil | Creates an areaHalo blockage object of type placement. | 返回: d_areaHaloId, nil | skdfref/chap2.html
+  dbCreateAreaPinGroupGuide | dbCreateAreaPinGroupGuide( d_cellViewIdt_name )=> d_pinGroupGuideId / nil | Creates an area pin group guide with the specified name in the given cellview. | 返回: d_pinGroupGuideId, nil | skdfref/pin.html

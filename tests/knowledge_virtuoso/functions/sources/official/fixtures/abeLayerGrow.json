@@ -1,0 +1,108 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "abeLayerGrow(\no_abeInputLayer o_abeOutputLayer\n[ ?north g_sizeNorth ] [ ?south g_sizeSouth ]\n[ ?east g_sizeEast ]\n[ ?west g_sizeWest]\n[ ?queue g_queue ]\n)\n=> t / nil",
+   "shared_from": null
+  }
+ ],
+ "where": {
+  "file": "sklayoutref/abe.html",
+  "topic": "abeLayerGrow",
+  "marker_text": "abeLayerGrow",
+  "anchor": "abeLayerGrow"
+ },
+ "also_at": [],
+ "sections": {
+  "description": {
+   "text": "Adds shapes to the ABE output layer that are ABE input layer shapes that have been increased in size along one or more directions in the north, south, east, and/or west."
+  },
+  "arguments": {
+   "root": {
+    "title": null,
+    "items": [
+     {
+      "name": "o_abeInputLayer",
+      "desc": "ID of the ABE input layer.",
+      "values": null
+     },
+     {
+      "name": "o_abeOutputLayer",
+      "desc": "ID of the ABE output layer.",
+      "values": null
+     },
+     {
+      "name": "?north g_sizeNorth",
+      "desc": "Expands the north side of the shapes by this distance, in user units. The default value is 0.",
+      "values": null
+     },
+     {
+      "name": "?south g_sizeSouth",
+      "desc": "Expands the south side of the shapes by this distance, in user units. The default value is 0.",
+      "values": null
+     },
+     {
+      "name": "?east g_sizeEast",
+      "desc": "Expands the east side of the shapes by this distance, in user units. The default value is 0.",
+      "values": null
+     },
+     {
+      "name": "?west g_sizeWest",
+      "desc": "Expands the west side of the shapes by this distance, in user units. The default value is 0.",
+      "values": null
+     },
+     {
+      "name": "?queue g_queue",
+      "desc": "A Boolean value that adds the function to the queue if set to t, rather than running it immediately. Functions in the queue are not run until abeRunQueue is issued.",
+      "values": null
+     }
+    ]
+   },
+   "lists": [],
+   "text": "o_abeInputLayer\nID of the ABE input layer.\no_abeOutputLayer\nID of the ABE output layer.\n?north g_sizeNorth\nExpands the north side of the shapes by this distance, in user units. The default value is 0.\n?south g_sizeSouth\nExpands the south side of the shapes by this distance, in user units. The default value is 0.\n?east g_sizeEast\nExpands the east side of the shapes by this distance, in user units. The default value is 0.\n?west g_sizeWest\nExpands the west side of the shapes by this distance, in user units. The default value is 0.\n?queue g_queue\nA Boolean value that adds the function to the queue if set to t, rather than running it immediately. Functions in the queue are not run until abeRunQueue is issued."
+  },
+  "returns": {
+   "items": [
+    {
+     "value": "t",
+     "desc": "The expanded shapes are added on the output layer or the function is queued."
+    },
+    {
+     "value": "nil",
+     "desc": "The function was not successful because ABE is not initialized or there was an argument error."
+    }
+   ],
+   "text": "t\nThe expanded shapes are added on the output layer or the function is queued.\nnil\nThe function was not successful because ABE is not initialized or there was an argument error."
+  },
+  "example": {
+   "text": "a1 = abeLayerFromShapes( geGetSelSet() )\nresult = abeNewLayer()\nabeLayerGrow( a1 result ?north 0.02 ?east 0.05 )\nAdds shapes from the selected set that have been increased in size by 0.02 to the north and 0.05 to the east to the result ABE layer."
+  }
+ },
+ "field_status": {
+  "description": "present",
+  "arguments": "present",
+  "returns": "present",
+  "example": "present",
+  "reference": "not_documented",
+  "related_functions": "not_documented",
+  "prerequisites": "not_documented",
+  "additional_information": "not_documented",
+  "interactive_function": "not_documented",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "not_documented",
+  "overview": "not_documented",
+  "errors": "not_documented",
+  "decl": "present"
+ },
+ "status": "active",
+ "prefix": "abe",
+ "tokens": [
+  "abe",
+  "layer",
+  "grow"
+ ],
+ "name": "abeLayerGrow"
+}

@@ -1,0 +1,9 @@
+函数: geHiDragFig
+签名: geHiDragFig(
+w_windowID r_form
+t_srcPrompt
+t_dstPrompt
+t_cmdName
+t_SelSet
+g_useMultiWindow
+[ l_firstPoint ])

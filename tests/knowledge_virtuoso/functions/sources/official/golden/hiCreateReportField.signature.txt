@@ -1,0 +1,22 @@
+函数: hiCreateReportField
+签名: hiCreateReportField(
+?name s_fieldName
+[ ?title t_title ][ ?titleAlignment g_titleAlignment ]
+[ ?headers g_headers ]
+[ ?choices l_choices ]
+[ ?value g_value ]
+[ ?defValue g_defaultValue ]
+[ ?returnPackedValue g_returnPackedValue ]
+[ ?help g_fieldHelp ]
+[ ?callback g_callback ]
+[ ?enableDeselectCB S_enableDeselectCB ]
+[ ?doubleClickCB g_doubleClickCB ]
+[ ?sortCallback g_sortCallback ]
+[ ?sort l_sort ]
+[ ?selectMode s_selectMode ]
+[ ?invisible g_invisible ]
+[ ?enabled g_enabled ]
+[ ?nextField g_nextField ]
+[ ?altRowHilight g_rowHighlight ]
+)
+=> r_fieldHandle

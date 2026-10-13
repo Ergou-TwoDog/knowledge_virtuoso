@@ -1,0 +1,4 @@
+函数: abeElapsedTime
+签名: abeElapsedTime([ ?reset
+g_reset ])
+=> g_time

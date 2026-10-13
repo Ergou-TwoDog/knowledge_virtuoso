@@ -1,0 +1,4 @@
+函数: addDefstructClass
+签名: addDefstructClass(
+s_name )
+=> u_classObject

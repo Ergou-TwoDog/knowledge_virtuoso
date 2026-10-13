@@ -1,0 +1,102 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "ansCdlGetMultiplicity(\nS_inst S_master\nS_parent\n)\n=> n_multiplicityFactor",
+   "shared_from": null
+  }
+ ],
+ "where": {
+  "file": "skartistref/chap4.html",
+  "topic": "ansCdlGetMultiplicity",
+  "marker_text": "ansCdlGetMultiplicity",
+  "anchor": "ansCdlGetMultiplicity"
+ },
+ "also_at": [],
+ "sections": {
+  "description": {
+   "text": "Controls how multiplicity (converting an instance into multiple instances connected in parallel) is handled for an instance in the design when the ansCdlHnlPrintInst function is specified as a netlist procedure in the CDF for the master of the instance.\nYou can specify that an instance should be treated as n instances connected in parallel by specifying n as the value of the m or M property on the instance. For example, you can specify that an instance be treated as five instances connected in parallel by specifying 5 as the value of the m or M property on the instance. By default the ansCdlHnlPrintInst netlist procedure does not give special treatment to the m or M property on an instance.\nIf you want the ansCdlHnlPrintInst netlist procedure to support multiplicity on instances using the m or M property, do one of the following:\nDefine the ansCdlGetMultiplicity procedure in your .simrc file.\nDefine ansCdlGetMultiplicity_<LIBNAME> in libInit.il file of the device library when the libSpecificDevicePrint flag is set in device instParameters."
+  },
+  "arguments": {
+   "root": {
+    "title": null,
+    "items": [
+     {
+      "name": "S_inst",
+      "desc": "Database ID of the current instance being printed in the netlist.",
+      "values": null
+     },
+     {
+      "name": "S_master",
+      "desc": "Database ID of the switch master of the current instance being printed in the netlist.",
+      "values": null
+     },
+     {
+      "name": "S_parent",
+      "desc": "Database ID of the cell for the current instance being printed in the netlist.",
+      "values": null
+     }
+    ]
+   },
+   "lists": [],
+   "text": "S_inst\nDatabase ID of the current instance being printed in the netlist.\nS_master\nDatabase ID of the switch master of the current instance being printed in the netlist.\nS_parent\nDatabase ID of the cell for the current instance being printed in the netlist."
+  },
+  "returns": {
+   "items": [
+    {
+     "value": "n_multiplicityFactor",
+     "desc": "Multiplicity factor."
+    }
+   ],
+   "text": "n_multiplicityFactor\nMultiplicity factor."
+  },
+  "example": {
+   "text": ""
+  },
+  "related_functions": {
+   "text": "ansCdlGetSegmentInfo\nansCdlGetSegmentConnections\nansCdlGetSegmentInstParams",
+   "items": [
+    {
+     "name": "ansCdlGetSegmentInfo",
+     "desc": ""
+    },
+    {
+     "name": "ansCdlGetSegmentConnections",
+     "desc": ""
+    },
+    {
+     "name": "ansCdlGetSegmentInstParams",
+     "desc": ""
+    }
+   ]
+  }
+ },
+ "field_status": {
+  "description": "present",
+  "arguments": "present",
+  "returns": "present",
+  "example": "unparsed",
+  "reference": "not_documented",
+  "related_functions": "present",
+  "prerequisites": "not_documented",
+  "additional_information": "not_documented",
+  "interactive_function": "not_documented",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "not_documented",
+  "overview": "not_documented",
+  "errors": "not_documented",
+  "decl": "present"
+ },
+ "status": "active",
+ "prefix": "ans",
+ "tokens": [
+  "ans",
+  "cdl",
+  "get",
+  "multiplicity"
+ ],
+ "name": "ansCdlGetMultiplicity"
+}

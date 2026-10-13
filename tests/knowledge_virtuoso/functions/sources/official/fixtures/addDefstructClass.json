@@ -1,0 +1,83 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "addDefstructClass(\ns_name )\n=> u_classObject",
+   "shared_from": null
+  }
+ ],
+ "where": {
+  "file": "sklangref/funcprog.html",
+  "topic": "addDefstructClass",
+  "marker_text": "addDefstructClass",
+  "anchor": "addDefstructClass"
+ },
+ "also_at": [],
+ "sections": {
+  "description": {
+   "text": "Creates a class for the defstruct.\nBy default, an instance of a defstruct does not have a class. You cannot use Instance to instantiate this class. Use the instantiation function created by defstruct.\nUsing addDefstructClass to create a class for a defstruct allows you to define methods for a defstruct."
+  },
+  "arguments": {
+   "root": {
+    "title": null,
+    "items": [
+     {
+      "name": "s_name",
+      "desc": "The name of the defstruct.",
+      "values": null
+     }
+    ]
+   },
+   "lists": [],
+   "text": "s_name\nThe name of the defstruct."
+  },
+  "returns": {
+   "items": [
+    {
+     "value": "u_classObject",
+     "desc": "The class object."
+    }
+   ],
+   "text": "u_classObject\nThe class object."
+  },
+  "example": {
+   "text": "defstruct( card rank suit ) => t\nx = _card( ?rank 8 ?suit \"spades\" )\n=> array[4]:3897312\ntype( x ) => card\nfindClass( 'card ) => nil\nclassOf( x ) => nil\naddDefstructClass( card ) => funobj:0x1c98f8\nclassName( classOf( x )) => card"
+  },
+  "reference": {
+   "text": "Instance",
+   "links": [
+    {
+     "text": "Instance",
+     "href": "../sklanguser/chap16.html#makeInstance"
+    }
+   ]
+  }
+ },
+ "field_status": {
+  "description": "present",
+  "arguments": "present",
+  "returns": "present",
+  "example": "present",
+  "reference": "present",
+  "related_functions": "not_documented",
+  "prerequisites": "not_documented",
+  "additional_information": "not_documented",
+  "interactive_function": "not_documented",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "not_documented",
+  "overview": "not_documented",
+  "errors": "not_documented",
+  "decl": "present"
+ },
+ "status": "active",
+ "prefix": "add",
+ "tokens": [
+  "add",
+  "defstruct",
+  "class"
+ ],
+ "name": "addDefstructClass"
+}

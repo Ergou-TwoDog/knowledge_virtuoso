@@ -1,0 +1,77 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "ciConUprevCellBoundary(\nd_cellView\n)=> t / nil",
+   "shared_from": null
+  }
+ ],
+ "where": {
+  "file": "constraintsSKILL/constskillFunctions.html",
+  "topic": "ciConUprevCellBoundary",
+  "marker_text": "ciConUprevCellBoundary",
+  "anchor": "ciConUprevCellBoundary"
+ },
+ "also_at": [],
+ "sections": {
+  "description": {
+   "text": "Converts deprecated boundaryArea and areaUtilization constraints to cellBoundary constraints."
+  },
+  "arguments": {
+   "root": {
+    "title": null,
+    "items": [
+     {
+      "name": "d_cellView",
+      "desc": "The name of the cellview.",
+      "values": null
+     }
+    ]
+   },
+   "lists": [],
+   "text": "d_cellView\nThe name of the cellview."
+  },
+  "returns": {
+   "items": [
+    {
+     "value": "t",
+     "desc": "Successfully converted old constraints."
+    },
+    {
+     "value": "nil",
+     "desc": "No boundaryArea or areaUtilization constraints were found."
+    }
+   ],
+   "text": "t\nSuccessfully converted old constraints.\nnil\nNo boundaryArea or areaUtilization constraints were found."
+  }
+ },
+ "field_status": {
+  "description": "present",
+  "arguments": "present",
+  "returns": "present",
+  "example": "not_documented",
+  "reference": "not_documented",
+  "related_functions": "not_documented",
+  "prerequisites": "not_documented",
+  "additional_information": "not_documented",
+  "interactive_function": "not_documented",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "not_documented",
+  "overview": "not_documented",
+  "errors": "not_documented",
+  "decl": "present"
+ },
+ "status": "deprecated",
+ "prefix": "ci",
+ "tokens": [
+  "ci",
+  "con",
+  "uprev",
+  "cell",
+  "boundary"
+ ],
+ "name": "ciConUprevCellBoundary"
+}

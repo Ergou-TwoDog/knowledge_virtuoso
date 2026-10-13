@@ -1,0 +1,152 @@
+{
+ "params": {
+  "className": "cdfParamId",
+  "keyword": ""
+ },
+ "rows": [
+  {
+   "name": "callback",
+   "rw": "rw",
+   "type": "string",
+   "desc": "SKILL code to be executed whenever the value of a parameter changes. Using callback, you can cause any parameter's value to affect any other parameter's value. The value of this field must be a string. This field is optional. If you do not use callba",
+   "classes": [
+    "cdfParamId"
+   ]
+  },
+  {
+   "name": "choices",
+   "rw": "rw",
+   "type": "l_string",
+   "desc": "Possible values (a list of strings) of a cyclic or radio type parameter. Do not use this field for other types of parameters. This field is editable.",
+   "classes": [
+    "cdfParamId"
+   ]
+  },
+  {
+   "name": "defValue",
+   "rw": "rw",
+   "type": "",
+   "desc": "Default value of the parameter. You must specify this field. This field is editable.",
+   "classes": [
+    "cdfParamId"
+   ]
+  },
+  {
+   "name": "description",
+   "rw": "rw",
+   "type": "",
+   "desc": "参数 tooltip / 描述文本（Edit Properties / Create Instance 表单显示）",
+   "classes": [
+    "cdfParamId"
+   ]
+  },
+  {
+   "name": "display",
+   "rw": "rw",
+   "type": "",
+   "desc": "Determines if this parameter is displayed in forms that display CDF parameters, such as the Edit Object Properties form or the Add Instance form. You must enter t , nil , or a SKILL expression that evaluates to t or nil in this field to determine if ",
+   "classes": [
+    "cdfParamId"
+   ]
+  },
+  {
+   "name": "dontSave",
+   "rw": "rw",
+   "type": "",
+   "desc": "Specifies that the parameter cannot be stored in any instance that corresponds to the component. The d ontSave field must be a string. The system evaluates the field as necessary. If the field evaluates to non-nil, the parameter is not stored. If you",
+   "classes": [
+    "cdfParamId"
+   ]
+  },
+  {
+   "name": "editable",
+   "rw": "rw",
+   "type": "",
+   "desc": "Specifies whether a parameter is for display only. If set to nil, the field specifies a displayed parameter that you cannot change. (Other parameters' callbacks can change the parameter.) Use this field only on int, float, and string type fields. The",
+   "classes": [
+    "cdfParamId"
+   ]
+  },
+  {
+   "name": "name",
+   "rw": "rw",
+   "type": "string",
+   "desc": "参数名（亦可通过 cdfDataId~>paramName 访问）",
+   "classes": [
+    "cdfParamId"
+   ]
+  },
+  {
+   "name": "paramType",
+   "rw": "ro",
+   "type": "string",
+   "desc": "Type of the parameter. Valid values for this field are \"string\" \"int\" \"float\" \"radio\" \"cyclic\" \"boolean\" \"button\" \"netSet\" The quotation marks are required. CDF checks that the parameter value matches the type specified. You must specify this field. ",
+   "classes": [
+    "cdfParamId"
+   ]
+  },
+  {
+   "name": "parseAsCEL",
+   "rw": "rw",
+   "type": "",
+   "desc": "If set to yes, the associated CDF parameter is processed as a CDF Expression Language (CEL) expression. The parameter must be a string. If the expression resolves to a numeric value (the usual case), the parseAsNumber flag should also be set to yes.",
+   "classes": [
+    "cdfParamId"
+   ]
+  },
+  {
+   "name": "parseAsNumber",
+   "rw": "rw",
+   "type": "",
+   "desc": "字符串参数是否解析为浮点数（yes/no/don't use）",
+   "classes": [
+    "cdfParamId"
+   ]
+  },
+  {
+   "name": "prompt",
+   "rw": "rw",
+   "type": "string",
+   "desc": "Prompt that appears on a form field when an application asks for the value of this parameter. The value for this field must be a string. You must specify this field. This field is editable.",
+   "classes": [
+    "cdfParamId"
+   ]
+  },
+  {
+   "name": "storeDefault",
+   "rw": "rw",
+   "type": "",
+   "desc": "Specifies whether the parameter default value is saved as a property of the instance. All tools based on the Cadence Analog Design Environment software use the CDF to find default values if no property exists on an instance. If set to no (the default",
+   "classes": [
+    "cdfParamId"
+   ]
+  },
+  {
+   "name": "units",
+   "rw": "rw",
+   "type": "string",
+   "desc": "Unit type of the parameter. You often modify parameters that represent resistance, capacitance, length, time, power, and so forth, and expect to see the parameter value scaled to appropriate units (for example, pF , uM , dBm ). Valid values for this ",
+   "classes": [
+    "cdfParamId"
+   ]
+  },
+  {
+   "name": "use",
+   "rw": "rw",
+   "type": "",
+   "desc": "Specifies whether to use this parameter. The use attribute is context-specific and is evaluated when necessary. In this field, you can specify parameters that you are not using because of the value of other parameters, or because of the function you ",
+   "classes": [
+    "cdfParamId"
+   ]
+  },
+  {
+   "name": "value",
+   "rw": "rw",
+   "type": "",
+   "desc": "Current value of the parameter. This field is editable.",
+   "classes": [
+    "cdfParamId"
+   ]
+  }
+ ]
+}

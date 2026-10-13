@@ -1,0 +1,2 @@
+assoc（共享声明） | assv( g_key l_alist ) => l_association / nil | The assoc, assq, and assv functions find the first list in l_alist whose car field is g_key and return that list. | 返回: l_association, nil | sklangref/datastruct.html
+省略: 参数说明；示例与补充说明 → detail="skel" / "brief" / "full"

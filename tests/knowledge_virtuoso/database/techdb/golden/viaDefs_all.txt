@@ -1,0 +1,19 @@
+匹配 16 个 tech 属性:
+  name                      type       所属类
+  ------------------------- ---------- ------------------------------
+  cellName                  l_string   viaDefs
+  implant1                  l_objId    viaDefs
+  implant2                  l_objId    viaDefs
+  layer1                    l_objId    derivedLayers,viaDefs,viaSpecs
+  layer1Num                 l_string   derivedLayers,viaDefs,viaSpecs
+  layer2                    l_objId    derivedLayers,viaDefs,viaSpecs
+  layer2Num                 l_string   derivedLayers,viaDefs,viaSpecs
+  libName                   string     techID,viaDefs
+  name                      l_string   layers,derivedLayers,purposeDefs,lps,viaDefs,viaVariants,siteDefs,snapPatternDefs,widthSpacingSnapPatternDefs
+  objType                              viaDefs,viaVariants,siteDefs
+  params                               derivedLayers,viaDefs,viaVariants
+  resistancePerCut                     viaDefs
+  tech                      l_objId    lps,viaDefs,viaVariants,viaSpecs,siteDefs
+  techFile                  l_objId    lps,viaDefs,viaSpecs,siteDefs
+  viewName                  l_string   viaDefs
+  wellOrSubstrate           l_objId    viaDefs

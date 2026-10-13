@@ -1,0 +1,31 @@
+函数: ansCdlGetMultiplicity
+签名: ansCdlGetMultiplicity(
+S_inst S_master
+S_parent
+)
+=> n_multiplicityFactor
+描述: Controls how multiplicity (converting an instance into multiple instances connected in parallel) is handled for an instance in the design when the ansCdlHnlPrintInst function is specified as a netlist procedure in the CDF for the master of the instance.
+You can specify that an instance should be treated as n instances connected in parallel by specifying n as the value of the m or M property on the instance. For example, you can specify that an instance be treated as five instances connected in parallel by specifying 5 as the value of the m or M property on the instance. By default the ansCdlHnlPrintInst netlist procedure does not give special treatment to the m or M property on an instance.
+If you want the ansCdlHnlPrintInst netlist procedure to support multiplicity on instances using the m or M property, do one of the following:
+Define the ansCdlGetMultiplicity procedure in your .simrc file.
+Define ansCdlGetMultiplicity_<LIBNAME> in libInit.il file of the device library when the libSpecificDevicePrint flag is set in device instParameters.
+来源: skartistref/chap4.html
+解析状态: 示例节官方原文未能可靠提取
+
+参数:
+  S_inst — Database ID of the current instance being printed in the netlist.
+  S_master — Database ID of the switch master of the current instance being printed in the netlist.
+  S_parent — Database ID of the cell for the current instance being printed in the netlist.
+
+返回:
+  n_multiplicityFactor — Multiplicity factor.
+
+示例:
+
+相关函数:
+  ansCdlGetSegmentInfo
+  ansCdlGetSegmentConnections
+  ansCdlGetSegmentInstParams
+  ansCdlGetSegmentInfo — 
+  ansCdlGetSegmentConnections — 
+  ansCdlGetSegmentInstParams — 

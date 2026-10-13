@@ -1,0 +1,2 @@
+abeElapsedTime | abeElapsedTime([ ?reset g_reset ]) => g_time | Returns the elapsed time for the current ABE session. | 返回: g_time | sklayoutref/abe.html
+省略: 参数说明；示例与补充说明 → detail="skel" / "brief" / "full"

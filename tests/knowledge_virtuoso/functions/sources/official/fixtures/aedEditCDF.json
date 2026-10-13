@@ -1,0 +1,48 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "aedEditCDF([ ?\nlibName t_libraryName ]\n[ ?cellName t_cellName ][ ?cdfType t_cdfType ]\n)\n=> t",
+   "shared_from": null
+  }
+ ],
+ "where": {
+  "file": "skartistref/chap21.html",
+  "topic": "aedEditCDF",
+  "marker_text": "aedEditCDF",
+  "anchor": "aedEditCDF"
+ },
+ "also_at": [],
+ "sections": {
+  "description": {
+   "text": "Opens the Edit CDF form to the library, cell, and CDF type specified by libraryName, cellName, and cdfType.\nlibraryName and cellName must be strings referring to an existing library or cell, and cdfType must be `effective', `base', or `user'."
+  }
+ },
+ "field_status": {
+  "description": "present",
+  "arguments": "not_documented",
+  "returns": "not_documented",
+  "example": "not_documented",
+  "reference": "not_documented",
+  "related_functions": "not_documented",
+  "prerequisites": "not_documented",
+  "additional_information": "not_documented",
+  "interactive_function": "not_documented",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "not_documented",
+  "overview": "not_documented",
+  "errors": "not_documented",
+  "decl": "present"
+ },
+ "status": "active",
+ "prefix": "aed",
+ "tokens": [
+  "aed",
+  "edit",
+  "cdf"
+ ],
+ "name": "aedEditCDF"
+}

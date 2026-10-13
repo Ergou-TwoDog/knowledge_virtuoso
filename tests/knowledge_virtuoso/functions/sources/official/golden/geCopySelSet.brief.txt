@@ -1,0 +1,20 @@
+函数: geCopySelSet
+签名: geCopySelSet( [
+w_windowId ] [ l_sourcePt ]
+[ l_destPt ]
+)
+=> t / nil
+描述: Procedural interface to copy the selected set.
+来源: skdfref/chap1.html
+
+参数:
+  w_windowId — Window ID of the window to use. If not specified, the current window is used.
+  l_sourcePt — The starting point for the copy.
+  l_destPt — The destination point for the copy.
+
+返回:
+  t — The selected objects are copied.
+  nil — The selected objects are not copied.
+
+交互式函数:
+  Enter this function with only the window ID argument; the system prompts you for the starting and destination point that encloses the objects to be copied. If w_windowId is not specified, the current window is used.

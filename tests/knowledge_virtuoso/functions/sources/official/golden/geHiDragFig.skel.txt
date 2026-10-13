@@ -1,0 +1,20 @@
+函数: geHiDragFig
+签名: geHiDragFig( w_windowID r_form t_srcPrompt t_dstPrompt t_cmdName t_SelSet
+      g_useMultiWindow [ l_firstPoint ])
+来源: skdfref/chap1.html
+
+参数:
+  w_windowID
+  r_form
+    Valid Values: hiGetCurrentForm or any other valid form of data structure if there is a form, 0 if there is no form.
+  t_srcPrompt
+  t_dstPrompt
+  t_cmdName
+    Valid Values: Copy, Move, Stretch, or any other string or empty string.
+  t_SelSet
+    Valid Values: geGetSelSet or any valid selected set or nil.
+  g_useMultiWindow
+    Valid Values: t (supports multiple windows), nil (does not support multiple windows).
+  l_firstPoint
+
+省略: 参数说明 8 条共 1,268 字 → detail="brief"；示例、补充说明、相关函数、选项说明 → detail="full"

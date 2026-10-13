@@ -1,0 +1,4 @@
+匹配 1 个 CDF 属性:
+  name                      rw   type       desc
+  ------------------------- ---- ---------- ----------------------------------------
+  parameters                ro   l_objId    List of parameters attached to this g_cdfDataId . This…

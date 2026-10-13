@@ -1,0 +1,2 @@
+abeLayerGrow | abeLayerGrow( o_abeInputLayer o_abeOutputLayer [ ?north g_sizeNorth ] [ ?south g_sizeSouth ] [ ?east g_sizeEast ] [ ?west g_sizeWest] [ ?queue g_queue ] ) => t / nil | Adds shapes to the ABE output layer that are ABE input layer shapes that have been increased in size along one or more directions in the north, south, east, and/or west. | 返回: t, nil | sklayoutref/abe.html
+省略: 参数说明；示例与补充说明 → detail="skel" / "brief" / "full"

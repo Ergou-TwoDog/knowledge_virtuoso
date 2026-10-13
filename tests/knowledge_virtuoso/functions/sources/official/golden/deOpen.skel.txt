@@ -1,0 +1,32 @@
+函数: deOpen
+签名: deOpen( [ l_fileSpec [ g_winSpec [ t_accessMode [ t_appName g_sessionWindow
+      g_saveSessionHistory] ] ] ] ) => w_window / nil
+来源: skdfref/chap3.html
+
+参数:
+  l_fileSpec
+  l_fileSpec->libName
+  l_fileSpec->libId
+  l_fileSpec->cellName
+  l_fileSpec->viewName
+  l_fileSpec->viewId
+  l_fileSpec->viewNameList
+  l_fileSpec->accessMode
+  l_fileSpec->instanceName
+  l_fileSpec->hierarchy
+  l_fileSpec->configL
+  g_winSpec
+  w_window
+  nil
+    Creates a window in a default location.
+  l_bBox
+  'interactive
+  t_accessMode
+    The access mode can be supplied as an optional parameter after g_winSpec or as part of l_fileSpec. This is for compatibility with older code. If both exist and are different, t_accessMode overrides l_fileSpec->accessMode. If neither is specified, then the access mode defaults to edit.
+  t_appName
+  g_sessionWindow
+  g_saveSessionHistory
+
+返回: w_window
+
+省略: 参数说明 20 条共 3,325 字 → detail="brief"；示例、补充说明、相关函数、选项说明 → detail="full"

@@ -1,0 +1,10 @@
+函数: addDefstructClass
+签名: addDefstructClass( s_name ) => u_classObject
+来源: sklangref/funcprog.html
+
+参数:
+  s_name
+
+返回: u_classObject
+
+省略: 参数说明 1 条共 26 字 → detail="brief"；示例、补充说明、相关函数、选项说明 → detail="full"

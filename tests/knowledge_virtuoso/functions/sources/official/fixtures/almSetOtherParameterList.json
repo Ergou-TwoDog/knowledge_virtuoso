@@ -1,0 +1,92 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "almSetOtherParameterList(\nt_libt_cell\nl_parameter\n[ ?view g_view ][ ?tool g_tool ]\n[ ?entry g_entry ]\n)",
+   "shared_from": null
+  }
+ ],
+ "where": {
+  "file": "skartistref/chap16.html",
+  "topic": "almSetOtherParameterList",
+  "marker_text": "almSetOtherParameterList",
+  "anchor": "almSetOtherParameterList"
+ },
+ "also_at": [],
+ "sections": {
+  "description": {
+   "text": "Sets list of other parameter names for the arguments specified."
+  },
+  "arguments": {
+   "root": {
+    "title": null,
+    "items": [
+     {
+      "name": "t_lib",
+      "desc": "Name of the library in which the cell resides.",
+      "values": null
+     },
+     {
+      "name": "t_cell",
+      "desc": "Name of the cell.",
+      "values": null
+     },
+     {
+      "name": "l_parameter",
+      "desc": "List of parameter names. Each element must be a symbol",
+      "values": null
+     },
+     {
+      "name": "?view g_view",
+      "desc": "Name of the view.",
+      "values": null
+     },
+     {
+      "name": "?toolg_tool",
+      "desc": "Name of the tool. This argument is ignored when the g_view argument is specified.",
+      "values": null
+     },
+     {
+      "name": "?entry g_entry",
+      "desc": "Parameter entry. The default value is \"otherParameters\".",
+      "values": null
+     }
+    ]
+   },
+   "lists": [],
+   "text": "t_lib\nName of the library in which the cell resides.\nt_cell\nName of the cell.\nl_parameter\nList of parameter names. Each element must be a symbol\n?view g_view\nName of the view.\n?toolg_tool\nName of the tool. This argument is ignored when the g_view argument is specified.\n?entry g_entry\nParameter entry. The default value is \"otherParameters\"."
+  },
+  "example": {
+   "text": "almSetOtherParameterList(\"analogLib\" \"mind\" '(ind1 ind2) ?tool \"spectre\" ?entry \"otherParameters\")"
+  }
+ },
+ "field_status": {
+  "description": "present",
+  "arguments": "present",
+  "returns": "not_documented",
+  "example": "present",
+  "reference": "not_documented",
+  "related_functions": "not_documented",
+  "prerequisites": "not_documented",
+  "additional_information": "not_documented",
+  "interactive_function": "not_documented",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "not_documented",
+  "overview": "not_documented",
+  "errors": "not_documented",
+  "decl": "present"
+ },
+ "status": "active",
+ "prefix": "alm",
+ "tokens": [
+  "alm",
+  "set",
+  "other",
+  "parameter",
+  "list"
+ ],
+ "name": "almSetOtherParameterList"
+}

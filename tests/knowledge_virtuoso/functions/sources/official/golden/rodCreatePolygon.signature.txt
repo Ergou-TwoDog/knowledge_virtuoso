@@ -1,0 +1,25 @@
+函数: rodCreatePolygon
+签名: rodCreatePolygon( [ ?name
+S_name ][ ?layer txl_layer ]
+[ ?pts l_pts ]
+[ ?cvId d_cvId ]
+[ ?fromObj Rl_fromObj ]
+[ ?size txf_size ]
+[ ?prop l_prop ]
+; ROD Connectivity Arguments for Polygons
+[ ?netName S_netName ]
+[ ?termName S_termName ]
+[ ?termIOType S_termIOType ]
+[ ?pin g_pin ]
+[ ?pinAccessDir tl_pinAccessDir ]
+[ ?pinLabel g_pinLabel ]
+[ ?pinLabelHeight n_pinLabelHeight ]
+[ ?pinLabelLayer txl_pinLabelLayer ]
+[ ?pinLabelFont S_pinLabelFont ]
+[ ?pinLabelDrafting g_pinLabelDrafting ]
+[ ?pinLabelOrient S_pinLabelOrient ]
+[ ?pinLabelOffsetPoint l_pinLabelOffsetPoint ]
+[ ?pinLabelJust S_pinLabelJust ]
+[ ?pinLabelRefHandle S_pinLabelRefHandle ]
+);end rodCreatePolygon
+=> R_rodObj / nil

@@ -1,0 +1,2 @@
+gdmstatus | gdmstatus({ G_gdmSpec | q_gdmSpecList }x_information ) => l_fileStatus / nil | Returns the design management status of the library, cell, view, directory, or file that G_gdmSpec represents. | 返回: l_fileStatus, nil | caiskill/gdm.html
+省略: 参数说明；示例与补充说明 → detail="skel" / "brief" / "full"

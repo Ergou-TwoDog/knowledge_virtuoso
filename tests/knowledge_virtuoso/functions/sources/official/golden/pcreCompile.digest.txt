@@ -1,0 +1,2 @@
+pcreCompile | pcreCompile( t_pattern [ x_options ] ) => o_comPatObj / nil | Compiles a regular expression string pattern (t_pattern) into an internal representation that you can use in a pcreExecute function call. | 返回: o_comPatObj, nil | sklangref/stringfunc.html
+省略: 参数说明；示例与补充说明 → detail="skel" / "brief" / "full"

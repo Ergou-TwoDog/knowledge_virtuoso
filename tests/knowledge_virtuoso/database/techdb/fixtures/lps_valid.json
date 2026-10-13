@@ -1,0 +1,41 @@
+{
+ "params": {
+  "className": "lps",
+  "keyword": "valid"
+ },
+ "rows": [
+  {
+   "name": "allowSetToValid",
+   "rw": "?",
+   "type": "boolean",
+   "desc": "A flag corresponding to each layer. t if the layer can be set as valid; nil if the layer cannot be set as valid.",
+   "classes": [
+    "layers",
+    "purposeDefs",
+    "lps"
+   ]
+  },
+  {
+   "name": "allowSetToValidInSession",
+   "rw": "?",
+   "type": "boolean",
+   "desc": "A flag corresponding to each layer. t if the layer can be set as valid during a session; nil if the layer cannot be set as valid during a session.",
+   "classes": [
+    "layers",
+    "purposeDefs",
+    "lps"
+   ]
+  },
+  {
+   "name": "valid",
+   "rw": "?",
+   "type": "boolean",
+   "desc": "A flag corresponding to each layer. t if the layer is valid; nil if the layer is invalid.",
+   "classes": [
+    "layers",
+    "purposeDefs",
+    "lps"
+   ]
+  }
+ ]
+}

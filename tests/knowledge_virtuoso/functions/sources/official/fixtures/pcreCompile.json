@@ -1,0 +1,135 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "pcreCompile(\nt_pattern [ x_options ]\n)\n=> o_comPatObj / nil",
+   "shared_from": null
+  }
+ ],
+ "where": {
+  "file": "sklangref/stringfunc.html",
+  "topic": "pcreCompile",
+  "marker_text": "pcreCompile",
+  "anchor": "pcreCompile"
+ },
+ "also_at": [],
+ "sections": {
+  "description": {
+   "text": "Compiles a regular expression string pattern (t_pattern) into an internal representation that you can use in a pcreExecute function call. The compilation method is PCRE/Perl-compatible. You can use a second (optional) argument to specify independent option bits for controlling pattern compilation. You can set and unset the PCRE_CASELESS, PCRE_MULTILINE, PCRE_DOTALL, and PCRE_EXTENDED independent option bits from within the pattern. The content of the options argument specifies the initial setting at the start of compilation. You can set the PCRE_ANCHORED option at matching time and at compile time.\nNote: PCRE stands for Perl Compatible Regular Expressions. The PCRE library contains functions that implement Perl-compatible regular expression pattern matching. You can visit http://www.pcre.org for more information."
+  },
+  "arguments": {
+   "root": {
+    "title": null,
+    "items": [
+     {
+      "name": "t_pattern",
+      "desc": "String containing regular expression string to be compiled.",
+      "values": null
+     },
+     {
+      "name": "PCRE_CASELESS",
+      "desc": "/ 0x00000001\nEquivalent to setting ?caseLess t using the pcreGenCompileOptBits SKILL function.",
+      "values": null
+     },
+     {
+      "name": "PCRE_MULTILINE",
+      "desc": "/ 0x00000002\nEquivalent to setting ?multiLine t using the pcreGenCompileOptBits SKILL function.",
+      "values": null
+     },
+     {
+      "name": "PCRE_DOTALL",
+      "desc": "/ 0x00000004\nEquivalent to setting ?dotAll t using the pcreGenCompileOptBits SKILL function.",
+      "values": null
+     },
+     {
+      "name": "PCRE_EXTENDED",
+      "desc": "/ 0x00000008\nEquivalent to setting ?extended t using the pcreGenCompileOptBits SKILL function.",
+      "values": null
+     },
+     {
+      "name": "PCRE_ANCHORED",
+      "desc": "/ 0x00000010\nEquivalent to setting ?anchored t using the pcreGenCompileOptBits SKILL function.",
+      "values": null
+     },
+     {
+      "name": "PCRE_DOLLAR_ENDONLY",
+      "desc": "/ 0x00000020\nEquivalent to setting ?dollar_endonly t using the pcreGenCompileOptBits SKILL function.",
+      "values": null
+     },
+     {
+      "name": "PCRE_UNGREEDY",
+      "desc": "/ 0x00000200\nEquivalent to setting ?ungreedy t using the pcreGenCompileOptBits SKILL function.",
+      "values": null
+     },
+     {
+      "name": "PCRE_NO_AUTO_CAPTURE",
+      "desc": "/ 0x00001000\nEquivalent to setting\n?no_auto_capture t using the pcreGenCompileOptBits SKILL function.",
+      "values": null
+     },
+     {
+      "name": "PCRE_FIRSTLINE",
+      "desc": "/ 0x00040000\nEquivalent to setting ?firstline t using the pcreGenCompileOptBits SKILL function.",
+      "values": null
+     }
+    ]
+   },
+   "lists": [],
+   "text": "t_pattern\nString containing regular expression string to be compiled.\nx_options (Optional) Independent option bits that affect the compilation. You can specify zero or more of these options symbolically using the pcreGenCompileOptBits SKILL function.\nValid values:\nPCRE_CASELESS / 0x00000001\nEquivalent to setting ?caseLess t using the pcreGenCompileOptBits SKILL function.\nPCRE_MULTILINE / 0x00000002\nEquivalent to setting ?multiLine t using the pcreGenCompileOptBits SKILL function.\nPCRE_DOTALL / 0x00000004\nEquivalent to setting ?dotAll t using the pcreGenCompileOptBits SKILL function.\nPCRE_EXTENDED / 0x00000008\nEquivalent to setting ?extended t using the pcreGenCompileOptBits SKILL function.\nPCRE_ANCHORED / 0x00000010\nEquivalent to setting ?anchored t using the pcreGenCompileOptBits SKILL function.\nPCRE_DOLLAR_ENDONLY / 0x00000020\nEquivalent to setting ?dollar_endonly t using the pcreGenCompileOptBits SKILL function.\nPCRE_UNGREEDY / 0x00000200\nEquivalent to setting ?ungreedy t using the pcreGenCompileOptBits SKILL function.\nPCRE_NO_AUTO_CAPTURE / 0x00001000\nEquivalent to setting\n?no_auto_capture t using the pcreGenCompileOptBits SKILL function.\nPCRE_FIRSTLINE / 0x00040000\nEquivalent to setting ?firstline t using the pcreGenCompileOptBits SKILL function."
+  },
+  "returns": {
+   "items": [
+    {
+     "value": "o_comPatObj",
+     "desc": "Data object containing the compiled pattern."
+    },
+    {
+     "value": "nil",
+     "desc": "Pattern compilation failed. An error message indicating the cause of the failure appears."
+    }
+   ],
+   "text": "o_comPatObj\nData object containing the compiled pattern.\nnil\nPattern compilation failed. An error message indicating the cause of the failure appears."
+  },
+  "example": {
+   "text": "comPat1 = pcreCompile( \"\\\\Qabc\\\\$xyz\\\\E\" ) => pcreobj@0x27d0fc\npcreExecute( comPat1 \"abc\\\\$xyz\" ) => t\ncomPat2 = pcreCompile( \"sam | Bill | jack | alan | bob\" ) => pcreobj@0x27d108\npcreExecute( comPat2 \"alan\" ) => t\ncomPat3 = pcreCompile( \"z{1,5}\" ) => pcreobj@0x27d120\npcreExecute( comPat3 \"zzzzz\" ) => t\ncomPat4 = pcreCompile( \"/\\\\*.*?\\\\*/\" ) => pcreobj@0x27d12c\npcreExecute( comPat4 \"/* first command */ not comment /* second comment */\" ) => t\ncomPat5 = pcreCompile( \"^[a-z][0-9a-z]*\" pcreGenCompileOptBits(?caseLess t) )\n=> pcreobj@0x27d138\npcreExecute( \"AB12cd\" ) => t\ncomPat6 = pcreCompile( \"[a-z\" ) => *Error* pcreCompile: compilation failed at offset 4: missing terminating ] for character class\nnil"
+  },
+  "reference": {
+   "text": "pcreExecute, pcreGenCompileOptBits",
+   "links": [
+    {
+     "text": "pcreExecute",
+     "href": "#1039322"
+    },
+    {
+     "text": "pcreGenCompileOptBits",
+     "href": "#1039401"
+    }
+   ]
+  }
+ },
+ "field_status": {
+  "description": "present",
+  "arguments": "present",
+  "returns": "present",
+  "example": "present",
+  "reference": "present",
+  "related_functions": "not_documented",
+  "prerequisites": "not_documented",
+  "additional_information": "not_documented",
+  "interactive_function": "not_documented",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "not_documented",
+  "overview": "not_documented",
+  "errors": "not_documented",
+  "decl": "present"
+ },
+ "status": "active",
+ "prefix": "pcre",
+ "tokens": [
+  "pcre",
+  "compile"
+ ],
+ "name": "pcreCompile"
+}

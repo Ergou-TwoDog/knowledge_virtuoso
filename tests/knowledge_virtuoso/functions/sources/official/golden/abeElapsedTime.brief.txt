@@ -1,0 +1,12 @@
+函数: abeElapsedTime
+签名: abeElapsedTime([ ?reset
+g_reset ])
+=> g_time
+描述: Returns the elapsed time for the current ABE session.
+来源: sklayoutref/abe.html
+
+参数:
+  ?reset g_reset — A Boolean value that resets the clock to zero if set to t. By default, the clock is not reset.
+
+返回:
+  g_time — Elapsed time in seconds.

@@ -1,0 +1,7 @@
+函数: almSetOtherParameterList
+签名: almSetOtherParameterList(
+t_libt_cell
+l_parameter
+[ ?view g_view ][ ?tool g_tool ]
+[ ?entry g_entry ]
+)

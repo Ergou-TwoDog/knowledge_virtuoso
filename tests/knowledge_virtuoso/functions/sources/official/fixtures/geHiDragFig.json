@@ -1,0 +1,101 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "geHiDragFig(\nw_windowID r_form\nt_srcPrompt\nt_dstPrompt\nt_cmdName\nt_SelSet\ng_useMultiWindow\n[ l_firstPoint ])",
+   "shared_from": null
+  }
+ ],
+ "where": {
+  "file": "skdfref/chap1.html",
+  "topic": "geHiDragFig",
+  "marker_text": "geHiDragFig",
+  "anchor": "geHiDragFig"
+ },
+ "also_at": [],
+ "sections": {
+  "description": {
+   "text": "Used in conjunction with other SKILL functions to implement the dragging of selected database figures."
+  },
+  "arguments": {
+   "root": {
+    "title": null,
+    "items": [
+     {
+      "name": "w_windowID",
+      "desc": "Window ID.",
+      "values": null
+     },
+     {
+      "name": "r_form",
+      "desc": "Form data structure.\nValid Values: hiGetCurrentForm or any other valid form of data structure if there is a form, 0 if there is no form.",
+      "values": null
+     },
+     {
+      "name": "t_srcPrompt",
+      "desc": "Prompt string for the origin or source point.",
+      "values": null
+     },
+     {
+      "name": "t_dstPrompt",
+      "desc": "Prompt string for the destination point.",
+      "values": null
+     },
+     {
+      "name": "t_cmdName",
+      "desc": "The command name depends on the dragging action you desire, such as copy, move, or stretch. The command name could be any string or empty string, and the behavior is the same.\nValid Values: Copy, Move, Stretch, or any other string or empty string.",
+      "values": null
+     },
+     {
+      "name": "t_SelSet",
+      "desc": "Specifies which selected set or object's image is to be dragged. Its value could be a selected set, a selected object, or nil. In each case, the return value is the same. It prompts you to specify the first point with the mouse (source point in source cellview), then it prompts you to specify the second point with the mouse (destination point in the destination cellview).\nThe return value is a list:\n((source_point_CV source_point_coordination)(destination_point_CV destination_point_coordination))\nIf the argument is nil, a dragging image does not appear on the screen; otherwise, a dragging image appears and can be moved with the mouse. You can use geGetSelSet to get the value of the selected set or object. It returns nil if nothing is selected.\nValid Values: geGetSelSet or any valid selected set or nil.",
+      "values": null
+     },
+     {
+      "name": "g_useMultiWindow",
+      "desc": "Supports multiple windows. If you set this argument to nil, you cannot use snap mode. If you set this argument to t, the snap mode is only respected in the source window.\nValid Values: t (supports multiple windows), nil (does not support multiple windows).",
+      "values": null
+     },
+     {
+      "name": "l_firstPoint",
+      "desc": "First source point specified as a list.",
+      "values": null
+     }
+    ]
+   },
+   "lists": [],
+   "text": "w_windowID\nWindow ID.\nr_form\nForm data structure.\nValid Values: hiGetCurrentForm or any other valid form of data structure if there is a form, 0 if there is no form.\nt_srcPrompt\nPrompt string for the origin or source point.\nt_dstPrompt\nPrompt string for the destination point.\nt_cmdName\nThe command name depends on the dragging action you desire, such as copy, move, or stretch. The command name could be any string or empty string, and the behavior is the same.\nValid Values: Copy, Move, Stretch, or any other string or empty string.\nt_SelSet\nSpecifies which selected set or object's image is to be dragged. Its value could be a selected set, a selected object, or nil. In each case, the return value is the same. It prompts you to specify the first point with the mouse (source point in source cellview), then it prompts you to specify the second point with the mouse (destination point in the destination cellview).\nThe return value is a list:\n((source_point_CV source_point_coordination)(destination_point_CV destination_point_coordination))\nIf the argument is nil, a dragging image does not appear on the screen; otherwise, a dragging image appears and can be moved with the mouse. You can use geGetSelSet to get the value of the selected set or object. It returns nil if nothing is selected.\nValid Values: geGetSelSet or any valid selected set or nil.\ng_useMultiWindow\nSupports multiple windows. If you set this argument to nil, you cannot use snap mode. If you set this argument to t, the snap mode is only respected in the source window.\nValid Values: t (supports multiple windows), nil (does not support multiple windows).\nl_firstPoint\nFirst source point specified as a list."
+  },
+  "example": {
+   "text": "selSet = geGetSelSet()\ngeHiDragFig(window(2) 0 \"Enter Origin Point\" \"Enter Destination Point\" \"Copy\" selSet t)\nThe example above returns the value\n((db:21429292 (-0.4375 0.8125))\n(db:21429292 (-0.4375 -0.1875))\n)\nselSet = geGetSelSet()\ngeHiDragFig(window(2) hiGetCurrentForm() \"Enter Origin Point\"\n\"Enter Destination Point\" \"Copy\" selSet t)\nThe example above returns the value\n((db:21429292 (-0.5 0.8125))\n(db:21429292 (-0.4375 -0.3125))\n)\nMulti-Window Example:\nselSet = geGetSelSet()\ngeHiDragFig(window(2) hiGetCurrentForm() \"Enter Origin Point\"\n\"Enter Destination Point\" \"Move\" selSet t)\nnil\n>\nhiSetCurrentWindow(window(2))\nt\nmouseAddPt()\n-0.25:0.875\nt\nhiSetCurrentWindow(window(3))\nt\nmouseAddPt()\n1.5:-1.125\nt\n(\n(db:21267500\n(-0.25 0.875)\n)\n(db:21258284\n(1.5 -1.125)\n)\n)\nThe image which is dragged into another window is just an image, not a real object. You cannot select or save it. The window is not edited. It disappears after you use the redraw or the fit command."
+  }
+ },
+ "field_status": {
+  "description": "present",
+  "arguments": "present",
+  "returns": "not_documented",
+  "example": "present",
+  "reference": "not_documented",
+  "related_functions": "not_documented",
+  "prerequisites": "not_documented",
+  "additional_information": "not_documented",
+  "interactive_function": "not_documented",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "not_documented",
+  "overview": "not_documented",
+  "errors": "not_documented",
+  "decl": "present"
+ },
+ "status": "active",
+ "prefix": "ge",
+ "tokens": [
+  "ge",
+  "hi",
+  "drag",
+  "fig"
+ ],
+ "name": "geHiDragFig"
+}

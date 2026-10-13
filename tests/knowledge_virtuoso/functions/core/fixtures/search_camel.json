@@ -1,0 +1,104 @@
+{
+ "page": {
+  "names": [
+   "techFindViaDefByName"
+  ],
+  "total": 1,
+  "offset": 0,
+  "limit": 30,
+  "next_offset": null
+ },
+ "records": [
+  {
+   "type": "function",
+   "decl": [
+    {
+     "text": "techFindViaDefByName(\nd_techID t_viaDefName\n)\n=> d_viaDefID / nil",
+     "shared_from": null
+    }
+   ],
+   "where": {
+    "file": "sktechfile/chap8.html",
+    "topic": "techFindViaDefByName",
+    "marker_text": "techFindViaDefByName",
+    "anchor": "techFindViaDefByName"
+   },
+   "also_at": [],
+   "sections": {
+    "description": {
+     "text": "Returns the database identifier of the named via definition in the specified technology database."
+    },
+    "arguments": {
+     "root": {
+      "title": null,
+      "items": [
+       {
+        "name": "d_techID",
+        "desc": "The database identifier of the technology database.",
+        "values": null
+       },
+       {
+        "name": "t_viaDefName",
+        "desc": "The name of the via definition to find.\nValid values: A string that is the name of a valid via definition",
+        "values": null
+       }
+      ]
+     },
+     "lists": [],
+     "text": "d_techID\nThe database identifier of the technology database.\nt_viaDefName\nThe name of the via definition to find.\nValid values: A string that is the name of a valid via definition"
+    },
+    "returns": {
+     "items": [
+      {
+       "value": "d_viaDefID",
+       "desc": "The database identifier of the via definition."
+      },
+      {
+       "value": "nil",
+       "desc": "The technology database does not exist or does not contain the named via definition."
+      }
+     ],
+     "text": "d_viaDefID\nThe database identifier of the via definition.\nnil\nThe technology database does not exist or does not contain the named via definition."
+    },
+    "example": {
+     "text": "techFindViaDefByName(tfID \"viaDef2\")\n=> db:0x03b7a18c\nReturns the database identifier for the via definition named viaDef2 in the technology database identified by tfID."
+    }
+   },
+   "field_status": {
+    "description": "present",
+    "arguments": "present",
+    "returns": "present",
+    "example": "present",
+    "reference": "not_documented",
+    "related_functions": "not_documented",
+    "prerequisites": "not_documented",
+    "additional_information": "not_documented",
+    "interactive_function": "not_documented",
+    "associated_options": "not_documented",
+    "option_descriptions": "not_documented",
+    "purpose": "not_documented",
+    "format": "not_documented",
+    "definition": "not_documented",
+    "overview": "not_documented",
+    "errors": "not_documented",
+    "decl": "present"
+   },
+   "status": "active",
+   "prefix": "tech",
+   "tokens": [
+    "tech",
+    "find",
+    "via",
+    "def",
+    "by",
+    "name"
+   ],
+   "name": "techFindViaDefByName"
+  }
+ ],
+ "prefix": "tech",
+ "keywords": "find via def",
+ "offset": 0,
+ "limit": 30,
+ "with_digest": true
+}

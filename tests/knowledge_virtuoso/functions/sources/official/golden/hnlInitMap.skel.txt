@@ -1,0 +1,49 @@
+函数: hnlInitMap
+签名: hnlInitMap( x_maxNameLength x_maxInstNameLength x_maxModelNameLength x_maxNetNameLength
+      x_maxTermNameLengtht_namePrefix t_netNamePrefix t_instNamePrefix t_modelNamePrefix
+      t_termNamePrefixt_hierarchyDelimeter l_invalidFirstChars l_invalidCharsInName
+      l_hnlMapNetFirstChar l_hnlMapNetInName l_hnlMapInstFirstChar l_hnlMapInstInName
+      l_hnlMapModelFirstChar l_hnlMapModelInName l_hnlMapTermFirstCharl_hnlMapTermInName
+      t_mapName t_designName t_viewList t_stopListl_hnlInvalidNames l_hnlInvalidNetNames
+      l_hnlInvalidInstNames l_hnlInvalidModelNames l_hnlInvalidTermNames ) => t / nil
+来源: netlistsimulateref/ossFunctions.html
+
+参数:
+  x_maxNameLength
+  x_maxInstNameLength
+    If not given, maxNameLength is used as the default.
+  x_maxModelNameLength
+    If not given, maxNameLength is used as the default.
+  x_maxNetNameLength
+    If not given, maxNameLength is used as the default.
+  x_maxTermNameLength
+    If not given, maxNameLength is used as the default.
+  t_namePrefix
+  t_netNamePrefix
+  t_instNamePrefix
+  t_modelNamePrefix
+  t_termNamePrefix
+  t_hierarchyDelimeter
+  l_invalidFirstChars
+  l_invalidCharsInName
+  l_hnlMapNetFirstChar
+  l_hnlMapNetInName
+  l_hnlMapInstFirstChar
+  l_hnlMapInstInName
+  l_hnlMapModelFirstChar
+  l_hnlMapModelInName
+  l_hnlMapTermFirstChar
+  l_hnlMapTermInName
+  t_mapName
+  t_designName
+  t_viewList
+  t_stopList
+  l_hnlInvalidNames
+  l_hnlInvalidNetNames
+  l_hnlInvalidInstNames
+  l_hnlInvalidModelNames
+  l_hnlInvalidTermNames
+
+返回: t / nil
+
+省略: 参数说明 30 条共 11,045 字 → detail="brief"；示例、补充说明、相关函数、选项说明 → detail="full"

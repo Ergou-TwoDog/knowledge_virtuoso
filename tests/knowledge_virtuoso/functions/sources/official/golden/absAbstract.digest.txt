@@ -1,0 +1,2 @@
+absAbstract | absAbstract() => 0 / 1 | Runs the Abstract step for selected cells and creates an abstract view for those cells based on the options set using absSetBinOption. | 返回: 0, 1 | sklayoutref/abs.html
+省略: 参数说明；示例与补充说明 → detail="skel" / "brief" / "full"

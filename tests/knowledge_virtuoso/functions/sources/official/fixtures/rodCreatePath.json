@@ -1,0 +1,450 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "rodCreatePath( [ ?name\nS_name][ ?layer txl_layer ]\n[ ?width n_width ]\n[ ?pts l_pts ]\n[ ?justification S_justification ]\n[ ?offset n_offset ]\n[ ?endType S_endType ]\n[ ?beginExt n_beginExt ]\n[ ?endExt n_endExt ]\n[ ?choppable g_choppable ]\n[ ?cvId d_cvId ]\n[ ?fromObj Rl_fromObj ]\n[ ?size txf_size ]\n[ ?startHandle l_startHandle ]\n[ ?endHandle l_endHandle ]\n[ ?prop l_prop ]\n[rodConnectivityArgs... ]\n;start ROD Connectivity Arguments (rodConnectivityArgs)\n[ ?netName S_netName ]\n[ ?termName S_termName ]\n[ ?termIOType S_termIOType ]\n[ ?pin g_pin ]\n[ ?pinAccessDir tl_pinAccessDir ]\n[ ?pinLabel g_pinLabel ]\n[ ?pinLabelHeight n_pinLabelHeight ]\n[ ?pinLabelLayer txl_pinLabelLayer ]\n[ ?pinLabelFont S_pinLabelFont ]\n[ ?pinLabelDrafting g_pinLabelDrafting ]\n[ ?pinLabelOrient S_pinLabelOrient ]\n[ ?pinLabelOffsetPoint l_pinLabelOffsetPoint ]\n[ ?pinLabelJust S_pinLabelJust ]\n[ ?pinLabelRefHandle S_pinLabelRefHandle ]\n;end ROD Connectivity Arguments\n[ ?offsetSubPath l_offsetSubpathArgs... ]\n;start Offset Subpath Arguments (l_offsetSubpathArgs)\nlist(\nlist(\n[ ?layer txl_layer ]\n[ ?width n_width ]\n[ ?sep n_sep ]\n[ ?justification S_justification ]\n[ ?beginOffset n_beginOffset ]\n[ ?endOffset n_endOffset ]\n[ ?choppable g_choppable ]\n[ ?prop l_prop ]\n;repeat ROD Connectivity Arguments here\n);end first offset subpath list\n...\n);end offset subpath lists\n;end Offset Subpath Arguments\n[ ?encSubPath l_encSubpathArgs... ]\n;start Enclosure Subpath Arguments (l_encSubpathArgs)\nlist(\nlist(\n[ ?layer txl_layer ]\n[ ?enclosure n_enclosure ]\n[ ?beginOffset n_beginOffset ]\n[ ?endOffset n_endOffset ]\n[ ?choppable g_choppable ]\n[ ?prop l_prop ]\n;repeat ROD Connectivity Arguments here\n);end first enclosure subpath list\n...\n;end of enclosure subpath lists\n;end Enclosure Subpath Arguments\n[ ?subRect l_subrectArgs... ]\n;start Subrectangle Arguments (l_subrectArgs)\nlist(\nlist(\n[ ?layer txl_layer ]\n[ ?width n_width ]\n[ ?length n_length ]\n[ ?gap S_gap ]\n[ ?sep n_sep ]\n[ ?justification S_justification ]\n[ ?beginOffset n_beginOffset ]\n[ ?endOffset n_endOffset ]\n[ ?beginSegOffset n_beginSegOffset ]\n[ ?endSegOffset n_endSegOffset ]\n[ ?space n_space ]\n[ ?choppable g_choppable ]\n[ ?prop l_prop ]\n;repeat ROD Connectivity Arguments here\n[ ?diagonal g_diagonalSubRect ]\n);end first subrectangle list\n...\n;end subrectangle lists\n);end Subrectangle Arguments\n);end rodCreatePath\n=> R_rodObj / nil",
+   "shared_from": null
+  }
+ ],
+ "where": {
+  "file": "rodskillref/chap1.html",
+  "topic": "rodCreatePath",
+  "marker_text": "rodCreatePath",
+  "anchor": "rodCreatePath"
+ },
+ "also_at": [],
+ "sections": {
+  "description": {
+   "text": "Creates a path consisting of one or more parts at level zero in the hierarchy on the same or on different layers from a list of points or from one or more existing objects. A path consisting of multiple parts is called a multipart path. You can use the rodCreatePath function to create one-part paths, simple multipart paths, or complex multipart paths such as guard rings, transistors, buses, and shielded paths. You can assign one or more property names and values to a multipart path.\nNote: rodCreatePath is a core database SKILL function that checks only for even multiples of database units to create a path. As a result, the created path can be off grid. To create a path with required constraints and additional level of automation use an end-application SKILL function, such as leCreatePath.\nA multipart path consists of a single master path and one or more subparts. The master path is an ordinary path; however, it is the defining part of a multipart path; all subparts are based on the master path. You can assign a property name and value, or a list of property names and values, to the master path and/or to each subpart. The subparts can be any or all of the following: offset subpaths, enclosure subpaths, and sets of subrectangles.\nYou can create any number of subparts. All subparts exist in relation to and depend on the master path. A subrectangle in a set of subrectangles is not an individual shape; it is part of that specific set of subrectangles. In the Virtuoso layout editor, you cannot select or edit an individual subrectangle. Subrectangles are created on grid.\nNote: Although you cannot select an individual subrectangle, it is possible to obtain the database ID for an individual subrectangle. If you use the database ID to change connectivity information (such as terminal name) for one or more individual subrectangles, your change is applied to the individual subrectangles immediately, and propagated to all of the subrectangles in the set of subrectangles when the MPP is modified in any way (such as moved).\nFor a detailed overview of multipart paths, see \"Multipart Paths\".\nYou can also create MPPs and save them as templates in your technology file by using the graphical user interface or by editing the ASCII version of your technology file. For information about using the graphical user interface, see \"Creating and Editing Multipart Paths\" in the Virtuoso Layout Suite L User Guide. For information about editing your technology file, see \"multiPartPathtcCreatreTemplates\" in the Technology File and Display Resource File ASCII Syntax Reference Manual.\nThe following topics are discussed in this section, following the argument descriptions:\nCreating Self-Intersecting Paths\nSpecifying Arguments as nil\nFormatting List-of-Lists Arguments for Subparts\nHow the System Follows to Create Subrectangles\nDisconnecting Shapes in a Multipart Path"
+  },
+  "arguments": {
+   "root": {
+    "title": "Master Path Arguments",
+    "items": [
+     {
+      "name": "?name S_name",
+      "desc": "Symbol or character string specifying the name for the master path. Enclose character strings in quotation marks (\"\"); precede symbols with a single quotation mark ('). ROD converts symbols to character strings.\nThe name must be unique for the cellview. If you do not specify a name, the system assigns a unique name, consisting of the prefix path, followed by a number. For example, for the first master path in a cellview for which you do not specify a name, the system assigns the name path0, if unique; for the second, path1, and so on.\nDefault: pathn",
+      "values": null
+     },
+     {
+      "name": "?layer txl_layer",
+      "desc": "Text string, integer, or list specifying the layer or layer-purpose pair for the master path, such as\n?layer \"metal1\"\n?layer 45\n?layer list(\"metal1\" \"drawing\")\nEnclose string values in quotation marks. Do not use a symbol. For lists, use the following format:\nlist( layer purpose )\nExamples of layer-purpose pairs:\n?layer list(\"metal1\" \"drawing\")\n?layer list(45 252)\n?layer list(45 \"drawing\")\n?layer list(\"metal1\" 252)\nYou are required to specify a layer.\nDefault Purpose: drawing",
+      "values": null
+     },
+     {
+      "name": "?width n_width",
+      "desc": "Positive integer or floating-point number specifying the width of the master path. If you do not specify the width, the system uses the minWidth rule for the master path layer from the technology file. If the minWidth rule is not defined in the technology file, the rodCreatePath function reports an error.\nDefault: the minWidth rule for the master path layer from the technology file",
+      "values": null
+     },
+     {
+      "name": "?pts l_pts",
+      "desc": "List of points defining the centerline of the master path. Specify a point for the start and end of the first segment, and specify a point for the end of subsequent segments. You must specify at least two noncoincident points. You cannot create self-intersecting master paths. You are required to specify a list of points. The system discards duplicate and collinear points before creating the path but does not consider them an error.\nUse one of the following formats:\nlist( x:y x:y ... )\nor\nlist( list(x y) list(x y) ... )\nYou must specify either l_pts or Rl_fromObj. If you specify both, the system ignores the l_pts argument.\nDefault: none",
+      "values": null
+     },
+     {
+      "name": "?justification S_justification",
+      "desc": "Symbol or character string specifying the part of the master path to offset from the point list: centerline, left edge, or right edge. Justification is relative to the direction of the path.\nValid Values: center, left, right\nDefault: center",
+      "values": null
+     },
+     {
+      "name": "?offset n_offset",
+      "desc": "Signed integer or floating-point number specifying the distance by which the master path edge or centerline, depending on S_justification, is offset from the point list specified by the l_pts argument. A positive value creates the master path to the left of the point list; a negative value creates the master path to the right of the point list. For a detailed description about offsetting the master path, see \"Master Paths\" in the Virtuoso Relative Object Design User Guide.\nDefault: 0",
+      "values": null
+     },
+     {
+      "name": "?endType S_endType",
+      "desc": "Symbol or character string specifying the type of ends of the master path.\nValid Values: flush, offset, octagon, variable\nDefault: flush",
+      "values": null
+     },
+     {
+      "name": "?beginnExt n_beginExt",
+      "desc": "Zero or positive integer or floating-point number specifying the distance by which the starting end of the master path extends beyond its first point. This argument is ignored unless S_endType is set to variable.\nDefault: 0",
+      "values": null
+     },
+     {
+      "name": "?endExt n_endExt",
+      "desc": "Zero or positive integer or floating-point number specifying the distance by which the ending end of the master path extends beyond its last point. This argument is ignored unless S_endType is set to variable.\nDefault: 0",
+      "values": null
+     },
+     {
+      "name": "?choppable g_choppable",
+      "desc": "Boolean value indicating whether or not a ROD path can be chopped. The value must be t or nil. When a path has subparts and the master path is choppable, all subpaths and sets of subrectangles must be choppable also. When a path has subparts and the master path is not choppable, each subpath and/or set of subrectangles can be choppable or not.\nDefault: t",
+      "values": null
+     },
+     {
+      "name": "?cdId d_cvId",
+      "desc": "Database ID for the cellview in which you are creating a ROD path. If rodCreatePath occurs in the body of a pcDefinePCell function or tcCreateCDSDeviceClass function call, the default value is pcCellView or tcCellView, respectively; otherwise, this argument is required.\nDefault: none",
+      "values": null
+     },
+     {
+      "name": "?fromObj Rl_fromObj",
+      "desc": "ROD object ID or list of ROD object IDs identifying a named object or list of named objects that you want to use as a source for creating a new ROD path. The source objects can be instances, rectangles, polygons, paths, lines, dots, labels, and/or text-display objects. You must specify either the Rl_fromObj argument or the l_pts argument. If you specify both, the system ignores the l_pts argument.\nDefault: none",
+      "values": null
+     },
+     {
+      "name": "?size txf_size",
+      "desc": "A signed integer, floating-point number, or Cadence SKILL language expression specifying the distance between a bounding box around the source object (Rl_fromObj) and the centerline of the generated master path. When the source is more than one object, txf_size specifies the distance between a bounding box around all of the objects and the centerline of the master path.\nBy default, the generated path has four segments and forms a ring. A positive number creates a path that is longer than the circumference of the bounding box; a negative number creates a path that is shorter than the circumference of the bounding box.\nWhen you specify a SKILL expression, it must evaluate to a positive or negative integer or floating-point number. SKILL expressions are evaluated only when the new path is created.\nIf you specify a source object (Rl_fromObj) but do not specify txf_size, then txf_size defaults to 0.0. If you specify txf_size, you must also specify Rl_fromObj, or the system reports an error.\nDefault: 0.0",
+      "values": null
+     },
+     {
+      "name": "?startHandle S_startHandle",
+      "desc": "Symbol or character string specifying the starting point for the generated path, such as startn, where n is the segment number.\nValid Values: startn, midn, endn, startLast, midLast, endLast\nDefault: start0",
+      "values": null
+     },
+     {
+      "name": "?endHandle S_endHandle",
+      "desc": "Symbol or character string specifying the ending point for the generated path, such as startn, where n is the segment number\nValid Values: startn, midn, endn, startLast, midLast, endLast\nDefault: start0",
+      "values": null
+     },
+     {
+      "name": "?prop l_prop",
+      "desc": "A list or lists of lists, where each list contains the name of a property and its value. When the property name is a string, enclose it in quotes. For a description of the valid data types, see the \"About the Add Property Form\" in the Virtuoso Layout Suite L User Guide. For Boolean properties, the value must be t or nil. For example, you would specify a single Boolean property as follows:\n?prop list(\"myProp\" t)\nand a list of properties as follows:\n?prop list(\nlist(\"myProp1\" propValue1)\nlist(\"myProp2\" propValue2)\n...\nlist(\"myPropN\" propValueN)\n)\nFor a more detailed description about specifying lists of lists, see Formatting List-of-Lists Arguments for Subparts.\nDefault: nil",
+      "values": null
+     },
+     {
+      "name": "rodConnectivityArgs...",
+      "desc": "A list containing rod connectivity arguments. For more details on these arguments, see ROD Connectivity Arguments (rodConnectivityArgs).",
+      "values": null
+     },
+     {
+      "name": "l_offsetSubpathArgs...",
+      "desc": "A list containing one or more lists, each of which specifies the arguments for one offset subpath. The subpath is created in relationship to the master path. For information about how to specify lists of lists, see Formatting List-of-Lists Arguments for Subparts.\nFor more information on l_encSubPathArgs arguments, see Enclosure Subpath Arguments (l_encSubpathArgs).",
+      "values": null
+     },
+     {
+      "name": "l_encSubPathArgs...",
+      "desc": "A list containing one or more lists, each of which specifies the arguments for one enclosure subpath. The enclosure subpath is created in relationship to the centerline of the master path. For information about how to specify lists of lists, see Formatting List-of-Lists Arguments for Subparts.\nFor more information on l_offsetSubpathArgs, see Enclosure Subpath Arguments (l_encSubpathArgs).",
+      "values": null
+     },
+     {
+      "name": "l_subRectArgs...",
+      "desc": "A list containing one or more lists, each of which specifies the arguments for one set of unnamed subrectangles. The set of subrectangles is created in relationship to the centerline of the master path. For information about how to specify lists of lists, see Formatting List-of-Lists Arguments for Subparts.\nFor more information on l_subRectArgs, see Subrectangle Arguments (l_subrectArgs).",
+      "values": null
+     }
+    ]
+   },
+   "lists": [
+    {
+     "title": "ROD Connectivity Arguments (rodConnectivityArgs)",
+     "list_type": "rodConnectivityArgs",
+     "parent": {
+      "arg": "rodConnectivityArgs...",
+      "type": "rodConnectivityArgs",
+      "match": "exact"
+     },
+     "items": [
+      {
+       "name": "?netname S_netName",
+       "desc": "Symbol or character string specifying the name of the net with which you want to associate the shape. Enclose character strings in quotation marks (\"\"); precede symbols with a single quotation mark (').\nROD converts symbols to character strings. If the net does not exist, the system creates it, using the name specified by S_netName. To associate the shape with a net, this argument is required. If you do not want to specify this argument, omit it or specify its value as nil.\nDefault: nil",
+       "values": null
+      },
+      {
+       "name": "?termName S_termName",
+       "desc": "Symbol or character string specifying the name of the terminal and net with which you want to associate the shape. Enclose character strings in quotation marks (\"\"); precede symbols with a single quotation mark (').\nROD converts symbols to character strings. If the terminal and/or net does not exist, the system creates it, using the name specified by S_termName.\nIf you specify both S_termName and S_netName, their values must be the same. If a terminal with the specified name already exists, the net it belongs to must have the same name. If the net name does not match the terminal name, the function reports an error.\nTo associate the shape with a terminal and net, this argument is required. If you do not want to specify this argument, omit it or specify its value as nil.\nDefault: nil",
+       "values": null
+      },
+      {
+       "name": "?termIOType S_termIOType",
+       "desc": "Symbol or character string specifying the direction type (I/O type) for the terminal. If S_termName is not specified, the S_termIOType argument is ignored. If a terminal with the name specified by S_termName already exists, it must have the same direction type as specified by S_termIOType; if the direction type is not the same, the function reports an error.\nValid Values: input, output, inputOutput, switch, jumper\nDefault: inputOutput\nSymbol or character string specifying the direction type (I/O type) for the terminal. If S_termName is not specified, the S_termIOType argument is ignored. If a terminal with the name specified by S_termName already exists, it must have the same direction type as specified by S_termIOType; if the direction type is not the same, the function reports an error.\nValid Values: input, output, inputOutput, switch, jumper\nDefault: inputOutput",
+       "values": null
+      },
+      {
+       "name": "?pin g_pin",
+       "desc": "Boolean value indicating whether or not to make the shape into a pin. The value must be t or nil. When you specify g_pin, you must also specify a value other than nil for S_netName and/or S_termName; if you do not, all connectivity arguments are ignored but no error is reported. If you do not want to specify this argument, omit it or specify its value as nil. When the value is nil, the shape created is not a pin and all other arguments containing the word pin are ignored.\nValid Values: t, nil\nDefault: nil",
+       "values": null
+      },
+      {
+       "name": "?pinAccessDir tl_pinAccessDir",
+       "desc": "Text string or list specifying the access direction(s) for the pin. Enclose string values in quotation marks. Do not use a symbol. An example of a list is\nlist( \"top\" \"bottom\" )\nValid Values: top, bottom, left, right, any, none, or a list containing any of these values\nDefault: any",
+       "values": null
+      },
+      {
+       "name": "?pinLabel g_pinLabel",
+       "desc": "Boolean value indicating whether or not to add a text display object for the pin, where the text is the contents of the S_termName argument. The value must be t or nil. When the value is t, the system creates a text display object as a ROD object and aligns it to the pin using the values you specify for the other pin label arguments. When the value is nil, no label is created and all other arguments containing the characters pinLabel are ignored.\nValid Values: t, nil\nDefault: nil",
+       "values": null
+      },
+      {
+       "name": "?pinLabelHeight n_pinLabelHeight",
+       "desc": "Positive integer or floating-point number specifying the vertical height of the pin text-display label in user units.\nDefault: 1",
+       "values": null
+      },
+      {
+       "name": "?pinLabelLayer txl_pinLabelLayer",
+       "desc": "Text string, integer, or list specifying the layer or layer-purpose pair for the pin text-display label, such as\n?pinLabelLayer \"metal1\"\n?pinLabelLayer 45\n?pinLabelLayer list(\"metal1\" \"drawing\")\nEnclose string values in quotation marks. Do not use a symbol. For lists, use the following format:\nlist(layer purpose)\nExamples of layer-purpose pairs:\n?pinLabelLayer list(\"metal1\" \"drawing\")\n?pinLabelLayer list(45 252)\n?pinLabelLayer list(45 \"drawing\")\n?pinLabelLayer list(\"metal1\" 252)\nWhen you specify only the layer, the purpose defaults to the purpose defined by l_layer. When you specify neither layer nor purpose, both layer and purpose default to the values defined by l_layer.\nDefault: layer specified by l_layer; purpose specified by l_layer",
+       "values": null
+      },
+      {
+       "name": "?pinLabelFont S_pinLabelFont",
+       "desc": "Symbol or character string specifying the name of the font for the pin text-display label.\nValid Values: euroStyle, gothic, math, roman, script, stick, swedish\nDefault: stick",
+       "values": null
+      },
+      {
+       "name": "?pinLabelDrafting g_pinLabelDrafting",
+       "desc": "Boolean value indicating whether or not to allow rotation of the pin text-display label by more than 90 degrees. The value must be t or nil. You can set or change label rotation with the S_pinLabelOrient argument or in the layout editor. When the value is t, the label can rotate less than or equal to 90 degrees. When the value is nil, the label can rotate more than 90 degrees.\nValid Values: t, nil\nDefault: t",
+       "values": null
+      },
+      {
+       "name": "?pinLabelpinLabelOrient S_pinLabelOrient",
+       "desc": "Symbol or character string specifying the orientation of the pin text-display label.\nValid Values:\n0 R0\n90 R90\n180 R180\n270 R270\nMY sideways\nMYR90 sideways & 90\nMX upsideDown\nMXR90.... sideways & 270\nDefault: R0",
+       "values": null
+      },
+      {
+       "name": "?pinLabelOffsetPoint l_pinLabelOffsetPoint",
+       "desc": "Lists one set of coordinates specifying the X and Y offset of the origin of the pin text-display label from a point handle on the shape. The label origin is specified by S_pinLabelJust, and the shape point handle is specified by S_pinLabelRefHandle.\nUse one of the following formats:\nx:y\nor\nlist(x y)\nor any expression that evaluates to a list of two numbers.\nDefault: 0:0",
+       "values": null
+      },
+      {
+       "name": "?pinLabelJust S_pinLabelJust",
+       "desc": "Symbol or character string specifying the origin point for the text-display label.\nValid Values:\nupperLeft or uL lowerLeft or lL\nupperCenter or uC lowerCenter or lC\nupperRight or uR lowerRight or lR\ncenterLeft or cL\ncenterCenter or cC\ncenterRight or cR\nDefault: centerCenter",
+       "values": null
+      },
+      {
+       "name": "?pinLabelRefHandle S_pinLabelRefHandle",
+       "desc": "Symbol or character string specifying the point handle on the shape from which you want to offset the origin point of the text-display label. You can specify the name of any bounding box or segment point handle.\nFor a detailed description of system-defined point handles, see \"System-Defined Handles\" in Virtuoso Relative Object Design User Guide.\nValid Values for bounding box point handles:\nupperLeft or uL lowerLeft or lL\nupperCenter or uC lowerCenter or lC\nupperRight or uR lowerRight or lR\ncenterLeft or cL\ncenterCenter or cC\ncenterRight or cR\nValid Values for segment point handles for all ROD shapes:\nstart0 mid0 end0\nstartLast midLast endLast\nstartn midn endn\nValid Values for segment point handles for ROD paths:\nstart0 mid0 end0\nstartLast midLast endLast\nstartn midn endn\nstartLeft0 midLeft0 endLeft0\nstartLeftLast midLeftLast endLeftLast\nstartLeftn midLeftn endLeftn\nstartRight0 midRight0 endRight0\nstartRightLast midRightLast endRightLast\nstartRightn midRightn endRightn\nDefault: the bounding box point handle centerCenter",
+       "values": null
+      }
+     ]
+    },
+    {
+     "title": "Offset Subpath Arguments (l_offsetSubpathArgs)",
+     "list_type": "l_offsetSubpathArgs",
+     "parent": {
+      "arg": "l_offsetSubpathArgs...",
+      "type": "l_offsetSubpathArgs",
+      "match": "exact"
+     },
+     "items": [
+      {
+       "name": "?layer txl_layer",
+       "desc": "Text string, integer, or list specifying the layer or layer-purpose pair for the subpath, such as:\n?layer \"metal1\"\n?layer 45\n?layer list(\"metal1\" \"drawing\")\nEnclose string values in quotation marks. Do not use a symbol. Use the one of the formats defined for the master path argument txl _layer. You are required to specify a layer.\nDefault Purpose: drawing",
+       "values": null
+      },
+      {
+       "name": "?width n_width",
+       "desc": "Positive integer or floating-point number specifying the width of the offset subpath.\nIf you do not specify the width, the system uses the minWidth rule for the offset subpath layer from the technology file. If the minWidth rule is not defined in the technology file, rodCreatePath reports an error.\nDefault: minWidth for the offset subpath layer from the technology file",
+       "values": null
+      },
+      {
+       "name": "?sep n_sep",
+       "desc": "Signed integer or floating-point number specifying the separation between the centerline or an edge of the subpath and the centerline or an edge of the master path, depending on the value of S_justification.\nDefault: 0",
+       "values": null
+      },
+      {
+       "name": "?justification S_justification",
+       "desc": "Symbol or character string specifying from which part of the master path to separate the subpath, in relation to the direction of the master path. Enclose character strings in quotation marks (\"\"); precede symbols with a single quotation mark ('). ROD converts symbols to character strings.\nWhen left, the right edge of the subpath is separated from the left edge of the master path. When right, the left edge of the subpath is separated from the right edge of the master path. When center, the centerline of the subpath is separated from the centerline of the master path.\nValid Values: center, left, right\nDefault: center",
+       "values": null
+      },
+      {
+       "name": "?beginOffset n_beginOffset",
+       "desc": "Signed integer or floating-point number specifying the starting edge of the subpath in relation to the starting edge of the master path. A positive number extends the end of the subpath beyond the end of the master path; a negative number retracts the end of the subpath from the end of the master path.\nDefault: n_endOffset if specified; otherwise 0",
+       "values": null
+      },
+      {
+       "name": "?endOffset n_endOffset",
+       "desc": "Signed integer or floating-point number specifying the ending edge of the subpath in relation to the ending edge of the master path. A positive number extends the end of the subpath beyond the end of the master path; a negative number retracts the end of the subpath from the end of the master path.\nDefault: n_beginOffset if specified; otherwise 0",
+       "values": null
+      },
+      {
+       "name": "?choppable g_choppable",
+       "desc": "Boolean value indicating whether or not the subpath can be chopped. The value must be t or nil. When the master path is choppable, all subpaths must be choppable. When the master path is not choppable, each subpath can be choppable or not.\nDefault: t",
+       "values": null
+      },
+      {
+       "name": "?prop l_prop",
+       "desc": "A list or lists of lists, where each list contains the name of a property and its value. When the property name is a string, enclose it in quotes. For a description of the valid data types, see the \"About the Add Property Form\" in the Virtuoso Layout Suite L User Guide. For Boolean properties, the value must be t or nil. For example, you would specify a single Boolean property as follows:\n?prop list(\"myProp\" t)\nand a list of properties as follows:\n?prop list(\nlist(\"myProp1\" propValue1)\nlist(\"myProp2\" propValue2)\n...\nlist(\"myPropN\" propValueN)\n)\nFor a more detailed description about specifying lists of lists, see Formatting List-of-Lists Arguments for Subparts.\nDefault: nil",
+       "values": null
+      }
+     ]
+    },
+    {
+     "title": "Enclosure Subpath Arguments (l_encSubpathArgs)",
+     "list_type": "l_encSubpathArgs",
+     "parent": {
+      "arg": "l_encSubPathArgs...",
+      "type": "l_encSubPathArgs",
+      "match": "case_insensitive"
+     },
+     "items": [
+      {
+       "name": "?layer txl_layer",
+       "desc": "Text string, integer, or list specifying the layer or layer-purpose pair for the subpath, such as\n?layer \"metal1\"\n?layer 45\n?layer list(\"metal1\" \"drawing\")\nEnclose string values in quotation marks. Do not use a symbol. Use the one of the formats defined for the master path argument txl_layer. You are required to specify a layer.\nDefault Purpose: drawing",
+       "values": null
+      },
+      {
+       "name": "?enclosure n_enclosure",
+       "desc": "Signed integer or floating-point number specifying the enclosure of the subpath in relation to the master path. The system computes the width of an enclosure subpath as follows:\nwidth = (n_width of master path) - (2 * n_enclosure)\nIf you do not specify this argument, the system uses the minEnclosure rule from the technology file for master path layer to subpath layer; if the minEnclosure rule is not defined in the technology file, rodCreatePath reports an error.\nDefault: minEnclosure rule from the technology file for master path layer to subpath layer",
+       "values": null
+      },
+      {
+       "name": "?beginOffset n_beginOffset",
+       "desc": "Signed integer or floating-point number specifying the starting edge of the subpath in relation to the starting edge of the master path. A positive number extends the end of the subpath beyond the end of the master path; a negative number retracts the end of the subpath from the end of the master path.\nDefault: n_endOffset if specified; otherwise the negative of n_enclosure",
+       "values": null
+      },
+      {
+       "name": "?endOffset n_endOffset",
+       "desc": "Signed integer or floating-point number specifying the ending edge of the subpath in relation to the ending edge of the master path.\nA positive number extends the end of the subpath beyond the end of the master path; a negative number retracts the end of the subpath from the end of the master path.\nDefault: n_beginOffset if specified; otherwise the negative of n_enclosure",
+       "values": null
+      },
+      {
+       "name": "?choppable g_choppable",
+       "desc": "Boolean value indicating whether or not the subpath can be chopped. The value must be t or nil. When the master path is choppable, all subpaths must be choppable. When the master path is not choppable, each subpath can be choppable or not.\nDefault: t",
+       "values": null
+      },
+      {
+       "name": "?prop l_prop",
+       "desc": "A list or lists of lists, where each list contains the name of a property and its value. When the property name is a string, enclose it in quotes. For a description of the valid data types, see the \"About the Add Property Form\" in the Virtuoso Layout Suite L User Guide. For Boolean properties, the value must be t or nil. For example, you would specify a single Boolean property as follows:\n?prop list(\"myProp\" t)\nand a list of properties as follows:\n?prop list(\nlist(\"myProp1\" propValue1)\nlist(\"myProp2\" propValue2)\n...\nlist(\"myPropN\" propValueN)\n)\nFor a more detailed description about specifying lists of lists, see Formatting List-of-Lists Arguments for Subparts.\nDefault: nil",
+       "values": null
+      }
+     ]
+    },
+    {
+     "title": "Subrectangle Arguments (l_subrectArgs)",
+     "list_type": "l_subrectArgs",
+     "parent": {
+      "arg": "l_subRectArgs...",
+      "type": "l_subRectArgs",
+      "match": "case_insensitive"
+     },
+     "items": [
+      {
+       "name": "?layer txl_layer",
+       "desc": "Text string, integer, or list specifying the layer or layer-purpose pair for the subrectangle(s), such as\n?layer \"metal1\"\n?layer 45\n?layer list(\"metal1\" \"drawing\")\nEnclose string values in quotation marks. Do not use a symbol. Use the one of the formats defined for the master path argument txl_layer. You are required to specify a layer.\nDefault Purpose: drawing",
+       "values": null
+      },
+      {
+       "name": "?width n_width",
+       "desc": "Positive integer or floating-point number specifying the width of the rectangle(s), where the width is parallel to the width of the master path.\nIf not specified, the system uses n_length; if neither is specified, the system uses the minWidth rule for the subrectangle layer from the technology file. If the minWidth rule is not defined in the technology file, rodCreatePath returns nil to indicate an error.\nDefault: n_length if specified; otherwise minWidth for the subrectangle layer from the technology file",
+       "values": null
+      },
+      {
+       "name": "?length n_length",
+       "desc": "Positive integer or floating-point number specifying the length of the subrectangle(s), where the length is parallel to the master path centerline.\nIf not specified, the system uses n_width; if neither is specified, the system uses the minWidth rule for the subrectangle layer from the technology file. If the minWidth rule is not defined in the technology file, rodCreatePath returns nil to indicate an error.\nDefault: n_width if specified; otherwise, minWidth for the subrectangle layer from the technology file",
+       "values": null
+      },
+      {
+       "name": "?gap S_gap",
+       "desc": "Symbol or character string specifying the method the system uses to place subrectangles within each segment. Enclose character strings in quotation marks (\"\"); precede symbols with a single quotation mark ('). ROD converts symbols to character strings.\nThe system always uses the value of n_space for minimum space between subrectangles and calculates the maximum number of rectangles that fit in the segment, allowing for the space needed by n_beginOffset and n_endOffset. When the value of S_gap is distribute, the system distributes the space around subrectangles as evenly as possible, in multiples of the grid space specified by mfgGridResolution. Any remaining space is left after the last subrectangle in the segment.\nWhen the value of S_gap is distribute and there is only one subrectangle, the value of the distributeSingleSubRect environment variable determines where the single subrectangle is placed. When nil, which is the default, the subrectangle is offset as specified by n_beginOffset and n_endOffset. When t, the subrectangle is centered (but placed on grid), and n_beginOffset and n_endOffset are ignored.\nWhen the value of S_gap is minimum, the system places subrectangles n_space apart until there is no space for another rectangle, then leaves the excess space after the last subrectangle in the segment.\nValid Values: distribute, minimum\nDefault: distribute",
+       "values": null
+      },
+      {
+       "name": "?sep n_sep",
+       "desc": "Signed integer or floating-point number specifying the separation between the centerline or an edge of the subrectangles and the centerline or an edge of the master path, depending on the value of S_justification. The system places subrectangles on grid, as close to the specified separation as possible.\nDefault: 0",
+       "values": null
+      },
+      {
+       "name": "?justification S_justification",
+       "desc": "Symbol or character string specifying from which part of the master path to separate the subrectangles, in relation to the direction of the master path. When left, the right edge of the subrectangles is separated from the left edge of the master path. When right, the left edge of the subrectangles is separated from the right edge of the master path. When center, the centerline of the subrectangles is separated from the centerline of the master path.\nValid Values: center, left, right\nDefault: center",
+       "values": null
+      },
+      {
+       "name": "?beginOffset n_beginOffset",
+       "desc": "Signed integer or floating-point number specifying the offset of the edge of the first subrectangle from the starting edge of the master path. A positive number extends the beginning of the subrectangles beyond the beginning of the master path; a negative number retracts the beginning of the subrectangles from the beginning of the master path.\nDefault: n_endOffset if specified; otherwise 0",
+       "values": null
+      },
+      {
+       "name": "?endOffset n_endOffset",
+       "desc": "Signed integer or floating-point number specifying the offset of the edge of the last subrectangle from the ending edge of the master path. A positive number extends the end of the subrectangles beyond the end of the master path; a negative number retracts the end of the subrectangles from the end of the master path.\nDefault: n_beginOffset if specified; otherwise 0",
+       "values": null
+      },
+      {
+       "name": "?beginSegOffset n_beginSegOffset",
+       "desc": "Positive, signed integer or floating-point number that, together with the other offset arguments, lets you control whether there is a subrectangle in the corner of a segment. Specifies the offset of the first subrectangle in a segment measured from the edge of the master path. Does not apply to the first segment; the position of the first subrectangle in the first segment is determined by the value of the n_beginOffset argument.\nIf the segment begins before the full distance specified by n_beginSegOffset, then n_beginSegOffset is not applied, and a subrectangle could be placed at the corner of the subrectangle path. When applying offset specifications, the system will not create a spacing error; if the first subrectangle in a segment would be too close to the last subrectangle in the previous segment, the system discards the last subrectangle in the previous segment. This could result in more space at the corner than desired. Default: 0.0",
+       "values": null
+      },
+      {
+       "name": "?endSegOffset n_endSegOffset",
+       "desc": "Positive, signed integer or floating-point number that, together with the other offset arguments, lets you control whether there is a subrectangle in the corner of a segment. Specifies the offset of the last subrectangle in a segment from the edge of the master path. Does not apply to the last segment; the position of the last subrectangle in the last segment is determined by the value of the n_endOffset argument.\nIf the segment ends before the full distance specified by n_endSegOffset, then n_endSegOffset is not applied, and a subrectangle could be placed at the corner of the subrectangle path.\nDefault: 0.0",
+       "values": null
+      },
+      {
+       "name": "?space n_space",
+       "desc": "Positive integer or floating-point number specifying the distance between the edges of adjoining rectangles. If not specified, the system uses the minSpacing rule for the subrectangle layer from the technology file. If the minSpacing rule is not defined in the technology file, rodCreatePath returns nil to indicate an error.\nDefault: minSpacing for the subrectangle layer from the technology file",
+       "values": null
+      },
+      {
+       "name": "?choppable g_choppable",
+       "desc": "Boolean value indicating whether or not the subrectangle(s) can be chopped. The value must be t or nil. When the master path is choppable, all subrectangles must be choppable. When the master path is not choppable, each set of subrectangles can be choppable or not.\nDefault: t",
+       "values": null
+      },
+      {
+       "name": "?prop l_prop",
+       "desc": "A list or lists of lists, where each list contains the name of a property and its value. When the property name is a string, enclose it in quotes. For a description of the valid data types, see the \"About the Add Property Form\" in the Virtuoso Layout Suite L User Guide. For Boolean properties, the value must be t or nil. For example, you would specify a single Boolean property as follows:\n?prop list(\"myProp\" t)\nand a list of properties as follows:\n?prop list(\nlist(\"myProp1\" propValue1)\nlist(\"myProp2\" propValue2)\n...\nlist(\"myPropN\" propValueN)\n)\nFor a more detailed description about specifying lists of lists, see Formatting List-of-Lists Arguments for Subparts.\nDefault: nil",
+       "values": null
+      },
+      {
+       "name": "?diagonal g_diagonalSubRect",
+       "desc": "Optional keyword-value pair argument specifying whether to create subrectangles on diagonal portions of the path.\nWhen defined, this argument must appear at the end of the subrectangle argument list, after any list specifying connectivity, immediately prior to the closing parentheses. Setting this argument to t works only when diagonal path segments are 45 degrees and all subrectangles on the path are square. When specified, you must type the keyword, followed by t or nil. For example, type: ?diagonal t\nDefault: nil",
+       "values": null
+      }
+     ]
+    }
+   ],
+   "text": "?name S_name\nSymbol or character string specifying the name for the master path. Enclose character strings in quotation marks (\"\"); precede symbols with a single quotation mark ('). ROD converts symbols to character strings.\nThe name must be unique for the cellview. If you do not specify a name, the system assigns a unique name, consisting of the prefix path, followed by a number. For example, for the first master path in a cellview for which you do not specify a name, the system assigns the name path0, if unique; for the second, path1, and so on.\nDefault: pathn\n?layer txl_layer\nText string, integer, or list specifying the layer or layer-purpose pair for the master path, such as\n?layer \"metal1\"\n?layer 45\n?layer list(\"metal1\" \"drawing\")\nEnclose string values in quotation marks. Do not use a symbol. For lists, use the following format:\nlist( layer purpose )\nExamples of layer-purpose pairs:\n?layer list(\"metal1\" \"drawing\")\n?layer list(45 252)\n?layer list(45 \"drawing\")\n?layer list(\"metal1\" 252)\nYou are required to specify a layer.\nDefault Purpose: drawing\n?width n_width\nPositive integer or floating-point number specifying the width of the master path. If you do not specify the width, the system uses the minWidth rule for the master path layer from the technology file. If the minWidth rule is not defined in the technology file, the rodCreatePath function reports an error.\nDefault: the minWidth rule for the master path layer from the technology file\n?pts l_pts\nList of points defining the centerline of the master path. Specify a point for the start and end of the first segment, and specify a point for the end of subsequent segments. You must specify at least two noncoincident points. You cannot create self-intersecting master paths. You are required to specify a list of points. The system discards duplicate and collinear points before creating the path but does not consider them an error.\nUse one of the following formats:\nlist( x:y x:y ... )\nor\nlist( list(x y) list(x y) ... )\nYou must specify either l_pts or Rl_fromObj. If you specify both, the system ignores the l_pts argument.\nDefault: none\n?justification S_justification\nSymbol or character string specifying the part of the master path to offset from the point list: centerline, left edge, or right edge. Justification is relative to the direction of the path.\nValid Values: center, left, right\nDefault: center\n?offset n_offset\nSigned integer or floating-point number specifying the distance by which the master path edge or centerline, depending on S_justification, is offset from the point list specified by the l_pts argument. A positive value creates the master path to the left of the point list; a negative value creates the master path to the right of the point list. For a detailed description about offsetting the master path, see \"Master Paths\" in the Virtuoso Relative Object Design User Guide.\nDefault: 0\n?endType S_endType\nSymbol or character string specifying the type of ends of the master path.\nValid Values: flush, offset, octagon, variable\nDefault: flush\n?beginnExt n_beginExt\nZero or positive integer or floating-point number specifying the distance by which the starting end of the master path extends beyond its first point. This argument is ignored unless S_endType is set to variable.\nDefault: 0\n?endExt n_endExt\nZero or positive integer or floating-point number specifying the distance by which the ending end of the master path extends beyond its last point. This argument is ignored unless S_endType is set to variable.\nDefault: 0\n?choppable g_choppable\nBoolean value indicating whether or not a ROD path can be chopped. The value must be t or nil. When a path has subparts and the master path is choppable, all subpaths and sets of subrectangles must be choppable also. When a path has subparts and the master path is not choppable, each subpath and/or set of subrectangles can be choppable or not.\nDefault: t\n?cdId d_cvId\nDatabase ID for the cellview in which you are creating a ROD path. If rodCreatePath occurs in the body of a pcDefinePCell function or tcCreateCDSDeviceClass function call, the default value is pcCellView or tcCellView, respectively; otherwise, this argument is required.\nDefault: none\n?fromObj Rl_fromObj\nROD object ID or list of ROD object IDs identifying a named object or list of named objects that you want to use as a source for creating a new ROD path. The source objects can be instances, rectangles, polygons, paths, lines, dots, labels, and/or text-display objects. You must specify either the Rl_fromObj argument or the l_pts argument. If you specify both, the system ignores the l_pts argument.\nDefault: none\n?size txf_size\nA signed integer, floating-point number, or Cadence SKILL language expression specifying the distance between a bounding box around the source object (Rl_fromObj) and the centerline of the generated master path. When the source is more than one object, txf_size specifies the distance between a bounding box around all of the objects and the centerline of the master path.\nBy default, the generated path has four segments and forms a ring. A positive number creates a path that is longer than the circumference of the bounding box; a negative number creates a path that is shorter than the circumference of the bounding box.\nWhen you specify a SKILL expression, it must evaluate to a positive or negative integer or floating-point number. SKILL expressions are evaluated only when the new path is created.\nIf you specify a source object (Rl_fromObj) but do not specify txf_size, then txf_size defaults to 0.0. If you specify txf_size, you must also specify Rl_fromObj, or the system reports an error.\nDefault: 0.0\n?startHandle S_startHandle\nSymbol or character string specifying the starting point for the generated path, such as startn, where n is the segment number.\nValid Values: startn, midn, endn, startLast, midLast, endLast\nDefault: start0\n?endHandle S_endHandle\nSymbol or character string specifying the ending point for the generated path, such as startn, where n is the segment number\nValid Values: startn, midn, endn, startLast, midLast, endLast\nDefault: start0\n?prop l_prop\nA list or lists of lists, where each list contains the name of a property and its value. When the property name is a string, enclose it in quotes. For a description of the valid data types, see the \"About the Add Property Form\" in the Virtuoso Layout Suite L User Guide. For Boolean properties, the value must be t or nil. For example, you would specify a single Boolean property as follows:\n?prop list(\"myProp\" t)\nand a list of properties as follows:\n?prop list(\nlist(\"myProp1\" propValue1)\nlist(\"myProp2\" propValue2)\n...\nlist(\"myPropN\" propValueN)\n)\nFor a more detailed description about specifying lists of lists, see Formatting List-of-Lists Arguments for Subparts.\nDefault: nil\nrodConnectivityArgs...\nA list containing rod connectivity arguments. For more details on these arguments, see ROD Connectivity Arguments (rodConnectivityArgs).\nl_offsetSubpathArgs...\nA list containing one or more lists, each of which specifies the arguments for one offset subpath. The subpath is created in relationship to the master path. For information about how to specify lists of lists, see Formatting List-of-Lists Arguments for Subparts.\nFor more information on l_encSubPathArgs arguments, see Enclosure Subpath Arguments (l_encSubpathArgs).\nl_encSubPathArgs...\nA list containing one or more lists, each of which specifies the arguments for one enclosure subpath. The enclosure subpath is created in relationship to the centerline of the master path. For information about how to specify lists of lists, see Formatting List-of-Lists Arguments for Subparts.\nFor more information on l_offsetSubpathArgs, see Enclosure Subpath Arguments (l_encSubpathArgs).\nl_subRectArgs...\nA list containing one or more lists, each of which specifies the arguments for one set of unnamed subrectangles. The set of subrectangles is created in relationship to the centerline of the master path. For information about how to specify lists of lists, see Formatting List-of-Lists Arguments for Subparts.\nFor more information on l_subRectArgs, see Subrectangle Arguments (l_subrectArgs).\nROD Connectivity Arguments (rodConnectivityArgs)\n?netname S_netName\nSymbol or character string specifying the name of the net with which you want to associate the shape. Enclose character strings in quotation marks (\"\"); precede symbols with a single quotation mark (').\nROD converts symbols to character strings. If the net does not exist, the system creates it, using the name specified by S_netName. To associate the shape with a net, this argument is required. If you do not want to specify this argument, omit it or specify its value as nil.\nDefault: nil\n?termName S_termName\nSymbol or character string specifying the name of the terminal and net with which you want to associate the shape. Enclose character strings in quotation marks (\"\"); precede symbols with a single quotation mark (').\nROD converts symbols to character strings. If the terminal and/or net does not exist, the system creates it, using the name specified by S_termName.\nIf you specify both S_termName and S_netName, their values must be the same. If a terminal with the specified name already exists, the net it belongs to must have the same name. If the net name does not match the terminal name, the function reports an error.\nTo associate the shape with a terminal and net, this argument is required. If you do not want to specify this argument, omit it or specify its value as nil.\nDefault: nil\n?termIOType S_termIOType\nSymbol or character string specifying the direction type (I/O type) for the terminal. If S_termName is not specified, the S_termIOType argument is ignored. If a terminal with the name specified by S_termName already exists, it must have the same direction type as specified by S_termIOType; if the direction type is not the same, the function reports an error.\nValid Values: input, output, inputOutput, switch, jumper\nDefault: inputOutput\nSymbol or character string specifying the direction type (I/O type) for the terminal. If S_termName is not specified, the S_termIOType argument is ignored. If a terminal with the name specified by S_termName already exists, it must have the same direction type as specified by S_termIOType; if the direction type is not the same, the function reports an error.\nValid Values: input, output, inputOutput, switch, jumper\nDefault: inputOutput\n?pin g_pin\nBoolean value indicating whether or not to make the shape into a pin. The value must be t or nil. When you specify g_pin, you must also specify a value other than nil for S_netName and/or S_termName; if you do not, all connectivity arguments are ignored but no error is reported. If you do not want to specify this argument, omit it or specify its value as nil. When the value is nil, the shape created is not a pin and all other arguments containing the word pin are ignored.\nValid Values: t, nil\nDefault: nil\n?pinAccessDir tl_pinAccessDir\nText string or list specifying the access direction(s) for the pin. Enclose string values in quotation marks. Do not use a symbol. An example of a list is\nlist( \"top\" \"bottom\" )\nValid Values: top, bottom, left, right, any, none, or a list containing any of these values\nDefault: any\n?pinLabel g_pinLabel\nBoolean value indicating whether or not to add a text display object for the pin, where the text is the contents of the S_termName argument. The value must be t or nil. When the value is t, the system creates a text display object as a ROD object and aligns it to the pin using the values you specify for the other pin label arguments. When the value is nil, no label is created and all other arguments containing the characters pinLabel are ignored.\nValid Values: t, nil\nDefault: nil\n?pinLabelHeight n_pinLabelHeight\nPositive integer or floating-point number specifying the vertical height of the pin text-display label in user units.\nDefault: 1\n?pinLabelLayer txl_pinLabelLayer\nText string, integer, or list specifying the layer or layer-purpose pair for the pin text-display label, such as\n?pinLabelLayer \"metal1\"\n?pinLabelLayer 45\n?pinLabelLayer list(\"metal1\" \"drawing\")\nEnclose string values in quotation marks. Do not use a symbol. For lists, use the following format:\nlist(layer purpose)\nExamples of layer-purpose pairs:\n?pinLabelLayer list(\"metal1\" \"drawing\")\n?pinLabelLayer list(45 252)\n?pinLabelLayer list(45 \"drawing\")\n?pinLabelLayer list(\"metal1\" 252)\nWhen you specify only the layer, the purpose defaults to the purpose defined by l_layer. When you specify neither layer nor purpose, both layer and purpose default to the values defined by l_layer.\nDefault: layer specified by l_layer; purpose specified by l_layer\n?pinLabelFont S_pinLabelFont\nSymbol or character string specifying the name of the font for the pin text-display label.\nValid Values: euroStyle, gothic, math, roman, script, stick, swedish\nDefault: stick\n?pinLabelDrafting g_pinLabelDrafting\nBoolean value indicating whether or not to allow rotation of the pin text-display label by more than 90 degrees. The value must be t or nil. You can set or change label rotation with the S_pinLabelOrient argument or in the layout editor. When the value is t, the label can rotate less than or equal to 90 degrees. When the value is nil, the label can rotate more than 90 degrees.\nValid Values: t, nil\nDefault: t\n?pinLabelpinLabelOrient S_pinLabelOrient\nSymbol or character string specifying the orientation of the pin text-display label.\nValid Values:\n0 R0\n90 R90\n180 R180\n270 R270\nMY sideways\nMYR90 sideways & 90\nMX upsideDown\nMXR90.... sideways & 270\nDefault: R0\n?pinLabelOffsetPoint l_pinLabelOffsetPoint\nLists one set of coordinates specifying the X and Y offset of the origin of the pin text-display label from a point handle on the shape. The label origin is specified by S_pinLabelJust, and the shape point handle is specified by S_pinLabelRefHandle.\nUse one of the following formats:\nx:y\nor\nlist(x y)\nor any expression that evaluates to a list of two numbers.\nDefault: 0:0\n?pinLabelJust S_pinLabelJust\nSymbol or character string specifying the origin point for the text-display label.\nValid Values:\nupperLeft or uL lowerLeft or lL\nupperCenter or uC lowerCenter or lC\nupperRight or uR lowerRight or lR\ncenterLeft or cL\ncenterCenter or cC\ncenterRight or cR\nDefault: centerCenter\n?pinLabelRefHandle S_pinLabelRefHandle\nSymbol or character string specifying the point handle on the shape from which you want to offset the origin point of the text-display label. You can specify the name of any bounding box or segment point handle.\nFor a detailed description of system-defined point handles, see \"System-Defined Handles\" in Virtuoso Relative Object Design User Guide.\nValid Values for bounding box point handles:\nupperLeft or uL lowerLeft or lL\nupperCenter or uC lowerCenter or lC\nupperRight or uR lowerRight or lR\ncenterLeft or cL\ncenterCenter or cC\ncenterRight or cR\nValid Values for segment point handles for all ROD shapes:\nstart0 mid0 end0\nstartLast midLast endLast\nstartn midn endn\nValid Values for segment point handles for ROD paths:\nstart0 mid0 end0\nstartLast midLast endLast\nstartn midn endn\nstartLeft0 midLeft0 endLeft0\nstartLeftLast midLeftLast endLeftLast\nstartLeftn midLeftn endLeftn\nstartRight0 midRight0 endRight0\nstartRightLast midRightLast endRightLast\nstartRightn midRightn endRightn\nDefault: the bounding box point handle centerCenter\nOffset Subpath Arguments (l_offsetSubpathArgs)\nFor a detailed description of offset subpaths, see \"Offset Subpaths\" in Virtuoso Relative Object Design User Guide.\n?layer txl_layer\nText string, integer, or list specifying the layer or layer-purpose pair for the subpath, such as:\n?layer \"metal1\"\n?layer 45\n?layer list(\"metal1\" \"drawing\")\nEnclose string values in quotation marks. Do not use a symbol. Use the one of the formats defined for the master path argument txl _layer. You are required to specify a layer.\nDefault Purpose: drawing\n?width n_width\nPositive integer or floating-point number specifying the width of the offset subpath.\nIf you do not specify the width, the system uses the minWidth rule for the offset subpath layer from the technology file. If the minWidth rule is not defined in the technology file, rodCreatePath reports an error.\nDefault: minWidth for the offset subpath layer from the technology file\n?sep n_sep\nSigned integer or floating-point number specifying the separation between the centerline or an edge of the subpath and the centerline or an edge of the master path, depending on the value of S_justification.\nDefault: 0\n?justification S_justification\nSymbol or character string specifying from which part of the master path to separate the subpath, in relation to the direction of the master path. Enclose character strings in quotation marks (\"\"); precede symbols with a single quotation mark ('). ROD converts symbols to character strings.\nWhen left, the right edge of the subpath is separated from the left edge of the master path. When right, the left edge of the subpath is separated from the right edge of the master path. When center, the centerline of the subpath is separated from the centerline of the master path.\nValid Values: center, left, right\nDefault: center\n?beginOffset n_beginOffset\nSigned integer or floating-point number specifying the starting edge of the subpath in relation to the starting edge of the master path. A positive number extends the end of the subpath beyond the end of the master path; a negative number retracts the end of the subpath from the end of the master path.\nDefault: n_endOffset if specified; otherwise 0\n?endOffset n_endOffset\nSigned integer or floating-point number specifying the ending edge of the subpath in relation to the ending edge of the master path. A positive number extends the end of the subpath beyond the end of the master path; a negative number retracts the end of the subpath from the end of the master path.\nDefault: n_beginOffset if specified; otherwise 0\n?choppable g_choppable\nBoolean value indicating whether or not the subpath can be chopped. The value must be t or nil. When the master path is choppable, all subpaths must be choppable. When the master path is not choppable, each subpath can be choppable or not.\nDefault: t\n?prop l_prop\nA list or lists of lists, where each list contains the name of a property and its value. When the property name is a string, enclose it in quotes. For a description of the valid data types, see the \"About the Add Property Form\" in the Virtuoso Layout Suite L User Guide. For Boolean properties, the value must be t or nil. For example, you would specify a single Boolean property as follows:\n?prop list(\"myProp\" t)\nand a list of properties as follows:\n?prop list(\nlist(\"myProp1\" propValue1)\nlist(\"myProp2\" propValue2)\n...\nlist(\"myPropN\" propValueN)\n)\nFor a more detailed description about specifying lists of lists, see Formatting List-of-Lists Arguments for Subparts.\nDefault: nil\nEnclosure Subpath Arguments (l_encSubpathArgs)\nFor a detailed description of enclosure subpaths, see \"Enclosure Subpaths\".\n?layer txl_layer\nText string, integer, or list specifying the layer or layer-purpose pair for the subpath, such as\n?layer \"metal1\"\n?layer 45\n?layer list(\"metal1\" \"drawing\")\nEnclose string values in quotation marks. Do not use a symbol. Use the one of the formats defined for the master path argument txl_layer. You are required to specify a layer.\nDefault Purpose: drawing\n?enclosure n_enclosure\nSigned integer or floating-point number specifying the enclosure of the subpath in relation to the master path. The system computes the width of an enclosure subpath as follows:\nwidth = (n_width of master path) - (2 * n_enclosure)\nIf you do not specify this argument, the system uses the minEnclosure rule from the technology file for master path layer to subpath layer; if the minEnclosure rule is not defined in the technology file, rodCreatePath reports an error.\nDefault: minEnclosure rule from the technology file for master path layer to subpath layer\n?beginOffset n_beginOffset\nSigned integer or floating-point number specifying the starting edge of the subpath in relation to the starting edge of the master path. A positive number extends the end of the subpath beyond the end of the master path; a negative number retracts the end of the subpath from the end of the master path.\nDefault: n_endOffset if specified; otherwise the negative of n_enclosure\n?endOffset n_endOffset\nSigned integer or floating-point number specifying the ending edge of the subpath in relation to the ending edge of the master path.\nA positive number extends the end of the subpath beyond the end of the master path; a negative number retracts the end of the subpath from the end of the master path.\nDefault: n_beginOffset if specified; otherwise the negative of n_enclosure\n?choppable g_choppable\nBoolean value indicating whether or not the subpath can be chopped. The value must be t or nil. When the master path is choppable, all subpaths must be choppable. When the master path is not choppable, each subpath can be choppable or not.\nDefault: t\n?prop l_prop\nA list or lists of lists, where each list contains the name of a property and its value. When the property name is a string, enclose it in quotes. For a description of the valid data types, see the \"About the Add Property Form\" in the Virtuoso Layout Suite L User Guide. For Boolean properties, the value must be t or nil. For example, you would specify a single Boolean property as follows:\n?prop list(\"myProp\" t)\nand a list of properties as follows:\n?prop list(\nlist(\"myProp1\" propValue1)\nlist(\"myProp2\" propValue2)\n...\nlist(\"myPropN\" propValueN)\n)\nFor a more detailed description about specifying lists of lists, see Formatting List-of-Lists Arguments for Subparts.\nDefault: nil\nSubrectangle Arguments (l_subrectArgs)\nFor a detailed description of sets of subrectangles for rodCreatePath, see \"Sets of Subrectangles\".\n?layer txl_layer\nText string, integer, or list specifying the layer or layer-purpose pair for the subrectangle(s), such as\n?layer \"metal1\"\n?layer 45\n?layer list(\"metal1\" \"drawing\")\nEnclose string values in quotation marks. Do not use a symbol. Use the one of the formats defined for the master path argument txl_layer. You are required to specify a layer.\nDefault Purpose: drawing\n?width n_width\nPositive integer or floating-point number specifying the width of the rectangle(s), where the width is parallel to the width of the master path.\nIf not specified, the system uses n_length; if neither is specified, the system uses the minWidth rule for the subrectangle layer from the technology file. If the minWidth rule is not defined in the technology file, rodCreatePath returns nil to indicate an error.\nDefault: n_length if specified; otherwise minWidth for the subrectangle layer from the technology file\n?length n_length\nPositive integer or floating-point number specifying the length of the subrectangle(s), where the length is parallel to the master path centerline.\nIf not specified, the system uses n_width; if neither is specified, the system uses the minWidth rule for the subrectangle layer from the technology file. If the minWidth rule is not defined in the technology file, rodCreatePath returns nil to indicate an error.\nDefault: n_width if specified; otherwise, minWidth for the subrectangle layer from the technology file\n?gap S_gap\nSymbol or character string specifying the method the system uses to place subrectangles within each segment. Enclose character strings in quotation marks (\"\"); precede symbols with a single quotation mark ('). ROD converts symbols to character strings.\nThe system always uses the value of n_space for minimum space between subrectangles and calculates the maximum number of rectangles that fit in the segment, allowing for the space needed by n_beginOffset and n_endOffset. When the value of S_gap is distribute, the system distributes the space around subrectangles as evenly as possible, in multiples of the grid space specified by mfgGridResolution. Any remaining space is left after the last subrectangle in the segment.\nWhen the value of S_gap is distribute and there is only one subrectangle, the value of the distributeSingleSubRect environment variable determines where the single subrectangle is placed. When nil, which is the default, the subrectangle is offset as specified by n_beginOffset and n_endOffset. When t, the subrectangle is centered (but placed on grid), and n_beginOffset and n_endOffset are ignored.\nWhen the value of S_gap is minimum, the system places subrectangles n_space apart until there is no space for another rectangle, then leaves the excess space after the last subrectangle in the segment.\nValid Values: distribute, minimum\nDefault: distribute\n?sep n_sep\nSigned integer or floating-point number specifying the separation between the centerline or an edge of the subrectangles and the centerline or an edge of the master path, depending on the value of S_justification. The system places subrectangles on grid, as close to the specified separation as possible.\nDefault: 0\n?justification S_justification\nSymbol or character string specifying from which part of the master path to separate the subrectangles, in relation to the direction of the master path. When left, the right edge of the subrectangles is separated from the left edge of the master path. When right, the left edge of the subrectangles is separated from the right edge of the master path. When center, the centerline of the subrectangles is separated from the centerline of the master path.\nValid Values: center, left, right\nDefault: center\n?beginOffset n_beginOffset\nSigned integer or floating-point number specifying the offset of the edge of the first subrectangle from the starting edge of the master path. A positive number extends the beginning of the subrectangles beyond the beginning of the master path; a negative number retracts the beginning of the subrectangles from the beginning of the master path.\nDefault: n_endOffset if specified; otherwise 0\n?endOffset n_endOffset\nSigned integer or floating-point number specifying the offset of the edge of the last subrectangle from the ending edge of the master path. A positive number extends the end of the subrectangles beyond the end of the master path; a negative number retracts the end of the subrectangles from the end of the master path.\nDefault: n_beginOffset if specified; otherwise 0\n?beginSegOffset n_beginSegOffset\nPositive, signed integer or floating-point number that, together with the other offset arguments, lets you control whether there is a subrectangle in the corner of a segment. Specifies the offset of the first subrectangle in a segment measured from the edge of the master path. Does not apply to the first segment; the position of the first subrectangle in the first segment is determined by the value of the n_beginOffset argument.\nIf the segment begins before the full distance specified by n_beginSegOffset, then n_beginSegOffset is not applied, and a subrectangle could be placed at the corner of the subrectangle path. When applying offset specifications, the system will not create a spacing error; if the first subrectangle in a segment would be too close to the last subrectangle in the previous segment, the system discards the last subrectangle in the previous segment. This could result in more space at the corner than desired. Default: 0.0\n?endSegOffset n_endSegOffset\nPositive, signed integer or floating-point number that, together with the other offset arguments, lets you control whether there is a subrectangle in the corner of a segment. Specifies the offset of the last subrectangle in a segment from the edge of the master path. Does not apply to the last segment; the position of the last subrectangle in the last segment is determined by the value of the n_endOffset argument.\nIf the segment ends before the full distance specified by n_endSegOffset, then n_endSegOffset is not applied, and a subrectangle could be placed at the corner of the subrectangle path.\nDefault: 0.0\n?space n_space\nPositive integer or floating-point number specifying the distance between the edges of adjoining rectangles. If not specified, the system uses the minSpacing rule for the subrectangle layer from the technology file. If the minSpacing rule is not defined in the technology file, rodCreatePath returns nil to indicate an error.\nDefault: minSpacing for the subrectangle layer from the technology file\n?choppable g_choppable\nBoolean value indicating whether or not the subrectangle(s) can be chopped. The value must be t or nil. When the master path is choppable, all subrectangles must be choppable. When the master path is not choppable, each set of subrectangles can be choppable or not.\nDefault: t\n?prop l_prop\nA list or lists of lists, where each list contains the name of a property and its value. When the property name is a string, enclose it in quotes. For a description of the valid data types, see the \"About the Add Property Form\" in the Virtuoso Layout Suite L User Guide. For Boolean properties, the value must be t or nil. For example, you would specify a single Boolean property as follows:\n?prop list(\"myProp\" t)\nand a list of properties as follows:\n?prop list(\nlist(\"myProp1\" propValue1)\nlist(\"myProp2\" propValue2)\n...\nlist(\"myPropN\" propValueN)\n)\nFor a more detailed description about specifying lists of lists, see Formatting List-of-Lists Arguments for Subparts.\nDefault: nil\n?diagonal g_diagonalSubRect\nOptional keyword-value pair argument specifying whether to create subrectangles on diagonal portions of the path.\nWhen defined, this argument must appear at the end of the subrectangle argument list, after any list specifying connectivity, immediately prior to the closing parentheses. Setting this argument to t works only when diagonal path segments are 45 degrees and all subrectangles on the path are square. When specified, you must type the keyword, followed by t or nil. For example, type: ?diagonal t\nDefault: nil"
+  },
+  "returns": {
+   "items": [
+    {
+     "value": "R_rodObj",
+     "desc": "The ROD object ID for the single layer or multipart ROD path that was created."
+    },
+    {
+     "value": "nil",
+     "desc": "No path was created due to an error."
+    }
+   ],
+   "text": "R_rodObj\nThe ROD object ID for the single layer or multipart ROD path that was created.\nnil\nNo path was created due to an error."
+  },
+  "additional_information": {
+   "text": "Creating Self-Intersecting Paths\nYou cannot create self-intersecting paths using rodCreatePath. If you specify the function arguments so that the master path and/or one or more subpaths would self-intersect, the system will not create the path.\nFor example, if you create a guard ring with abutted ends, and the ends of a subpath have a positive offset, the subpath will extend beyond the master path, which could cause intersection.\nIf your code tries to create a self-intersecting path, the path is not created, and the system displays a warning in the CIW.\nSpecifying Arguments as nil\nFor the rodCreatePath function, a value of nil means the following, depending on the type of argument:\nFor Boolean arguments, nil is a valid value, and the system uses it. The rodCreatePath Boolean arguments are:\nFor non-Boolean arguments, specifying nil causes the system to use the default as it is defined in this document for that argument. Specifying nil is equivalent to not specifying a value for the argument.\nFor the following Connectivity arguments, the default value is nil:\nSpecifying Pins\nWhen you specify the g_pin argument, you must also specify the S_netName and/or S_termName argument with a value other than nil. If you specify g_pin but do not specify S_netName and/or S_termName with a value other than nil, the system ignores all connectivity arguments but does not report an error.\nFormatting List-of-Lists Arguments for Subparts\nYou must use a list of lists to specify arguments for an offset subpath, enclosure subpath, or set of subrectangles. The top-level list contains one or more sublists. Each sublist defines a unique subpath or set of subrectangles.\nEach sublist consists of one or more keyword-value pairs, where the keyword identifies the argument. To specify the value as a character string, enclose it in quotation marks (\"\"); to specify the value as a symbol, precede it with a single quotation mark (').\nFor any keyword that returns either a string or symbol, you can specify a Cadence SKILL language expression (constant, variable, or function call) as the value.\nAs an example, the syntax format for specifying an enclosure subpath as part of a rodCreatePath function is shown on the following page.\n?encSubPath list( list( ?layer txl_layer\n?enclosure n_enclosure\n?beginOffset n_beginOffset\n?endOffset n_endOffset\n?choppable g_choppable\n) ;End of first enclosure subpath\nlist( ?layer txl_layer\n?enclosure n_enclosure\n?beginOffset n_beginOffset\n?endOffset n_endOffset\n?choppable g_choppable\n);End of second enclosure subpath\n.\n.\n.\n) ;End of encSubPath list\nAn example showing values for an enclosure subpath within a rodCreatePath function specification might look like this:\npoly1EndOffset = -0.4\ntfId = = techGetTechFile( pcCellView )\n?encSubPath list( list( ?layer \"metal2\"\n?enclosure\ntechGetParam( tfId \"m1m2enc\" )\n?beginOffset -.4\n?choppable nil\n) ; end of 1st enclosure subpath\nlist( ?layer \"poly1\"\n?enclosure .1\n?beginOffset 0\n?endOffset poly1EndOffset\n?choppable nil\n) ; end 2nd enclosure subpath\n) ; end of 2nd enclosure subpath\nwhere poly1EndOffset is a variable and techGetParam( tfId \"m1m2enc\" ) is a function call.\nHow the System Follows to Create Subrectangles\nThe system follows these steps to create subrectangles:\n1.\nCreates all subrectangles on the specified layer, with the subrectangle centerline separated from the master path centerline by n_sep.\n2.\nFor the first path segment, offsets the edge of the first subrectangle from the starting edge of the master path by the distance specified in n_beginOffset.\n3.\nUses the value of n_space to compute the maximum number of subrectangles that fit on grid in the segment, and the value of S_gap to determine what to do with excess space, as follows:\nWhen S_gap equals distribute (the default), distributes the space as evenly as possible, in multiples of the grid space specified by mfgGridResolution.\nWhen S_gap equals minimum, places subrectangles n_space apart until there is no space for another rectangle, then leaves the excess space after the last subrectangle in the segment.\n4.\nFor each subsequent path segment, the system\nPositions the first subrectangle on the vertex of the subrectangle centerline with half its width towards the beginning of the segment.\nRepeats step 3.\n5.\nFor the last path segment, the system offsets the edge of the last subrectangle from the ending edge of the master path by the distance specified in n_endOffset. For the remaining subrectangles in the last segment, the system repeats step 3.\nSubrectangles in the Corners of Segments\nBy default, the system creates a subrectangle in the corner formed by each segment of a subrectangle subpath, and then fills in the rest of the segment with subrectangles, following the spacing you specify with the rodCreatePath function.\nThere are several reasons that you might want to keep subrectangles out of the corners of your subrectangle subpaths. For example, when you specify multiple subrectangle subpaths, placing rectangles in the corners of segments might cause individual subrectangles to be out of alignment vertically or horizontally with the subrectangles in the other subrectangle subpaths.\nIf you do not want subrectangles in the corners of segments, you can keep them out by specifying the n_beginSegOffset and n_endSegOffset arguments. The system measures the n_beginSegOffset and n_endSegOffset values from the edge of the master path, as shown below.\nWhen specifying the segment offset arguments, keep in mind:\nThe n_beginSegOffset value does not apply to the first segment; the position of the first subrectangle in the first segment is determined by the value of the n_beginOffset argument.\nThe n_endSegOffset value does not apply to the last segment; the position of the last subrectangle in the last segment is determined by the value of the n_endOffset argument.\nThe segment offset arguments work in combination with the n_beginOffset and n_endOffset arguments.\nIf the segment begins before the full distance specified by the n_beginSegOffset argument, then n_beginSegOffset is not applied, and a subrectangle could be placed at the corner of the subrectangle subpath.\nIf the segment ends before the full distance specified by the n_endOffset argument, then n_endOffset is not applied, and a subrectangle could be placed at the corner of the subrectangle subpath.\nWhen applying the offset options, the system will not create a spacing error. If the first subrectangle in a subrectangle subpath segment would be too close to the last subrectangle in the previous segment, the system discards the last subrectangle in the previous segment.\nWhen you specify the offset options, you need to check the results to make sure the corners are as desired. If they are not, you should change the values of the offset arguments and try again.\nDisconnecting Shapes in a Multipart Path\nYou can change a multipart path into separate, unrelated shapes by removing the name of the multipart path. Once you do this, all relationships between the shapes are removed.\nTo change all of the shapes in a multipart path into separate, unrelated shapes, remove the name of the multipart path using the rodUnNameShape function.\nNow the master path is a separate, unnamed path; each subpath is a separate, unnamed path; and each rectangle is a separate, unnamed shape. None of them is a ROD object, and there is no relationship between them.\nMaking a Former MPP Part into a ROD Object\nYou can make any shape that was formerly part of a multipart path (the master path, any subpath, or any individual subrectangle) into a ROD object by assigning it a unique name.\nTo make a shape into a ROD object, assign a unique name to the shape using the rodNameShape function.",
+   "items": [
+    {
+     "name": "1.",
+     "desc": "Creates all subrectangles on the specified layer, with the subrectangle centerline separated from the master path centerline by n_sep."
+    },
+    {
+     "name": "2.",
+     "desc": "For the first path segment, offsets the edge of the first subrectangle from the starting edge of the master path by the distance specified in n_beginOffset."
+    },
+    {
+     "name": "3.",
+     "desc": "Uses the value of n_space to compute the maximum number of subrectangles that fit on grid in the segment, and the value of S_gap to determine what to do with excess space, as follows:"
+    },
+    {
+     "name": "4.",
+     "desc": "For each subsequent path segment, the system"
+    },
+    {
+     "name": "5.",
+     "desc": "For the last path segment, the system offsets the edge of the last subrectangle from the ending edge of the master path by the distance specified in n_endOffset. For the remaining subrectangles in the last segment, the system repeats step 3."
+    }
+   ]
+  }
+ },
+ "field_status": {
+  "description": "present",
+  "arguments": "present",
+  "returns": "present",
+  "example": "not_documented",
+  "reference": "not_documented",
+  "related_functions": "not_documented",
+  "prerequisites": "not_documented",
+  "additional_information": "present",
+  "interactive_function": "not_documented",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "not_documented",
+  "overview": "not_documented",
+  "errors": "not_documented",
+  "decl": "present"
+ },
+ "status": "active",
+ "prefix": "rod",
+ "tokens": [
+  "rod",
+  "create",
+  "path"
+ ],
+ "name": "rodCreatePath"
+}

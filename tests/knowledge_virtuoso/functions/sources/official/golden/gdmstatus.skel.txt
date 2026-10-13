@@ -1,0 +1,35 @@
+函数: gdmstatus
+签名: gdmstatus({ G_gdmSpec | q_gdmSpecList }x_information ) => l_fileStatus / nil
+来源: caiskill/gdm.html
+
+参数:
+  G_gdmSpec
+  q_gdmSpecList
+  x_information
+  Specify ...
+  1
+  2
+  3
+  4
+  5
+  6
+  gdmStateCI:
+  gdmStateCO:
+  gdmStateCOE:
+  gdmStateDel:
+  gdmStateDir:
+  gdmStateInactive:
+  gdmStateUnmanageable:
+  7
+  8
+  9
+  10
+  11
+  12
+  13
+  14
+  15
+
+返回: l_fileStatus / nil
+
+省略: 参数说明 26 条共 2,116 字 → detail="brief"；示例、补充说明、相关函数、选项说明 → detail="full"

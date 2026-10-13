@@ -1,0 +1,2 @@
+pstddev | pstddev( o_waveformn_from n_to [ n_period [ n_sfactor ] ]) => o_waveform / nil | Computes the periodic standard deviation of a family of signals for each time point. | 返回: o_waveform, nil | oceanref/chap10.html
+省略: 参数说明；示例与补充说明 → detail="skel" / "brief" / "full"

@@ -1,0 +1,21 @@
+函数: auHiUltraPCell
+签名: auHiUltraPCell([
+t_filename ])
+=> t / nil
+描述: Displays the Ultra Pcell form to let you create an Ultra Pcell by compiling multiple Pcells into one cell. Optionally, you can save the Ultra Pcell SKILL code in a file by specifying the t_filename argument. For a description of Ultra Pcells, see the Make Ultra Pcell Command in the Virtuoso Parameterized Cell Reference.
+来源: skpcellref/graphicalFunctions.html
+
+参数:
+  t_filename — Filename (or path and filename) in which you want to save the SKILL code output by the Make Ultra Pcell command.
+
+返回:
+  t — The form opened, and optionally, the SKILL file was created.
+  nil — The form did not opened or the SKILL file was not created;.
+
+前置条件:
+  Ultra Pcells have the following requirements:
+  Multiple Pcell layouts need not be in the same cell, although they must be in the same library as the completed ultra Pcell.
+  Each Pcell must compile successfully.
+  Each Pcell must have identical parameters and default values. No Pcell can have more or fewer or different parameters from the other Pcells. When the Ultra Pcell is compiled, it has all of the parameters, which work as designed in each Pcell.
+  The selector parameter must be unique. It cannot match any other parameter.
+  type, objType, name, cell, and status are reserved words and cannot be used as selector parameters.

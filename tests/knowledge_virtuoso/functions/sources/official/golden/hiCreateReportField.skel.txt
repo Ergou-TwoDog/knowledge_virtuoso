@@ -1,0 +1,53 @@
+函数: hiCreateReportField
+签名: hiCreateReportField( ?name s_fieldName [ ?title t_title ][ ?titleAlignment
+      g_titleAlignment ] [ ?headers g_headers ] [ ?choices l_choices ] [ ?value g_value ] [
+      ?defValue g_defaultValue ] [ ?returnPackedValue g_returnPackedValue ] [ ?help
+      g_fieldHelp ] [ ?callback g_callback ] [ ?enableDeselectCB S_enableDeselectCB ] [
+      ?doubleClickCB g_doubleClickCB ] [ ?sortCallback g_sortCallback ] [ ?sort l_sort ] [
+      ?selectMode s_selectMode ] [ ?invisible g_invisible ] [ ?enabled g_enabled ] [
+      ?nextField g_nextField ] [ ?altRowHilight g_rowHighlight ] ) => r_fieldHandle
+来源: skuiref/chap8.html
+
+参数:
+  ?name s_name
+  ?title t_title
+  ?titleAlignment g_titleAlignment
+    The default value is 'left.
+  ?headers g_headers
+    'float (which defaults to 'float3)
+    'scientific (which defaults to 'scientific3)
+  ?choices l_choices
+  ?value g_value
+  ?defValue g_defaultValue
+    Default value of the field, indicating which items in the report are selected when the Defaults button is clicked. After the form is instantiated, you can use the defValue property to retrieve or change the default value.
+  ?returnPackedValue g_returnPackedValue
+  ?help g_fieldHelp
+  ?callback g_callback
+  ?enableDeselectCB S_enableDeselectCB
+    The default value of S_enableDeselectCB is nil.
+  ?doubleClickCB g_doubleClickCB
+    The default value of this argument is an empty string (""), which means that a double-click callback has not been specified.
+  ?sortCallback g_sortCallback
+  ?sort l_sort
+  ?selectMode s_selectMode
+      取值 'single — Only one item can be selected at a time. Click to select the item.
+      To deselect an item, click it again or select another item.
+      取值 'multiple — Multiple items can be selected. Click to select the items.
+      To deselect an item, click it again.
+      取值 'browse — One item always remains selected. Click or drag to select the item.
+      To deselect an item, select another item.
+      取值 'extended — One or more items always remain selected. Multiple contiguous ranges of items can be selected. Click to select a single item. Click and drag to select a range of items. Press the CTRL key and click to select an additional item or a range of additional items.
+      To deselect an item, press the CTRL key and click the item. CTRL+click also deselects the last selected item.
+      You can also use CTRL+SHIFT to select or deselect a range of items.
+  ?invisible g_invisible
+    The default value is nil.
+  ?enabled g_enabled
+    The default value is t.
+  ?nextField g_nextField
+    If the tabOrderIsAddOrder argument is not set or if its value is nil, the default traversal order is based on the form layout --left-to-right and top-to-bottom-- beginning with the field at the top-left corner of the form.
+  ?altRowHilight g_rowHighlight
+    The default is nil, which means that highlight is not enabled.
+
+返回: r_fieldHandle
+
+省略: 参数说明 19 条共 11,271 字 → detail="brief"；示例、补充说明、相关函数、选项说明 → detail="full"

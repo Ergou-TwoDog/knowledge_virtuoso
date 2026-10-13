@@ -1,0 +1,2 @@
+geCopySelSet | geCopySelSet( [ w_windowId ] [ l_sourcePt ] [ l_destPt ] ) => t / nil | Procedural interface to copy the selected set. | 返回: t, nil | skdfref/chap1.html
+省略: 参数说明；示例与补充说明 → detail="skel" / "brief" / "full"

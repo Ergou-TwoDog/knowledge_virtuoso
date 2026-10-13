@@ -1,0 +1,18 @@
+函数: dbCreatePath
+签名: dbCreatePath( d_cellView txl_layerPurposel_points n_width [ t_pathStyle ] ) => d_path /
+      nil
+来源: skdfref/chap2.html
+
+参数:
+  d_cellView
+  txl_layerPurpose
+  t_purpose
+    Purpose, if not specified, defaults to drawing.
+  l_points
+  n_width
+  t_pathStyle
+    Path style, defaults to truncateExtend.
+
+返回: d_path / nil
+
+省略: 参数说明 6 条共 293 字 → detail="brief"；示例、补充说明、相关函数、选项说明 → detail="full"

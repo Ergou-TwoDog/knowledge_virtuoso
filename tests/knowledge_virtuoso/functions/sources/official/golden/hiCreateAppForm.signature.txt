@@ -1,0 +1,23 @@
+函数: hiCreateAppForm
+签名: hiCreateAppForm(
+?name s_name ?fields l_fieldEntries
+[ ?attachmentList l_fieldAttachments ]
+[ ?tabOrderIsAddOrder g_tabOrderIsAddOrder ]
+[ ?formTitle t_formTitle ]
+[ ?callback g_callback ]
+[ ?unmapAfterCB g_unmapAfterCB ]
+[ ?mapCB g_mapCallback ]
+[ ?formType s_formType ]
+[ ?dialogStyle s_dialogStyle ]
+[ ?buttonLayout g_buttonLayout ]
+[ ?buttonDisabled s_buttonDisabled ]
+[ ?help g_help ]
+[ ?initialSize g_initialSize ]
+[ ?minSize g_minSize ]
+[ ?maxSize g_maxSize ]
+[ ?dontBlock g_dontBlock ]
+[ ?fieldFocus s_fieldFocus ]
+[ ?plist g_plist ]
+[ ?baseName s_baseName ]
+)
+=> r_form

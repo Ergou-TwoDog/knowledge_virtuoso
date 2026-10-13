@@ -1,0 +1,30 @@
+函数: abeLayerGrow
+签名: abeLayerGrow(
+o_abeInputLayer o_abeOutputLayer
+[ ?north g_sizeNorth ] [ ?south g_sizeSouth ]
+[ ?east g_sizeEast ]
+[ ?west g_sizeWest]
+[ ?queue g_queue ]
+)
+=> t / nil
+描述: Adds shapes to the ABE output layer that are ABE input layer shapes that have been increased in size along one or more directions in the north, south, east, and/or west.
+来源: sklayoutref/abe.html
+
+参数:
+  o_abeInputLayer — ID of the ABE input layer.
+  o_abeOutputLayer — ID of the ABE output layer.
+  ?north g_sizeNorth — Expands the north side of the shapes by this distance, in user units. The default value is 0.
+  ?south g_sizeSouth — Expands the south side of the shapes by this distance, in user units. The default value is 0.
+  ?east g_sizeEast — Expands the east side of the shapes by this distance, in user units. The default value is 0.
+  ?west g_sizeWest — Expands the west side of the shapes by this distance, in user units. The default value is 0.
+  ?queue g_queue — A Boolean value that adds the function to the queue if set to t, rather than running it immediately. Functions in the queue are not run until abeRunQueue is issued.
+
+返回:
+  t — The expanded shapes are added on the output layer or the function is queued.
+  nil — The function was not successful because ABE is not initialized or there was an argument error.
+
+示例:
+  a1 = abeLayerFromShapes( geGetSelSet() )
+  result = abeNewLayer()
+  abeLayerGrow( a1 result ?north 0.02 ?east 0.05 )
+  Adds shapes from the selected set that have been increased in size by 0.02 to the north and 0.05 to the east to the result ABE layer.

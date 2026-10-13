@@ -1,0 +1,21 @@
+函数: abeLayerGrow
+签名: abeLayerGrow( o_abeInputLayer o_abeOutputLayer [ ?north g_sizeNorth ] [ ?south
+      g_sizeSouth ] [ ?east g_sizeEast ] [ ?west g_sizeWest] [ ?queue g_queue ] ) => t / nil
+来源: sklayoutref/abe.html
+
+参数:
+  o_abeInputLayer
+  o_abeOutputLayer
+  ?north g_sizeNorth
+    The default value is 0.
+  ?south g_sizeSouth
+    The default value is 0.
+  ?east g_sizeEast
+    The default value is 0.
+  ?west g_sizeWest
+    The default value is 0.
+  ?queue g_queue
+
+返回: t / nil
+
+省略: 参数说明 7 条共 495 字 → detail="brief"；示例、补充说明、相关函数、选项说明 → detail="full"

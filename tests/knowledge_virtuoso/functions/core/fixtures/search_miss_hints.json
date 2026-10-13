@@ -1,0 +1,22 @@
+{
+ "page": {
+  "names": [],
+  "total": 0,
+  "offset": 0,
+  "limit": 30,
+  "next_offset": null
+ },
+ "records": [],
+ "prefix": "db",
+ "keywords": "bcCreateRect",
+ "offset": 0,
+ "limit": 30,
+ "with_digest": true,
+ "hints": [
+  "dbCreateRect",
+  "dbCreateNet",
+  "dbCreateArc",
+  "dbCreateRuler",
+  "dbCreateRoute"
+ ]
+}

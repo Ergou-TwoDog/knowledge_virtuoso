@@ -1,0 +1,6 @@
+函数: ansCdlGetMultiplicity
+签名: ansCdlGetMultiplicity(
+S_inst S_master
+S_parent
+)
+=> n_multiplicityFactor

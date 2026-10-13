@@ -1,0 +1,2 @@
+未找到函数: dbCreatRect
+相近的官方函数: dbCreateRect、rodCreateRect、dbCreateNet、dbCreateDot、dbCreateArc

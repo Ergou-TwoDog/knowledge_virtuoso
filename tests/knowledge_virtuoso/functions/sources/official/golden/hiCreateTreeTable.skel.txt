@@ -1,0 +1,54 @@
+函数: hiCreateTreeTable
+签名: hiCreateTreeTable( ?name s_name [ ?title t_title ][ ?choice g_choice ] [ ?value g_value
+      ] [ ?defValue g_defaultValue ] [ ?help g_fieldHelp ] [ ?headers g_headers ][ ?sort
+      l_sort ] [ ?callback g_callback ][ ?enableDeselectCB g_enableDeselectCB ] [
+      ?expandCallback g_expandCallback ] [ ?collapseCallback g_collapseCallback ][
+      ?sortCallback g_sortCallback ] [ ?nextField g_nextField ] [ ?titleAlignment
+      g_titleAlignment ] [ ?selectMode s_selectMode ] [ ?invisible g_invisible ][ ?enabled
+      g_enabled ] [ ?altRowHilight g_rowHighlight ]) => r_fieldHandle
+来源: skuiref/chap8.html
+
+参数:
+  ?name s_name
+  ?title t_title
+  ?choice g_choice
+  ?value g_value
+  ?defValue g_defaultValue
+    Default value of the field, indicating which items in the tree table are selected when the Defaults button is clicked.
+    After the form is instantiated, you can use the defValue property to retrieve or change the default value. Use the following syntax for the defValue property:
+  ?help g_fieldHelp
+  ?headers g_headers
+    'float (which defaults to 'float3)
+    After the tree table is displayed, you can choose which columns you want to display. To do so, right-click on the tree table title, and in the pop-up menu that appears, select the columns you want to display and deselect the columns that you want to hide. By default, all the columns are displayed.
+  ?sort l_sort
+  ?callback g_callback
+    The default value of g_callback is an empty string ("").
+  ?enableDeselectCB g_enableDeselectCB
+    The default value of g_enableDeselectCB is nil.
+  ?expandCallback g_expandCallback
+    The default value of g_expandCallback is an empty string ("").
+  ?collapseCallback g_collapseCallback
+    The default value of g_collapseCallback is an empty string ("").
+  ?sortCallback g_sortCallback
+    The default value of g_sortCallback is an empty string ("").
+  ?nextField g_nextField
+    If the tabOrderIsAddOrder argument is not set or if its value is nil, the default traversal order is based on the form layout --left-to-right and top-to-bottom-- beginning with the field at the top-left corner of the form.
+  ?titleAlignment g_titleAlignment
+    The default value is 'left.
+  ?selectMode s_selectMode
+      取值 'single — Only one item can be selected at a time. Click to select the item.
+      To deselect an item, click it again or select another item.
+      取值 'browse — One item always remains selected. Click to select the item.
+      To deselect an item, select another item.
+      取值 'multiple — Multiple items can be selected at a time. When you select an item, its selection state (selected or unselected) is toggled and the other items are unchanged.
+      取值 'extended — When you select an item, any previously-selected item is unselected. However, if you press CTRL and click an item, its selection state (selected or unselected) is toggled and the other items are not changed. If you press SHIFT and click an item, all the items between the current item and the clicked item are selected. Multiple items can also be selected by dragging the mouse over them.
+  ?invisible g_invisible
+    The default value is nil.
+  ?enabled g_enabled
+    The default value is t.
+  ?altRowHilight g_rowHighlight
+    The default is nil, which means that highlight is not enabled.
+
+返回: r_fieldHandle
+
+省略: 参数说明 19 条共 5,714 字 → detail="brief"；示例、补充说明、相关函数、选项说明 → detail="full"

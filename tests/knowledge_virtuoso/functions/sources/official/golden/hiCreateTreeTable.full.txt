@@ -1,0 +1,359 @@
+函数: hiCreateTreeTable
+签名: hiCreateTreeTable(
+?name s_name
+[ ?title t_title ][ ?choice
+g_choice ]
+[ ?value g_value ]
+[ ?defValue g_defaultValue ]
+[ ?help g_fieldHelp ]
+[ ?headers g_headers ][ ?sort
+l_sort ]
+[ ?callback g_callback ][ ?enableDeselectCB
+g_enableDeselectCB ]
+[ ?expandCallback g_expandCallback ]
+[ ?collapseCallback g_collapseCallback ][ ?sortCallback
+g_sortCallback ]
+[ ?nextField g_nextField ]
+[ ?titleAlignment g_titleAlignment ]
+[ ?selectMode s_selectMode ]
+[ ?invisible g_invisible ][ ?enabled
+g_enabled ]
+[ ?altRowHilight g_rowHighlight ])
+=> r_fieldHandle
+描述: Creates a tree table field. If you have already created a tree, you can specify it when you create the field; otherwise you can add a tree later to the field. To create a tree, use hiCreateTree and other tree table field functions.
+For details about the tree table field API, see Overview. For an example of how to create a tree table field, see Examples.
+来源: skuiref/chap8.html
+相关: hiCreateTreeItem hiCreateTree hiItemInsertTree hiItemRemoveTree hiTreeAppendItem hiTreePrependItem hiTreeRemoveItem hiTreeRemoveAllItems hiGetTreeItemDescription hiSetTreeItemDescription hiCreateTreeTable hiCollapseTreeItem hiExpandTreeItem hiGetTree hiGetTreeItems hiGetTreeItemParent hiGetTreeParent hiTreeRemoveItems hiTreeTableDeselectItem hiTreeTableDeselectItems hiTreeTableDeselectAllItems hiTreeTableGetExpandedItemCount hiTreeTableGetExpandedItems hiTreeTableGetItems hiTreeTableGetItemCount hiTreeTableGetSelectedItemCount hiTreeTableGetSelectedItems hiTreeTableSelectItems hiTreeTableSelectAllItems hiTreeTableSelectItem hiGetTreeItemIcons hiSetTreeItemIcons hiSwapTreeItemSelectionIcons The following is the complete list of tree table functions
+
+参数:
+  ?name s_name — Handle to the tree table field. To reference it, use:
+    formHandle->hiFieldSym
+  ?title t_title — Title of the tree table field, which is displayed above the tree.
+  ?choice g_choice — The tree that the tree table field contains. This is the return value of hiCreateTree.
+    To retrieve or change the value of g_choice, use:
+    formHandle->hiFieldSym->choice
+  ?value g_value — The initial value of the field, indicating which items in the tree table field are selected when the form first appears.
+    Specify g_value as a list of item symbols.
+    After the form is instantiated, you can use the value property to retrieve or change the list of currently selected items. To retrieve the list of selected items, use the following syntax:
+    formHandle->hiFieldSym->value
+    To change the list of selected items with the value property, use the following syntax:
+    formHandle->hiFieldSym->value = listOfItems
+    Setting the value through the value property always triggers the callback of the tree table field. If you want to set the value without triggering the callback, use the functions hiTreeTableSelectItem, hiTreeTableSelectItems, or hiTreeTableSelectAllItems, with the g_notify argument set to nil.
+  ?defValue g_defaultValue — Default value of the field, indicating which items in the tree table are selected when the Defaults button is clicked.
+    Specify g_defaultValue as a list of item symbols.
+    After the form is instantiated, you can use the defValue property to retrieve or change the default value. Use the following syntax for the defValue property:
+    formHandle->hiFieldSym->defValue
+  ?help g_fieldHelp — A string, symbol, list of strings, or list of symbols used to reference help. If this argument is not specified, s_name is used. This argument is currently not used.
+  ?headers g_headers — The list of columns in the tree table field. Specify each column as a list that contains the following elements:
+    '(columnName columnWidth colNameAlignment type sortable compareFunction)
+    columnName is the heading of the column
+    columnWidth is the initial width of the column. The width can be changed interactively after the form is created.
+    colNameAlignment is the alignment of the column heading and the data in the column: 'left, 'right, or 'center
+    This should be of type symbol.
+    type is the type of data in the column: 'int, 'float[n], or 'string. You can specify float in the following ways:
+    'floatn (where n is the number of decimal points to be displayed in the float field). For example, 'float4.
+    'float (which defaults to 'float3)
+    This should be of type symbol.
+    sortable indicates if the column is sortable. Specify t if you want the column to be sortable; nil otherwise. The report field can sort integer, float, and string data. Clicking on the column header sorts the data in the column.
+    compareFunction is the name (string) of the optional sorting function you write if you want to sort the data yourself. The return value of this sorting function must be -1, 0, or 1.
+    You need to specify type, sortable, and compareFunction only if you want the column to be sortable.
+    After the tree table is displayed, you can choose which columns you want to display. To do so, right-click on the tree table title, and in the pop-up menu that appears, select the columns you want to display and deselect the columns that you want to hide. By default, all the columns are displayed.
+    After the form is instantiated, you can use the headers property to retrieve or change the header. Use the following syntax to set the header property:
+    formHandle->hiFieldSym->headers = newHeader
+  ?sort l_sort — Indicates which column is sorted when the tree table first appears. Specify l_sort as a list of two elements:
+    '(columnToSort sortDirection)
+    where columnToSort is an integer indicating the column to sort (the first column is 0, the second is 1, and so on) and sortDirection is t or nil (t indicates descending order, nil indicates ascending order).
+    You can also use the sort property to sort a column after the form is instantiated.
+    Use the following format for the sort property:
+    formHandle->hiFieldSym->sort
+    Clicking on the column header sorts the column. Clicking again on the column header changes the sorting direction, from ascending to descending or vice versa.
+  ?callback g_callback — A string or symbol that specifies the name of the SKILL function to be called when items are selected in the tree table field. If you want the callback function to also be called when items are deselected, specify t as the value of the ?enableDeselectCB argument.
+    The callback function is passed two arguments:
+    the field name (symbol)
+    the list of selected items (list of symbols)
+    The default value of g_callback is an empty string ("").
+  ?enableDeselectCB g_enableDeselectCB — t or nil. Specify t if you want the callback function (specified with the ?callback argument) to be called when items are deselected, in addition to being called when items are selected. If you specify nil, the callback function is called only when items are selected.
+    The default value of g_enableDeselectCB is nil.
+  ?expandCallback g_expandCallback — The SKILL function that is called when any tree node is expanded.
+    The expand callback function is passed two arguments:
+    the field name (symbol)
+    the name of the expanded item (symbol)
+    The default value of g_expandCallback is an empty string ("").
+  ?collapseCallback g_collapseCallback — The SKILL function that is called when any tree node is collapsed.
+    The collapse callback function is passed two arguments:
+    the field name (symbol)
+    the name of the collapsed item (symbol)
+    The default value of g_collapseCallback is an empty string ("").
+  ?sortCallback g_sortCallback — The SKILL function that is called when a column is sorted.
+    The sort callback function is passed two arguments:
+    the field name (symbol)
+    list(columnToSort sortDirection)
+    where columnToSort is an integer indicating the column to sort (the first column is 0, the second is 1, and so on) and sortDirection is t or nil (t indicates descending order, nil indicates ascending order).
+    The default value of g_sortCallback is an empty string ("").
+  ?nextField g_nextField — Symbol or string indicating the next field to bring into focus when the Tab key is pressed. If you specify nil or do not specify this argument, the Tab traversal order is determined by the tabOrderIsAddOrder argument of hiCreateAppForm or hiCreateScrollRegion. If the tabOrderIsAddOrder argument is not set or if its value is nil, the default traversal order is based on the form layout --left-to-right and top-to-bottom-- beginning with the field at the top-left corner of the form.
+  ?titleAlignment g_titleAlignment — Alignment of the title of the tree table field. Use one of the following values:
+    'left
+    'right
+    'center
+    The default value is 'left.
+  ?selectMode s_selectMode — Specifies the selection mode for the tree table field. Use one of the following symbols:
+      取值 'single — Only one item can be selected at a time. Click to select the item.
+      To deselect an item, click it again or select another item.
+      取值 'browse — One item always remains selected. Click to select the item.
+      To deselect an item, select another item.
+      取值 'multiple — Multiple items can be selected at a time. When you select an item, its selection state (selected or unselected) is toggled and the other items are unchanged.
+      取值 'extended — When you select an item, any previously-selected item is unselected. However, if you press CTRL and click an item, its selection state (selected or unselected) is toggled and the other items are not changed. If you press SHIFT and click an item, all the items between the current item and the clicked item are selected. Multiple items can also be selected by dragging the mouse over them.
+  ?invisible g_invisible — Specifies whether the layout and the fields within are invisible. The default value is nil.
+  ?enabled g_enabled — Specifies whether the fields in the layout are enabled. The default value is t.
+  ?altRowHilight g_rowHighlight — Specifies whether background of alternate rows in the table should be highlighted. The default is nil, which means that highlight is not enabled.
+
+参数正文（条目之外，原文散文，非结构化条目）:
+  'single
+  Only one item can be selected at a time. Click to select the item.
+  To deselect an item, click it again or select another item.
+  'browse
+  One item always remains selected. Click to select the item.
+  To deselect an item, select another item.
+  'multiple
+  Multiple items can be selected at a time. When you select an item, its selection state (selected or unselected) is toggled and the other items are unchanged.
+  'extended
+  When you select an item, any previously-selected item is unselected. However, if you press CTRL and click an item, its selection state (selected or unselected) is toggled and the other items are not changed. If you press SHIFT and click an item, all the items between the current item and the clicked item are selected. Multiple items can also be selected by dragging the mouse over them.
+  The default mode is 'extended.
+  You can modify the value of this argument with the selectMode property. For example:
+  formHandle->fieldSym->selectMode = 'single
+  r_fieldHandle
+
+返回:
+  r_fieldHandle — Handle to the tree table field.
+
+示例:
+  Single-View Tree Table
+  The following sample creates a form with a tree table field.
+  ; create a root tree
+  indexTree=hiCreateTree('index)
+  ; create two tree items and append them to the root tree
+  dow=hiCreateTreeItem('dow list("Dow Jones"))
+  nas=hiCreateTreeItem('nas list("NASDAQ"))
+  hiTreeAppendItem(indexTree dow)
+  hiTreeAppendItem(indexTree nas)
+  ; create two sub-trees
+  dowTree=hiCreateTree('dows)
+  nasTree=hiCreateTree('nass)
+  ; put the two sub-trees into the two items created earlier
+  hiItemInsertTree(dow dowTree)
+  hiItemInsertTree(nas nasTree)
+  ; add a few leaves for the dowTree and nasTree
+  hiTreeAppendItem(dowTree hiCreateTreeItem('cdn list("Cadence" 80.5 1 "Strong
+  Buy")))
+  hiTreeAppendItem(dowTree hiCreateTreeItem('ibm list("I.B.M." 118 3 "Hold")))
+  hiTreeAppendItem(nasTree hiCreateTreeItem('sunw list("Sun Micro" 27.750 4
+  "Sell")))
+  hiTreeAppendItem(nasTree hiCreateTreeItem('orcl list("Oracle" 28.925 5 "Strong
+  Sell")))
+  ; create callback, which is called whenever any tree items are selected and which
+  ; prints the selected item's description
+  procedure( myTreeCB(name itemSymList)
+  while(itemSymList
+  itemSym=car(itemSymList)
+  println(hiGetTreeItemDescription(eval(itemSym)))
+  itemSymList=cdr(itemSymList)
+  )
+  )
+  ; create tree table and use indexTree as the value for ?choice
+  treeField = hiCreateTreeTable(
+  ?name `treeField
+  ?title "Stocks"
+  ?titleAlignment `center
+  ?headers list(list("Name" 125 'left `string)
+  list("Price" 60 'left `float3)
+  list("Rating" 45 'center `int)
+  list("Recommendation" 125 'right)
+  )
+  ?choice indexTree
+  ?callback "myTreeCB"
+  )
+  ; create a form
+  form = hiCreateAppForm(
+  ?name 'form
+  ?formTitle "A Tree Sample"
+  ?fields list(
+  list(treeField 5:5 400:200 55)
+  )
+  ?initialSize 500:250)
+  hiDisplayForm(form)
+  Multiple-View Tree Table
+  The following sample creates a form with two tree table fields. The two fields are different views of the same tree. View 1 displays the tree structure while View 2 displays more details for each element of the tree. When you make a change in one view, the other view is updated simultaneously. For example, if you expand an item in View 2, the item is also expanded in View 1.
+  procedure( myTreeCB(name items)
+  println(name)
+  println(items)
+  )
+  procedure( expandCB(name item)
+  println("expanded")
+  println(name)
+  println(item)
+  )
+  procedure( collapseCB(name item)
+  println("collapsed")
+  println(name)
+  println(item)
+  )
+  ; create a root node for the tree
+  rootTree=hiCreateTree('root)
+  ; create four items for the tree and add them to the root
+  item1=hiCreateTreeItem('it1 '("Folder1" "Folder1 Description" 12.120105))
+  item2=hiCreateTreeItem('it2 '("Folder2" "Folder2 Description" 1))
+  item3=hiCreateTreeItem('it3 '("Folder3" "Folder3 Description" -0.5))
+  item0=hiCreateTreeItem('it0 '("Leaf" "Has no children" 3.22))
+  hiTreeAppendItem(rootTree item1)
+  hiTreeAppendItem(rootTree item0)
+  hiTreeAppendItem(rootTree item2)
+  hiTreeAppendItem(rootTree item3)
+  ; create a sub-tree for each item
+  Folder1=hiCreateTree('folder1)
+  Folder2=hiCreateTree('folder2)
+  Folder3=hiCreateTree('folder3)
+  hiItemInsertTree(item1 Folder1)
+  hiItemInsertTree(item2 Folder2)
+  hiItemInsertTree(item3 Folder3)
+  ; add items for the sub-trees
+  item11=hiCreateTreeItem('i11 '("Item11" "Item1 For Folder1" 123))
+  item12=hiCreateTreeItem('i12 '("Item12" "Item2 For Folder1" 5.7))
+  item13=hiCreateTreeItem('i13 '("Item13" "Item3 For Folder1" 0.999))
+  hiTreeAppendItem(Folder1 item11)
+  hiTreeAppendItem(Folder1 item12)
+  hiTreeAppendItem(Folder1 item13)
+  item21=hiCreateTreeItem('i21 '("Item21" "Item1 For Folder2" 321.0) )
+  item22=hiCreateTreeItem('i22 '("Item22" "Item2 For Folder2" 33))
+  item23=hiCreateTreeItem('i23 '("Item23" "Item3 For Folder2" 34.0))
+  hiTreeAppendItem(Folder2 item21)
+  hiTreeAppendItem(Folder2 item22)
+  hiTreeAppendItem(Folder2 item23)
+  item31=hiCreateTreeItem('i31 '("Item31" "Item1 For Folder3" 54.67))
+  item32=hiCreateTreeItem('i32 '("Item32" "Item2 For Folder3" 12.4) )
+  item33=hiCreateTreeItem('i33 '("Item33" "Item3 For Folder3" 3.1415) )
+  hiTreeAppendItem(Folder3 item31)
+  hiTreeAppendItem(Folder3 item32)
+  hiTreeAppendItem(Folder3 item33)
+  ; create tree tables
+  treeF=hiCreateTreeTable(
+  ?name 'treeField
+  ?title "Tree Table -- View 1"
+  ?selectMode 'extended
+  ?titleAlignment 'center
+  ?callback "myTreeCB"
+  ?expandCallback "expandCB"
+  ?collapseCallback "collapseCB"
+  ?headers '(("Folder" 120 left) ("Comment" 150 left)
+  ("Misc" 80 right float))
+  ?choice rootTree
+  )
+  treeF2=hiCreateTreeTable(
+  ?name 'treeField2
+  ?title "Tree Table -- View 2"
+  ?selectMode 'extended
+  ?titleAlignment 'center
+  ?callback "myTreeCB"
+  ?expandCallback "expandCB"
+  ?collapseCallback "collapseCB"
+  ?headers '(("Folder" 120 left) )
+  ?choice rootTree
+  )
+  myRep=hiCreateAppForm(
+  ?name 'myRepForm
+  ?formTitle "Multiple-View Tree "
+  ?fields list(
+  list(treeF2 5:5 350:200 55)
+  list(treeF 5:220 400:250 55)
+  )
+  ?initialSize 500:680
+  )
+  hiDisplayForm(myRep)
+
+总览:
+  A tree table field displays a tree that can be presented in a table format. Each element of the tree can have several sortable columns of descriptions attached to it. For example, the following tree has two columns:
+  The tree table field API provides a set of SKILL functions. You create a tree table field with hiCreateTreeTable and specify a tree as the value of the field.
+  To create a tree,
+  1.
+  Create a tree object (with hiCreateTree).
+  2.
+  Create items for the tree (with hiCreateTreeItem).
+  3.
+  Add the items to the tree (with hiTreeAppendItem, hiTreeAppendItems, hiTreePrependItem, or hiTreePrependItems).
+  A tree can have several levels. You can create a sub-tree by inserting a new tree under an item (with hiItemInsertTree).
+  After the field is created, you can do the following at any time:
+  add and remove items and sub-trees
+  change the description of the items
+  programmatically expand or collapse items in a tree
+  programmatically select or deselect items
+  sort columns by clicking on the column header
+  The tree table API also lets you create multiple views of the same data. The API is based on the model-view-controller paradigm. In the model-view-controller paradigm, a program is implemented in three parts--the model maintains the data; the view displays the data to the user; and the controller responds to user actions such as mouse clicks and keyboard input by sending messages to the model or view. This paradigm allows multiple views of the model.
+  With the tree table API, you can create multiple views of the same data in such a way that when one view makes changes in the data (model), the other views are updated automatically to reflect the changes. For instance, if you expand or collapse a tree in one view, the tree is expanded or collapsed in the other views as well.
+  For examples of a simple tree table as well as a tree table with multiple views, see Examples.
+  Note: Trees and tree items are part of the data model, while the tree-table field is the view. Therefore, actions on the view such as expanding a sub-tree, selecting items, and sorting a column do not have any effect until a view (tree-table field) is instantiated. If you want some tree items to be expanded, for example, when a form is displayed, you need to instantiate the form, then call hiExpandTreeItem, and then display the form. For example:
+  hiCreateAppForm( ?name 'myForm, ?fields (list (list myTreeTable ...
+  (hiInstantiateForm myForm)
+  hiExpandTreeItem( 'myTreeItem t)
+  hiDisplayForm( myForm)
+  Keyboard Interface
+  The following table describes the keyboard interface to a tree table field.
+  To...
+  Press...
+  or Click...
+  Ascend or descend the tree
+  the or keys
+  Select an item
+  the item
+  Also, in extended mode only:
+  CTRL-click to select additional items
+  SHIFT-click to select a range of items between the current item and the clicked item
+  Click and drag to select a range of items
+  Deselect an item
+  the selected item (in single or multiple mode only)
+  another item (in browse mode only)
+  CTRL-click the selected item (in extended mode only)
+  See hiCreateTreeTable for more information about the selection modes.
+  Expand a tree
+  the key
+  the icon
+  -or-
+  double-click the item
+  Collapse a tree
+  the key
+  the icon
+  -or-
+  double-click the item
+  Note: You can customize the selection mode with the ?selectMode argument of hiCreateTreeTable.
+  You can also select, deselect, expand, or collapse items in a tree programmatically. For more information, see the descriptions of the following functions: hiExpandTreeItem, hiCollapseTreeItem, hiTreeTableSelectItem, hiTreeTableSelectItems, hiTreeTableSelectAllItems, hiTreeTableDeselectItem, hiTreeTableDeselectItems, hiTreeTableDeselectAllItems.
+  Tooltips
+  You can specify tooltips for tree items. See hiCreateTreeItem for more information.
+  Displaying Columns
+  When a tree table field is displayed, you can interactively select the columns that you want to display. To do so, right-click the tree table title and, in the pop-up menu that appears, select the columns you want to display and deselect the columns you want to hide. Columns that are currently displayed have a check-mark next to them.
+  Context Menus
+  A tree table field can also have a context menu, that is, a pop-up menu that is displayed when you right-click on the field. See Creating Context Menus for Fields for more information.
+  Specifying a Double-click Callback
+  You can specify a callback that is invoked when a tree item is double-clicked.
+  To specify the double-click callback,
+  Set the hiDoubleClickCallback property on the tree table field with the following command:
+  1. — Create a tree object (with hiCreateTree).
+  2. — Create items for the tree (with hiCreateTreeItem).
+  3. — Add the items to the tree (with hiTreeAppendItem, hiTreeAppendItems, hiTreePrependItem, or hiTreePrependItems).
+  To... — Press...
+    or Click...
+  Ascend or descend the tree — the or keys
+  Select an item — the item
+    Also, in extended mode only:
+    CTRL-click to select additional items
+    SHIFT-click to select a range of items between the current item and the clicked item
+    Click and drag to select a range of items
+  Deselect an item — the selected item (in single or multiple mode only)
+    another item (in browse mode only)
+    CTRL-click the selected item (in extended mode only)
+    See hiCreateTreeTable for more information about the selection modes.
+  Expand a tree — the key
+    the icon
+    -or-
+    double-click the item
+  Collapse a tree — the key
+    the icon
+    -or-
+    double-click the item

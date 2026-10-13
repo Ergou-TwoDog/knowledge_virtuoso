@@ -1,0 +1,18 @@
+{
+ "params": {
+  "className": "",
+  "keyword": ""
+ },
+ "rows": [
+  {
+   "name": "fakeRwAttr",
+   "rw": "rw",
+   "type": "string",
+   "classes": [
+    "techID"
+   ],
+   "desc": "手写行：只为覆盖 rw 列非 ? 时的表头分支。"
+  }
+ ],
+ "synthetic": true
+}

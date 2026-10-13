@@ -1,0 +1,35 @@
+函数: rodCreatePolygon
+签名: rodCreatePolygon( [ ?name S_name ][ ?layer txl_layer ] [ ?pts l_pts ] [ ?cvId d_cvId ] [
+      ?fromObj Rl_fromObj ] [ ?size txf_size ] [ ?prop l_prop ] ; ROD Connectivity Arguments
+      for Polygons [ ?netName S_netName ] [ ?termName S_termName ] [ ?termIOType S_termIOType
+      ] [ ?pin g_pin ] [ ?pinAccessDir tl_pinAccessDir ] [ ?pinLabel g_pinLabel ] [
+      ?pinLabelHeight n_pinLabelHeight ] [ ?pinLabelLayer txl_pinLabelLayer ] [ ?pinLabelFont
+      S_pinLabelFont ] [ ?pinLabelDrafting g_pinLabelDrafting ] [ ?pinLabelOrient
+      S_pinLabelOrient ] [ ?pinLabelOffsetPoint l_pinLabelOffsetPoint ] [ ?pinLabelJust
+      S_pinLabelJust ] [ ?pinLabelRefHandle S_pinLabelRefHandle ] );end rodCreatePolygon =>
+      R_rodObj / nil
+来源: rodskillref/chap1.html
+
+参数:
+  校验: 签名 21 个 ?参数 / 参数表 7 条；签名有而参数表未列: ?netName ?termName ?termIOType ?pin ?pinAccessDir ?pinLabel ?pinLabelHeight ?pinLabelLayer ?pinLabelFont ?pinLabelDrafting ?pinLabelOrient ?pinLabelOffsetPoint ?pinLabelJust ?pinLabelRefHandle
+  ?name S_name
+    Default: polygonn
+  ?layer txl_layer
+    Default Purpose: drawing
+  ?pts l_pts
+    Default: none
+  ?cvId d_cvId
+    If rodCreatePath occurs in the body of a pcDefinePCell function or tcCreateCDSDeviceClass function call, the default value is pcCellView or tcCellView, respectively; otherwise, this argument is required.
+    Default: none
+  ?fromObj Rl_fromObj
+    Default: none
+  ?size txf_size
+    If you specify a source object (Rl_fromObj) but do not specify txf_size, then txf_size defaults to 0.0. If you specify txf_size, you must also specify Rl_fromObj, or the system issues a warning message and the function fails.
+    Default: 0.0
+  ?prop l_prop
+    Default: nil
+  子参数 [ROD Connectivity Arguments for Polygons]:
+
+返回: R_rodObj / nil
+
+省略: 参数说明 7 条共 3,870 字 → detail="brief"；示例、补充说明、相关函数、选项说明 → detail="full"

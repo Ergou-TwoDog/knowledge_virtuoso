@@ -1,0 +1,474 @@
+{
+ "page": {
+  "names": [
+   "dbCreateArc",
+   "dbCreateAreaBlockage",
+   "dbCreateAreaBoundary",
+   "dbCreateAreaHalo",
+   "dbCreateAreaPinGroupGuide"
+  ],
+  "total": 93,
+  "offset": 0,
+  "limit": 5,
+  "next_offset": 5
+ },
+ "records": [
+  {
+   "type": "function",
+   "decl": [
+    {
+     "text": "dbCreateArc(\nd_cellView txl_layerPurposel_ellipse_bBox\nl_arc_bBox\n)\n=> d_arc / nil",
+     "shared_from": null
+    }
+   ],
+   "where": {
+    "file": "skdfref/chap2.html",
+    "topic": "dbCreateArc",
+    "marker_text": "dbCreateArc",
+    "anchor": "dbCreateArc"
+   },
+   "also_at": [],
+   "sections": {
+    "description": {
+     "text": "Creates an arc.\nThe arc is determined by calculating the overlap or the interception between the ellipse and arc bBox given by the caller. In order to correctly determine the intersection of the given bBoxes, overlapping edges between the bBoxes are required."
+    },
+    "arguments": {
+     "root": {
+      "title": null,
+      "items": [
+       {
+        "name": "d_cellView",
+        "desc": "The cellview.",
+        "values": null
+       },
+       {
+        "name": "txl_layerPurpose",
+        "desc": "Name, number, or a list of layer or layer-purpose pair.\nFor more information, see Type txl_layerPurpose.",
+        "values": null
+       },
+       {
+        "name": "l_ellipse_bBox",
+        "desc": "Bounding box of the ellipse containing the arc.",
+        "values": null
+       },
+       {
+        "name": "l_arc_bBox",
+        "desc": "Bounding box of the arc.",
+        "values": null
+       }
+      ]
+     },
+     "lists": [],
+     "text": "d_cellView\nThe cellview.\ntxl_layerPurpose\nName, number, or a list of layer or layer-purpose pair.\nFor more information, see Type txl_layerPurpose.\nl_ellipse_bBox\nBounding box of the ellipse containing the arc.\nl_arc_bBox\nBounding box of the arc."
+    },
+    "returns": {
+     "items": [
+      {
+       "value": "d_arc",
+       "desc": "The dbObject of the arc."
+      },
+      {
+       "value": "nil",
+       "desc": "The arc is not created."
+      }
+     ],
+     "text": "d_arc\nThe dbObject of the arc.\nnil\nThe arc is not created."
+    },
+    "example": {
+     "text": "dbCreateArc(cv list(\"background\" \"drawing\") list(0:0 2:2) list(1:1 2:2))"
+    }
+   },
+   "field_status": {
+    "description": "present",
+    "arguments": "present",
+    "returns": "present",
+    "example": "present",
+    "reference": "not_documented",
+    "related_functions": "not_documented",
+    "prerequisites": "not_documented",
+    "additional_information": "not_documented",
+    "interactive_function": "not_documented",
+    "associated_options": "not_documented",
+    "option_descriptions": "not_documented",
+    "purpose": "not_documented",
+    "format": "not_documented",
+    "definition": "not_documented",
+    "overview": "not_documented",
+    "errors": "not_documented",
+    "decl": "present"
+   },
+   "status": "active",
+   "prefix": "db",
+   "tokens": [
+    "db",
+    "create",
+    "arc"
+   ],
+   "name": "dbCreateArc"
+  },
+  {
+   "type": "function",
+   "decl": [
+    {
+     "text": "dbCreateAreaBlockage(\nd_cellviewIdl_points\n[ d_owner ])\n=> d_areaBlockageId / nil",
+     "shared_from": null
+    }
+   ],
+   "where": {
+    "file": "skdfref/chap2.html",
+    "topic": "dbCreateAreaBlockage",
+    "marker_text": "dbCreateAreaBlockage",
+    "anchor": "dbCreateAreaBlockage"
+   },
+   "also_at": [],
+   "sections": {
+    "description": {
+     "text": "Creates an area blockage object of the type placement in the given cellview. Area blockages are used to prevent instances from being placed within a specific area."
+    },
+    "arguments": {
+     "root": {
+      "title": null,
+      "items": [
+       {
+        "name": "d_cellviewId",
+        "desc": "The database ID of the cellview.",
+        "values": null
+       },
+       {
+        "name": "l_points",
+        "desc": "Specifies the list of points for the blockage.\nFor more information, see Type l_point.",
+        "values": null
+       },
+       {
+        "name": "d_owner",
+        "desc": "Optional argument indicating the owner ID of the blockage.\nDefault is nil.",
+        "values": null
+       }
+      ]
+     },
+     "lists": [],
+     "text": "d_cellviewId\nThe database ID of the cellview.\nl_points\nSpecifies the list of points for the blockage.\nFor more information, see Type l_point.\nd_owner\nOptional argument indicating the owner ID of the blockage.\nDefault is nil."
+    },
+    "returns": {
+     "items": [
+      {
+       "value": "d_areaBlockageId",
+       "desc": "When successful, the blockage database ID is returned."
+      },
+      {
+       "value": "nil",
+       "desc": "nil is returned if the cellview ID is invalid."
+      }
+     ],
+     "text": "d_areaBlockageId\nWhen successful, the blockage database ID is returned.\nnil\nnil is returned if the cellview ID is invalid."
+    }
+   },
+   "field_status": {
+    "description": "present",
+    "arguments": "present",
+    "returns": "present",
+    "example": "not_documented",
+    "reference": "not_documented",
+    "related_functions": "not_documented",
+    "prerequisites": "not_documented",
+    "additional_information": "not_documented",
+    "interactive_function": "not_documented",
+    "associated_options": "not_documented",
+    "option_descriptions": "not_documented",
+    "purpose": "not_documented",
+    "format": "not_documented",
+    "definition": "not_documented",
+    "overview": "not_documented",
+    "errors": "not_documented",
+    "decl": "present"
+   },
+   "status": "active",
+   "prefix": "db",
+   "tokens": [
+    "db",
+    "create",
+    "area",
+    "blockage"
+   ],
+   "name": "dbCreateAreaBlockage"
+  },
+  {
+   "type": "function",
+   "decl": [
+    {
+     "text": "dbCreateAreaBoundary(\nd_cellviewIdl_points\n[ t_name = nil] [ lt_edgeNames = nil]\n)\n=> d_areaBoundaryId / nil",
+     "shared_from": null
+    }
+   ],
+   "where": {
+    "file": "skdfref/chap2.html",
+    "topic": "dbCreateAreaBoundary",
+    "marker_text": "dbCreateAreaBoundary",
+    "anchor": "dbCreateAreaBoundary"
+   },
+   "also_at": [],
+   "sections": {
+    "description": {
+     "text": "Creates an area boundary object in the specified cellview.\nAn area boundary specifies an area in a block for a specific purpose. Area boundaries are named. A block can have multiple area boundaries, each identified by its name."
+    },
+    "arguments": {
+     "root": {
+      "title": null,
+      "items": [
+       {
+        "name": "d_cellviewId",
+        "desc": "The database ID of the cellview.",
+        "values": null
+       },
+       {
+        "name": "l_points",
+        "desc": "Specifies the list of points for the boundary.\nFor more information, see Type l_point.",
+        "values": null
+       },
+       {
+        "name": "t_name",
+        "desc": "Optional argument that specifies the name of the area boundary.",
+        "values": null
+       },
+       {
+        "name": "lt_edgeNames",
+        "desc": "Optional argument that list the names of boundary edges.",
+        "values": null
+       }
+      ]
+     },
+     "lists": [],
+     "text": "d_cellviewId\nThe database ID of the cellview.\nl_points\nSpecifies the list of points for the boundary.\nFor more information, see Type l_point.\nt_name\nOptional argument that specifies the name of the area boundary.\nlt_edgeNames\nOptional argument that list the names of boundary edges."
+    },
+    "returns": {
+     "items": [
+      {
+       "value": "d_areaBoundaryId",
+       "desc": "Returns the database ID of the boundary if the creation is successful."
+      },
+      {
+       "value": "nil",
+       "desc": "nil is returned if the cellview ID is invalid."
+      }
+     ],
+     "text": "d_areaBoundaryId\nReturns the database ID of the boundary if the creation is successful.\nnil\nnil is returned if the cellview ID is invalid."
+    }
+   },
+   "field_status": {
+    "description": "present",
+    "arguments": "present",
+    "returns": "present",
+    "example": "not_documented",
+    "reference": "not_documented",
+    "related_functions": "not_documented",
+    "prerequisites": "not_documented",
+    "additional_information": "not_documented",
+    "interactive_function": "not_documented",
+    "associated_options": "not_documented",
+    "option_descriptions": "not_documented",
+    "purpose": "not_documented",
+    "format": "not_documented",
+    "definition": "not_documented",
+    "overview": "not_documented",
+    "errors": "not_documented",
+    "decl": "present"
+   },
+   "status": "active",
+   "prefix": "db",
+   "tokens": [
+    "db",
+    "create",
+    "area",
+    "boundary"
+   ],
+   "name": "dbCreateAreaBoundary"
+  },
+  {
+   "type": "function",
+   "decl": [
+    {
+     "text": "dbCreateAreaHalo(\nd_ownerIdn_topOffset\nn_bottomOffset\nn_leftOffset\nn_rightOffset\n)=> d_areaHaloId / nil",
+     "shared_from": null
+    }
+   ],
+   "where": {
+    "file": "skdfref/chap2.html",
+    "topic": "dbCreateAreaHalo",
+    "marker_text": "dbCreateAreaHalo",
+    "anchor": "dbCreateAreaHalo"
+   },
+   "also_at": [],
+   "sections": {
+    "description": {
+     "text": "Creates an areaHalo blockage object of type placement. An area halo is associated with an instance or a prBoundary to represent an extended area around the master's prBoundary.\nAn area halo supports four offsets which extend the area around a instance or a prBoundary in four orthogonal directions. The offsets in these directions can be different."
+    },
+    "arguments": {
+     "root": {
+      "title": null,
+      "items": [
+       {
+        "name": "d_ownerId",
+        "desc": "The owner ID of the areaHalo blockage.",
+        "values": null
+       },
+       {
+        "name": "n_topOffset",
+        "desc": "Integer or floating-point number indicating the top offset of the area halo.",
+        "values": null
+       },
+       {
+        "name": "n_bottomOffset",
+        "desc": "Integer or floating-point number indicating the bottom offset of the area halo.",
+        "values": null
+       },
+       {
+        "name": "n_leftOffset",
+        "desc": "Integer or floating-point number indicating the left offset of the area halo.",
+        "values": null
+       },
+       {
+        "name": "n_rightOffset",
+        "desc": "Integer or floating-point number indicating the right offset of the area halo.",
+        "values": null
+       }
+      ]
+     },
+     "lists": [],
+     "text": "d_ownerId\nThe owner ID of the areaHalo blockage.\nn_topOffset\nInteger or floating-point number indicating the top offset of the area halo.\nn_bottomOffset\nInteger or floating-point number indicating the bottom offset of the area halo.\nn_leftOffset\nInteger or floating-point number indicating the left offset of the area halo.\nn_rightOffset\nInteger or floating-point number indicating the right offset of the area halo."
+    },
+    "returns": {
+     "items": [
+      {
+       "value": "d_areaHaloId",
+       "desc": "When successful, the area halo database ID is returned."
+      },
+      {
+       "value": "nil",
+       "desc": "nil is returned if the cellview ID is invalid."
+      }
+     ],
+     "text": "d_areaHaloId\nWhen successful, the area halo database ID is returned.\nnil\nnil is returned if the cellview ID is invalid."
+    }
+   },
+   "field_status": {
+    "description": "present",
+    "arguments": "present",
+    "returns": "present",
+    "example": "not_documented",
+    "reference": "not_documented",
+    "related_functions": "not_documented",
+    "prerequisites": "not_documented",
+    "additional_information": "not_documented",
+    "interactive_function": "not_documented",
+    "associated_options": "not_documented",
+    "option_descriptions": "not_documented",
+    "purpose": "not_documented",
+    "format": "not_documented",
+    "definition": "not_documented",
+    "overview": "not_documented",
+    "errors": "not_documented",
+    "decl": "present"
+   },
+   "status": "active",
+   "prefix": "db",
+   "tokens": [
+    "db",
+    "create",
+    "area",
+    "halo"
+   ],
+   "name": "dbCreateAreaHalo"
+  },
+  {
+   "type": "function",
+   "decl": [
+    {
+     "text": "dbCreateAreaPinGroupGuide(\nd_cellViewIdt_name\n)=> d_pinGroupGuideId / nil",
+     "shared_from": null
+    }
+   ],
+   "where": {
+    "file": "skdfref/pin.html",
+    "topic": "dbCreateAreaPinGroupGuide",
+    "marker_text": "dbCreateAreaPinGroupGuide",
+    "anchor": "dbCreateAreaPinGroupGuide"
+   },
+   "also_at": [],
+   "sections": {
+    "description": {
+     "text": "Creates an area pin group guide with the specified name in the given cellview."
+    },
+    "arguments": {
+     "root": {
+      "title": null,
+      "items": [
+       {
+        "name": "d_cellViewId",
+        "desc": "The cellview in which the area pin group guide is created.",
+        "values": null
+       },
+       {
+        "name": "t_name",
+        "desc": "The name of the area pin group guide.",
+        "values": null
+       }
+      ]
+     },
+     "lists": [],
+     "text": "d_cellViewId\nThe cellview in which the area pin group guide is created.\nt_name\nThe name of the area pin group guide."
+    },
+    "returns": {
+     "items": [
+      {
+       "value": "d_pinGroupGuideId",
+       "desc": "The pin group guide ID is created with the specified name in the given cellview."
+      },
+      {
+       "value": "nil",
+       "desc": "The pin group guide ID is not created."
+      }
+     ],
+     "text": "d_pinGroupGuideId\nThe pin group guide ID is created with the specified name in the given cellview.\nnil\nThe pin group guide ID is not created."
+    },
+    "example": {
+     "text": "dbCreateAreaPinGroupGuide(cv \"pg1\")\n=> db:0x13eaeb1b"
+    }
+   },
+   "field_status": {
+    "description": "present",
+    "arguments": "present",
+    "returns": "present",
+    "example": "present",
+    "reference": "not_documented",
+    "related_functions": "not_documented",
+    "prerequisites": "not_documented",
+    "additional_information": "not_documented",
+    "interactive_function": "not_documented",
+    "associated_options": "not_documented",
+    "option_descriptions": "not_documented",
+    "purpose": "not_documented",
+    "format": "not_documented",
+    "definition": "not_documented",
+    "overview": "not_documented",
+    "errors": "not_documented",
+    "decl": "present"
+   },
+   "status": "active",
+   "prefix": "db",
+   "tokens": [
+    "db",
+    "create",
+    "area",
+    "pin",
+    "group",
+    "guide"
+   ],
+   "name": "dbCreateAreaPinGroupGuide"
+  }
+ ],
+ "prefix": "db",
+ "keywords": "create",
+ "offset": 0,
+ "limit": 5,
+ "with_digest": true
+}

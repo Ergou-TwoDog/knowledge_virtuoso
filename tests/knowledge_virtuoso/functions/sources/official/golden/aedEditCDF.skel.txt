@@ -1,0 +1,4 @@
+函数: aedEditCDF
+签名: aedEditCDF([ ? libName t_libraryName ] [ ?cellName t_cellName ][ ?cdfType t_cdfType ] )
+      => t
+来源: skartistref/chap21.html

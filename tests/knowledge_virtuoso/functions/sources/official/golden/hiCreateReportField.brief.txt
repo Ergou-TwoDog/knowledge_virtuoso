@@ -1,0 +1,78 @@
+函数: hiCreateReportField
+签名: hiCreateReportField(
+?name s_fieldName
+[ ?title t_title ][ ?titleAlignment g_titleAlignment ]
+[ ?headers g_headers ]
+[ ?choices l_choices ]
+[ ?value g_value ]
+[ ?defValue g_defaultValue ]
+[ ?returnPackedValue g_returnPackedValue ]
+[ ?help g_fieldHelp ]
+[ ?callback g_callback ]
+[ ?enableDeselectCB S_enableDeselectCB ]
+[ ?doubleClickCB g_doubleClickCB ]
+[ ?sortCallback g_sortCallback ]
+[ ?sort l_sort ]
+[ ?selectMode s_selectMode ]
+[ ?invisible g_invisible ]
+[ ?enabled g_enabled ]
+[ ?nextField g_nextField ]
+[ ?altRowHilight g_rowHighlight ]
+)
+=> r_fieldHandle
+描述: Creates a report field, which you can use to display information in a complex format. For example, you can display a table with sortable columns. The items in a report field can be selected but they cannot be edited.
+This field can also have a context menu, that is, a pop-up menu that is displayed when you right-click on the field. See Creating Context Menus for Fields for more information.
+For information on creating tooltips for fields, see Creating Tool Tips for Fields.
+来源: skuiref/chap8.html
+
+参数:
+  ?name s_name — Handle to the field. To reference it, use:
+  ?title t_title — Report title, which is displayed above the report.
+  ?titleAlignment g_titleAlignment — Alignment of the report title. Use one of the following values:
+    The default value is 'left.
+  ?headers g_headers — The list of columns in the report. Specify each column as a list that contains the following elements:
+    'float (which defaults to 'float3)
+    'scientific (which defaults to 'scientific3)
+  ?choices l_choices — List containing the items in the report. Each item forms a row of the report. For example:
+  ?value g_value — Initial value of the field, indicating which items in the report are selected when the form first appears.
+  ?defValue g_defaultValue — Default value of the field, indicating which items in the report are selected when the Defaults button is clicked. After the form is instantiated, you can use the defValue property to retrieve or change the default value.
+  ?returnPackedValue g_returnPackedValue — t or nil. Specify t if you want the value, defValue, and lastValue properties to return packed values. Otherwise, specify nil. g_returnPackedValue also determines whether the second argument passed to S_callback contains packed values.
+  ?help g_fieldHelp — A string or symbol used to reference help. If not specified, s_fieldName is used. This argument is currently not used.
+  ?callback g_callback — A string, a symbol, or a function object that specifies the name of the callback function to be called when items are selected. If you want the callback to also be called when items are deselected, specify t as the value of the ?enableDeselectCB argument.
+  ?enableDeselectCB S_enableDeselectCB — t or nil. Specify t if you want the callback procedure (specified with the ?callback argument) to be called when items are deselected, in addition to being called when items are selected. If you specify nil, the callback procedure is called only when items are selected.
+    The default value of S_enableDeselectCB is nil.
+  ?doubleClickCB g_doubleClickCB — A string, symbol or function object specifying the callback procedure to be called when an item is double-clicked.
+    The default value of this argument is an empty string (""), which means that a double-click callback has not been specified.
+  ?sortCallback g_sortCallback — A string, symbol, or function object type callback that is used to notify when the field is sorted. The sort callback procedure is passed two arguments. The first argument is the field name symbol; the second argument is list(columnToSort sortDirection), where columnToSort is an integer indicating the column to sort (the first column is 0, the second is 1, and so on) and sortDirection is t or nil (t indicates descending order, nil indicates ascending order). The sorting is then done by the comparisonFunction, which is passed as part of the column description in the ?headers argument.
+  ?sort l_sort — Indicates which column is sorted when the form first appears. Specify l_sort as a list of two elements:
+  ?selectMode s_selectMode — Specifies the selection mode for the report field. Use one of the following symbols:
+      取值 'single — Only one item can be selected at a time. Click to select the item.
+      To deselect an item, click it again or select another item.
+      取值 'multiple — Multiple items can be selected. Click to select the items.
+      To deselect an item, click it again.
+      取值 'browse — One item always remains selected. Click or drag to select the item.
+      To deselect an item, select another item.
+      取值 'extended — One or more items always remain selected. Multiple contiguous ranges of items can be selected. Click to select a single item. Click and drag to select a range of items. Press the CTRL key and click to select an additional item or a range of additional items.
+      To deselect an item, press the CTRL key and click the item. CTRL+click also deselects the last selected item.
+      You can also use CTRL+SHIFT to select or deselect a range of items.
+  ?invisible g_invisible — Specifies whether the layout and the fields within are invisible. The default value is nil.
+  ?enabled g_enabled — Specifies whether the fields in the layout are enabled. The default value is t.
+  ?nextField g_nextField — Symbol or string indicating the next field to bring into focus when the Tab key is pressed. If you specify nil or do not specify this argument, the Tab traversal order is determined by the tabOrderIsAddOrder argument of hiCreateAppForm or hiCreateScrollRegion. If the tabOrderIsAddOrder argument is not set or if its value is nil, the default traversal order is based on the form layout --left-to-right and top-to-bottom-- beginning with the field at the top-left corner of the form.
+  ?altRowHilight g_rowHighlight — Specifies whether background of alternate rows in the table should be highlighted. The default is nil, which means that highlight is not enabled.
+
+省略: 参数说明续文 11 条共 12,248 字 → detail="full"（参数名、允许取值与 Default 已保留）
+
+参数正文（条目之外，原文散文，非结构化条目）:
+  Only one item can be selected at a time. Click to select the item.
+  To deselect an item, click it again or select another item.
+  'multiple
+  Multiple items can be selected. Click to select the items.
+  To deselect an item, click it again.
+  'browse
+  One item always remains selected. Click or drag to select the item.
+  To deselect an item, select another item.
+  'extended
+  One or more items always remain selected. Multiple contiguous ranges of items can be selected. Click to select a single item. Click and drag to select a range of items. Press the CTRL key and click to select an additional item or a range o…（已截断 343 字符；detail="full" 取全文）
+
+返回:
+  r_fieldHandle — Handle to the report field.

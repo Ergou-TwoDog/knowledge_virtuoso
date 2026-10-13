@@ -1,0 +1,2 @@
+未找到匹配 prefix='db' keywords='bcCreateRect' 的函数。
+相近的官方函数: dbCreateRect、dbCreateNet、dbCreateArc、dbCreateRuler、dbCreateRoute

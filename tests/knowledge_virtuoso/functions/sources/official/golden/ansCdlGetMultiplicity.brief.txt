@@ -1,0 +1,17 @@
+函数: ansCdlGetMultiplicity
+签名: ansCdlGetMultiplicity(
+S_inst S_master
+S_parent
+)
+=> n_multiplicityFactor
+描述: Controls how multiplicity (converting an instance into multiple instances connected in parallel) is handled for an instance in the design when the ansCdlHnlPrintInst function is specified as a netlist procedure in the CDF for the master of the instance.
+You can specify that an instance should be treated as n instances connected in parallel by specifying n as the value of the m or M property on the instance. For example, you can specify that an instance be treated as five instances connected in parallel by specifying 5 as the value of the m or M property on the instance. By default the ansCdlHn…（已截断 455 字符；detail="full" 取全文）
+来源: skartistref/chap4.html
+
+参数:
+  S_inst — Database ID of the current instance being printed in the netlist.
+  S_master — Database ID of the switch master of the current instance being printed in the netlist.
+  S_parent — Database ID of the cell for the current instance being printed in the netlist.
+
+返回:
+  n_multiplicityFactor — Multiplicity factor.

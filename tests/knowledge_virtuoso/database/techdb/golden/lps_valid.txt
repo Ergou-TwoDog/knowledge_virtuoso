@@ -1,0 +1,6 @@
+匹配 3 个 tech 属性:
+  name                      type       所属类
+  ------------------------- ---------- ------------------------------
+  allowSetToValid           boolean    layers,purposeDefs,lps
+  allowSetToValidInSession  boolean    layers,purposeDefs,lps
+  valid                     boolean    layers,purposeDefs,lps

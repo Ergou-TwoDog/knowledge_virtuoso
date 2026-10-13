@@ -1,0 +1,14 @@
+函数: ciConUprevCellBoundary
+签名: ciConUprevCellBoundary(
+d_cellView
+)=> t / nil
+状态: 已弃用（Cadence 文档仍保留该可调用函数）
+描述: Converts deprecated boundaryArea and areaUtilization constraints to cellBoundary constraints.
+来源: constraintsSKILL/constskillFunctions.html
+
+参数:
+  d_cellView — The name of the cellview.
+
+返回:
+  t — Successfully converted old constraints.
+  nil — No boundaryArea or areaUtilization constraints were found.

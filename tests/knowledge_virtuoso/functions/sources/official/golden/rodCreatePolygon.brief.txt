@@ -1,0 +1,82 @@
+函数: rodCreatePolygon
+签名: rodCreatePolygon( [ ?name
+S_name ][ ?layer txl_layer ]
+[ ?pts l_pts ]
+[ ?cvId d_cvId ]
+[ ?fromObj Rl_fromObj ]
+[ ?size txf_size ]
+[ ?prop l_prop ]
+; ROD Connectivity Arguments for Polygons
+[ ?netName S_netName ]
+[ ?termName S_termName ]
+[ ?termIOType S_termIOType ]
+[ ?pin g_pin ]
+[ ?pinAccessDir tl_pinAccessDir ]
+[ ?pinLabel g_pinLabel ]
+[ ?pinLabelHeight n_pinLabelHeight ]
+[ ?pinLabelLayer txl_pinLabelLayer ]
+[ ?pinLabelFont S_pinLabelFont ]
+[ ?pinLabelDrafting g_pinLabelDrafting ]
+[ ?pinLabelOrient S_pinLabelOrient ]
+[ ?pinLabelOffsetPoint l_pinLabelOffsetPoint ]
+[ ?pinLabelJust S_pinLabelJust ]
+[ ?pinLabelRefHandle S_pinLabelRefHandle ]
+);end rodCreatePolygon
+=> R_rodObj / nil
+描述: Creates one polygon from a list of points or from one or more named objects. Also creates a ROD object containing information associated with the polygon, including its name and database ID. The associated ROD object is identified by a ROD object ID. The polygon is created at level zero in the hierarchy. You can assign a property name and value, or a list of property names and values, to the polygon. You can specify connectivity for the polygon by associating it with a specific terminal and net. You can also make the polygon into a pin.
+When you specify two or more existing named objects as th…（已截断 554 字符；detail="full" 取全文）
+来源: rodskillref/chap1.html
+
+参数:
+  校验: 签名 21 个 ?参数 / 参数表 7 条；签名有而参数表未列: ?netName ?termName ?termIOType ?pin ?pinAccessDir ?pinLabel ?pinLabelHeight ?pinLabelLayer ?pinLabelFont ?pinLabelDrafting ?pinLabelOrient ?pinLabelOffsetPoint ?pinLabelJust ?pinLabelRefHandle
+  ?name S_name — Symbol or character string specifying the name for the polygon. Enclose character strings in quotation marks (""); precede symbols with a single quotation mark (`). ROD converts symbols to character strings.
+    The name must be unique for the cellview. When you do not specify a name, the system assigns a unique name, consisting of the prefix polygon, followed by a number. For example, for the first unnamed polygon in a cellview, the system assigns the name polygon0, if unique; for the second, polygon1, and so on.
+    Default: polygonn
+  ?layer txl_layer — Text string, integer, or list specifying the layer or layer-purpose pair for the polygon, such as
+    ?layer "metal1"
+    ?layer 45
+    ?layer list("metal1" "drawing")
+    Enclose string values in quotation marks. Do not use a symbol. For lists, use the following format:
+    list( layer purpose )
+    Examples of layer-purpose pairs:
+    ?layer list("metal1" "drawing")
+    ?layer list(45 252)
+    ?layer list(45 "drawing")
+    ?layer list("metal1" 252)
+    You are required to specify a layer.
+    Default Purpose: drawing
+  ?pts l_pts — List of points defining the edges of the polygon. Specify a point for the beginning and end of the first edge and the end of subsequent edges. The system creates a closed shape by connecting the first and last points in the list. You cannot create a polygon with self-intersecting edges.
+    The system discards duplicate points and excess collinear points without considering them errors. However, you must specify at least three noncoincident, noncollinear points. Coincident points have the same coordinate values. Collinear points are on the same line. If you specify more than two points on the same line, the system uses only the first and last points specified. An example of excess collinear points is 0:10, 0:20, and 0:30, where the system discards 0:20. Use one of the following formats:
+    list( x:y x:y ... )
+    or
+    list( list(x y) list(x y) ... )
+    You must specify either l_pts or Rl_fromObj. If you specify both, the system ignores the l_pts argument.
+    Default: none
+  ?cvId d_cvId — Database ID for the cellview in which you are creating a ROD path. If rodCreatePath occurs in the body of a pcDefinePCell function or tcCreateCDSDeviceClass function call, the default value is pcCellView or tcCellView, respectively; otherwise, this argument is required.
+    Default: none
+  ?fromObj Rl_fromObj — ROD object ID or list of ROD object IDs identifying a named object or list of named objects that you want to use as a source for creating a new ROD polygon. The source objects can be instances, rectangles, polygons, paths, lines, dots, labels, and/or text-display objects. You must specify either the Rl_fromObj argument or the l_pts argument. If you specify both, the system ignores the l_pts argument.
+    Default: none
+  ?size txf_size — A signed integer, floating-point number, or Cadence SKILL language expression specifying the difference between the size of the source object (Rl_fromObj) and the size of the generated polygon. When the source is more than one object, txf_size specifies the difference between a bounding box around all of the objects and the size of the generated polygon.
+    A positive number creates a polygon that is larger than the source object(s); a negative number creates a polygon that is smaller than the source object(s). When you specify a SKILL expression, it must evaluate to a positive or negative integer or floating-point number. SKILL expressions are evaluated only when the new polygon is created.
+    If you specify a source object (Rl_fromObj) but do not specify txf_size, then txf_size defaults to 0.0. If you specify txf_size, you must also specify Rl_fromObj, or the system issues a warning message and the function fails.
+    Default: 0.0
+  ?prop l_prop — A list or lists of lists, where each list contains the name of a property and its value. When the property name is a string, enclose it in quotes. For a description of the valid data types, see the "About the Add Property Form" in the Virtuoso Layout Suite L User Guide. For Boolean properties, the value must be t or nil. For example, you would specify a single Boolean property as follows:
+    ?prop list("myProp" t)
+    and a list of properties as follows:
+    ?prop list(
+    list("myProp1" propValue1)
+    list("myProp2" propValue2)
+    ...
+    list("myPropN" propValueN)
+    )
+    For a more detailed description about specifying lists of lists, see Formatting List-of-Lists Arguments for Subparts.
+    Default: nil
+  子参数 [ROD Connectivity Arguments for Polygons]:
+
+参数正文（条目之外，原文散文，非结构化条目）:
+  ROD Connectivity Arguments for Polygons
+  The connectivity arguments for polygons are the same as the connectivity arguments for rectangles. See ROD Connectivity Arguments for Rectangles (rodRectConnectivityArgs).
+
+返回:
+  R_rodObj — The ROD object ID for the polygon that was created.
+  nil — No polygon was created due to an error.

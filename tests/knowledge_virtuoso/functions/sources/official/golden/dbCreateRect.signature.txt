@@ -1,0 +1,5 @@
+函数: dbCreateRect
+签名: dbCreateRect(
+d_cellView txl_layerPurposel_bBox
+)
+=> d_rect / nil

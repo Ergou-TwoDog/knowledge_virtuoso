@@ -1,0 +1,88 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "dbCreateRect(\nd_cellView txl_layerPurposel_bBox\n)\n=> d_rect / nil",
+   "shared_from": null
+  }
+ ],
+ "where": {
+  "file": "skdfref/chap2.html",
+  "topic": "dbCreateRect",
+  "marker_text": "dbCreateRect",
+  "anchor": "dbCreateRect"
+ },
+ "also_at": [],
+ "sections": {
+  "description": {
+   "text": "Creates a rectangle."
+  },
+  "arguments": {
+   "root": {
+    "title": null,
+    "items": [
+     {
+      "name": "d_cellView",
+      "desc": "The cellview.",
+      "values": null
+     },
+     {
+      "name": "txl_layerPurpose",
+      "desc": "Name, number, or a list of layer or layer-purpose pair.\nFor more information, see Type txl_layerPurpose.",
+      "values": null
+     },
+     {
+      "name": "l_bBox",
+      "desc": "Defines the lower left and upper right corners of the bounding box.",
+      "values": null
+     }
+    ]
+   },
+   "lists": [],
+   "text": "d_cellView\nThe cellview.\ntxl_layerPurpose\nName, number, or a list of layer or layer-purpose pair.\nFor more information, see Type txl_layerPurpose.\nl_bBox\nDefines the lower left and upper right corners of the bounding box."
+  },
+  "returns": {
+   "items": [
+    {
+     "value": "d_rect",
+     "desc": "The dbObject of the rectangle."
+    },
+    {
+     "value": "nil",
+     "desc": "The rectangle is not created."
+    }
+   ],
+   "text": "d_rect\nThe dbObject of the rectangle.\nnil\nThe rectangle is not created."
+  },
+  "example": {
+   "text": "dbCreateRect(cv list(87 \"pin\") list(0:0 6.3:8.7))"
+  }
+ },
+ "field_status": {
+  "description": "present",
+  "arguments": "present",
+  "returns": "present",
+  "example": "present",
+  "reference": "not_documented",
+  "related_functions": "not_documented",
+  "prerequisites": "not_documented",
+  "additional_information": "not_documented",
+  "interactive_function": "not_documented",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "not_documented",
+  "overview": "not_documented",
+  "errors": "not_documented",
+  "decl": "present"
+ },
+ "status": "active",
+ "prefix": "db",
+ "tokens": [
+  "db",
+  "create",
+  "rect"
+ ],
+ "name": "dbCreateRect"
+}

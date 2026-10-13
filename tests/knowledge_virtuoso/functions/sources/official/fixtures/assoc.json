@@ -1,0 +1,98 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "assv(\ng_key l_alist\n)\n=> l_association / nil",
+   "shared_from": "assoc, assq, assv"
+  }
+ ],
+ "where": {
+  "file": "sklangref/datastruct.html",
+  "topic": "assoc, assq, assv",
+  "marker_text": "assoc, assq, assv",
+  "anchor": "assoc"
+ },
+ "also_at": [],
+ "sections": {
+  "description": {
+   "text": "The assoc, assq, and assv functions find the first list in l_alist whose car field is g_key and return that list. assq uses eq to compare g_key with the car fields of the lists in alist. assoc uses equal. assv uses eqv.\nThe association list, l_alist, must be a list of lists. An association list is a standard data structure that has the form ((key1 value1) (key2 value2) (key3 value3) ...). These functions find the first list in l_alist whose car field is g_key and return that list. assq uses eq to compare g_key with the car fields of the lists in l_alist. assv uses eqv. assoc uses equal."
+  },
+  "arguments": {
+   "root": {
+    "title": null,
+    "items": [
+     {
+      "name": "g_key",
+      "desc": "An arbitrary object as the search key.",
+      "values": null
+     },
+     {
+      "name": "l_alist",
+      "desc": "Association list. Must be a list of lists.",
+      "values": null
+     }
+    ]
+   },
+   "lists": [],
+   "text": "g_key\nAn arbitrary object as the search key.\nl_alist\nAssociation list. Must be a list of lists."
+  },
+  "returns": {
+   "items": [
+    {
+     "value": "l_association",
+     "desc": "The returned list is always an element of l_alist."
+    },
+    {
+     "value": "nil",
+     "desc": "If no list in l_alist has g_key, as its car."
+    }
+   ],
+   "text": "l_association\nThe returned list is always an element of l_alist.\nnil\nIf no list in l_alist has g_key, as its car."
+  },
+  "example": {
+   "text": "e = '((a 1) (b 2) (c 3))\n(assq 'a e) => (a 1)\n(assq 'b e) => (b 2)\n(assq 'd e) => nil\n(assq (list 'a) '(((a)) ((b)) ((c)))) => nil\n(assoc (list 'a) '(((a)) ((b)) ((c)))) => ((a))\n(assv 5 '((2 3) (5 7) (11 13))) => (5 7)"
+  },
+  "reference": {
+   "text": "eq, equal, eqv",
+   "links": [
+    {
+     "text": "eq",
+     "href": "logicalrel.html#1038850"
+    },
+    {
+     "text": "equal",
+     "href": "logicalrel.html#1049577"
+    },
+    {
+     "text": "eqv",
+     "href": "logicalrel.html#1038922"
+    }
+   ]
+  }
+ },
+ "field_status": {
+  "description": "present",
+  "arguments": "present",
+  "returns": "present",
+  "example": "present",
+  "reference": "present",
+  "related_functions": "not_documented",
+  "prerequisites": "not_documented",
+  "additional_information": "not_documented",
+  "interactive_function": "not_documented",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "not_documented",
+  "overview": "not_documented",
+  "errors": "not_documented",
+  "decl": "shared_declaration"
+ },
+ "status": "active",
+ "prefix": "",
+ "tokens": [
+  "assoc"
+ ],
+ "name": "assoc"
+}

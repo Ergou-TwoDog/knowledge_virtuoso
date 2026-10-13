@@ -1,0 +1,106 @@
+函数: hiSetCursor
+签名: hiSetCursor( w_windowIdx_cursor )=> t / nil
+来源: skuiref/chap9.html
+
+参数:
+  w_windowId
+  x_cursor
+  x_cursor Constant
+  hicArrow
+    The default pointer cursor
+  hicArrowPadlock
+  hicCreateRuler
+  hicCreateRulerDistance
+  hicCreateRulerEdge
+  hicCross
+  hicFastEdit
+  hicFastEditPadlock
+  hicHand
+  hicHelp
+  hicIbeam
+  hicNo
+  hicSizeAll
+  hicSizeNESW
+  hicSizeNS
+  hicSizeNWSE
+  hicSizeWE
+  hicUpArrow
+  hicWait
+  hicArrowHourglass
+  hicHourglass
+  hicNoCursor
+    The default cursor for the widget (typically the pointer cursor)
+  hicInvertedArrow
+  hicTumblingDice1
+  hicTumblingDice2
+  hicTumblingDice3
+  hicTumblingDice4
+  hicBusyRead
+  hicHourglass1
+  hicHourglass2
+  hicHourglass3
+  hicHourglass4
+  hicHourglass5
+  hicHourglass6
+  hicTCross
+  The following cursor definitions specifically use Qt defined cursor shapes.
+  hicQtArrow
+  hicQtUpArrow
+  hicQtCross
+  hicQtIBeam
+  hicQtWait
+  hicQtBusy
+  hicQtForbidden
+  hicQtPointingHand
+  hicQtWhatsThis
+  hicQtSizeVer
+  hicQtSizeHor
+  hicQtSizeBDiag
+  hicQtSizeFDiag
+  hicQtSizeAll
+  hicQtSplitV
+  hicQtSplitH
+  hicQtOpenHand
+  hiQtClosedHand
+  hicMagnifier
+  hicMagnifierPlus
+  hicMagnifierMinus
+  hicArrowEllipsis
+    An arrow with three dots for the default enterfunction cursor
+  hicArrowMagnifier
+  hicArrowA
+  hicArrowT
+  hicArrowIBeam
+  hicArrowX
+  hicArrowSlashCircle
+  hicArrowRotate
+  hicArrowCopy
+  hicArrowBox
+  hicArrowWire
+  hicArrowPolygon
+  hicArrowDot
+  hicArrowTextWire
+  hicArrowText
+  hicArrowTextBox
+  hicArrowInstance
+  hicArrowPin
+  hicArrowArc
+  hicArrowCircle
+  hicArrowEllipse
+  hicArrowRectangle
+  hicArrowCircleI
+  hicProbe
+  hicSpinCircle
+  hicMove
+  hicStretchE
+  hicStretchN
+  hicStretchW
+  hicStretchS
+  hicStretchNE
+  hicStretchNW
+  hicStretchSE
+  hicStretchSW
+
+返回: t / nil
+
+省略: 参数说明 93 条共 4,705 字 → detail="brief"；示例、补充说明、相关函数、选项说明 → detail="full"

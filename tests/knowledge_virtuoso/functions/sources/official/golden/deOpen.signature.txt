@@ -1,0 +1,4 @@
+函数: deOpen
+签名: deOpen( [
+l_fileSpec [ g_winSpec [ t_accessMode [ t_appName g_sessionWindow g_saveSessionHistory] ] ] ] )
+=> w_window / nil

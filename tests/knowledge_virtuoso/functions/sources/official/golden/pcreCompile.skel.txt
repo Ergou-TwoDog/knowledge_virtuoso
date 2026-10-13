@@ -1,0 +1,19 @@
+函数: pcreCompile
+签名: pcreCompile( t_pattern [ x_options ] ) => o_comPatObj / nil
+来源: sklangref/stringfunc.html
+
+参数:
+  t_pattern
+  PCRE_CASELESS
+  PCRE_MULTILINE
+  PCRE_DOTALL
+  PCRE_EXTENDED
+  PCRE_ANCHORED
+  PCRE_DOLLAR_ENDONLY
+  PCRE_UNGREEDY
+  PCRE_NO_AUTO_CAPTURE
+  PCRE_FIRSTLINE
+
+返回: o_comPatObj / nil
+
+省略: 参数说明 10 条共 958 字 → detail="brief"；示例、补充说明、相关函数、选项说明 → detail="full"

@@ -1,0 +1,11 @@
+函数: error
+签名: error( [ S_message1 [ S_message2 ] ... ] ) => none
+来源: sklangref/funcprog.html
+
+参数:
+  S_message1
+  S_message2
+
+省略: 返回值是原文散文（128 字） → detail="brief"
+
+省略: 参数说明 2 条共 144 字 → detail="brief"；示例、补充说明、相关函数、选项说明 → detail="full"

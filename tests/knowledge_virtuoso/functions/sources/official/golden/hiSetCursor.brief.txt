@@ -1,0 +1,199 @@
+函数: hiSetCursor
+签名: hiSetCursor(
+w_windowIdx_cursor
+)=> t / nil
+描述: Sets the cursor you specify for the window.
+来源: skuiref/chap9.html
+
+参数:
+  w_windowId — The window ID.
+  x_cursor — The integer ID associated with the cursor you want to set. The following table lists the constants that are legal values for this argument, as well as their equivalent X Windows cursors:
+  x_cursor Constant — Description
+    X Windows Equivalent
+  hicArrow — The default pointer cursor
+    XC_left_ptr
+  hicArrowPadlock — A pointer with a lock
+  hicCreateRuler — A pointer with a ruler
+    -
+  hicCreateRulerDistance — A two-sided arrow
+    -
+  hicCreateRulerEdge — A two-sided arrow between edges
+    -
+  hicCross — A multi-lined cross
+    XC_cross
+  hicFastEdit — A pencil with a via pointing to the top-left corner of the window
+  hicFastEditPadlock — A pencil with a lock pointing to the top-left corner of the window
+  hicHand — A hand with index finger extended
+    XC_hand2
+  hicHelp — A question mark with an arrow
+    XC_question_arrow
+  hicIbeam — An "I-beam" text insertion cursor
+    XC_xterm
+  hicNo — A skull and crossbones
+    XC_pirate
+  hicSizeAll — Four connected arrows pointing up/down/left/right
+    XC_fleur
+  hicSizeNESW — Two connected arrows pointing top-right and bottom-left
+    --
+  hicSizeNS — Two arrows pointing top and bottom
+    XC_sb_v_double_arrow
+  hicSizeNWSE — Two connected arrows pointing top-left and bottom-right
+    --
+  hicSizeWE — Two arrows pointing left and right
+    XC_sb_h_double_arrow
+  hicUpArrow — An arrow pointing straight up
+    XC_sb_up_arrow
+  hicWait — An analog wristwatch
+    XC_watch
+  hicArrowHourglass — An hourglass shape
+    --
+  hicHourglass — As above
+    --
+  hicNoCursor — The default cursor for the widget (typically the pointer cursor)
+    --
+  hicInvertedArrow — A pointer cursor with white and black inverted
+    --
+  hicTumblingDice1 — A box with a dot in the upper left corner
+    --
+  hicTumblingDice2 — A box with a dot in the upper right corner
+    --
+  hicTumblingDice3 — A box with a dot in the lower left corner
+    --
+  hicTumblingDice4 — A box with a dot in the lower right corner.
+    Note: The above tumbling dice cursors are used, in turn, to indicate that DFII is busy. They will be displayed when hiGetUserAbort() or voGetUserAbort() is called during long operations.
+    --
+  hicBusyRead — An open book (used for SKILL context loading)
+    --
+  hicHourglass1 — An hourglass just turned over
+    --
+  hicHourglass2 — An hourglass with some sand in the bottom
+    --
+  hicHourglass3 — An hourglass with more sand in the bottom
+    --
+  hicHourglass4 — An hourglass with most of the sand in the bottom
+    --
+  hicHourglass5 — An hourglass with all the sand in the bottom
+    --
+  hicHourglass6 — An hourglass on its side
+    Note: The numbered hourglass cursors are displayed during SKILL garbage collection.
+    --
+  hicTCross — A single line cross
+    XC_tcross
+  The following cursor definitions specifically use Qt defined cursor shapes. — 
+  hicQtArrow — Same as hicArrow
+    XC_left_ptr
+  hicQtUpArrow — An arrow pointing up
+    XC_center_ptr
+  hicQtCross — A single-line crosshair
+    XC_crosshair
+  hicQtIBeam — An I-Beam text cursor
+    XC_xterm
+  hicQtWait — An analog wristwatch
+    XC_watch
+  hicQtBusy — An arrow with an hourglass
+    --
+  hicQtForbidden — A circle with a diagonal line
+    --
+  hicQtPointingHand — A hand with index finger extended
+    XC_hand2
+  hicQtWhatsThis — An arrow with a question mark
+    --
+  hicQtSizeVer — A solid vertical arrow pointing up and down
+    --
+  hicQtSizeHor — A solid horizontal arrow pointing left and right
+    --
+  hicQtSizeBDiag — A solid diagonal arrow pointing down-left and up-right
+    --
+  hicQtSizeFDiag — A solid diagonal arrow pointing down-right and up-left
+    --
+  hicQtSizeAll — Four connected arrows pointing up/down/left/right
+    XC_fleur
+  hicQtSplitV — Two horizontal lines with up/down arrows
+    --
+  hicQtSplitH — Two vertical lines with left/right arrows
+    --
+  hicQtOpenHand — A hand with fingers extended
+    --
+  hiQtClosedHand — A hand with fingers curled up
+    --
+  hicMagnifier — A magnifying glass that can be used with the Zoom command (the hotspot being the center of the magnifying glass)
+    --
+  hicMagnifierPlus — A magnifying glass that can be used with the Zoom-In command (the hotspot being the center of the "+")
+    --
+  hicMagnifierMinus — A magnifying glass that can be used with the Zoom-Out command (the hotspot being the center of the "-")
+    --
+  hicArrowEllipsis — An arrow with three dots for the default enterfunction cursor
+    --
+  hicArrowMagnifier — An arrow with a magnifier for the Zoom command
+    --
+  hicArrowA — An arrow with an "A" for a label or other text
+    --
+  hicArrowT — An arrow with a "T" for direct text edit
+    --
+  hicArrowIBeam — An arrow with an I-Beam for direct text edit
+    --
+  hicArrowX — An arrow with a X for the Delete command
+    --
+  hicArrowSlashCircle — An arrow with a "forbidden" glyph
+    --
+  hicArrowRotate — An arrow with a "rotation" glyph
+    --
+  hicArrowCopy — An arrow with a glyph that represents copying.
+    --
+  hicArrowBox — An arrow with a box that represents moving or stretching
+    --
+  hicArrowWire — An arrow with a zig-zag line that represents drawing a wire or a path
+    --
+  hicArrowPolygon — An arrow with a polygon
+    --
+  hicArrowDot — An arrow with a dot that represents a solder dot
+    --
+  hicArrowTextWire — An arrow with a glyph used for "create wire name"
+    --
+  hicArrowText — An arrow with a glyph used for "create label"
+    --
+  hicArrowTextBox — An arrow with text in a box
+    --
+  hicArrowInstance — An arrow with a glyph for "create instance"
+    --
+  hicArrowPin — An arrow with a "pin" glyph
+    --
+  hicArrowArc — An arrow with an arc
+    --
+  hicArrowCircle — An arrow with a circle
+    --
+  hicArrowEllipse — An arrow with an ellipse
+    --
+  hicArrowRectangle — An arrow with a rectangle
+    --
+  hicArrowCircleI — An arrow with an "i" in a circle
+    --
+  hicProbe — A "probe" cursor
+    --
+  hicSpinCircle — A cursor to indicate that a command is running (the hotspot being the center of the circle)
+    --
+  hicMove — A cursor that represents moving.
+    --
+  hicStretchE — A cursor that represents stretching East.
+    --
+  hicStretchN — A cursor that represents stretching North.
+    --
+  hicStretchW — A cursor that represents stretching West.
+    --
+  hicStretchS — A cursor that represents stretching South.
+    --
+  hicStretchNE — A cursor that represents stretching North-East.
+    --
+  hicStretchNW — A cursor that represents stretching North-West.
+    --
+  hicStretchSE — A cursor that represents stretching South-East.
+    --
+  hicStretchSW — A cursor that represents stretching South-West.
+    --
+
+参数正文（条目之外，原文散文，非结构化条目）:
+  The following cursors are not part of the standard cursor set but can still be desirable to depict certain operations, including enterfunctions (see hiSetEFunCursor).
+
+返回:
+  t — The cursor was set.
+  nil — The cursor was not set.

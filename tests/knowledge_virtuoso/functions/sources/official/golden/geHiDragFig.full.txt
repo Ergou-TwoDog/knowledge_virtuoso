@@ -1,0 +1,68 @@
+函数: geHiDragFig
+签名: geHiDragFig(
+w_windowID r_form
+t_srcPrompt
+t_dstPrompt
+t_cmdName
+t_SelSet
+g_useMultiWindow
+[ l_firstPoint ])
+描述: Used in conjunction with other SKILL functions to implement the dragging of selected database figures.
+来源: skdfref/chap1.html
+
+参数:
+  w_windowID — Window ID.
+  r_form — Form data structure.
+    Valid Values: hiGetCurrentForm or any other valid form of data structure if there is a form, 0 if there is no form.
+  t_srcPrompt — Prompt string for the origin or source point.
+  t_dstPrompt — Prompt string for the destination point.
+  t_cmdName — The command name depends on the dragging action you desire, such as copy, move, or stretch. The command name could be any string or empty string, and the behavior is the same.
+    Valid Values: Copy, Move, Stretch, or any other string or empty string.
+  t_SelSet — Specifies which selected set or object's image is to be dragged. Its value could be a selected set, a selected object, or nil. In each case, the return value is the same. It prompts you to specify the first point with the mouse (source point in source cellview), then it prompts you to specify the second point with the mouse (destination point in the destination cellview).
+    The return value is a list:
+    ((source_point_CV source_point_coordination)(destination_point_CV destination_point_coordination))
+    If the argument is nil, a dragging image does not appear on the screen; otherwise, a dragging image appears and can be moved with the mouse. You can use geGetSelSet to get the value of the selected set or object. It returns nil if nothing is selected.
+    Valid Values: geGetSelSet or any valid selected set or nil.
+  g_useMultiWindow — Supports multiple windows. If you set this argument to nil, you cannot use snap mode. If you set this argument to t, the snap mode is only respected in the source window.
+    Valid Values: t (supports multiple windows), nil (does not support multiple windows).
+  l_firstPoint — First source point specified as a list.
+
+示例:
+  selSet = geGetSelSet()
+  geHiDragFig(window(2) 0 "Enter Origin Point" "Enter Destination Point" "Copy" selSet t)
+  The example above returns the value
+  ((db:21429292 (-0.4375 0.8125))
+  (db:21429292 (-0.4375 -0.1875))
+  )
+  selSet = geGetSelSet()
+  geHiDragFig(window(2) hiGetCurrentForm() "Enter Origin Point"
+  "Enter Destination Point" "Copy" selSet t)
+  The example above returns the value
+  ((db:21429292 (-0.5 0.8125))
+  (db:21429292 (-0.4375 -0.3125))
+  )
+  Multi-Window Example:
+  selSet = geGetSelSet()
+  geHiDragFig(window(2) hiGetCurrentForm() "Enter Origin Point"
+  "Enter Destination Point" "Move" selSet t)
+  nil
+  >
+  hiSetCurrentWindow(window(2))
+  t
+  mouseAddPt()
+  -0.25:0.875
+  t
+  hiSetCurrentWindow(window(3))
+  t
+  mouseAddPt()
+  1.5:-1.125
+  t
+  (
+  (db:21267500
+  (-0.25 0.875)
+  )
+  (db:21258284
+  (1.5 -1.125)
+  )
+  )
+  The image which is dragged into another window is just an image, not a real object. You cannot select or save it. The window is not edited. It disappears after you use the redraw or the fit command.

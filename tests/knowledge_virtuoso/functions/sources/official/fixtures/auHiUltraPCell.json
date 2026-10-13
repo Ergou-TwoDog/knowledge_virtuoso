@@ -1,0 +1,82 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "auHiUltraPCell([\nt_filename ])\n=> t / nil",
+   "shared_from": null
+  }
+ ],
+ "where": {
+  "file": "skpcellref/graphicalFunctions.html",
+  "topic": "auHiUltraPCell",
+  "marker_text": "auHiUltraPCell",
+  "anchor": "auHiUltraPCell"
+ },
+ "also_at": [],
+ "sections": {
+  "description": {
+   "text": "Displays the Ultra Pcell form to let you create an Ultra Pcell by compiling multiple Pcells into one cell. Optionally, you can save the Ultra Pcell SKILL code in a file by specifying the t_filename argument. For a description of Ultra Pcells, see the Make Ultra Pcell Command in the Virtuoso Parameterized Cell Reference."
+  },
+  "arguments": {
+   "root": {
+    "title": null,
+    "items": [
+     {
+      "name": "t_filename",
+      "desc": "Filename (or path and filename) in which you want to save the SKILL code output by the Make Ultra Pcell command.",
+      "values": null
+     }
+    ]
+   },
+   "lists": [],
+   "text": "t_filename\nFilename (or path and filename) in which you want to save the SKILL code output by the Make Ultra Pcell command."
+  },
+  "returns": {
+   "items": [
+    {
+     "value": "t",
+     "desc": "The form opened, and optionally, the SKILL file was created."
+    },
+    {
+     "value": "nil",
+     "desc": "The form did not opened or the SKILL file was not created;."
+    }
+   ],
+   "text": "t\nThe form opened, and optionally, the SKILL file was created.\nnil\nThe form did not opened or the SKILL file was not created;."
+  },
+  "example": {
+   "text": "auHiUltraPCell( \"myUltraPcell.il\" )\nCreates an Ultra Pcell, saving the Pcell code in the file named myUltraPcell.il."
+  },
+  "prerequisites": {
+   "text": "Ultra Pcells have the following requirements:\nMultiple Pcell layouts need not be in the same cell, although they must be in the same library as the completed ultra Pcell.\nEach Pcell must compile successfully.\nEach Pcell must have identical parameters and default values. No Pcell can have more or fewer or different parameters from the other Pcells. When the Ultra Pcell is compiled, it has all of the parameters, which work as designed in each Pcell.\nThe selector parameter must be unique. It cannot match any other parameter.\ntype, objType, name, cell, and status are reserved words and cannot be used as selector parameters."
+  }
+ },
+ "field_status": {
+  "description": "present",
+  "arguments": "present",
+  "returns": "present",
+  "example": "present",
+  "reference": "not_documented",
+  "related_functions": "not_documented",
+  "prerequisites": "present",
+  "additional_information": "not_documented",
+  "interactive_function": "not_documented",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "not_documented",
+  "overview": "not_documented",
+  "errors": "not_documented",
+  "decl": "present"
+ },
+ "status": "active",
+ "prefix": "au",
+ "tokens": [
+  "au",
+  "hi",
+  "ultra",
+  "cell"
+ ],
+ "name": "auHiUltraPCell"
+}

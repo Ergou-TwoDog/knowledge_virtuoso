@@ -1,0 +1,2 @@
+ciConUprevCellBoundary（已弃用） | ciConUprevCellBoundary( d_cellView )=> t / nil | Converts deprecated boundaryArea and areaUtilization constraints to cellBoundary constraints. | 返回: t, nil | constraintsSKILL/constskillFunctions.html
+省略: 参数说明；示例与补充说明 → detail="skel" / "brief" / "full"

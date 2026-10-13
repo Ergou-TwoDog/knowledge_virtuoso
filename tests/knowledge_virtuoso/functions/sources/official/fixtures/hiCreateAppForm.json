@@ -1,0 +1,243 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "hiCreateAppForm(\n?name s_name ?fields l_fieldEntries\n[ ?attachmentList l_fieldAttachments ]\n[ ?tabOrderIsAddOrder g_tabOrderIsAddOrder ]\n[ ?formTitle t_formTitle ]\n[ ?callback g_callback ]\n[ ?unmapAfterCB g_unmapAfterCB ]\n[ ?mapCB g_mapCallback ]\n[ ?formType s_formType ]\n[ ?dialogStyle s_dialogStyle ]\n[ ?buttonLayout g_buttonLayout ]\n[ ?buttonDisabled s_buttonDisabled ]\n[ ?help g_help ]\n[ ?initialSize g_initialSize ]\n[ ?minSize g_minSize ]\n[ ?maxSize g_maxSize ]\n[ ?dontBlock g_dontBlock ]\n[ ?fieldFocus s_fieldFocus ]\n[ ?plist g_plist ]\n[ ?baseName s_baseName ]\n)\n=> r_form",
+   "shared_from": null
+  }
+ ],
+ "where": {
+  "file": "skuiref/chap8.html",
+  "topic": "hiCreateAppForm",
+  "marker_text": "hiCreateAppForm",
+  "anchor": "hiCreateAppForm"
+ },
+ "also_at": [],
+ "sections": {
+  "description": {
+   "text": "Returns the SKILL representation of a form with the specified field entries, setting it to the specified name. All standard forms, from simple forms to property lists, are generated using hiCreateAppForm, with varying field entries. Use this function instead of hiCreateForm.\nNote: Do not use any predefined property names (of HI forms, tab fields, tab pages, or scroll regions) as field names on your forms. Using the predefined names results in an error. To avoid the error, it is recommended that you either use a different field name or add a non-Cadence style prefix to the field name. Cadence adds prefixes that begin with an underscore (\"_\") or a lowercase letter to field names as a standard style."
+  },
+  "arguments": {
+   "root": {
+    "title": null,
+    "items": [
+     {
+      "name": "?name s_name",
+      "desc": "Global SKILL symbol used to reference this form.\nNote: Do not use the same symbol to reference different forms.",
+      "values": null
+     },
+     {
+      "name": "?fields l_fieldEntries",
+      "desc": "List of field descriptors returned from the field creation routines. You must use at least one field entry. There is no upper limit on the number of field entries you specify.\nBy default, the fields appear in a column on the form, in the order in which they are listed. To manipulate the order and position of form fields, use two-dimensional attributes. If you use two-dimensional attributes, each field entry for l_fieldEntries will be a list containing a field descriptor and the two-dimensional attributes for that field. For example, a field entry could be:\nlist (buttonField x:y width:height)\nFor details about two-dimensional attributes, see Two Dimensional Form Layout.\nNote: If you are creating a form that supports field attachments (so that fields are automatically resized when you resize the form), you must specify two-dimensional attributes for each field entry in l_fieldEntries.",
+      "values": null
+     },
+     {
+      "name": "?attachmentList l_fieldAttachments",
+      "desc": "List of field attachments. Field attachments determine how the two-dimensional attributes for a field are used to position that field in the form. The first field attachment is applied to the first field in l_fieldEntries, the second to the second field, and so forth. You must have the same number of attachments in l_fieldAttachments as the number of fields in l_fieldEntries. If you do not want to specify a field attachment for a field, use nil or 0.\nEach field attachment in l_fieldAttachments consists of a bitwise OR of a list of constants. Each constant is a specification for a side of the field (left, right, top, and bottom). These attachment specifications for the sides of a field can be positional or percentage attachments.\nFor example, an l_fieldAttachments list could be:\n(constant | constant | constant | constant constant | constant nil constant | constant | constant)\nFor details about field attachments and how to use positional and percentage constants, see Field Attachments.\nIf you use the field attachments argument, you must specify the following:\nThe g_initialSize argument as a list of width and height.\nTwo-dimensional attributes for each field entry in the l_fieldEntries argument.",
+      "values": null
+     },
+     {
+      "name": "?tabOrderIsAddOrder g_tabOrderIsAddOrder",
+      "desc": "t or nil. Determines the order in which fields are traversed when the Tab key is pressed. If you specify t, the nextField property is automatically set for the fields and the traversal order is the order in which fields are added to the form (that is, the order in which they are listed in the l_fieldEntries list). If you specify nil, the traversal order is based on the form layout --left-to-right and top-to-bottom-- beginning with the field in the top left corner of the form. The default value of g_tabOrderIsAddOrder is nil.\nNote: The nextField property set on a field (to any non-nil value) overrides the g_tabOrderIsAddOrder value.",
+      "values": null
+     },
+     {
+      "name": "?formTitle t_formTitle",
+      "desc": "Name that appears in the window manager banner of the form.",
+      "values": null
+     },
+     {
+      "name": "?callback g_callback",
+      "desc": "Used to specify the SKILL functions (callbacks) that execute after you select Apply, OK, or Cancel in the form.\ng_callback can be in one of two formats:\ng_okAction\nor\n'(g_okAction g_cancelAction)\ng_okAction specifies the SKILL function to be executed when the Apply, OK, Close, or Quit button is pressed in a form; g_cancelAction specifies the SKILL function to be executed when the Cancel button is pressed. (Here, if g_cancelAction is not specified, no callback will be called when the form is canceled.)\nBoth g_okAction and g_cancelAction can be in one of the following formats:\nt_callback, s_callback, or u_callback\nt_callback is the string representation of the SKILL function to be executed. If you specify t_callback, the string is evaluated and the callback function is not passed any argument. s_callback is the symbol of the SKILL function to be called. If you specify s_callback, the callback function will be passed and the r_form returned from hiCreateAppForm as its only parameter. u_callback is a callback of function object type. The callback function will be passed the r_form returned from hiCreateAppForm as its only parameter.\nAfter the form is instantiated, you can change the callback with the hiChangeFormCallback function.\nNote: See also the description of the g_buttonLayout argument.",
+      "values": null
+     },
+     {
+      "name": "?unmapAfterCB g_unmapAfterCB",
+      "desc": "If set to t, the form is removed (unmapped) from the screen after the user's callback is executed. If set to nil, the form is removed before the callback is invoked. The default value is nil. If you use hiSetCallbackStatus in your callback routine, you must set the value of g_unmapAfterCB to t or the callback status will be ignored.",
+      "values": null
+     },
+     {
+      "name": "?mapCB g_mapCallback",
+      "desc": "Specifies the callback to be invoked when the form is mapped, that is, when hiDisplayForm is called for a form that is not currently mapped. Specify either the name (string), symbol of the map callback function, or the function object.\nNote: The map callback argument does not apply to forms that are displayed in windows.",
+      "values": null
+     },
+     {
+      "name": "?formType s_formType",
+      "desc": "Possible choices include 'nonoptions (default), or 'options. Options forms must be modeless.",
+      "values": null
+     },
+     {
+      "name": "?dialogStyle s_dialogStyle",
+      "desc": "One of the following symbols, which determines the blocking behavior of the form:\n'modal\nBlocks access to the application while it is displayed. The user must dismiss the form in order to continue using the application. (Access to window manager commands or other applications is not blocked.)\n'modeless\nDoes not block access to the application. The user can continue using the application without having to close the form.\nThe default value of this argument is 'modeless.\nNote: The 'systemModal option that was available in releases prior to IC 5.2.51 is no longer available. The 'systemModal option blocked not only the application that displayed the dialog box but all system processes. Any existing 'systemModal setting will now be interpreted as 'modal.",
+      "values": null
+     },
+     {
+      "name": "?buttonLayout g_buttonLayout",
+      "desc": "Used to specify the buttons that appear at the bottom of the form. g_buttonLayout can be in one of the following formats:\ns_buttonLayout\nDisplays a predefined set of buttons, followed by the Help button. You can select from a list of button layouts.\n'(s_buttonLayout (s_customButtonText s_customButtonCB) ...)\nDisplays a predefined set of buttons, followed by your custom buttons and the Help button. Custom buttons are specified as button text/button callback pairs.\n'('Empty (s_customButtonText s_customButtonCB) ...)\nDisplays only your custom buttons, followed by the Help button. Custom buttons are specified as button text/button callback pairs.\nNote: Specify either OK, Close, or Quit as one of the button names in your list of custom buttons so the form can be closed. You can use hiFormClose() as the callback for these buttons.\n'Empty\nDoes not display any buttons in the form.\nThe form can be closed either through the window manager or by calling hiFormDone().\ns_buttonLayout specifies a predefined set of buttons. The Help button is automatically added with each of these combinations. Select one of the following button layouts:\nFor non-options forms:\n'OKCancel\n'OKCancelDef\n'OKCancelLast\n'OKCancelDefLast\n'OKCancelApply\n'ApplyCancel\n'ApplyCancelDef\n'ApplyCancelLast\n'ApplyCancelDefLast\n'Close/'Quit\n'OKCancelDefApply (default)\nFor options forms:\n'HideCancel\n'HideCancelDef\n'HideCancelLast\n'HideCancelDefLast (default)\n'ApplyHideCancel\n'ApplyHideCancelDef\n'ApplyHideCancelLast\n'ApplyHideCancelDefLast\nwhere:\nOK denotes the OK button (hiFormDone is called when this button is pressed, and hiFormDone calls the g_okAction callback);\nApply denotes the Apply button (hiFormApply is called when this button is pressed, and hiFormApply calls the g_okAction callback);\nCancel denotes the Cancel button (hiFormCancel is called when this button is pressed, and hiFormCancel calls the g_cancelAction callback);\nClose denotes the Close or Quit button (hiFormClose is called when this button is pressed, and hiFormClose calls the g_okAction callback. Here the Close and Quit buttons are similar to the OK button; hiFormClose is an alias for hiFormDone);\nLast denotes the Last button;\nDef denotes the Defaults button;\nHide denotes the Hide button.\nNote: If there is no Cancel button on a form but there is a Close or Quit button, when you close the form from the window manager or by typing hiFormCancel in the CIW, hiFormDone is called.\nFor custom buttons, following s_buttonLayout or 'Empty should be lists consisting of button text/button callback pairs:\n'(s_customButtonText s_customButtonCB)\ns_customButtonText is the symbol whose printname is the button text. For example, to have a button \"Press Me\", s_customButtonText would be specified as 'Press\\ Me.\nTip: You can use concat(\"string\") to get the symbol of a string.\ns_customButtonCB is the callback for the button and can be specified as a symbol or string. If it is a symbol, the callback function will be passed the r_form returned from hiCreateAppForm as its only argument. If it is a string, the unchanged string will be passed to SKILL to interpret.\nEnter: Pressing Enter, <Enter>, performs the same action as the first button of the form button list. This is usually hiFormDone() for non-options forms and hiToggleEnterForm() for options forms. If you specify your own button list, you need to be aware that the action of <Enter> will change. For example, if your button list is\n'ApplyCancelDef, the action of <Enter> in a type-in field performs the hiFormApply() action.\nYou can also customize this feature by specifying the button that you want to link to Enter. You do this setting the following environment variable in your .cdsenv file:\nui formDefaultAction string \"value\"\nwhere value is the buttonText of the button that you want to link to <Enter>.\nWhen this variable is set, the g_buttonLayout argument is searched for the button whose text equals the value of the variable. The first button that is found becomes the default button.\nIf the specified value is not found in g_buttonLayout, then <Enter> performs the same action as the first button of the form button list.",
+      "values": null
+     },
+     {
+      "name": "?buttonDisabled s_buttonDisabled",
+      "desc": "List of buttons that are disabled when the form appears. You can change this value with the hiSetFormButtonEnabled function.",
+      "values": null
+     },
+     {
+      "name": "?help g_help",
+      "desc": "Specify g_help as a single string, single symbol, list of strings, or list of symbols that will be used to reference a .tgf help file. (If you do not want to use the default .tgf help file mechanism, you can specify your own callback for the Help button; see Specifying Your Own Callback.)\nIf you specify a single string or symbol, it is used to set the hiHelpAppName property on the symbol that represents the form name. If you specify a list of strings or a list of symbols, the first element in the list is used to set the hiHelpAppName property and the second element is used to set the hiHelpSymName property.\n(If you want to specify the help symbol only, specify a list of two strings or symbols, with nil as the first element of the list and the help symbol as the second element. This sets the hiHelpSymName property without setting the hiHelpAppName property.)\nWhen a user clicks Help on the form, the hiHelp function is called with the following arguments:\nappId helpTag\nIf the hiHelpAppName property has been set, it is used as the appId, otherwise the application ID of the current window is used as the appId. If the hiHelpSymName property has been set, it is used as the helpTag, otherwise the form name is used as the helpTag.\nThe appId and helpTag determine the name of the tag file that is called (appId.tgf) and the help tag in the file that is accessed.\nNote: You can also use the hiHelpAppName and hiHelpSymName properties directly to specify the help file and help tag that are used to reference the help.",
+      "values": null
+     },
+     {
+      "name": "?initialSize g_initialSize",
+      "desc": "The size of the form when it first appears. g_initialSize accepts the following values:\nA list of width and height. The form is sized to the specified width and height or to the size needed to accommodate all the fields, whichever is less.\nA symbol representing a field in the form. The form is sized to include the field but exclude any other fields to the right of and below the specified field.\nt. The form is sized to fit all fields, or to the size of the screen, whichever is smaller.\nNote: If you are creating a form that supports field attachments (so that fields are automatically resized when you resize the form), you must specify the g_initialSize argument and it must be a list of width and height.\nFor forms that have field attachments, the initial size value is used only for the field area and excludes the button area. For forms that do not have field attachments, the initial size is interpreted as including the button area. The area required for the scroll bar is never part of the intial size.",
+      "values": null
+     },
+     {
+      "name": "?minSize g_minSize",
+      "desc": "The minimum size of the form, specified as a list of width and height or width:height. The minimum size excludes the window manager's title and border. The default minimum width is a few pixels wider than the width of the button banner and the default minimum height is a few pixels more than the height of the button banner.\nTo change the minimum size, use the hiSetFormMinMaxSize function.",
+      "values": null
+     },
+     {
+      "name": "?maxSize g_maxSize",
+      "desc": "The maximum size of the form, specified as a list of width and height or width:height. The maximum size excludes the window manager's title and border. The default maximum size is the size of the screen.\nTo change the maximum size, use the hiSetFormMinMaxSize function.",
+      "values": null
+     },
+     {
+      "name": "?dontBlock g_dontBlock",
+      "desc": "If set to t, a call to hiDisplayForm() on this form will immediately return t. The default is nil.\nNote: If set to nil, the blocking form cannot be displayed before the initialization--which includes reading the .cdsinit file or other SKILL files--is complete. To delay displaying of the blocking form until initialization is complete, use hiEnqueueCmd.\nPrior to the 9504 release, hiDisplayForm would not return t or nil immediately. The form used to be displayed until the user selected either the OK or Cancel button. If the user selected the OK button, it would return t. If the form was canceled, it would return nil.",
+      "values": null
+     },
+     {
+      "name": "?fieldFocus s_fieldFocus",
+      "desc": "Optional argument used to determine which type-in fields can accept focus through tabbing or clicking the mouse. Possible choices are 'editableTypein (default) and 'allTypein.\nIf set to 'allTypein, all type-in fields can accept focus, whether they are editable or non-editable. If set to 'editableTypein, only editable type-in fields can accept focus.",
+      "values": null
+     },
+     {
+      "name": "?plist g_plist",
+      "desc": "Indicates whether or not this is a \"property list\" form.",
+      "values": null
+     },
+     {
+      "name": "?baseName s_baseName",
+      "desc": "If specified, it indicates that the form name is to be used for help.",
+      "values": null
+     }
+    ]
+   },
+   "lists": [],
+   "text": "?name s_name\nGlobal SKILL symbol used to reference this form.\nNote: Do not use the same symbol to reference different forms.\n?fields l_fieldEntries\nList of field descriptors returned from the field creation routines. You must use at least one field entry. There is no upper limit on the number of field entries you specify.\nBy default, the fields appear in a column on the form, in the order in which they are listed. To manipulate the order and position of form fields, use two-dimensional attributes. If you use two-dimensional attributes, each field entry for l_fieldEntries will be a list containing a field descriptor and the two-dimensional attributes for that field. For example, a field entry could be:\nlist (buttonField x:y width:height)\nFor details about two-dimensional attributes, see Two Dimensional Form Layout.\nNote: If you are creating a form that supports field attachments (so that fields are automatically resized when you resize the form), you must specify two-dimensional attributes for each field entry in l_fieldEntries.\n?attachmentList l_fieldAttachments\nList of field attachments. Field attachments determine how the two-dimensional attributes for a field are used to position that field in the form. The first field attachment is applied to the first field in l_fieldEntries, the second to the second field, and so forth. You must have the same number of attachments in l_fieldAttachments as the number of fields in l_fieldEntries. If you do not want to specify a field attachment for a field, use nil or 0.\nEach field attachment in l_fieldAttachments consists of a bitwise OR of a list of constants. Each constant is a specification for a side of the field (left, right, top, and bottom). These attachment specifications for the sides of a field can be positional or percentage attachments.\nFor example, an l_fieldAttachments list could be:\n(constant | constant | constant | constant constant | constant nil constant | constant | constant)\nFor details about field attachments and how to use positional and percentage constants, see Field Attachments.\nIf you use the field attachments argument, you must specify the following:\nThe g_initialSize argument as a list of width and height.\nTwo-dimensional attributes for each field entry in the l_fieldEntries argument.\n?tabOrderIsAddOrder g_tabOrderIsAddOrder\nt or nil. Determines the order in which fields are traversed when the Tab key is pressed. If you specify t, the nextField property is automatically set for the fields and the traversal order is the order in which fields are added to the form (that is, the order in which they are listed in the l_fieldEntries list). If you specify nil, the traversal order is based on the form layout --left-to-right and top-to-bottom-- beginning with the field in the top left corner of the form. The default value of g_tabOrderIsAddOrder is nil.\nNote: The nextField property set on a field (to any non-nil value) overrides the g_tabOrderIsAddOrder value.\n?formTitle t_formTitle\nName that appears in the window manager banner of the form.\n?callback g_callback\nUsed to specify the SKILL functions (callbacks) that execute after you select Apply, OK, or Cancel in the form.\ng_callback can be in one of two formats:\ng_okAction\nor\n'(g_okAction g_cancelAction)\ng_okAction specifies the SKILL function to be executed when the Apply, OK, Close, or Quit button is pressed in a form; g_cancelAction specifies the SKILL function to be executed when the Cancel button is pressed. (Here, if g_cancelAction is not specified, no callback will be called when the form is canceled.)\nBoth g_okAction and g_cancelAction can be in one of the following formats:\nt_callback, s_callback, or u_callback\nt_callback is the string representation of the SKILL function to be executed. If you specify t_callback, the string is evaluated and the callback function is not passed any argument. s_callback is the symbol of the SKILL function to be called. If you specify s_callback, the callback function will be passed and the r_form returned from hiCreateAppForm as its only parameter. u_callback is a callback of function object type. The callback function will be passed the r_form returned from hiCreateAppForm as its only parameter.\nAfter the form is instantiated, you can change the callback with the hiChangeFormCallback function.\nNote: See also the description of the g_buttonLayout argument.\n?unmapAfterCB g_unmapAfterCB\nIf set to t, the form is removed (unmapped) from the screen after the user's callback is executed. If set to nil, the form is removed before the callback is invoked. The default value is nil. If you use hiSetCallbackStatus in your callback routine, you must set the value of g_unmapAfterCB to t or the callback status will be ignored.\n?mapCB g_mapCallback\nSpecifies the callback to be invoked when the form is mapped, that is, when hiDisplayForm is called for a form that is not currently mapped. Specify either the name (string), symbol of the map callback function, or the function object.\nNote: The map callback argument does not apply to forms that are displayed in windows.\n?formType s_formType\nPossible choices include 'nonoptions (default), or 'options. Options forms must be modeless.\n?dialogStyle s_dialogStyle\nOne of the following symbols, which determines the blocking behavior of the form:\n'modal\nBlocks access to the application while it is displayed. The user must dismiss the form in order to continue using the application. (Access to window manager commands or other applications is not blocked.)\n'modeless\nDoes not block access to the application. The user can continue using the application without having to close the form.\nThe default value of this argument is 'modeless.\nNote: The 'systemModal option that was available in releases prior to IC 5.2.51 is no longer available. The 'systemModal option blocked not only the application that displayed the dialog box but all system processes. Any existing 'systemModal setting will now be interpreted as 'modal.\n?buttonLayout g_buttonLayout\nUsed to specify the buttons that appear at the bottom of the form. g_buttonLayout can be in one of the following formats:\ns_buttonLayout\nDisplays a predefined set of buttons, followed by the Help button. You can select from a list of button layouts.\n'(s_buttonLayout (s_customButtonText s_customButtonCB) ...)\nDisplays a predefined set of buttons, followed by your custom buttons and the Help button. Custom buttons are specified as button text/button callback pairs.\n'('Empty (s_customButtonText s_customButtonCB) ...)\nDisplays only your custom buttons, followed by the Help button. Custom buttons are specified as button text/button callback pairs.\nNote: Specify either OK, Close, or Quit as one of the button names in your list of custom buttons so the form can be closed. You can use hiFormClose() as the callback for these buttons.\n'Empty\nDoes not display any buttons in the form.\nThe form can be closed either through the window manager or by calling hiFormDone().\ns_buttonLayout specifies a predefined set of buttons. The Help button is automatically added with each of these combinations. Select one of the following button layouts:\nFor non-options forms:\n'OKCancel\n'OKCancelDef\n'OKCancelLast\n'OKCancelDefLast\n'OKCancelApply\n'ApplyCancel\n'ApplyCancelDef\n'ApplyCancelLast\n'ApplyCancelDefLast\n'Close/'Quit\n'OKCancelDefApply (default)\nFor options forms:\n'HideCancel\n'HideCancelDef\n'HideCancelLast\n'HideCancelDefLast (default)\n'ApplyHideCancel\n'ApplyHideCancelDef\n'ApplyHideCancelLast\n'ApplyHideCancelDefLast\nwhere:\nOK denotes the OK button (hiFormDone is called when this button is pressed, and hiFormDone calls the g_okAction callback);\nApply denotes the Apply button (hiFormApply is called when this button is pressed, and hiFormApply calls the g_okAction callback);\nCancel denotes the Cancel button (hiFormCancel is called when this button is pressed, and hiFormCancel calls the g_cancelAction callback);\nClose denotes the Close or Quit button (hiFormClose is called when this button is pressed, and hiFormClose calls the g_okAction callback. Here the Close and Quit buttons are similar to the OK button; hiFormClose is an alias for hiFormDone);\nLast denotes the Last button;\nDef denotes the Defaults button;\nHide denotes the Hide button.\nNote: If there is no Cancel button on a form but there is a Close or Quit button, when you close the form from the window manager or by typing hiFormCancel in the CIW, hiFormDone is called.\nFor custom buttons, following s_buttonLayout or 'Empty should be lists consisting of button text/button callback pairs:\n'(s_customButtonText s_customButtonCB)\ns_customButtonText is the symbol whose printname is the button text. For example, to have a button \"Press Me\", s_customButtonText would be specified as 'Press\\ Me.\nTip: You can use concat(\"string\") to get the symbol of a string.\ns_customButtonCB is the callback for the button and can be specified as a symbol or string. If it is a symbol, the callback function will be passed the r_form returned from hiCreateAppForm as its only argument. If it is a string, the unchanged string will be passed to SKILL to interpret.\nEnter: Pressing Enter, <Enter>, performs the same action as the first button of the form button list. This is usually hiFormDone() for non-options forms and hiToggleEnterForm() for options forms. If you specify your own button list, you need to be aware that the action of <Enter> will change. For example, if your button list is\n'ApplyCancelDef, the action of <Enter> in a type-in field performs the hiFormApply() action.\nYou can also customize this feature by specifying the button that you want to link to Enter. You do this setting the following environment variable in your .cdsenv file:\nui formDefaultAction string \"value\"\nwhere value is the buttonText of the button that you want to link to <Enter>.\nWhen this variable is set, the g_buttonLayout argument is searched for the button whose text equals the value of the variable. The first button that is found becomes the default button.\nIf the specified value is not found in g_buttonLayout, then <Enter> performs the same action as the first button of the form button list.\n?buttonDisabled s_buttonDisabled\nList of buttons that are disabled when the form appears. You can change this value with the hiSetFormButtonEnabled function.\n?help g_help\nSpecify g_help as a single string, single symbol, list of strings, or list of symbols that will be used to reference a .tgf help file. (If you do not want to use the default .tgf help file mechanism, you can specify your own callback for the Help button; see Specifying Your Own Callback.)\nIf you specify a single string or symbol, it is used to set the hiHelpAppName property on the symbol that represents the form name. If you specify a list of strings or a list of symbols, the first element in the list is used to set the hiHelpAppName property and the second element is used to set the hiHelpSymName property.\n(If you want to specify the help symbol only, specify a list of two strings or symbols, with nil as the first element of the list and the help symbol as the second element. This sets the hiHelpSymName property without setting the hiHelpAppName property.)\nWhen a user clicks Help on the form, the hiHelp function is called with the following arguments:\nappId helpTag\nIf the hiHelpAppName property has been set, it is used as the appId, otherwise the application ID of the current window is used as the appId. If the hiHelpSymName property has been set, it is used as the helpTag, otherwise the form name is used as the helpTag.\nThe appId and helpTag determine the name of the tag file that is called (appId.tgf) and the help tag in the file that is accessed.\nNote: You can also use the hiHelpAppName and hiHelpSymName properties directly to specify the help file and help tag that are used to reference the help.\n?initialSize g_initialSize\nThe size of the form when it first appears. g_initialSize accepts the following values:\nA list of width and height. The form is sized to the specified width and height or to the size needed to accommodate all the fields, whichever is less.\nA symbol representing a field in the form. The form is sized to include the field but exclude any other fields to the right of and below the specified field.\nt. The form is sized to fit all fields, or to the size of the screen, whichever is smaller.\nNote: If you are creating a form that supports field attachments (so that fields are automatically resized when you resize the form), you must specify the g_initialSize argument and it must be a list of width and height.\nFor forms that have field attachments, the initial size value is used only for the field area and excludes the button area. For forms that do not have field attachments, the initial size is interpreted as including the button area. The area required for the scroll bar is never part of the intial size.\n?minSize g_minSize\nThe minimum size of the form, specified as a list of width and height or width:height. The minimum size excludes the window manager's title and border. The default minimum width is a few pixels wider than the width of the button banner and the default minimum height is a few pixels more than the height of the button banner.\nTo change the minimum size, use the hiSetFormMinMaxSize function.\n?maxSize g_maxSize\nThe maximum size of the form, specified as a list of width and height or width:height. The maximum size excludes the window manager's title and border. The default maximum size is the size of the screen.\nTo change the maximum size, use the hiSetFormMinMaxSize function.\n?dontBlock g_dontBlock\nIf set to t, a call to hiDisplayForm() on this form will immediately return t. The default is nil.\nNote: If set to nil, the blocking form cannot be displayed before the initialization--which includes reading the .cdsinit file or other SKILL files--is complete. To delay displaying of the blocking form until initialization is complete, use hiEnqueueCmd.\nPrior to the 9504 release, hiDisplayForm would not return t or nil immediately. The form used to be displayed until the user selected either the OK or Cancel button. If the user selected the OK button, it would return t. If the form was canceled, it would return nil.\n?fieldFocus s_fieldFocus\nOptional argument used to determine which type-in fields can accept focus through tabbing or clicking the mouse. Possible choices are 'editableTypein (default) and 'allTypein.\nIf set to 'allTypein, all type-in fields can accept focus, whether they are editable or non-editable. If set to 'editableTypein, only editable type-in fields can accept focus.\n?plist g_plist\nIndicates whether or not this is a \"property list\" form.\n?baseName s_baseName\nIf specified, it indicates that the form name is to be used for help."
+  },
+  "returns": {
+   "items": [
+    {
+     "value": "r_form",
+     "desc": "SKILL structure representing the form."
+    }
+   ],
+   "text": "r_form\nSKILL structure representing the form."
+  },
+  "example": {
+   "text": "This example shows how to re-display a form that has already been created. It also shows how to set defaults:\n;****************************************\n;Sample form and fields\n;****************************************\nprocedure( myformDefineFields()\nstrfldglb = hiCreateStringField(\n?name `strfldglb\n?prompt \"sample string field\" ;;; FIELD1, a string type\n?defValue \"initial string\"\n?callback \"my_strfldglb_cb()\"\n?editable t\n)\nboolfldglb = hiCreateBooleanButton(\n?name `boolfldglb\n?buttonText \"sample boolean field\" ;;; FIELD2, a boolean type\n?defValue t\n?callback \"my_boolfldglb_cb()\"\n)\nlist( strfldglb boolfldglb )\n)\nprocedure( myformcreateform()\nif( !boundp(`myformglb) ||\n(myformglb == nil)\nthen\nmyformglb = hiCreateAppForm(\n?name `myformglb\n?fields myformDefineFields()\n?formTitle \"My first Form\"\n?callback \"myformglb_cb()\"\n?buttonLayout `OKCancel\n)\n)\nmyformglb\n)\nprocedure( myformdisplayform()\nmyformcreateform() ;;; Creation and Display are separate\nhiDisplayForm(`myformglb)\n)\nNote:\nInvoking myformdisplayform() will display the above form. If you dismiss the form, the form will disappear but the object will still remains.\nTo redisplay the form use hiDisplayForm(`myformglb).\nIf you modify some fields on the form, you can restore the default field settings using hiFormDefaults(`myformglb)."
+  },
+  "reference": {
+   "text": "hiFormApply, hiFormCancel, hiFormClose, hiFormDefaults, hiFormDone,\nhiChangeFormCallback, hiChangeFormTitle, hiGetButtonAreaHeight,\nhiSetFormMinMaxSize, hiSetFormName, hiSetFormPosition, hiSetFormSize,\nhiSetFormToDefaults, hiSetFormButtonEnabled, hiSetFormBlock, hiSetFormHighlights,\nhiGetFormLocation",
+   "links": [
+    {
+     "text": "hiFormApply",
+     "href": "#724122"
+    },
+    {
+     "text": "hiFormCancel",
+     "href": "#155855"
+    },
+    {
+     "text": "hiFormClose",
+     "href": "#782169"
+    },
+    {
+     "text": "hiFormDefaults",
+     "href": "#773028"
+    },
+    {
+     "text": "hiFormDone",
+     "href": "#155863"
+    },
+    {
+     "text": "hiChangeFormCallback",
+     "href": "#978231"
+    },
+    {
+     "text": "hiChangeFormTitle",
+     "href": "#155335"
+    },
+    {
+     "text": "hiGetButtonAreaHeight",
+     "href": "#796468"
+    },
+    {
+     "text": "hiSetFormMinMaxSize",
+     "href": "#767701"
+    },
+    {
+     "text": "hiSetFormName",
+     "href": "#772861"
+    },
+    {
+     "text": "hiSetFormPosition",
+     "href": "#211581"
+    },
+    {
+     "text": "hiSetFormSize",
+     "href": "#781959"
+    },
+    {
+     "text": "hiSetFormToDefaults",
+     "href": "#183950"
+    },
+    {
+     "text": "hiSetFormButtonEnabled",
+     "href": "#768503"
+    },
+    {
+     "text": "hiSetFormBlock",
+     "href": "#769892"
+    },
+    {
+     "text": "hiSetFormHighlights",
+     "href": "#211738"
+    },
+    {
+     "text": "hiGetFormLocation",
+     "href": "#790576"
+    }
+   ]
+  }
+ },
+ "field_status": {
+  "description": "present",
+  "arguments": "present",
+  "returns": "present",
+  "example": "present",
+  "reference": "present",
+  "related_functions": "not_documented",
+  "prerequisites": "not_documented",
+  "additional_information": "not_documented",
+  "interactive_function": "not_documented",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "not_documented",
+  "overview": "not_documented",
+  "errors": "not_documented",
+  "decl": "present"
+ },
+ "status": "active",
+ "prefix": "hi",
+ "tokens": [
+  "hi",
+  "create",
+  "app",
+  "form"
+ ],
+ "name": "hiCreateAppForm"
+}

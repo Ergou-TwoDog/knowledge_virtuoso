@@ -1,0 +1,16 @@
+函数: almSetOtherParameterList
+签名: almSetOtherParameterList( t_libt_cell l_parameter [ ?view g_view ][ ?tool g_tool ] [
+      ?entry g_entry ] )
+来源: skartistref/chap16.html
+
+参数:
+  校验: 签名 3 个 ?参数 / 参数表 3 条；?tool 在参数表写作 ?toolg_tool（疑官方笔误，以原文为准）
+  t_lib
+  t_cell
+  l_parameter
+  ?view g_view
+  ?toolg_tool
+  ?entry g_entry
+    The default value is "otherParameters".
+
+省略: 参数说明 6 条共 232 字 → detail="brief"；示例、补充说明、相关函数、选项说明 → detail="full"

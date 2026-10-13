@@ -1,0 +1,6 @@
+函数: geCopySelSet
+签名: geCopySelSet( [
+w_windowId ] [ l_sourcePt ]
+[ l_destPt ]
+)
+=> t / nil

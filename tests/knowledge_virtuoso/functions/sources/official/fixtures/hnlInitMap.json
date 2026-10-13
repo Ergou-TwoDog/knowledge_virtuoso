@@ -1,0 +1,223 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "hnlInitMap(\nx_maxNameLength x_maxInstNameLength\nx_maxModelNameLength\nx_maxNetNameLength\nx_maxTermNameLengtht_namePrefix\nt_netNamePrefix\nt_instNamePrefix\nt_modelNamePrefix\nt_termNamePrefixt_hierarchyDelimeter\nl_invalidFirstChars\nl_invalidCharsInName\nl_hnlMapNetFirstChar\nl_hnlMapNetInName\nl_hnlMapInstFirstChar\nl_hnlMapInstInName\nl_hnlMapModelFirstChar\nl_hnlMapModelInName\nl_hnlMapTermFirstCharl_hnlMapTermInName\nt_mapName\nt_designName\nt_viewList\nt_stopListl_hnlInvalidNames\nl_hnlInvalidNetNames\nl_hnlInvalidInstNames\nl_hnlInvalidModelNames\nl_hnlInvalidTermNames\n)\n=> t / nil",
+   "shared_from": null
+  }
+ ],
+ "where": {
+  "file": "netlistsimulateref/ossFunctions.html",
+  "topic": "hnlInitMap",
+  "marker_text": "hnlInitMap",
+  "anchor": "hnlInitMap"
+ },
+ "also_at": [],
+ "sections": {
+  "description": {
+   "text": "Initializes the variables needed for name translation."
+  },
+  "arguments": {
+   "root": {
+    "title": null,
+    "items": [
+     {
+      "name": "x_maxNameLength",
+      "desc": "Maximum number of characters that can be in a name.",
+      "values": null
+     },
+     {
+      "name": "x_maxInstNameLength",
+      "desc": "Maximum number of characters that can be in an instance name. If not given, maxNameLength is used as the default.",
+      "values": null
+     },
+     {
+      "name": "x_maxModelNameLength",
+      "desc": "Maximum number of characters that can be in a model name. If not given, maxNameLength is used as the default.",
+      "values": null
+     },
+     {
+      "name": "x_maxNetNameLength",
+      "desc": "Maximum number of characters that can be in a net name. If not given, maxNameLength is used as the default.",
+      "values": null
+     },
+     {
+      "name": "x_maxTermNameLength",
+      "desc": "Maximum number of characters that can be in a terminal name. If not given, maxNameLength is used as the default.",
+      "values": null
+     },
+     {
+      "name": "t_namePrefix",
+      "desc": "String prefix used when creating new names using the\nhnlMapName() function. If this argument is \"hnl_,\" subsequent calls to the hnlMapName function return names such as \"hnl_9\" when a name requires full mapping.",
+      "values": null
+     },
+     {
+      "name": "t_netNamePrefix",
+      "desc": "String prefix used when creating new names using the hnlMapNetName() function. If this argument is \"net,\" subsequent calls to the function hnlMapNetName return names such as \"net9\" when a name requires full mapping.",
+      "values": null
+     },
+     {
+      "name": "t_instNamePrefix",
+      "desc": "String prefix used when creating new names using the\nhnlMapInstName( ) function. If this argument is \"inst,\" subsequent calls to the hnlMapInstName() function return names such as \"inst9\" when a name requires full mapping.",
+      "values": null
+     },
+     {
+      "name": "t_modelNamePrefix",
+      "desc": "String prefix that should be used when creating new names using the hnlMapModelName() function. If this argument is \"model,\" subsequent calls to the hnlMapModelName() function return names such as \"model9\" when a name requires full mapping.",
+      "values": null
+     },
+     {
+      "name": "t_termNamePrefix",
+      "desc": "String prefix that should be used when creating new names using the hnlMapTermName() function. If this argument is term, subsequent calls to the hnlMapTermName function return names such as term19 when a name requires full mapping.",
+      "values": null
+     },
+     {
+      "name": "t_hierarchyDelimeter",
+      "desc": "Hierarchy delimiter that the target simulator uses when creating flat names from the hierarchical netlist. For SILOS, this is \"(\". This argument should be a SKILL string containing a single character. This argument is later used when translating full pathnames from the simulator output.",
+      "values": null
+     },
+     {
+      "name": "l_invalidFirstChars",
+      "desc": "SKILL list that specifies which characters may not begin a name for the target simulator when using the hnlMapName( ) function. Each element in the list may be either a string or another list. If it is a string, it should contain a single character. This specifies that there is no replacement for this character and any name beginning with this character must be replaced. If an element is another list, it should contain two elements. The first element should be a string containing a single character that is the invalid character. If the second element of the sublist does not exist or is nil, the character specified by the first element is removed. If the second element is a string, that string replaces the character if it is encountered. This list is used when mapping names with the hnlMapName() function.",
+      "values": null
+     },
+     {
+      "name": "l_invalidCharsInName",
+      "desc": "SKILL list that specifies which characters may not be contained in a name for the target simulator when using the hnlMapName() function. Each element in the list may be either a string or another list. If it is a string, it should contain a single character. This specifies that there is no replacement for this character and any name containing this character must be replaced. If an element is another list, it should contain two elements. The first element should be a string containing a single character that is the invalid character. If the second element of the sublist does not exist or is nil, the character specified by the first element is removed. If the second element is a string, that string replaces the character when it is encountered. This list is used when mapping names with the hnlMapName() function.",
+      "values": null
+     },
+     {
+      "name": "l_hnlMapNetFirstChar",
+      "desc": "SKILL list that specifies which characters may not begin a name for the target simulator when using the hnlMapNetName() function. Each element in the list may be either a string or another list. If it is a string, it should contain a single character. This specifies that there is no replacement for this character and any name beginning with this character must be replaced. If an element is another list, it should contain two elements. The first element should be a string containing a single character that is the invalid character. If the second element of the sublist does not exist or is nil, the character specified by the first element is removed. If the second element is a string, that string replaces the character if it is encountered. This list is used when mapping names with the hnlMapNetName() function.",
+      "values": null
+     },
+     {
+      "name": "l_hnlMapNetInName",
+      "desc": "SKILL list that specifies which characters may not be contained in a name for the target simulator when using the hnlMapNetName() function. Each element in the list may be either a string or another list. If it is a string, it should contain a single character. This specifies that there is no replacement for this character and any name containing this character must be replaced. If an element is another list, it should contain two elements. The first element should be a string containing a single character that is the invalid character. If the second element of the sublist does not exist or is nil, the character specified by the first element is removed. If the second element is a string, that string replaces the character when it is encountered. This list is used when mapping names with the hnlMapNetName() function.",
+      "values": null
+     },
+     {
+      "name": "l_hnlMapInstFirstChar",
+      "desc": "SKILL list that specifies which characters may not begin a name for the target simulator when using the hnlMapInstName() function. Each element in the list may be either a string or another list. If it is a string, it should contain a single character. This specifies that there is no replacement for this character and any name beginning with this character must be replaced. If an element is another list, it should contain two elements. The first element should be a string containing a single character that is the invalid character. If the second element of the sublist does not exist or is nil, the character specified by the first element is removed. If the second element is a string, that string replaces the character if it is encountered. This list is used when mapping names with the hnlMapInstName() function.",
+      "values": null
+     },
+     {
+      "name": "l_hnlMapInstInName",
+      "desc": "SKILL list that specifies which characters may not be contained in a name for the target simulator when using the hnlMapInstName() function. Each element in the list may be either a string or another list. If it is a string, it should contain a single character. This specifies that there is no replacement for this character and any name containing this character must be replaced. If an element is another list, it should contain two elements. The first element should be a string containing a single character that is the invalid character. If the second element of the sublist does not exist or is nil, the character specified by the first element is removed. If the second element is a string, that string replaces the character when it is encountered. This list is used when mapping names with the hnlMapInstName() function.",
+      "values": null
+     },
+     {
+      "name": "l_hnlMapModelFirstChar",
+      "desc": "SKILL list that specifies which characters may not begin a name for the target simulator when using the hnlMapModelName() function. Each element in the list may be either a string or another list. If it is a string, it should contain a single character. This specifies that there is no replacement for this character and any name beginning with this character must be replaced. If an element is another list, it should contain two elements. The first element should be a string containing a single character that is the invalid character. If the second element of the sublist does not exist or is nil, the character specified by the first element is removed. If the second element is a string, that string replaces the character if it is encountered. This list is used when mapping names with the hnlMapModelName() function.",
+      "values": null
+     },
+     {
+      "name": "l_hnlMapModelInName",
+      "desc": "SKILL list that specifies which characters may not be contained in a name for the target simulator when using the hnlMapModelName() function. Each element in the list may be either a string or another list. If it is a string, it should contain a single character. This specifies that there is no replacement for this character and any name containing this character must be replaced. If an element is another list, it should contain two elements. The first element should be a string containing a single character that is the invalid character. If the second element of the sublist does not exist or is nil, the character specified by the first element is removed. If the second element is a string, that string replaces the character when it is encountered. This list is used when mapping names with the hnlMapModelName( ) function.",
+      "values": null
+     },
+     {
+      "name": "l_hnlMapTermFirstChar",
+      "desc": "SKILL list that specifies which characters may not begin a name for the target simulator when using the hnlMapTermName() function. Each element in the list may be either a string or another list. If it is a string, it should contain a single character. This specifies that there is no replacement for this character and any name beginning with this character must be replaced. If an element is another list, it should contain two elements. The first element should be a string containing a single character that is the invalid character. If the second element of the sublist does not exist or is nil, the character specified by the first element is removed. If the second element is a string, that string replaces the character if it is encountered. This list is used when mapping names with the hnlMapTermName() function.",
+      "values": null
+     },
+     {
+      "name": "l_hnlMapTermInName",
+      "desc": "SKILL list that specifies which characters may not be contained in a name for the target simulator when using the hnlMapTermName() function. Each element in the list may be either a string or another list. If it is a string, it should contain a single character. This specifies that there is no replacement for this character and any name containing this character must be replaced. If an element is another list, it should contain two elements. The first element should be a string containing a single character that is the invalid character. If the second element of the sublist does not exist or is nil, the character specified by the first element is removed. If the second element is a string, that string replaces the character when it is encountered. This list is used when mapping names with the hnlMapTermName() function.",
+      "values": null
+     },
+     {
+      "name": "t_mapName",
+      "desc": "Name of the file in which the name map is stored.",
+      "values": null
+     },
+     {
+      "name": "t_designName",
+      "desc": "Full name of the top level design.\nExample: /mnt/dave/alu/schematic/current.",
+      "values": null
+     },
+     {
+      "name": "t_viewList",
+      "desc": "View switch list that is used for netlisting. Must be a SKILL string type.\nExample: \"silos schematic\"",
+      "values": null
+     },
+     {
+      "name": "t_stopList",
+      "desc": "Stopping points used for netlisting. Must be a SKILL string type.\nExample: \"silos mysilos\"",
+      "values": null
+     },
+     {
+      "name": "l_hnlInvalidNames",
+      "desc": "A list of names which are invalid in the target tool name space. This is associated with \"generic\" names. This should not be used if you are using the following four variables. They are mutually exclusive.\nExample: '(\"begin\" \"end\" \"for\")",
+      "values": null
+     },
+     {
+      "name": "l_hnlInvalidNetNames",
+      "desc": "A list of names which are invalid as net names in the target tool net name space.\nExample: '(\"begin\" \"end\" \"for\" \"net\")",
+      "values": null
+     },
+     {
+      "name": "l_hnlInvalidInstNames",
+      "desc": "A list of names which are invalid as instance names in the target tool instance name space.\nExample: '(\"begin\" \"end\" \"for\" \"instance\")",
+      "values": null
+     },
+     {
+      "name": "l_hnlInvalidModelNames",
+      "desc": "A list of names which are invalid as model names in the target tool model name space.\nExample: '(\"begin\" \"end\" \"for\" \"model\")",
+      "values": null
+     },
+     {
+      "name": "l_hnlInvalidTermNames",
+      "desc": "A list of names which are invalid as terminal names in the target tool terminal name space.\nExample: '(\"begin\" \"end\" \"for\" \"terminal\")",
+      "values": null
+     }
+    ]
+   },
+   "lists": [],
+   "text": "x_maxNameLength\nMaximum number of characters that can be in a name.\nx_maxInstNameLength\nMaximum number of characters that can be in an instance name. If not given, maxNameLength is used as the default.\nx_maxModelNameLength\nMaximum number of characters that can be in a model name. If not given, maxNameLength is used as the default.\nx_maxNetNameLength\nMaximum number of characters that can be in a net name. If not given, maxNameLength is used as the default.\nx_maxTermNameLength\nMaximum number of characters that can be in a terminal name. If not given, maxNameLength is used as the default.\nt_namePrefix\nString prefix used when creating new names using the\nhnlMapName() function. If this argument is \"hnl_,\" subsequent calls to the hnlMapName function return names such as \"hnl_9\" when a name requires full mapping.\nt_netNamePrefix\nString prefix used when creating new names using the hnlMapNetName() function. If this argument is \"net,\" subsequent calls to the function hnlMapNetName return names such as \"net9\" when a name requires full mapping.\nt_instNamePrefix\nString prefix used when creating new names using the\nhnlMapInstName( ) function. If this argument is \"inst,\" subsequent calls to the hnlMapInstName() function return names such as \"inst9\" when a name requires full mapping.\nt_modelNamePrefix\nString prefix that should be used when creating new names using the hnlMapModelName() function. If this argument is \"model,\" subsequent calls to the hnlMapModelName() function return names such as \"model9\" when a name requires full mapping.\nt_termNamePrefix\nString prefix that should be used when creating new names using the hnlMapTermName() function. If this argument is term, subsequent calls to the hnlMapTermName function return names such as term19 when a name requires full mapping.\nt_hierarchyDelimeter\nHierarchy delimiter that the target simulator uses when creating flat names from the hierarchical netlist. For SILOS, this is \"(\". This argument should be a SKILL string containing a single character. This argument is later used when translating full pathnames from the simulator output.\nl_invalidFirstChars\nSKILL list that specifies which characters may not begin a name for the target simulator when using the hnlMapName( ) function. Each element in the list may be either a string or another list. If it is a string, it should contain a single character. This specifies that there is no replacement for this character and any name beginning with this character must be replaced. If an element is another list, it should contain two elements. The first element should be a string containing a single character that is the invalid character. If the second element of the sublist does not exist or is nil, the character specified by the first element is removed. If the second element is a string, that string replaces the character if it is encountered. This list is used when mapping names with the hnlMapName() function.\nl_invalidCharsInName\nSKILL list that specifies which characters may not be contained in a name for the target simulator when using the hnlMapName() function. Each element in the list may be either a string or another list. If it is a string, it should contain a single character. This specifies that there is no replacement for this character and any name containing this character must be replaced. If an element is another list, it should contain two elements. The first element should be a string containing a single character that is the invalid character. If the second element of the sublist does not exist or is nil, the character specified by the first element is removed. If the second element is a string, that string replaces the character when it is encountered. This list is used when mapping names with the hnlMapName() function.\nl_hnlMapNetFirstChar\nSKILL list that specifies which characters may not begin a name for the target simulator when using the hnlMapNetName() function. Each element in the list may be either a string or another list. If it is a string, it should contain a single character. This specifies that there is no replacement for this character and any name beginning with this character must be replaced. If an element is another list, it should contain two elements. The first element should be a string containing a single character that is the invalid character. If the second element of the sublist does not exist or is nil, the character specified by the first element is removed. If the second element is a string, that string replaces the character if it is encountered. This list is used when mapping names with the hnlMapNetName() function.\nl_hnlMapNetInName\nSKILL list that specifies which characters may not be contained in a name for the target simulator when using the hnlMapNetName() function. Each element in the list may be either a string or another list. If it is a string, it should contain a single character. This specifies that there is no replacement for this character and any name containing this character must be replaced. If an element is another list, it should contain two elements. The first element should be a string containing a single character that is the invalid character. If the second element of the sublist does not exist or is nil, the character specified by the first element is removed. If the second element is a string, that string replaces the character when it is encountered. This list is used when mapping names with the hnlMapNetName() function.\nl_hnlMapInstFirstChar\nSKILL list that specifies which characters may not begin a name for the target simulator when using the hnlMapInstName() function. Each element in the list may be either a string or another list. If it is a string, it should contain a single character. This specifies that there is no replacement for this character and any name beginning with this character must be replaced. If an element is another list, it should contain two elements. The first element should be a string containing a single character that is the invalid character. If the second element of the sublist does not exist or is nil, the character specified by the first element is removed. If the second element is a string, that string replaces the character if it is encountered. This list is used when mapping names with the hnlMapInstName() function.\nl_hnlMapInstInName\nSKILL list that specifies which characters may not be contained in a name for the target simulator when using the hnlMapInstName() function. Each element in the list may be either a string or another list. If it is a string, it should contain a single character. This specifies that there is no replacement for this character and any name containing this character must be replaced. If an element is another list, it should contain two elements. The first element should be a string containing a single character that is the invalid character. If the second element of the sublist does not exist or is nil, the character specified by the first element is removed. If the second element is a string, that string replaces the character when it is encountered. This list is used when mapping names with the hnlMapInstName() function.\nl_hnlMapModelFirstChar\nSKILL list that specifies which characters may not begin a name for the target simulator when using the hnlMapModelName() function. Each element in the list may be either a string or another list. If it is a string, it should contain a single character. This specifies that there is no replacement for this character and any name beginning with this character must be replaced. If an element is another list, it should contain two elements. The first element should be a string containing a single character that is the invalid character. If the second element of the sublist does not exist or is nil, the character specified by the first element is removed. If the second element is a string, that string replaces the character if it is encountered. This list is used when mapping names with the hnlMapModelName() function.\nl_hnlMapModelInName\nSKILL list that specifies which characters may not be contained in a name for the target simulator when using the hnlMapModelName() function. Each element in the list may be either a string or another list. If it is a string, it should contain a single character. This specifies that there is no replacement for this character and any name containing this character must be replaced. If an element is another list, it should contain two elements. The first element should be a string containing a single character that is the invalid character. If the second element of the sublist does not exist or is nil, the character specified by the first element is removed. If the second element is a string, that string replaces the character when it is encountered. This list is used when mapping names with the hnlMapModelName( ) function.\nl_hnlMapTermFirstChar\nSKILL list that specifies which characters may not begin a name for the target simulator when using the hnlMapTermName() function. Each element in the list may be either a string or another list. If it is a string, it should contain a single character. This specifies that there is no replacement for this character and any name beginning with this character must be replaced. If an element is another list, it should contain two elements. The first element should be a string containing a single character that is the invalid character. If the second element of the sublist does not exist or is nil, the character specified by the first element is removed. If the second element is a string, that string replaces the character if it is encountered. This list is used when mapping names with the hnlMapTermName() function.\nl_hnlMapTermInName\nSKILL list that specifies which characters may not be contained in a name for the target simulator when using the hnlMapTermName() function. Each element in the list may be either a string or another list. If it is a string, it should contain a single character. This specifies that there is no replacement for this character and any name containing this character must be replaced. If an element is another list, it should contain two elements. The first element should be a string containing a single character that is the invalid character. If the second element of the sublist does not exist or is nil, the character specified by the first element is removed. If the second element is a string, that string replaces the character when it is encountered. This list is used when mapping names with the hnlMapTermName() function.\nt_mapName\nName of the file in which the name map is stored.\nt_designName\nFull name of the top level design.\nExample: /mnt/dave/alu/schematic/current.\nt_viewList\nView switch list that is used for netlisting. Must be a SKILL string type.\nExample: \"silos schematic\"\nt_stopList\nStopping points used for netlisting. Must be a SKILL string type.\nExample: \"silos mysilos\"\nl_hnlInvalidNames\nA list of names which are invalid in the target tool name space. This is associated with \"generic\" names. This should not be used if you are using the following four variables. They are mutually exclusive.\nExample: '(\"begin\" \"end\" \"for\")\nl_hnlInvalidNetNames\nA list of names which are invalid as net names in the target tool net name space.\nExample: '(\"begin\" \"end\" \"for\" \"net\")\nl_hnlInvalidInstNames\nA list of names which are invalid as instance names in the target tool instance name space.\nExample: '(\"begin\" \"end\" \"for\" \"instance\")\nl_hnlInvalidModelNames\nA list of names which are invalid as model names in the target tool model name space.\nExample: '(\"begin\" \"end\" \"for\" \"model\")\nl_hnlInvalidTermNames\nA list of names which are invalid as terminal names in the target tool terminal name space.\nExample: '(\"begin\" \"end\" \"for\" \"terminal\")"
+  },
+  "returns": {
+   "items": [
+    {
+     "value": "t",
+     "desc": "The hnlInitMap function returns t if successful."
+    },
+    {
+     "value": "nil",
+     "desc": "The hnlInitMap function returns nil if it is not successful."
+    }
+   ],
+   "text": "t\nThe hnlInitMap function returns t if successful.\nnil\nThe hnlInitMap function returns nil if it is not successful."
+  },
+  "example": {
+   "text": "unless( hnlInitMap( hnlMaxNameLength hnlNamePrefix\nmaxInstNameLength maxModelNameLength\nmaxNetNameLength maxTermNameLength\nsimNetNamePrefix simInstNamePrefix\nsimModelNamePrefix simTermNamePrefix\nhnlHierarchyDelimeter hnlMapIfFirstChar\nhnlMapIfInName hnlMapNetFirstChar\nhnlMapNetInName hnlMapInstFirstChar\nhnlMapInstInName hnlMapModelFirstChar\nhnlMapModelInName hnlMapTermFirstChar\nhnlMapTermInName hnlMapFileName\nFullMasterName viewListString\nstopListString hnlInvalidNames\nhnlInvalidNetNames hnlInvalidInstNames\nhnlInvalidModelName hnlInvalidTermNames )\nsprintf(errorMessage\n\"Netlister: Can't initialize name mapping functions.\")\nprintln( errorMessage )\nreturn( nil )\n)"
+  }
+ },
+ "field_status": {
+  "description": "present",
+  "arguments": "present",
+  "returns": "present",
+  "example": "present",
+  "reference": "not_documented",
+  "related_functions": "not_documented",
+  "prerequisites": "not_documented",
+  "additional_information": "not_documented",
+  "interactive_function": "not_documented",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "not_documented",
+  "overview": "not_documented",
+  "errors": "not_documented",
+  "decl": "present"
+ },
+ "status": "active",
+ "prefix": "hnl",
+ "tokens": [
+  "hnl",
+  "init",
+  "map"
+ ],
+ "name": "hnlInitMap"
+}

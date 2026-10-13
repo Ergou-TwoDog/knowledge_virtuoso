@@ -1,0 +1,126 @@
+函数: rodCreateRect
+签名: rodCreateRect( [ ?name S_name ][ ?layer txl_layer ] [ ?width n_width ] [ ?length
+      n_length ] [ ?origin l_origin ] [ ?bBox l_bBox ] [ ?elementsX x_elementsX ] [ ?elementsY
+      x_elementsY ] [ ?spaceX n_spaceX ] [ ?spaceY n_spaceY ] [ ?cvId d_cvId ] [ ?fillBBox
+      l_fillBBox ] [ ?fromObj Rl_fromObj ] [ ?size txf_size ] [ ?prop l_prop ] [
+      ?returnBoolean g_returnBoolean ] [rodRectConnectivityArgs... ] ; start ROD Connectivity
+      Arguments for Rectangles (rodRectConnectivityArgs) [ ?netName S_netName ] [ ?termName
+      S_termName ] [ ?termIOType S_termIOType ] [ ?pin g_pin ] [ ?pinAccessDir tl_pinAccessDir
+      ] [ ?pinLabel g_pinLabel ] [ ?pinLabelHeight n_pinLabelHeight ] [ ?pinLabelLayer
+      txl_pinLabelLayer ] [ ?pinLabelFont S_pinLabelFont ] [ ?pinLabelDrafting
+      g_pinLabelDrafting ] [ ?pinLabelOrient S_pinLabelOrient ] [ ?pinLabelOffsetPoint
+      l_pinLabelOffsetPoint ] [ ?pinLabelJust S_pinLabelJust ] [ ?pinLabelRefHandle
+      S_pinLabelRefHandle ] ;end ROD Connectivity Arguments for Rectangles [ ?subRectArray
+      l_subrectArgs... ] ;start l_subrectArgs Subrectangle Arguments (l_subrectArgs) list(
+      list( [ ?layer txl_layer ] [ ?width n_width ] [ ?length n_length ] [ ?gap S_gap ] [
+      ?lowerLeftOffsetX n_lowerLeftOffsetX ] [ ?lowerLeftOffsetY n_lowerLeftOffsetY ] [
+      ?upperRightOffsetX n_upperRightOffsetX ] [ ?upperRightOffsetY n_upperRightOffsetY ] [
+      ?spaceX n_spaceX ] [ ?spaceY n_spaceY ] [ ?prop l_prop ] ;Repeat ROD Connectivity
+      Arguments here );end first subrectangle list ... ) ;end all subrectangle lists ;end
+      l_subrectArgs );end rodCreateRect => R_rodObj | t / nil
+来源: rodskillref/chap1.html
+
+参数:
+  校验: 签名 36 个 ?参数 / 参数表 35 条；?lowerLeftOffsetY 在参数表写作 ?lowerLeftOffseY（疑官方笔误，以原文为准）；签名有而参数表未列: ?pinLabelDrafting ?pinLabelJust；参数表有而签名未见: ?pinLableJust
+  ?name S_name
+    Default: rectn, rectn.n, rectn.x.y
+  ?layer txl_layer
+    Default Purpose: drawing
+  ?width n_width
+    Default: n_length if specified; otherwise the minimum width rule for the specified layer from your technology file
+  ?length n_length
+    Default: n_width if specified; otherwise the minimum width rule for the specified layer from your technology file
+  ?origin l_origin
+    Default: 0:0
+  ?bBox l_bBox
+    Default: none
+  ?elementsX x_elementsX
+    Default: 1
+  ?elementsY x_elementsY
+    Default: 1
+  ?spaceX n_spaceX
+    Default: n_spaceY if specified; otherwise the minimum spacing rule for the specified layer from your technology file
+  ?spaceY n_spaceY
+    Default: n_spaceX if specified; otherwise the minimum spacing rule for the specified layer from your technology file
+  ?cvId d_cvId
+    Default: pcCellView or tcCellView when a rodCreateRect statement occurs in the body of a pcDefinePCell function or tcCreateCDSDeviceClass function call, respectively; nil if no cellview ID is specified or found
+  ?fillBBox l_fillBBox
+    Default: nil
+  ?fromObj Rl_fromObj
+    Default: none
+  ?size txf_size
+    If you specify a source object (Rl_fromObj) but do not specify txf_size, then txf_size defaults to 0.0. If you specify txf_size, you must also specify Rl_fromObj, or the system issues a warning message and the function fails.
+    Default: 0.0
+  ?prop l_prop
+    Default: nil
+  ?returnBoolean g_returnBoolean
+    Default: nil
+  rodRectConnectivityArgs...
+  ?subRectArray l_subrectArgs...
+  子参数 [ROD Connectivity Arguments for Rectangles (rodRectConnectivityArgs)]（属于 rodRectConnectivityArgs...）:
+    ?netName S_netName
+      Default: none
+    ?termName S_termName
+      Default: none
+    ?termIOType S_termIOType
+      Valid Values: input, output, inputOutput, switch, jumper
+      Default: inputOutput
+    ?pin g_pin
+      Valid Values: t, nil
+      Default: nil
+    ?pinAccessDir tl_pinAccessDir
+      Valid Values: top, bottom, left right, any, none, or a list containing any of these values
+      Default: any
+    ?pinLabel g_pinLabel
+      Valid Values: t, nil
+      Default: nil
+    ?pinLabelHeight n_pinLabelHeight
+      Default:1
+    ?pinLabelLayer txl_pinLabelLayer
+      When only the layer is specified, the purpose defaults to the purpose defined by l_layer. When neither layer nor purpose is specified, both layer and purpose default to the values defined by l_layer.
+      Default: layer specified by l_layer; purpose specified by l_layer
+    ?pinLabelFont S_pinLabelFont
+      Valid Values: euroStyle, gothic, math, roman, script, stick, swedish
+      Default: stick
+    ?pinLabelOrient g_pinLabelDrafting
+      Valid Values: t, nil
+      Default: t
+    ?pinLabelOrient S_pinLabelOrient
+      Valid Values:
+      Default: R0
+    ?pinLabelOffsetPoint l_pinLabelOffsetPoint
+      Default: 0:0
+    ?pinLableJust S_pinLabelJust
+      Valid Values:
+      Default: centerCenter
+    ?pinLabelRefHandle S_pinLabelRefHandle
+      Bounding box point handle names: To specify a point handle on the bounding box of a rectangle, use either the two-word handle name or its two-character abbreviation, as shown in valid values. For example, you can use uL for upperLeft.
+      Valid Values for bounding box point handles:
+      Valid Values: start0, mid0, end0; start1, mid1, end1; start2, mid2, end2; startLast, midLast, endLast
+      Default: the bounding box point handle centerCenter
+  子参数 [Subrectangle Arguments (l_subrectArgs)]（属于 ?subRectArray l_subrectArgs...）:
+    ?layer txl_layer
+      Default Purpose: drawing
+    ?width n_width
+      Default: n_length if specified; otherwise minWidth for the subrectangle layer from the technology file
+    ?length n_length
+      Default: n_width if specified; otherwise, minWidth for the subrectangle layer from the technology file
+    ?gap S_gap
+      When the value of S_gap is distribute, which is the default, the system distributes the space around subrectangles as evenly as possible, in multiples of the grid space specified by mfgGridResolution. Any remaining space is divided evenly and placed to the right and/or above each subrectangle. The following example shows excess space along the X axis.
+      Valid Values: distribute, minimum, minCenter
+      Default: distribute
+    ?lowerLeftOffsetX n_lowerLeftOffsetX
+    Default:
+    ?lowerLeftOffseY n_lowerLeftOffsetY
+    ?upperRightOffsetX n_upperRightOffsetX
+    ?upperRightOffsetY n_upperRightOffsetY
+    ?spaceX n_spaceX
+      Default: minSpacing for the subrectangle layer from the technology file
+    ?spaceY n_spaceY
+      Default: minSpacing for the subrectangle layer from the technology file
+    ?prop l_prop
+      Default: nil
+
+返回: R_rodObj / t / nil
+
+省略: 参数说明 44 条共 20,816 字 → detail="brief"；示例、补充说明、相关函数、选项说明 → detail="full"

@@ -1,0 +1,7 @@
+函数: dbCreatePath
+签名: dbCreatePath(
+d_cellView txl_layerPurposel_points
+n_width
+[ t_pathStyle ]
+)
+=> d_path / nil

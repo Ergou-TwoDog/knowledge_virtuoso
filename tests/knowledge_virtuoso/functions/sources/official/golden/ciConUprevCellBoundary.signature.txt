@@ -1,0 +1,5 @@
+函数: ciConUprevCellBoundary
+签名: ciConUprevCellBoundary(
+d_cellView
+)=> t / nil
+状态: 已弃用（Cadence 文档仍保留该可调用函数）

@@ -1,0 +1,168 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "deOpen( [\nl_fileSpec [ g_winSpec [ t_accessMode [ t_appName g_sessionWindow g_saveSessionHistory] ] ] ] )\n=> w_window / nil",
+   "shared_from": null
+  }
+ ],
+ "where": {
+  "file": "skdfref/chap3.html",
+  "topic": "deOpen",
+  "marker_text": "deOpen",
+  "anchor": "deOpen"
+ },
+ "also_at": [],
+ "sections": {
+  "description": {
+   "text": "Takes a design specification and a window specification and attempts to install the design in the specified window.\nThe following environment variables set the defaults for the Open File form:\ngraphic defaultNewCellName\ngraphic defaultNewLibName\ngraphic defaultNewViewName\ngraphic defaultOpenCellName\ngraphic defaultOpenLibName\ngraphic defaultOpenViewName\nIf a configuration cellview is given as an argument, a SKILL symbol named 'hierEditor is returned. The value for 'hierEditor varies based on the type of cellview opened.\nWhen a configuration cellview as well as a top level schematic is opened, the return value of hierEditor is the window ID of the open top level schematic.\nWhen only a top level schematic is opened (without opening a configuration cellview), the value of hierEditor is the window ID of the open top level schematic.\nWhen only a configuration cellview is opened in the hierarchy editor (a top level schematic is not opened) the value of hierEditor is t.\nWhen neither a configuration nor a schematic is opened, the value of hierEditor is nil.\nThe cdsenv variable openConfig controls the behavior for opening a configuration cellview. The cdsenv variable topCvMode controls the access mode for the top cellview of the configuration cellview, that is, the schematic cellview. For more information, refer to Environment Variables.\nNote: If the open failed, nil is returned."
+  },
+  "arguments": {
+   "root": {
+    "title": null,
+    "items": [
+     {
+      "name": "l_fileSpec",
+      "desc": "Disembodied property list which can be nil or contain one or more of the following elements:",
+      "values": null
+     },
+     {
+      "name": "l_fileSpec->libName",
+      "desc": "Cellview library name\n(string)",
+      "values": null
+     },
+     {
+      "name": "l_fileSpec->libId",
+      "desc": "Cellview library ID\n(dbId)",
+      "values": null
+     },
+     {
+      "name": "l_fileSpec->cellName",
+      "desc": "Cellview cell name\n(string)",
+      "values": null
+     },
+     {
+      "name": "l_fileSpec->viewName",
+      "desc": "Cellview view name\n(string)",
+      "values": null
+     },
+     {
+      "name": "l_fileSpec->viewId",
+      "desc": "Cellview view ID\n(dbId)",
+      "values": null
+     },
+     {
+      "name": "l_fileSpec->viewNameList",
+      "desc": "viewName switch list\n(string)",
+      "values": null
+     },
+     {
+      "name": "l_fileSpec->accessMode",
+      "desc": "Desired access mode\n(string)",
+      "values": null
+     },
+     {
+      "name": "l_fileSpec->instanceName",
+      "desc": "Instance name specification\n(string)",
+      "values": null
+     },
+     {
+      "name": "l_fileSpec->hierarchy",
+      "desc": "Instance hierarchy specification\n(string)",
+      "values": null
+     },
+     {
+      "name": "l_fileSpec->configL",
+      "desc": "Hierarchy manager configuration\n(list)",
+      "values": null
+     },
+     {
+      "name": "g_winSpec",
+      "desc": "Determines whether to use an old window or create a new one, and if a new one, what its creation parameters are.",
+      "values": null
+     },
+     {
+      "name": "w_window",
+      "desc": "Uses the given window.",
+      "values": null
+     },
+     {
+      "name": "nil",
+      "desc": "Creates a window in a default location.",
+      "values": null
+     },
+     {
+      "name": "l_bBox",
+      "desc": "Creates a window with the given bBox.",
+      "values": null
+     },
+     {
+      "name": "'interactive",
+      "desc": "Creates a window, user specifies bBox.\nIf an existing window is given, the current contents will be removed after the data trigger returns successfully. Then the new design as is installed as the top-level design. If the stack could not be successfully cleared, the data trigger will be called again with action \"close\" to close the data file. If a new window is created, it will not be displayed until the end of the process. This minimizes the amount of work involved in the creation and display of the various parts of the window.\nIf g_winSpec is defaulted (or nil is passed), the view is checked for the property defaultWindowBox. If this property exists, that box is used for the window. If that property does not exist, the Design Editor chooses its own box.",
+      "values": null
+     },
+     {
+      "name": "t_accessMode",
+      "desc": "Access mode desired for the design, and will be edit or read. (These correspond, respectively, to the UNIX modes a and r, which can also be used.) If the user does not have a license for the application required to edit the design, the access mode passed to the trigger might differ. In this case, the user is given a chance to abort the open sequence.\nThe access mode can be supplied as an optional parameter after g_winSpec or as part of l_fileSpec. This is for compatibility with older code. If both exist and are different, t_accessMode overrides l_fileSpec->accessMode. If neither is specified, then the access mode defaults to edit.",
+      "values": null
+     },
+     {
+      "name": "t_appName",
+      "desc": "Name of an application sub type which is to be the application installed when the window is opened. t_appName must be the name of some sub type in the sub type tree registered with the view type of the specified view.\nIf it is found, the root class registration is used to open the data and create the context, but the sub type hierarchy is used to determine licensing and bindkeys, and the application's menu trigger is called to generate the banner menus.",
+      "values": null
+     },
+     {
+      "name": "g_sessionWindow",
+      "desc": "If the session window is specified, tabs are used instead of new windows.",
+      "values": null
+     },
+     {
+      "name": "g_saveSessionHistory",
+      "desc": "If set to t, the function stores the \"top level opens\" to history. The opens are saved to history in the following scenarios:\n(a) When the function is called with l_fileSpec->libName/cellName/viewName, and without l_fileSpec->hierarchy and l_fileSpec->hierList. This is similar to the case when a cellview is opened from Library Manager or Hierarchy Editor.\n(b) When the function is called without l_fileSpec->libName/cellName/viewName, but with l_fileSpec->hierarchy such that only a single level of hierarchy is specified.\nNote: In both (a) and (b) above, if the l_fileSpec argument is not specified or is partially specified as shown in the following examples, the File--Open form will be launched, however, the history will be saved.\nl_fileSpec <- '(nil libName \"amsPLL\" cellName \"vco\")\nl_fileSpec <- '(nil hierarchy \"/{amsPLL vco}\")\nNote: If the l_fileSpec argument is not specified, is empty (\"\"), or nil; the value of the g_saveSessionHistory argument is not considered, and the deOpen function will store all opens to history.",
+      "values": null
+     }
+    ]
+   },
+   "lists": [],
+   "text": "l_fileSpec\nDisembodied property list which can be nil or contain one or more of the following elements:\nl_fileSpec->libName\nCellview library name\n(string)\nl_fileSpec->libId\nCellview library ID\n(dbId)\nl_fileSpec->cellName\nCellview cell name\n(string)\nl_fileSpec->viewName\nCellview view name\n(string)\nl_fileSpec->viewId\nCellview view ID\n(dbId)\nl_fileSpec->viewNameList\nviewName switch list\n(string)\nl_fileSpec->accessMode\nDesired access mode\n(string)\nl_fileSpec->instanceName\nInstance name specification\n(string)\nl_fileSpec->hierarchy\nInstance hierarchy specification\n(string)\nl_fileSpec->configL\nHierarchy manager configuration\n(list)\nIf enough information is supplied for DE to verify the existence of the design without further interaction, it will do so. If not, then DE displays a form asking the user to supply the missing arguments. Either the library name or library ID can be supplied. If both are supplied, they must be consistent or a warning is given. Similarly, either the view name or the view ID can be supplied, and if both are supplied, they must be consistent.\nThe view name list field is optional, and if supplied, is used to determine the view switched into. The view name list is a string which contains a list of view names. The first one in the list for which a corresponding cellview can be found in the given library is used to open the cell.\nl_fileSpec->hierarchy is an optional property which describes a hierarchy to be pushed on top of the opened data. l_fileSpec->cellName, etc., thus specifies the top-level data and l_fileSpec->hierarchy specifies successive levels. All levels are pushed in one command, thus making this a convenient way to open a hierarchy and put each level onto the stack. All triggers for each level of hierarchy are called as the window stack is built. For levels which are not the final edit level, the triggers will be called with l_args->action == \"install\" and l_args->pushed == t. If deOpen, deSwap, or dePush was executed, then all levels are push edited. If deEditInPlace was executed, then all levels are edited in place. There is currently no way to mix edit in place with push operations with this feature.\nl_fileSpec->hierarchy lets the client open a hierarchy to any arbitrary level. The top-level installed is defined by the other file spec fields. The hierarchy field specifies a list of items to be pushed on top of that item. The syntax of the hierarchy string is designed to allow the maximum flexibility in installing items in the window stack.\nl_fileSpec->instanceName is an optional property which is used for dePush and deEditInPlace operations. It specifies an instance name, in the same format as an individual hierarchy item, that refers to the library, cell, and view name properties of the file spec. The instance name is the name of an instantiation of that cellview in the edit cellview of the window which is supplied to the dePush or deEditInPlace command. When instanceName is supplied, the library, cell, and cellview properties are optional, and the Open File form will only appear if the instance cannot be found in the current edit cellview in the supplied window. The instanceName property is ignored if the window has no current edit cellview (that is, has an empty stack) or if the supplied g_winSpec is not a valid Design Editor window.\nThe syntax of l_fileSpec->hierarchy is as follows:\nHierarchySpecification ::= '/' | '/' HierItemSpec | '/' HierItemSpec HierarchySpecification\nHierItemSpec ::= InstItemSpec | InstItemSpec ModeSpec\nInstItemSpec ::= InstMosaicSpec | InstMosaicSpec '(' ViewList ')' | DMSpec\nModeSpec ::= ':' ModeName\nModeName ::= 'r' | 'w' | 'a' | 'read' | 'overwrite' | 'edit'\nInstMosaicSpec ::= InstSpec | MosaicInstSpec\nInstSpec ::= InstName | InstName IterationSpec\nIterationSpec ::= '<' IterationList '>'\nIterationList ::= IterationItem | IterationItem ',' IterationList\nIterationItem ::= Number | Number ':' Number\nMosaicInstSpec ::= MosaicName '[' Number ',' Number ']'\nDMSpec ::= '{' DMItem '}'\nDMItem ::= LibName ' ' CellName ' ' ViewNameSpec |\nLibName ' ' CellName ' ' ViewNameSpec ' ' VersionName\nViewNameSpec ::= ViewName | '(' ViewNameList ')'\nViewNameList ::= ViewName | ViewName ' ' ViewNameList\nThe InstName is the name given to an instance when it is created in the parent cellview. All instance names in the hierarchy list are relative to the immediate parent. Mosaic instances are described by the name of the containing mosaic and the row and column of the instance in question. The iteration list for an instance is designed to capture any subset of the valid iterations of an iterated instance.\nThe DMSpec lets the client supply a complete description of the hierarchy item desired, independent of any instance relationship with the parent. The format of a DMSpec item lets the user supply a viewNameList as part of the specification. It should be noted that when a DMSpec is supplied to open a hierarchy item, programs which depend on the instantiation relationship between that item and its parent will not work because a specific instance is not supplied as part of the specification.\nEach item in the list can have its own accessMode explicitly stated. If an item has not explicit accessMode, it is defaulted to that supplied with the top-level file spec or deOpen call.\nThe configL is a member of the fileSpec that defines a Hierarchy Manager configuration. It is a list of properties (t_libName, t_cellName, t_viewName, t_accessMode) describing the cellview of the configuration.\nNote: t_accessMode is ignored and the configuration is always opened in read mode.\nThe dePush and deEditInPlace commands can be called with a file spec that contains only a hierarchy item, if a valid window is passed that contains at least one valid stack item. The hierarchy is pushed on the valid stack item as if that stack item were the primary specification in the file spec. If no valid stack item exists on the window, (or deOpen or deSwap is called with only a hierarchy specification) then the first item in the hierarchy list must be a DMSpec item. Otherwise, the Open File form is opened, and the user must specify the top cellview explicitly. In this case, the first item on the hierarchy specification is pushed onto this top cellview. If the first item in the hierarchy specification is an instance, it must be present in the current item on the window stack.\nIn the process of opening the hierarchy, if errors are encountered, the Open File form is opened to allow the user to correct these errors. Cancelling this form aborts the process, leaving the stack with all items successfully opened to that point.\nThe Open File form contains fields for the library name, cell name, and view name. Once this form comes up, the user can change any of these fields as desired, with the result that the design opened might have no relationship to the values supplied in the original call to deOpen. At any time the user can decide to cancel the operation, with the result that no design is opened.\nThe Open File form also contains a command button to open the Library Browser window. The Open File form is synchronized with the browser so that Select operations in the Library Browser window update the form.\ng_winSpec\nDetermines whether to use an old window or create a new one, and if a new one, what its creation parameters are.\nw_window\nUses the given window.\nnil\nCreates a window in a default location.\nl_bBox\nCreates a window with the given bBox.\n'interactive\nCreates a window, user specifies bBox.\nIf an existing window is given, the current contents will be removed after the data trigger returns successfully. Then the new design as is installed as the top-level design. If the stack could not be successfully cleared, the data trigger will be called again with action \"close\" to close the data file. If a new window is created, it will not be displayed until the end of the process. This minimizes the amount of work involved in the creation and display of the various parts of the window.\nIf g_winSpec is defaulted (or nil is passed), the view is checked for the property defaultWindowBox. If this property exists, that box is used for the window. If that property does not exist, the Design Editor chooses its own box.\nt_accessMode\nAccess mode desired for the design, and will be edit or read. (These correspond, respectively, to the UNIX modes a and r, which can also be used.) If the user does not have a license for the application required to edit the design, the access mode passed to the trigger might differ. In this case, the user is given a chance to abort the open sequence.\nThe access mode can be supplied as an optional parameter after g_winSpec or as part of l_fileSpec. This is for compatibility with older code. If both exist and are different, t_accessMode overrides l_fileSpec->accessMode. If neither is specified, then the access mode defaults to edit.\nt_appName\nName of an application sub type which is to be the application installed when the window is opened. t_appName must be the name of some sub type in the sub type tree registered with the view type of the specified view.\nIf it is found, the root class registration is used to open the data and create the context, but the sub type hierarchy is used to determine licensing and bindkeys, and the application's menu trigger is called to generate the banner menus.\ng_sessionWindow\nIf the session window is specified, tabs are used instead of new windows.\ng_saveSessionHistory\nIf set to t, the function stores the \"top level opens\" to history. The opens are saved to history in the following scenarios:\n(a) When the function is called with l_fileSpec->libName/cellName/viewName, and without l_fileSpec->hierarchy and l_fileSpec->hierList. This is similar to the case when a cellview is opened from Library Manager or Hierarchy Editor.\n(b) When the function is called without l_fileSpec->libName/cellName/viewName, but with l_fileSpec->hierarchy such that only a single level of hierarchy is specified.\nNote: In both (a) and (b) above, if the l_fileSpec argument is not specified or is partially specified as shown in the following examples, the File--Open form will be launched, however, the history will be saved.\nl_fileSpec <- '(nil libName \"amsPLL\" cellName \"vco\")\nl_fileSpec <- '(nil hierarchy \"/{amsPLL vco}\")\nNote: If the l_fileSpec argument is not specified, is empty (\"\"), or nil; the value of the g_saveSessionHistory argument is not considered, and the deOpen function will store all opens to history.\ndeOpen returns nil if a window could not be created or a design could not be opened. Otherwise it returns the window passed in or created."
+  },
+  "returns": {
+   "items": [
+    {
+     "value": "w_window",
+     "desc": "The name of the window opened. If a window was supplied as input, then it can be returned unless it could not be used for some reason."
+    }
+   ],
+   "text": "w_window\nThe name of the window opened. If a window was supplied as input, then it can be returned unless it could not be used for some reason."
+  },
+  "example": {
+   "text": "deOpen()\nBrings up the Open File form, asking for the user to specify the library, cell, and view names of a cellview to edit. When this form is answered, a window is created to contain the cellview.\nmyFileSpec = list( nil 'libname \"test\" 'cellName \"ff\" 'viewName \"graphic\" )\ndeOpen( myFileSpec list( 200:200 800:800 ) )\nOpens a window, which is given the screen box (200:200 800:800), and installs the cellview test ff graphic in it.\nmyFileSpec = list( nil 'hierarchy \"/{test ff graphic}:\na/I4:r\" )\ndeOpen( myFileSpec 'interactive )\nPrompts the user to specify a screen box for a window, then installs the cellview \"test ff graphic\" in it in edit mode, pushes into instance I4 in read mode, and finally displays the window.\ndeOpen( myFileSpec winSpec \"r\" \"Layout Viewer\" )\n(ICADVM18.1 Only) Opens the cellview in Layout Viewer.\nIn ICADVM18.1, when the fourth argument, appName is specified as \"Layout Viewer\" the Viewer is used to open the design. If appName is specified as \"Layout\", application used to open the design depends on the accessMode. If accessMode is specified as \"r\", the Viewer is used, otherwise Layout XL is used."
+  }
+ },
+ "field_status": {
+  "description": "present",
+  "arguments": "present",
+  "returns": "present",
+  "example": "present",
+  "reference": "not_documented",
+  "related_functions": "not_documented",
+  "prerequisites": "not_documented",
+  "additional_information": "not_documented",
+  "interactive_function": "not_documented",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "not_documented",
+  "overview": "not_documented",
+  "errors": "not_documented",
+  "decl": "present"
+ },
+ "status": "active",
+ "prefix": "de",
+ "tokens": [
+  "de",
+  "open"
+ ],
+ "name": "deOpen"
+}

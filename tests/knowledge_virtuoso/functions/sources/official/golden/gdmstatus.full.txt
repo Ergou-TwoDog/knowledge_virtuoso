@@ -1,0 +1,57 @@
+函数: gdmstatus
+签名: gdmstatus({
+G_gdmSpec | q_gdmSpecList }x_information
+)
+=> l_fileStatus / nil
+描述: Returns the design management status of the library, cell, view, directory, or file that G_gdmSpec represents.
+This function is the SKILL equivalent of the gdmstatus command. See gdmstatus for more information.
+来源: caiskill/gdm.html
+
+参数:
+  G_gdmSpec — The gdmSpec object of the library, cell, view, directory, or file.
+  q_gdmSpecList — A gdmSpecList object containing gdmSpec objects.
+  x_information — Specifies the kind of information to return. The following table lists the legal values for this argument.
+  Specify ... — to get ...
+  1 — The gdmSpec object.
+  2 — The library to which the file belongs.
+  3 — The cell to which the file belongs.
+  4 — The view to which the file belongs.
+  5 — The path to the file, relative to the library to which it belongs or to the current directory.
+  6 — The design management status. Returns one of the following:
+    gdmStateNone:
+  gdmStateCI: — File is managed and not checked out
+  gdmStateCO: — File is checked out to current workarea
+  gdmStateCOE: — File is checked out but not to current workarea
+  gdmStateDel: — File is flagged as deleted
+  gdmStateDir: — File is a directory
+  gdmStateInactive: — File is inactive
+  gdmStateUnmanageable: — DMTYPE is set to NONE. A GDM check in cannot be processed in the current configuration state. For example, a directory, which is unmanageable will not have its content expanded. Therefore, no subdirectory data will be returned for it, even if the GDM_RECURSE option is added. The UNMANAGEABLE state cannot process a GDM check-in within the current configuration state. It means the DMTYPE has been set to NONE by a cdsinfo.tag file.
+  7 — The status of the file in the workarea. Returns one of the following:
+    gdmStateNone: File is not in the workarea.
+    gdmStateRead: File is in the workarea but is read-only.
+    gdmStateWrite: File is checked out to current. workarea.
+    gdmStateDir: File is a directory.
+    gdmStateErr: File is in an inconsistent state.
+  8 — Check whether the file has been modified in the workarea.
+  9 — The version the file will be when it is checked in, or if it is already checked in, the current version.
+  10 — The version of the file you will get if you check it out, or if it is already checked out, the version that was checked out.
+  11 — The version of the file you will get if you update it.
+  12 — The check-out location of the file.
+  13 — The name of the person who checked out the file.
+  14 — The name of the person who checked in the file.
+  15 — The update needed status of the file. Returns one of the following:
+    true: Update is required.
+    false: Update is not required.
+    unknown: DM does not support this feature.
+
+参数正文（条目之外，原文散文，非结构化条目）:
+  DMTYPE is set to a valid DM system. You may request GDM to attempt check in of an unmanaged state data into the named DM. This usually works within a managed library, depending upon correct DM setup and configuration including the cdsinfo.tag file.
+
+返回:
+  l_fileStatus — Returns a list of lists containing the status of each file in the cellview directory.
+  nil — An error occurred and the information could not be returned.
+
+示例:
+  strlist=gdmStatus(gdmCreateSpec("rodTrLib" "Design" "layout" master.tag" "CDBA") 15)
+  => (("/rodTrLib/Design/layout/master.tag true"))
+  Returns true. The master.tag file needs to be updated in the <rodTrLib | Design | layout> cellview.

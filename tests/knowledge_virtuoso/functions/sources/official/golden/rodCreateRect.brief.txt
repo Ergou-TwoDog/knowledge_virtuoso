@@ -1,0 +1,174 @@
+函数: rodCreateRect
+签名: rodCreateRect( [ ?name
+S_name ][ ?layer txl_layer ]
+[ ?width n_width ]
+[ ?length n_length ]
+[ ?origin l_origin ]
+[ ?bBox l_bBox ]
+[ ?elementsX x_elementsX ]
+[ ?elementsY x_elementsY ]
+[ ?spaceX n_spaceX ]
+[ ?spaceY n_spaceY ]
+[ ?cvId d_cvId ]
+[ ?fillBBox l_fillBBox ]
+[ ?fromObj Rl_fromObj ]
+[ ?size txf_size ]
+[ ?prop l_prop ]
+[ ?returnBoolean g_returnBoolean ]
+[rodRectConnectivityArgs... ]
+; start ROD Connectivity Arguments for Rectangles (rodRectConnectivityArgs)
+[ ?netName S_netName ]
+[ ?termName S_termName ]
+[ ?termIOType S_termIOType ]
+[ ?pin g_pin ]
+[ ?pinAccessDir tl_pinAccessDir ]
+[ ?pinLabel g_pinLabel ]
+[ ?pinLabelHeight n_pinLabelHeight ]
+[ ?pinLabelLayer txl_pinLabelLayer ]
+[ ?pinLabelFont S_pinLabelFont ]
+[ ?pinLabelDrafting g_pinLabelDrafting ]
+[ ?pinLabelOrient S_pinLabelOrient ]
+[ ?pinLabelOffsetPoint l_pinLabelOffsetPoint ]
+[ ?pinLabelJust S_pinLabelJust ]
+[ ?pinLabelRefHandle S_pinLabelRefHandle ]
+;end ROD Connectivity Arguments for Rectangles
+[ ?subRectArray l_subrectArgs... ]
+;start l_subrectArgs Subrectangle Arguments (l_subrectArgs)
+list(
+list(
+[ ?layer txl_layer ]
+[ ?width n_width ]
+[ ?length n_length ]
+[ ?gap S_gap ]
+[ ?lowerLeftOffsetX n_lowerLeftOffsetX ]
+[ ?lowerLeftOffsetY n_lowerLeftOffsetY ]
+[ ?upperRightOffsetX n_upperRightOffsetX ]
+[ ?upperRightOffsetY n_upperRightOffsetY ]
+[ ?spaceX n_spaceX ]
+[ ?spaceY n_spaceY ]
+[ ?prop l_prop ]
+;Repeat ROD Connectivity Arguments here
+);end first subrectangle list
+...
+) ;end all subrectangle lists
+;end l_subrectArgs
+);end rodCreateRect
+=> R_rodObj | t / nil
+描述: Creates a single named rectangle, one or more rows and/or columns of named rectangles, or fills a bounding box with named rectangles, where each rectangle has ROD attributes. You can create these named rectangles with the arguments S_name through g_returnBoolean. Each named rectangle is a separate object, created at level zero in the hierarchy. You can also create multipart rectangles by specifying one or more arrays of unnamed subrectangles for each named rectangle, where each unnamed subrectangle is an ordinary database shape, with no ROD attributes, created at level zero in the hierarchy. T…（已截断 1325 字符；detail="full" 取全文）
+来源: rodskillref/chap1.html
+
+参数:
+  校验: 签名 36 个 ?参数 / 参数表 35 条；?lowerLeftOffsetY 在参数表写作 ?lowerLeftOffseY（疑官方笔误，以原文为准）；签名有而参数表未列: ?pinLabelDrafting ?pinLabelJust；参数表有而签名未见: ?pinLableJust
+  ?name S_name — Symbol or character string specifying the name for the rectangle you want to create. Enclose character strings in quotation marks (""); precede symbols with a single quotation mark ('). ROD converts symbols to character strings.
+    Default: rectn, rectn.n, rectn.x.y
+  ?layer txl_layer — Text string, integer, or list specifying the layer or layer-purpose pair for the rectangle(s), such as
+    Default Purpose: drawing
+  ?width n_width — Positive integer or floating-point number specifying the horizontal measurement of the rectangle, in user units.
+    Default: n_length if specified; otherwise the minimum width rule for the specified layer from your technology file
+  ?length n_length — Positive integer or floating-point number specifying the vertical measurement of the rectangle, in user units.
+    Default: n_width if specified; otherwise the minimum width rule for the specified layer from your technology file
+  ?origin l_origin — Single point or list of coordinates specifying the lower left corner of the first rectangle; use one of the following formats:
+    Default: 0:0
+  ?bBox l_bBox — List of two points specifying opposite corners of a bounding box for the size of the rectangle. You can start the box in any corner. The system determines the location of the first rectangle by using the difference between the coordinates for the specified opposite corners. Use one of the following formats:
+    Default: none
+  ?elementsX x_elementsX — Positive integer specifying the number of rectangles to create in a row parallel to the X axis. If you also specify l_fillBBox, x_elementsX specifies the maximum number of rectangles to create in the direction of the X axis.
+    Default: 1
+  ?elementsY x_elementsY — Positive integer specifying the number of rectangles to create in a column parallel to the Y axis. If you also specify l_fillBBox, x_elementsY specifies the maximum number of rectangles to create in the direction of the Y axis.
+    Default: 1
+  ?spaceX n_spaceX — Positive integer or floating-point number specifying the distance between the edges of rectangles in the direction of the X axis. This argument is ignored when a row contains only one rectangle.
+    Default: n_spaceY if specified; otherwise the minimum spacing rule for the specified layer from your technology file
+  ?spaceY n_spaceY — Positive integer or floating-point number specifying the distance between the edges of rectangles in the direction of the Y axis. This argument is ignored when a row contains only one rectangle.
+    Default: n_spaceX if specified; otherwise the minimum spacing rule for the specified layer from your technology file
+  ?cvId d_cvId — Database ID for the cellview in which you are creating a rectangle.
+    Default: pcCellView or tcCellView when a rodCreateRect statement occurs in the body of a pcDefinePCell function or tcCreateCDSDeviceClass function call, respectively; nil if no cellview ID is specified or found
+  ?fillBBox l_fillBBox — List of two points defining opposite corners of a bounding box to fill with rectangles, referred to as a fill-bounding box. The first point specifies any corner and the second point specifies the opposite corner. Use one of the following formats:
+    Default: nil
+  ?fromObj Rl_fromObj — ROD object ID or list of ROD object IDs identifying a named object or list of named objects that you want to use as a source for creating a new named rectangle. The source objects can be instances, rectangles, polygons, paths, lines, dots, labels, and/or text-display objects. When you specify Rl_fromObj, the value of the Rl_fromObj argument overrides other arguments that directly or indirectly specified coordinates for the generated rectangle: n_width, n_length, l_origin, and l_bBox.
+    Default: none
+  ?size txf_size — A signed integer, floating-point number, or Cadence® SKILL language expression specifying the difference between the size of the source object (Rl_fromObj) and the size of the generated rectangle. When the source is more than one object, txf_size specifies the difference between a bounding box around all of the objects and the size of the generated rectangle.
+    If you specify a source object (Rl_fromObj) but do not specify txf_size, then txf_size defaults to 0.0. If you specify txf_size, you must also specify Rl_fromObj, or the system issues a warning message and the function fails.
+    Default: 0.0
+  ?prop l_prop — A list or lists of lists, where each list contains the name of a property and its value. When the property name is a string, enclose it in quotes. For a description of the valid data types, see the "About the Add Property Form" in the Virtuoso Layout Suite L User Guide. For Boolean properties, the value must be t or nil. For example, you would specify a single Boolean property as follows:
+    Default: nil
+  ?returnBoolean g_returnBoolean — Boolean value indicating whether or not the rodCreateRect function returns a Boolean value or ROD object IDs. The value must be t or nil. When g_returnBoolean is t, the function returns t or nil. When g_returnBoolean is nil, the function returns a single ROD object ID or a list of ROD object IDs. When you are creating multiple rectangles, the rodCreateRect function executes much more quickly if g_returnBoolean is set to t, so when you do not need a list of ROD object IDs, set this argument to t.
+    Default: nil
+  rodRectConnectivityArgs... — A list containing rod connectivity arguments for rectangles.
+  ?subRectArray l_subrectArgs... — A list containing one or more lists, each of which specifies the arguments for one set of unnamed subrectangles. Each list creates a set of unnamed subrectangles for each master rectangle in the multipart rectangle; each set of subrectangles is created in relationship to the lower-left corner of each master rectangle. For information about how to specify lists of lists, see Formatting List-of-Lists Arguments for Subparts.
+  子参数 [ROD Connectivity Arguments for Rectangles (rodRectConnectivityArgs)]（属于 rodRectConnectivityArgs...）:
+    ?netName S_netName — Symbol or character string specifying the name of the net with which you want to associate the shape. Enclose character strings in quotation marks (""); precede symbols with a single quotation mark ('). ROD converts symbols to character strings. If the net does not exist, the system creates the net, naming it with S_netName. To associate the shape with a net, this argument is required.
+      Default: none
+    ?termName S_termName — Symbol or character string specifying the name of the terminal and net with which you want to associate the shape. Enclose character strings in quotation marks (""); precede symbols with a single quotation mark ('). ROD converts symbols to character strings. If the terminal and net does not exist, the system creates them, naming them S_termName.
+      Default: none
+    ?termIOType S_termIOType — Symbol or character string specifying the direction type (I/O type) for the terminal. If S_termName is not specified, S_termIOType is ignored. If a terminal with the name specified by S_termName already exists, it must have the same direction type as specified by S_termIOType; if the direction type is not the same, the function reports an error.
+      Valid Values: input, output, inputOutput, switch, jumper
+      Default: inputOutput
+    ?pin g_pin — Boolean value indicating whether or not to make the shape into a pin. The value must be t or nil.
+      Valid Values: t, nil
+      Default: nil
+    ?pinAccessDir tl_pinAccessDir — Text string or list specifying the access directions for the pin. Enclose string values in quotation marks. Do not use a symbol. An example of a list is
+      Valid Values: top, bottom, left right, any, none, or a list containing any of these values
+      Default: any
+    ?pinLabel g_pinLabel — Boolean value indicating whether or not to add a text-display label for the pin. The value must be t or nil. When the value is t, the system creates a text-display label attached to the pin. The text is the contents the of the S_termName argument.
+      Valid Values: t, nil
+      Default: nil
+    ?pinLabelHeight n_pinLabelHeight — Integer or floating-point number specifying the vertical height of the pin text-display label in user units.
+      Default:1
+    ?pinLabelLayer txl_pinLabelLayer — Text string, integer, or list specifying the layer or layer-purpose pair for the pin text-display label, such as
+      When only the layer is specified, the purpose defaults to the purpose defined by l_layer. When neither layer nor purpose is specified, both layer and purpose default to the values defined by l_layer.
+      Default: layer specified by l_layer; purpose specified by l_layer
+    ?pinLabelFont S_pinLabelFont — Symbol or character string specifying the name of the font for the pin text-display label.
+      Valid Values: euroStyle, gothic, math, roman, script, stick, swedish
+      Default: stick
+    ?pinLabelOrient g_pinLabelDrafting — Boolean value indicating whether or not to rotate the pin text-display label more than 90 degrees. The value must be t or nil. When the value is t, the label can rotate 90 degrees or less. When the value is nil, the label can rotate 90 degrees or more.
+      Valid Values: t, nil
+      Default: t
+    ?pinLabelOrient S_pinLabelOrient — Symbol or character string specifying the orientation of the pin text-display label.
+      Valid Values:
+      Default: R0
+    ?pinLabelOffsetPoint l_pinLabelOffsetPoint — Single set of coordinates specifying the X and Y offset of the origin of the pin text-display label from a point handle on the rectangle. The label origin is specified by S_pinLabelJust, and the rectangle point handle is specified by S_pinLabelRefHandle.
+      Default: 0:0
+    ?pinLableJust S_pinLabelJust — Symbol or character string specifying the origin point of the label. You must specify both words; do not abbreviate them.
+      Valid Values:
+      Default: centerCenter
+    ?pinLabelRefHandle S_pinLabelRefHandle — Symbol or character string specifying the point handle on the rectangle with which you want to associate the origin point of the text-display label. You can specify the name of any bounding box or segment point handle.
+      Bounding box point handle names: To specify a point handle on the bounding box of a rectangle, use either the two-word handle name or its two-character abbreviation, as shown in valid values. For example, you can use uL for upperLeft.
+      Valid Values for bounding box point handles:
+      Valid Values: start0, mid0, end0; start1, mid1, end1; start2, mid2, end2; startLast, midLast, endLast
+      Default: the bounding box point handle centerCenter
+  子参数 [Subrectangle Arguments (l_subrectArgs)]（属于 ?subRectArray l_subrectArgs...）:
+    ?layer txl_layer — Text string, integer, or list specifying the layer or layer-purpose pair for the subrectangle(s), such as
+      Default Purpose: drawing
+    ?width n_width — Positive integer or floating-point number specifying the horizontal measurement of the subrectangle(s) in user units.
+      Default: n_length if specified; otherwise minWidth for the subrectangle layer from the technology file
+    ?length n_length — Positive integer or floating-point number specifying the vertical measurement of the subrectangle(s) in user units.
+      Default: n_width if specified; otherwise, minWidth for the subrectangle layer from the technology file
+    ?gap S_gap — Symbol or character string specifying the method the system uses to place subrectangles within each master rectangle. Enclose character strings in quotation marks (""); precede symbols with a single quotation mark ('). ROD converts symbols to character strings.
+      When the value of S_gap is distribute, which is the default, the system distributes the space around subrectangles as evenly as possible, in multiples of the grid space specified by mfgGridResolution. Any remaining space is divided evenly and placed to the right and/or above each subrectangle. The following example shows excess space along the X axis.
+      Valid Values: distribute, minimum, minCenter
+      Default: distribute
+    ?lowerLeftOffsetX n_lowerLeftOffsetX — Signed integer or floating-point number specifying the offset along the X axis of the left edge of the lower-left subrectangle from the left edge of the master rectangle. A positive number starts the subrectangles to the right; a negative number starts the subrectangles outside the master rectangle.
+    Default: — 0
+    ?lowerLeftOffseY n_lowerLeftOffsetY — Signed integer or floating-point number specifying the offset along the Y axis of the bottom edge of the lower-left subrectangle from the bottom edge of the master rectangle. A positive number starts the subrectangles above the bottom edge of the master rectangle; a negative number starts the subrectangles outside the master rectangle.
+    ?upperRightOffsetX n_upperRightOffsetX — Signed integer or floating-point number specifying the offset along the X axis of the right edge of the upper-right subrectangle from the right edge of the master rectangle. A positive number starts the subrectangles outside of the master rectangle; a negative number starts the subrectangles to the left of the right edge of the master rectangle.
+    ?upperRightOffsetY n_upperRightOffsetY — Signed integer or floating-point number specifying the offset along the Y axis of the top edge of the upper-right subrectangle from the top edge of the master rectangle. A positive number starts the subrectangles outside of the master rectangle; a negative number starts the subrectangles below the top edge of the master rectangle.
+    ?spaceX n_spaceX — Positive integer or floating-point number specifying the distance between the edges of subrectangles in the direction of the X axis. If not specified, the system uses the minSpacing rule for the subrectangle layer from the technology file. If the minSpacing rule is not defined in the technology file, rodCreateRect returns nil to indicate an error.
+      Default: minSpacing for the subrectangle layer from the technology file
+    ?spaceY n_spaceY — Positive integer or floating-point number specifying the distance between the edges of subrectangles in the direction of the Y axis. If not specified, the system uses the minSpacing rule for the subrectangle layer from the technology file. If the minSpacing rule is not defined in the technology file, rodCreateRect returns nil to indicate an error.
+      Default: minSpacing for the subrectangle layer from the technology file
+    ?prop l_prop — A list or lists of lists, where each list contains the name of a property and its value. When the property name is a string, enclose it in quotes. For a description of the valid data types, see the "About the Add Property Form" in the Virtuoso Layout Suite L User Guide. For Boolean properties, the value must be t or nil. For example, you would specify a single Boolean property as follows:
+      Default: nil
+
+省略: 参数说明续文 26 条共 21,879 字 → detail="full"（参数名、允许取值与 Default 已保留）
+
+返回:
+  R_rodObj — ROD object ID or a list of ROD object IDs in descending sequence for ROD object information associated with the new rectangle or multiple new rectangles.
+  t — Rectangles were created successfully.
+  nil — An error occurred, and no rectangles were created.
+
+返回正文（条目之外，原文散文，非结构化条目）:
+  The values returned by the rodCreateRect function is determined by how you specify the g_returnBoolean argument.
+  When g_returnBoolean is set to t, the function returns t or nil.
+  When g_returnBoolean is set to nil, the function returns a ROD object ID or list of ROD object IDs.
+  When g_returnBoolean is set to nil and more than one rectangle is created, rodCreateRect returns a list of ROD object IDs with the upper right rectangle listed first and the lower left rectangle listed last. For example,
+  ("xxx.6.6" "xxx.6.5" "xxx.6.4" "xxx.6.3" "xxx.6.2" "xxx.6.1"
+  "xxx.5.6" "xxx.5.5" "xxx.5.4" "xxx.5.3" …（已截断 273 字符；detail="full" 取全文）

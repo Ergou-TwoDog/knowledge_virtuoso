@@ -1,0 +1,11 @@
+函数: abeElapsedTime
+签名: abeElapsedTime([ ?reset g_reset ]) => g_time
+来源: sklayoutref/abe.html
+
+参数:
+  ?reset g_reset
+    By default, the clock is not reset.
+
+返回: g_time
+
+省略: 参数说明 1 条共 59 字 → detail="brief"；示例、补充说明、相关函数、选项说明 → detail="full"

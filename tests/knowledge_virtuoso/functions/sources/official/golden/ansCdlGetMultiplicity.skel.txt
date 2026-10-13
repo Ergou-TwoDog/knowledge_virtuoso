@@ -1,0 +1,12 @@
+函数: ansCdlGetMultiplicity
+签名: ansCdlGetMultiplicity( S_inst S_master S_parent ) => n_multiplicityFactor
+来源: skartistref/chap4.html
+
+参数:
+  S_inst
+  S_master
+  S_parent
+
+返回: n_multiplicityFactor
+
+省略: 参数说明 3 条共 229 字 → detail="brief"；示例、补充说明、相关函数、选项说明 → detail="full"

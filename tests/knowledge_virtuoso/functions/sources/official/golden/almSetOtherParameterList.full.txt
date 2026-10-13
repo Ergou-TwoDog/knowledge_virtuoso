@@ -1,0 +1,21 @@
+函数: almSetOtherParameterList
+签名: almSetOtherParameterList(
+t_libt_cell
+l_parameter
+[ ?view g_view ][ ?tool g_tool ]
+[ ?entry g_entry ]
+)
+描述: Sets list of other parameter names for the arguments specified.
+来源: skartistref/chap16.html
+
+参数:
+  校验: 签名 3 个 ?参数 / 参数表 3 条；?tool 在参数表写作 ?toolg_tool（疑官方笔误，以原文为准）
+  t_lib — Name of the library in which the cell resides.
+  t_cell — Name of the cell.
+  l_parameter — List of parameter names. Each element must be a symbol
+  ?view g_view — Name of the view.
+  ?toolg_tool — Name of the tool. This argument is ignored when the g_view argument is specified.
+  ?entry g_entry — Parameter entry. The default value is "otherParameters".
+
+示例:
+  almSetOtherParameterList("analogLib" "mind" '(ind1 ind2) ?tool "spectre" ?entry "otherParameters")

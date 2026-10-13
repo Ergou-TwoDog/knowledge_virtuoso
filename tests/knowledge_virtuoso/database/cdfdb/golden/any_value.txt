@@ -1,0 +1,5 @@
+匹配 2 个 CDF 属性:
+  name                      rw   type       desc
+  ------------------------- ---- ---------- ----------------------------------------
+  defValue                  rw              Default value of the parameter. You must specify this …
+  value                     rw              Current value of the parameter. This field is editable.

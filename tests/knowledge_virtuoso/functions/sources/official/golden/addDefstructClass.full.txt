@@ -1,0 +1,25 @@
+函数: addDefstructClass
+签名: addDefstructClass(
+s_name )
+=> u_classObject
+描述: Creates a class for the defstruct.
+By default, an instance of a defstruct does not have a class. You cannot use Instance to instantiate this class. Use the instantiation function created by defstruct.
+Using addDefstructClass to create a class for a defstruct allows you to define methods for a defstruct.
+来源: sklangref/funcprog.html
+相关: Instance [../sklanguser/chap16.html]
+
+参数:
+  s_name — The name of the defstruct.
+
+返回:
+  u_classObject — The class object.
+
+示例:
+  defstruct( card rank suit ) => t
+  x = _card( ?rank 8 ?suit "spades" )
+  => array[4]:3897312
+  type( x ) => card
+  findClass( 'card ) => nil
+  classOf( x ) => nil
+  addDefstructClass( card ) => funobj:0x1c98f8
+  className( classOf( x )) => card

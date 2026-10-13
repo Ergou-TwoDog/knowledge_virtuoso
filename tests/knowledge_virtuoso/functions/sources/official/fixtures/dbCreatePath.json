@@ -1,0 +1,103 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "dbCreatePath(\nd_cellView txl_layerPurposel_points\nn_width\n[ t_pathStyle ]\n)\n=> d_path / nil",
+   "shared_from": null
+  }
+ ],
+ "where": {
+  "file": "skdfref/chap2.html",
+  "topic": "dbCreatePath",
+  "marker_text": "dbCreatePath",
+  "anchor": "dbCreatePath"
+ },
+ "also_at": [],
+ "sections": {
+  "description": {
+   "text": "Creates a path.\nNote: dbCreatePath is a core database SKILL function that checks only for even multiples of database units to create a path. As a result, the created path can be off grid. To create a path with required constraints and additional level of automation use an end-application SKILL function, such as leCreatePath."
+  },
+  "arguments": {
+   "root": {
+    "title": null,
+    "items": [
+     {
+      "name": "d_cellView",
+      "desc": "The cellview.",
+      "values": null
+     },
+     {
+      "name": "txl_layerPurpose",
+      "desc": "Name, number, or a list of layer or layer-purpose pair.\nFor more information, see Type txl_layerPurpose.",
+      "values": null
+     },
+     {
+      "name": "t_purpose",
+      "desc": "Purpose, if not specified, defaults to drawing.",
+      "values": null
+     },
+     {
+      "name": "l_points",
+      "desc": "Point list; must contain at least two points.\nFor more information, see Type l_point.",
+      "values": null
+     },
+     {
+      "name": "n_width",
+      "desc": "Path width specified in user units.",
+      "values": null
+     },
+     {
+      "name": "t_pathStyle",
+      "desc": "Path style, defaults to truncateExtend.\nFor more information, see Type t_pathStyle.",
+      "values": null
+     }
+    ]
+   },
+   "lists": [],
+   "text": "d_cellView\nThe cellview.\ntxl_layerPurpose\nName, number, or a list of layer or layer-purpose pair.\nFor more information, see Type txl_layerPurpose.\nt_purpose\nPurpose, if not specified, defaults to drawing.\nl_points\nPoint list; must contain at least two points.\nFor more information, see Type l_point.\nn_width\nPath width specified in user units.\nt_pathStyle\nPath style, defaults to truncateExtend.\nFor more information, see Type t_pathStyle."
+  },
+  "returns": {
+   "items": [
+    {
+     "value": "d_path",
+     "desc": "The dbObject of the path."
+    },
+    {
+     "value": "nil",
+     "desc": "The path is not created."
+    }
+   ],
+   "text": "d_path\nThe dbObject of the path.\nnil\nThe path is not created."
+  },
+  "example": {
+   "text": "dbCreatePath(cv 2 list(0:0 0:1 1:1 1:0) 4 \"extendExtend\")\ndbCreatePath(cv list(\"background\" \"drawing\") list(1:6 1:1 2:1) 2 )\ndbCreatePath(cv list (\"background\") list(0:0 1:0 1:2 2:3) 2 \"squareFlush\")\nNote: if you specify a list of points where more than two points have the same X coordinate or the same Y coordinate, a message is generated\nNote: If you specify a list of points where more than two points have the same X coordinate or the same Y coordinate, a message is generated in the CIW. For example, the following code generates a warning message in the CIW:\ndbCreatePath(cv list(\"metal3\" \"drawing\") '((2 2) (2 4) (2 6)) 2)"
+  }
+ },
+ "field_status": {
+  "description": "present",
+  "arguments": "present",
+  "returns": "present",
+  "example": "present",
+  "reference": "not_documented",
+  "related_functions": "not_documented",
+  "prerequisites": "not_documented",
+  "additional_information": "not_documented",
+  "interactive_function": "not_documented",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "not_documented",
+  "overview": "not_documented",
+  "errors": "not_documented",
+  "decl": "present"
+ },
+ "status": "active",
+ "prefix": "db",
+ "tokens": [
+  "db",
+  "create",
+  "path"
+ ],
+ "name": "dbCreatePath"
+}

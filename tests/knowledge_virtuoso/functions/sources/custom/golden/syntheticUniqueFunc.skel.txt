@@ -1,0 +1,12 @@
+函数: syntheticUniqueFunc
+签名: syntheticUniqueFunc( t_in ) => t_out / nil
+状态: 自定义函数（二次开发），需先 load("src/test/syntheticUniqueFunc.il") 才能调用
+来源: src/test/syntheticUniqueFunc.il
+
+参数:
+  t_in
+  t_mode
+
+返回: t_out
+
+省略: 参数说明 2 条共 6 字 → detail="brief"；示例、补充说明、相关函数、选项说明 → detail="full"
