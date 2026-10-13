@@ -31,7 +31,7 @@ def main(argv=None) -> None:
     args = parser.parse_args(argv)
 
     if args.target == "functions":
-        from knowledge_virtuoso.functions.core.catalog import build_index_file
+        from knowledge_virtuoso.functions.index import build_index_file
 
         doc_root = args.doc or os.environ.get("VIRTUOSO_DOC_DIR")
         if not doc_root:

@@ -1,18 +1,12 @@
 #!/usr/bin/env python3
-"""Parse the official IC618 SKILL callable-function documentation.
+"""knowledge_virtuoso.official.catalog — 官方来源：解析 IC618 SKILL 文档。
 
-The committed index is deliberately limited to official SKILL *callables*.  It is
-not a general symbol index: environment settings, types, aliases, C++ API pages,
-and empty topic markers are excluded.  The HTML corpus has several historical
-markup styles, so parsing is structural and uses only the Python standard
-library.
+收录范围只限官方 SKILL *可调用函数*：环境设置、类型、别名、C++ API 页、空 topic
+标记都不收。HTML 语料有多种历史排版，所以解析是结构化的，只用标准库。
 """
 
 from __future__ import annotations
 
-import difflib
-import gzip
-import json
 import os
 import re
 import sys
@@ -22,10 +16,9 @@ from html import unescape
 from html.parser import HTMLParser
 from pathlib import Path
 from typing import Iterator
-from threading import RLock
-from copy import deepcopy
 
 from knowledge_virtuoso._paths import index_path
+
 
 for _stream in (sys.stdout, sys.stderr):
     if hasattr(_stream, "reconfigure"):
@@ -34,9 +27,9 @@ for _stream in (sys.stdout, sys.stderr):
         except Exception:
             pass
 
-_DEFAULT_INDEX_JSON = index_path("functions")
-_SCHEMA_VERSION = 3
 
+# 官方索引的落盘位置；来源接口 official/__init__.py 从这里取。
+INDEX_PATH = index_path("functions")
 # These are the docsets whose entries are in scope for the callable SKILL API.
 # This is an inclusion policy, not merely a preference when de-duplicating.
 _SKILL_DOC_DIRS = {
@@ -47,30 +40,12 @@ _SKILL_DOC_DIRS = {
     "rodskillref", "caiskill", "constraintsSKILL", "vivaxlskill",
     "verifierSkillRef", "parasimSKILL", "netlistsimulateref", "ocnxl", "aelref",
 }
-
-_TOKEN_RE = re.compile(r"[A-Z]?[a-z]+|[A-Z]+(?=[A-Z][a-z]|[0-9]|\b)|[0-9]+")
-_NAME_RE = re.compile(r"^[a-z][a-zA-Z0-9_]+$")
-_PREFIX_RE = re.compile(r"^([a-z]+)[A-Z]")
 _TOPIC_START_RE = re.compile(
     r"<!--\s*\[TOPIC_START_OPEN\](?P<meta>.*?)\[TOPIC_START_CLOSE\]\s*-->",
     re.DOTALL,
 )
 _TOPIC_ATTR_RE = re.compile(r"\[TOPIC_START_ATTR\](?P<key>[^=\s]+)=(?P<value>[^\r\n]*)")
 _TOPIC_END_RE = re.compile(r"<!--\s*\[TOPIC_END\]\s*-->", re.DOTALL)
-
-# Public module state is intentionally kept as the flat map used by the MCP
-# server.  The on-disk v2 envelope is normalized when loaded.
-_index: dict[str, dict] = {}
-_keyword_index: dict[str, set[str]] = {}
-_prefix_index: dict[str, set[str]] = {}
-_index_built = False
-_last_report: dict[str, object] = {}
-_index_lock = RLock()
-# 当前内存索引由哪些源合成：第一个恒为官方索引，其后为零个或多个 custom 源。
-_index_sources: tuple[str, ...] = ()
-_index_lengths: tuple[int, int, int] = (0, 0, 0)
-# VIRTUOSO_CUSTOM_INDEX 的解析结果缓存（进程内首次调用时解析，改环境后需重启）。
-_custom_paths_cache: tuple[str, ...] | None = None
 
 
 @dataclass
@@ -259,7 +234,7 @@ _SECTION_LABELS = (
 )
 
 
-# 索引 sections / field_status 覆盖的规范节名（顺序固定，便于对照 functions/data/mapping.md）。
+# 索引 sections / field_status 覆盖的规范节名（顺序固定，便于对照 functions/README.md）。
 _CANONICAL_SECTIONS = (
     "description", "arguments", "returns", "example", "reference", "related_functions",
     "prerequisites", "additional_information", "interactive_function", "associated_options",
@@ -827,8 +802,6 @@ def _is_skill_doc(rel_path: str) -> bool:
     return _docset(rel_path) in _SKILL_DOC_DIRS
 
 
-def _tokenize_name(name: str) -> list[str]:
-    return [part.lower() for part in _TOKEN_RE.findall(name) if len(part) >= 2]
 
 
 def _topic_names(attrs: dict, topic: str) -> list[str]:
@@ -844,7 +817,7 @@ def _topic_names(attrs: dict, topic: str) -> list[str]:
     return names if all(_NAME_RE.fullmatch(n) for n in names) else []
 
 
-def _candidate_entries(doc_root: str) -> tuple[dict[str, dict], dict[str, int]]:
+def build_entries(doc_root: str) -> tuple[dict[str, dict], dict[str, int]]:
     entries: dict[str, dict] = {}
     report: Counter[str] = Counter()
     root = Path(doc_root)
@@ -912,420 +885,10 @@ def _candidate_entries(doc_root: str) -> tuple[dict[str, dict], dict[str, int]]:
 
 def scan_functions(doc_root: str) -> dict[str, str]:
     """Return only official documented SKILL callable names and source paths."""
-    entries, _ = _candidate_entries(doc_root)
+    entries, _ = build_entries(doc_root)
     return {name: entry["where"]["file"] for name, entry in entries.items()}
 
 
-def _rebuild_runtime_indexes(entries: dict[str, dict]) -> tuple[dict, dict, dict]:
-    """Validate query-consumed types and build private indexes without publishing."""
-    if not isinstance(entries, dict) or not entries:
-        raise ValueError("function records must be a nonempty object")
-    index, keywords, prefixes = {}, {}, {}
-
-    def require(value, expected, label):
-        if not isinstance(value, expected):
-            raise ValueError(f"{label} must be {expected.__name__}")
-
-    def arg_items(value, label):
-        require(value, list, label)
-        for row in value:
-            require(row, dict, label)
-            require(row.get("name"), str, f"{label}.name")
-            require(row.get("desc"), str, f"{label}.desc")
-            if row.get("values") is not None:
-                require(row["values"], list, f"{label}.values")
-                for item in row["values"]:
-                    require(item, dict, f"{label}.values item")
-                    require(item.get("value"), str, f"{label}.values.value")
-
-    def arguments_block(value, label):
-        require(value, dict, label)
-        require(value.get("root"), dict, f"{label}.root")
-        arg_items(value["root"].get("items", []), f"{label}.root.items")
-        require(value.get("lists", []), list, f"{label}.lists")
-        for item in value["lists"]:
-            require(item, dict, f"{label}.lists item")
-            require(item.get("title"), str, f"{label}.lists.title")
-            if item.get("parent") is not None:
-                require(item["parent"], dict, f"{label}.lists.parent")
-            arg_items(item.get("items", []), f"{label}.lists.items")
-
-    for name, raw in entries.items():
-        if not isinstance(name, str) or not name.strip():
-            raise ValueError("function name must be a nonempty string")
-        require(raw, dict, name)
-        entry = deepcopy(raw)
-        # prefix / tokens 不落盘、加载时无条件由函数名重算（不信任文件里的旧值）。
-        prefix_match = _PREFIX_RE.match(name)
-        entry["prefix"] = prefix_match.group(1) if prefix_match else ""
-        entry["tokens"] = _tokenize_name(name)
-        require(entry.get("where", {}), dict, f"{name}.where")
-        require(entry["where"].get("file", ""), str, f"{name}.where.file")
-        require(entry.get("decl", []), list, f"{name}.decl")
-        for item in entry["decl"]:
-            require(item, dict, f"{name}.decl item")
-            require(item.get("text"), str, f"{name}.decl item text")
-        require(entry.get("sections", {}), dict, f"{name}.sections")
-        for key, section in entry["sections"].items():
-            require(section, dict, f"{name}.sections.{key}")
-            if key == "arguments":
-                arguments_block(section, f"{name}.sections.arguments")
-            elif key == "returns":
-                require(section.get("items", []), list, f"{name}.sections.returns.items")
-                for row in section["items"]:
-                    require(row, dict, f"{name}.sections.returns.items item")
-                    require(row.get("value"), str, f"{name}.sections.returns.items.value")
-            elif "text" in section:
-                require(section["text"], str, f"{name}.sections.{key}.text")
-            if "links" in section:
-                require(section["links"], list, f"{name}.sections.{key}.links")
-        require(entry.get("field_status", {}), dict, f"{name}.field_status")
-        for key, value in entry["field_status"].items():
-            require(value, str, f"{name}.field_status.{key}")
-        require(entry.get("status", "active"), str, f"{name}.status")
-        index[name] = entry
-        for token in entry["tokens"]:
-            keywords.setdefault(token, set()).add(name)
-        if entry["prefix"]:
-            prefixes.setdefault(entry["prefix"], set()).add(name)
-    return index, keywords, prefixes
-
-
-def _canonical_index_path(path: str | Path) -> str:
-    # Lexical normalization never stats disk on healthy queries. Symlink aliases
-    # intentionally remain different sources (no filesystem hot reload).
-    return os.path.normcase(os.path.abspath(os.fspath(path)))
-
-
-_CUSTOM_INDEX_ENV = "VIRTUOSO_CUSTOM_INDEX"
-
-
-def custom_index_paths() -> tuple[str, ...]:
-    """额外的、与官方同构（v3 envelope）的 custom 索引路径。
-
-    取环境变量 ``VIRTUOSO_CUSTOM_INDEX``，按 ``os.pathsep`` 分隔多项；每项可以是索引
-    文件，或含若干 ``*.json`` 的目录。结果在进程内首次调用时解析并缓存（与 data_dir
-    同语义：改环境后需重启），使健康查询不 stat 磁盘。官方索引路径会被剔除，避免自己
-    叠自己。
-    """
-    global _custom_paths_cache
-    if _custom_paths_cache is not None:
-        return _custom_paths_cache
-    official = _canonical_index_path(_DEFAULT_INDEX_JSON)
-    resolved: list[str] = []
-    for part in os.environ.get(_CUSTOM_INDEX_ENV, "").split(os.pathsep):
-        part = part.strip()
-        if not part:
-            continue
-        path = Path(part).expanduser()
-        children = sorted(str(child) for child in path.glob("*.json")) if path.is_dir() else [str(path)]
-        resolved.extend(_canonical_index_path(child) for child in children)
-    seen: set[str] = set()
-    unique: list[str] = []
-    for item in resolved:
-        if item != official and item not in seen:
-            seen.add(item)
-            unique.append(item)
-    _custom_paths_cache = tuple(unique)
-    return _custom_paths_cache
-
-
-def _memory_healthy(sources: tuple[str, ...]) -> bool:
-    """O(1) guard, not a detector for equal-size or nested-value corruption."""
-    return (_index_built and _index_sources == sources
-            and isinstance(_index, dict) and bool(_index)
-            and isinstance(_keyword_index, dict) and isinstance(_prefix_index, dict)
-            and (len(_index), len(_keyword_index), len(_prefix_index)) == _index_lengths)
-
-
-def _publish(runtime: tuple[dict, dict, dict], sources: tuple[str, ...], report: dict) -> None:
-    """Caller holds _index_lock; published dictionaries are never mutated here."""
-    global _index, _keyword_index, _prefix_index, _index_sources
-    global _index_lengths, _index_built, _last_report
-    _index, _keyword_index, _prefix_index = runtime
-    _index_sources = tuple(sources)
-    _index_lengths = tuple(len(part) for part in runtime)
-    _last_report = report
-    _index_built = True
-
-
-def _index_envelope(entries: dict[str, dict]) -> dict:
-    return {
-        "schema_version": _SCHEMA_VERSION,
-        "corpus": {
-            "product": "Cadence IC618",
-            "scope": "official-skill-callables",
-        },
-        # 派生字段不落盘：加载时按函数名重算。
-        "functions": {
-            name: {k: v for k, v in entry.items() if k not in _DERIVED_KEYS}
-            for name, entry in sorted(entries.items())
-        },
-    }
-
-
-def _write_index(json_path: str | Path, entries: dict[str, dict]) -> None:
-    """原子写入索引：紧凑分隔符 + LF 换行 + gzip。
-
-    索引体积的绝大部分是表示开销而非不可约信息：紧凑化去掉约 28% 的缩进空白，
-    gzip 再去掉键名与短语重复。代价是文件不能再直接 grep，排障需解压查看。
-    """
-    path = Path(json_path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    payload = json.dumps(
-        _index_envelope(entries), ensure_ascii=False, separators=(",", ":")
-    ).encode("utf-8")
-    import tempfile
-    temporary = None
-    try:
-        with tempfile.NamedTemporaryFile(mode="wb", dir=path.parent, delete=False) as stream:
-            temporary = Path(stream.name)
-            # mtime=0 让同样的内容产出同样的字节，便于比较与复现。
-            stream.write(gzip.compress(payload, 9, mtime=0))
-        temporary.replace(path)
-    finally:
-        if temporary and temporary.exists():
-            temporary.unlink()
-
-
-def build_index_file(doc_root: str, output_path: str | Path) -> int:
-    """Parse, validate, atomically persist, then publish one complete generation."""
-    with _index_lock:
-        source = _canonical_index_path(output_path)
-        entries, report = _candidate_entries(doc_root)
-        runtime = _rebuild_runtime_indexes(entries)
-        _write_index(source, runtime[0])
-        _publish(runtime, (source,), report)
-        return len(runtime[0])
-
-
-class IndexLoadError(RuntimeError):
-    """Neither JSON nor configured official docs could restore the index."""
-
-
-def _read_index_entries(json_path: str | Path, *, require_envelope: bool = False) -> dict:
-    """读取一份索引（gzip 或明文）→ ``functions`` 记录字典。
-
-    ``require_envelope`` 为真时只接受 v3 envelope（含 ``schema_version``），用于 custom
-    源：契约要求 custom 索引与官方同构，非 envelope 形态（如按文件分组的 list）一律拒绝。
-    """
-    raw = Path(json_path).read_bytes()
-    if raw[:2] == b"\x1f\x8b":  # v3 起索引 gzip 落盘；仍兼容未压缩的 JSON
-        raw = gzip.decompress(raw)
-    data = json.loads(raw.decode("utf-8"))
-    if not isinstance(data, dict):
-        raise ValueError("index root must be an object")
-    if "schema_version" in data:
-        if type(data["schema_version"]) is not int or data["schema_version"] != _SCHEMA_VERSION:
-            raise ValueError(
-                f"索引格式版本不兼容（文件为 {data['schema_version']}，当前需要 {_SCHEMA_VERSION}）")
-        entries = data.get("functions")
-    elif require_envelope:
-        raise ValueError("custom 索引必须是 v3 envelope（含 schema_version=3）")
-    else:
-        entries = data  # Legacy flat records; no invented documentation fields.
-    return entries
-
-
-def _build_index(doc_root: str | None = None, index_json: str | Path | None = None) -> None:
-    global _index_built
-    official = _canonical_index_path(_DEFAULT_INDEX_JSON if index_json is None else index_json)
-    extras = () if index_json is not None else custom_index_paths()
-    sources = (official,) + tuple(extras)
-    with _index_lock:
-        if _memory_healthy(sources):
-            return
-        # Failed recovery/source switches must never serve the previous map.
-        _index_built = False
-        try:
-            entries = _read_index_entries(official)
-            _rebuild_runtime_indexes(entries)  # 官方记录校验，失败同样走 doc 恢复
-        except (OSError, ValueError, TypeError, RecursionError) as exc:
-            json_reason = f"{type(exc).__name__}: {exc}"
-        else:
-            _publish_merged(entries, sources)
-            return
-        root = doc_root if doc_root is not None else os.environ.get("VIRTUOSO_DOC_DIR")
-        print(f"SKILL index JSON unavailable ({official}): {json_reason}; recovering from doc {root!r}; "
-              "或运行 knowledge-virtuoso-build functions", file=sys.stderr)
-        try:
-            if not root:
-                raise ValueError(
-                    f"doc_root not configured; set VIRTUOSO_DOC_DIR to rebuild {official}, "
-                    f"or run: knowledge-virtuoso-build functions"
-                )
-            entries, _report = _candidate_entries(root)
-            _write_index(official, entries)
-        except (OSError, ValueError, TypeError, RecursionError) as exc:
-            raise IndexLoadError(
-                f"Index recovery failed. JSON {official}: {json_reason}; "
-                f"doc {root!r}: {type(exc).__name__}: {exc}; "
-                "请重建索引：knowledge-virtuoso-build functions"
-            ) from exc
-        _publish_merged(entries, sources)
-
-
-def _publish_merged(entries: dict, sources: tuple[str, ...]) -> None:
-    """把官方记录与各 custom 源合并、校验后发布（caller 持有 _index_lock）。
-
-    custom 逐源读取；坏源（缺失/损坏/非 envelope）跳过并警告，不拖垮服务。同名时 custom
-    覆盖官方（二次开发的定位即扩展/打补丁），遮蔽写 stderr 警告，避免官方文档被静默隐藏。
-    """
-    merged = dict(entries)
-    for extra in sources[1:]:
-        try:
-            custom = _read_index_entries(extra, require_envelope=True)
-            if not custom:
-                print(f"自定义索引为空，忽略: {extra}", file=sys.stderr)
-                continue
-            _rebuild_runtime_indexes(custom)  # 先独立校验，坏源不进合并
-        except (OSError, ValueError, TypeError, RecursionError) as exc:
-            print(f"自定义索引跳过（{type(exc).__name__}: {exc}）: {extra}", file=sys.stderr)
-            continue
-        for name, record in custom.items():
-            if name in merged:
-                print(f"自定义索引覆盖同名函数 {name}: {extra}", file=sys.stderr)
-            merged[name] = record
-    runtime = _rebuild_runtime_indexes(merged)
-    _publish(runtime, sources, {})
-
-
-def _search_by_tokens(words: list[str], prefix_filter: str | None = None) -> list[str]:
-    candidates: set[str] | None = None
-    if prefix_filter:
-        candidates = set(_prefix_index.get(prefix_filter, set()))
-        if not candidates:
-            return []
-    for word in words:
-        matches = set(_keyword_index.get(word, set()))
-        for token, names in _keyword_index.items():
-            if word in token:
-                matches.update(names)
-        candidates = matches if candidates is None else candidates & matches
-        if not candidates:
-            return []
-    return sorted(_index.keys() if candidates is None else candidates)
-
-
-def _query_tokens(raw: str) -> list[str]:
-    """把查询串按驼峰/空白拆成检索词,使查词与索引的拆词一致。
-
-    'createRect' 与 'create rect' 等价;纯单字符等拆不出词的输入退回原始词,
-    以保留既有的子串匹配行为(不因拆词把查询变空而放大召回)。
-    """
-    tokens = _tokenize_name(raw)
-    if tokens:
-        return tokens
-    return [word.casefold() for word in raw.split() if word]
-
-
-def _flatten_search(raw_query: str, prefix_filter: str | None = None) -> list[str]:
-    """压平兜底:去掉大小写边界与空白后做子串匹配。
-
-    仅当精确匹配与拆词匹配都落空时使用,用于接住 'createrect' 这类无大小写边界、
-    拆不出词的输入。
-    """
-    flattened = re.sub(r"[\s_]+", "", raw_query.casefold())
-    if not flattened:
-        return []
-    return sorted(
-        name for name, entry in _index.items()
-        if (not prefix_filter or entry.get("prefix") == prefix_filter)
-        and flattened in name.casefold()
-    )
-
-
-def search_page(prefix: str = "", keywords: str = "", offset: int = 0, limit: int = 30) -> dict:
-    if type(offset) is not int or type(limit) is not int or offset < 0 or not 1 <= limit <= 500:
-        raise ValueError("offset must be a nonnegative integer; limit must be 1..500")
-    with _index_lock:
-        _build_index()
-        prefix = prefix.strip()
-        raw_query = keywords.strip()
-        query = raw_query.casefold()
-        exact = [n for n in _index if n.casefold() == query and (not prefix or _index[n]["prefix"] == prefix)]
-        matches = exact or _search_by_tokens(_query_tokens(raw_query), prefix or None)
-        if not matches:
-            matches = _flatten_search(raw_query, prefix or None)
-        names = matches[offset:offset + limit]
-        return {"names": names, "total": len(matches), "offset": offset, "limit": limit,
-                "next_offset": offset + len(names) if offset + len(names) < len(matches) else None}
-
-
-def search_by_components(prefix: str = "", keywords: str = "", offset: int = 0, limit: int = 30) -> list[str]:
-    """Backward compatible list API; search_page additionally reports totals."""
-    return search_page(prefix, keywords, offset, limit)["names"]
-
-
-def _extract_full(func_name: str, html_text: str) -> dict | None:
-    topic = extract_topic(html_text, func_name)
-    if not topic:
-        return None
-    return _extract_full_from_topic(func_name, topic)
-
-
-def query_function(func_name: str, doc_root: str | None = None) -> dict | None:
-    """Return normalized function details without requiring the HTML corpus."""
-    with _index_lock:
-        _build_index(doc_root)
-        entry = _index.get(func_name)
-        if entry is None:
-            return None
-        # Do not expose nested mutable runtime data to callers.
-        entry = deepcopy(entry)
-    decl = entry.get("decl") or []
-    if not decl or not decl[0].get("text"):
-        return None
-    return {**entry, "name": func_name}
-
-
-def suggest_names(func_name: str, limit: int = 5, prefix: str = "") -> list[str]:
-    """给出与 func_name 相近的官方函数名,供“未找到”时提示。
-
-    先用名称编辑距离(处理拼写,如 dbCreateRct → dbCreateRect),再用拆词重叠兜底
-    (处理片段、词序)。拼写优先是刻意的:公共 token(如 db/create)会让一大族函数平票,
-    仅靠拆词重叠无法把真正接近的那个排上来。prefix 非空时只在同前缀内给建议。
-    """
-    query = func_name.strip()
-    if not query:
-        return []
-    prefix = prefix.strip()
-    with _index_lock:
-        _build_index()
-        names = [n for n in _index if not prefix or _index[n].get("prefix") == prefix]
-        tokens = {name: set(_index[name].get("tokens", [])) for name in names}
-
-    suggestions: list[str] = []
-    seen: set[str] = set()
-
-    folded = {name.casefold(): name for name in names}
-    for close in difflib.get_close_matches(query.casefold(), list(folded), n=limit, cutoff=0.6):
-        name = folded[close]
-        if name not in seen:
-            seen.add(name)
-            suggestions.append(name)
-    if len(suggestions) >= limit:
-        return suggestions
-
-    q_tokens = set(_tokenize_name(query))
-    if q_tokens:
-        ranked = sorted(
-            ((-len(q_tokens & tokens[name]), len(name), name)
-             for name in names if q_tokens & tokens[name])
-        )
-        for _, _, name in ranked:
-            if name not in seen:
-                seen.add(name)
-                suggestions.append(name)
-            if len(suggestions) >= limit:
-                break
-    return suggestions
-
-
-def coverage_report() -> dict[str, object]:
-    """Return the most recent HTML build classification statistics."""
-    with _index_lock:
-        return dict(_last_report)
 
 
 def semantic_analysis(real_funcs: dict[str, str]) -> dict:
@@ -1359,76 +922,15 @@ def semantic_analysis(real_funcs: dict[str, str]) -> dict:
     }
 
 
-def print_report(real: dict[str, str], analysis: dict) -> None:
+
+def print_report(real: dict[str, str], analysis: dict, report: dict) -> None:
+    """打印一次构建的报告；``report`` 由调用方给（分类统计属构建产物，不是索引状态）。"""
     print("=" * 60)
     print("  SKILL 函数提取报告")
     print("=" * 60)
     print(f"  真实函数:         {len(real):>6}")
-    for key, value in sorted(_last_report.items()):
+    for key, value in sorted(report.items()):
         print(f"  {key:24s} {value}")
     print("\n  ── 前缀 Top 30 ──")
     for prefix, count in list(Counter(analysis["prefixes"]).most_common(30)):
         print(f"    {prefix:15s} {count:4d}")
-
-
-def _build_cli() -> None:
-    import argparse
-    parser = argparse.ArgumentParser(description="从 IC618 HTML 文档提取官方 SKILL 可调用函数索引")
-    parser.add_argument("--doc-root", default=os.environ.get("VIRTUOSO_DOC_DIR"))
-    parser.add_argument("--export", metavar="FILE")
-    parser.add_argument("--export-json", metavar="FILE")
-    parser.add_argument("--report", action="store_true", help="输出构建覆盖统计")
-    args = parser.parse_args()
-    if not args.doc_root or not os.path.isdir(args.doc_root):
-        parser.error(f"文档目录无效: {args.doc_root}")
-    if args.export_json:
-        count = build_index_file(args.doc_root, args.export_json)
-        print(f"已导出 {count} 个官方 SKILL 可调用函数到 {args.export_json}")
-        if args.report:
-            print(json.dumps(coverage_report(), ensure_ascii=False, indent=2))
-        return
-    entries, report = _candidate_entries(args.doc_root)
-    if args.export:
-        Path(args.export).write_text("\n".join(entries) + "\n", encoding="utf-8")
-        print(f"已导出 {len(entries)} 个函数名到 {args.export}")
-        return
-    _last_report.update(report)
-    print_report({name: entry["where"]["file"] for name, entry in entries.items()},
-                 semantic_analysis(entries))
-
-
-def _query_cli() -> None:
-    if len(sys.argv) < 2:
-        print("用法: python -m knowledge_virtuoso.functions.core.catalog <function_name> [doc_root]", file=sys.stderr)
-        raise SystemExit(1)
-    info = query_function(sys.argv[1], sys.argv[2] if len(sys.argv) > 2 else None)
-    if info is None:
-        print(f"未找到函数: {sys.argv[1]}")
-        raise SystemExit(1)
-    where = info.get("where", {})
-    print(f"函数: {info['name']}\n签名: {info['decl'][0]['text']}\n来源: {where.get('file', '')}")
-    sections = info.get("sections", {})
-    description = sections.get("description", {}).get("text", "")
-    if description:
-        print(f"\n描述: {description}")
-    arguments = sections.get("arguments", {})
-    if arguments:
-        print("\n参数:")
-        for item in arguments.get("root", {}).get("items", []):
-            print(f"  {item['name']} — {item['desc']}")
-        for group in arguments.get("lists", []):
-            print(f"  [{group['title']}]")
-            for item in group.get("items", []):
-                print(f"    {item['name']} — {item['desc']}")
-    returns = sections.get("returns", {}).get("items", [])
-    if returns:
-        print("\n返回:")
-        for item in returns:
-            print(f"  {item['value']} — {item['desc']}")
-
-
-if __name__ == "__main__":
-    if len(sys.argv) >= 2 and sys.argv[1].startswith("--"):
-        _build_cli()
-    else:
-        _query_cli()
