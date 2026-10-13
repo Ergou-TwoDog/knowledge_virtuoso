@@ -15,6 +15,8 @@ htmlcov/
 # 使用者用本地 Cadence doc 惰性重建，见 README「索引恢复与官方文档」。
 # 防御：万一有人把 VIRTUOSO_DATA_DIR 指向仓库，也不提交索引。
 **/index.json
+# 就地解压/展开出来供查看的派生文件（gzip -dc 的产物）同样不提交。
+**/index.*.json
 
 # 构建产物
 dist/
@@ -32,5 +34,5 @@ build/
 .project-memory/
 
 # 本地设计/审计笔记：不进仓库。索引与工具层的设计说明随包发布，见
-# src/knowledge_virtuoso/functions/data/mapping.md「字段映射与设计」。
+# src/knowledge_virtuoso/functions/design.md「函数库设计」。
 docs/
