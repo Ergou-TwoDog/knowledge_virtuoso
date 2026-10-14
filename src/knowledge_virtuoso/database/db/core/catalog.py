@@ -2,7 +2,9 @@
 """
 knowledge_virtuoso.database.db.core.catalog — 从 index.json 查询数据库对象属性信息。
 
-查询只读取 JSON；索引缺失或损坏时报错。可显式调用构建入口从 attrib.html 重建。
+本模块只管**本库的内容**：attrib.html 怎么解析成载荷、载荷怎么变成行。索引在哪、怎么读、
+坏了怎么从官方 doc 重建（缓存、锁、原子写回）都在 `database/core/store.py`——三个属性库
+共用那一份，这里只给出索引路径、来源文档与载荷包装。
 
 用法:
   from knowledge_virtuoso.database.db.core.catalog import search_attr, build_from_html
@@ -12,16 +14,13 @@ knowledge_virtuoso.database.db.core.catalog — 从 index.json 查询数据库�
   build_from_html()                        → 从 attrib.html 显式构建索引
 """
 
-import os
 import re
-import json
 import sys
 from pathlib import Path
 from html import unescape
-from collections import defaultdict
-from threading import RLock
 
 from knowledge_virtuoso._paths import atomic_write_json, index_path
+from knowledge_virtuoso.database.core import store
 
 for _s in (sys.stdout, sys.stderr):
     if hasattr(_s, "reconfigure"):
@@ -31,9 +30,6 @@ for _s in (sys.stdout, sys.stderr):
             pass
 
 _DEFAULT_INDEX = index_path("db")
-
-_data: dict | None = None
-_lock = RLock()
 
 # ─── section 名 → ~>objType 运行时值 ───
 OBJTYPE_MAP = {
@@ -287,83 +283,46 @@ def expand_objtype(attrs: dict) -> dict:
     return expanded
 
 
-def build_from_html(doc_path: str | None = None) -> dict:
-    """从 attrib.html 解析，返回与 JSON 相同结构的 dict。"""
-    if doc_path is None:
-        doc_root = os.environ.get("VIRTUOSO_DOC_DIR")
-        if not doc_root:
-            raise FileNotFoundError(
-                "index.json 缺失，且 VIRTUOSO_DOC_DIR 未设置，无法重建。"
-                "请设置 VIRTUOSO_DOC_DIR 或运行 knowledge-virtuoso-build db")
-        doc_path = os.path.join(doc_root, "skdfref", "attrib.html")
-
-    if not Path(doc_path).exists():
-        raise FileNotFoundError(f"文档不存在: {doc_path}，请检查 VIRTUOSO_DOC_DIR 环境变量")
-
-    attrs = extract_all(doc_path)
-    return {
+# 本库交给共用索引存取的配置：位置、称呼、来源文档、解析、载荷包装。
+_STORE = store.Store(
+    index_path=_DEFAULT_INDEX,
+    label="db_attr",
+    lib="db",
+    doc_parts=("skdfref", "attrib.html"),
+    parse=extract_all,
+    payload=lambda attrs: {
         "objTypes": OBJTYPE_MAP,
         "inheritance": INHERITANCE,
         "genericLayers": {k: [a["name"] for a in v] for k, v in GENERIC_ATTRS.items()},
         "attributes": attrs,
         "expanded": expand_objtype(attrs),
-    }
+    },
+)
+
+
+def build_from_html(doc_path: str | None = None) -> dict:
+    """从 attrib.html 解析，返回与 JSON 相同结构的 dict。"""
+    return _STORE.build(doc_path)
 
 
 def _load() -> dict:
-    global _data
-    if _data is None:
-        with _lock:
-            if _data is None:
-                try:
-                    with open(_DEFAULT_INDEX, encoding="utf-8") as f:
-                        _data = json.load(f)
-                except (OSError, json.JSONDecodeError) as primary:
-                    _data = _rebuild(primary)
-    return _data
+    """索引载荷（进程内缓存；缺失或损坏时从官方 doc 重建）——查询都从这里取。"""
+    return _STORE.load()
 
 
-def _rebuild(primary: Exception) -> dict:
-    doc_root = os.environ.get("VIRTUOSO_DOC_DIR")
-    if not doc_root:
-        raise RuntimeError(
-            f"db_attr 索引不可用: {_DEFAULT_INDEX} ({primary})。"
-            f"设置 VIRTUOSO_DOC_DIR 后可自动从官方 doc 重建，或运行: knowledge-virtuoso-build db"
-        ) from primary
-    print(f"db_attr 索引缺失/损坏 ({_DEFAULT_INDEX}): {primary}；从 {doc_root!r} 重建", file=sys.stderr)
-    payload = build_from_html()
-    atomic_write_json(_DEFAULT_INDEX, payload)
-    return payload
+def _row(name: str, info: dict) -> dict:
+    """本库的行形状：db 没有 `classes` 列（那是 techdb/cdfdb 的）。"""
+    return {"name": name, "rw": info.get("rw", "?"),
+            "type": info.get("type", "?"), "desc": info.get("desc", "")}
 
 
 def search_attr(objType: str = "", keyword: str = "") -> list[dict]:
     """按对象类型和关键词搜索属性。"""
-    d = _load()
-    attrs = d["attributes"]
-
-    if objType:
-        names = set(d["expanded"].get(objType, []))
-        if not names:
-            return []
-    else:
-        names = set(attrs.keys())
-
-    kw = keyword.lower().strip()
-    if kw:
-        names = {n for n in names if kw in n.lower()}
-
-    results = []
-    for name in sorted(names):
-        info = attrs.get(name)
-        if info:
-            results.append({
-                "name": name,
-                "rw": info.get("rw", "?"),
-                "type": info.get("type", "?"),
-                "desc": info.get("desc", ""),
-            })
-
-    return results
+    data = _load()
+    attrs = data["attributes"]
+    # 类型选择器给的是展开后的完整属性列表（含继承与 Generic 层），不是该类型自己的表。
+    names = set(data["expanded"].get(objType, [])) if objType else set(attrs)
+    return store.query_rows(attrs, names, keyword, _row)
 
 
 def main() -> None:

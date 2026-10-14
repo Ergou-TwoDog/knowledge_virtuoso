@@ -255,13 +255,6 @@ def search_by_components(prefix: str = "", keywords: str = "", offset: int = 0, 
     return search_page(prefix, keywords, offset, limit)["names"]
 
 
-def _extract_full(func_name: str, html_text: str) -> dict | None:
-    topic = extract_topic(html_text, func_name)
-    if not topic:
-        return None
-    return _extract_full_from_topic(func_name, topic)
-
-
 def query_function(func_name: str, doc_root: str | None = None) -> dict | None:
     """Return normalized function details without requiring the HTML corpus."""
     with _index_lock:

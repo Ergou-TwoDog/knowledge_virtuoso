@@ -18,6 +18,10 @@ from pathlib import Path
 from typing import Iterator
 
 from knowledge_virtuoso._paths import index_path
+# 这两个正则在搬移时随契约一起去了 core/contract.py（"函数名的合法形状"与"前缀口径"两处
+# 唯一的定义）。这里**必须**从契约取，不能自己再写一份：重建（`build_entries`）与报告统计
+# 都按它们判名，两边漂移会让"能收进来的名字"和"索引里的 prefix"对不上。
+from knowledge_virtuoso.functions.core.contract import _NAME_RE, _PREFIX_RE
 
 
 for _stream in (sys.stdout, sys.stderr):
@@ -243,9 +247,6 @@ _CANONICAL_SECTIONS = (
 
 # sections 里结构化构造的节（其余节走 _section_content 的通用整理）。
 _EXPLICIT_SECTIONS = ("description", "arguments", "returns", "example")
-
-# 加载时由函数名重算的派生字段，不写进索引文件。
-_DERIVED_KEYS = ("prefix", "tokens")
 
 
 def _list_type(title: str) -> str | None:
@@ -923,8 +924,14 @@ def semantic_analysis(real_funcs: dict[str, str]) -> dict:
 
 
 
-def print_report(real: dict[str, str], analysis: dict, report: dict) -> None:
-    """打印一次构建的报告；``report`` 由调用方给（分类统计属构建产物，不是索引状态）。"""
+def print_report(entries: dict[str, dict], report: dict) -> None:
+    """打印一次构建的报告；``report`` 由调用方给（分类统计属构建产物，不是索引状态）。
+
+    收**记录**、不收算好的统计：口径（前缀/动词分布）是官方解析自己的知识，让调用方去算
+    它等于让开发入口认识一个具体来源——`semantic_analysis` 因此留在这里。
+    """
+    real = {name: entry["where"]["file"] for name, entry in entries.items()}
+    analysis = semantic_analysis(entries)
     print("=" * 60)
     print("  SKILL 函数提取报告")
     print("=" * 60)

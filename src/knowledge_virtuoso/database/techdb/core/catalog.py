@@ -2,7 +2,9 @@
 """
 knowledge_virtuoso.database.techdb.core.catalog — 从 index.json 查询 tech 数据库对象类及其 ~> 属性。
 
-查询只读取 JSON；索引缺失或损坏时报错。可显式调用构建入口从 appA.html 重建。
+本模块只管**本库的内容**：appA.html 怎么解析成载荷、载荷怎么变成行。索引在哪、怎么读、坏了
+怎么从官方 doc 重建（缓存、锁、原子写回）都在 `database/core/store.py`——三个属性库共用
+那一份，这里只给出索引路径、来源文档与载荷包装。
 
 与 knowledge_virtuoso.database.db.core.catalog 平行：db_attr 查设计库对象属性，本模块查 techFile 对象属性。
 
@@ -10,15 +12,13 @@ knowledge_virtuoso.database.techdb.core.catalog — 从 index.json 查询 tech �
   from knowledge_virtuoso.database.techdb.core.catalog import search_tech_attr, build_from_html
 """
 
-import os
 import re
-import json
 import sys
 from pathlib import Path
 from html import unescape
-from threading import RLock
 
 from knowledge_virtuoso._paths import atomic_write_json, index_path
+from knowledge_virtuoso.database.core import store
 
 for _s in (sys.stdout, sys.stderr):
     if hasattr(_s, "reconfigure"):
@@ -28,9 +28,6 @@ for _s in (sys.stdout, sys.stderr):
             pass
 
 _DEFAULT_INDEX = index_path("techdb")
-
-_data: dict | None = None
-_lock = RLock()
 
 # ─── 类 → 该类的 objType 运行时值 ───
 CLASS_OBJTYPE = {
@@ -174,77 +171,44 @@ def extract_all(doc_path: str) -> dict:
     return {"classes": classes, "attributes": attributes}
 
 
+# 本库交给共用索引存取的配置：位置、称呼、来源文档、解析、载荷包装（本库载荷就是解析结果）。
+_STORE = store.Store(
+    index_path=_DEFAULT_INDEX,
+    label="techdb_attr",
+    lib="techdb",
+    doc_parts=("sktechfile", "appA.html"),
+    parse=extract_all,
+)
+
+
 def build_from_html(doc_path: str | None = None) -> dict:
     """从 appA.html 解析，返回与 JSON 相同结构的 dict。"""
-    if doc_path is None:
-        doc_root = os.environ.get("VIRTUOSO_DOC_DIR")
-        if not doc_root:
-            raise FileNotFoundError(
-                "index.json 缺失，且 VIRTUOSO_DOC_DIR 未设置，无法重建。"
-                "请设置 VIRTUOSO_DOC_DIR 或运行 knowledge-virtuoso-build techdb")
-        doc_path = os.path.join(doc_root, "sktechfile", "appA.html")
-
-    if not Path(doc_path).exists():
-        raise FileNotFoundError(f"文档不存在: {doc_path}，请检查 VIRTUOSO_DOC_DIR 环境变量")
-
-    return extract_all(doc_path)
+    return _STORE.build(doc_path)
 
 
 def _load() -> dict:
-    global _data
-    if _data is None:
-        with _lock:
-            if _data is None:
-                try:
-                    with open(_DEFAULT_INDEX, encoding="utf-8") as f:
-                        _data = json.load(f)
-                except (OSError, json.JSONDecodeError) as primary:
-                    _data = _rebuild(primary)
-    return _data
+    """索引载荷（进程内缓存；缺失或损坏时从官方 doc 重建）——查询都从这里取。"""
+    return _STORE.load()
 
 
-def _rebuild(primary: Exception) -> dict:
-    doc_root = os.environ.get("VIRTUOSO_DOC_DIR")
-    if not doc_root:
-        raise RuntimeError(
-            f"techdb_attr 索引不可用: {_DEFAULT_INDEX} ({primary})。"
-            f"设置 VIRTUOSO_DOC_DIR 后可自动从官方 doc 重建，或运行: knowledge-virtuoso-build techdb"
-        ) from primary
-    print(f"techdb_attr 索引缺失/损坏 ({_DEFAULT_INDEX}): {primary}；从 {doc_root!r} 重建", file=sys.stderr)
-    payload = build_from_html()
-    atomic_write_json(_DEFAULT_INDEX, payload)
-    return payload
+def _row(name: str, info: dict) -> dict:
+    """本库的行形状：多一列 `classes`（同一属性可属于多个 tech 类）。"""
+    return {"name": name, "rw": info.get("rw", "?"), "type": info.get("type", ""),
+            "desc": info.get("desc", ""), "classes": info.get("classes", [])}
 
 
 def search_tech_attr(className: str = "", keyword: str = "") -> list[dict]:
     """按类和关键词搜索 tech 属性。"""
-    d = _load()
-    attrs = d["attributes"]
-
+    data = _load()
+    attrs = data["attributes"]
     if className:
-        cls = d["classes"].get(className)
-        if cls is None:
-            return []
-        names = set(cls.get("attributes", []))
+        found = data["classes"].get(className)
+        if found is None:
+            return []                      # 没这个类：区别于"有类但筛完没属性"
+        names = set(found.get("attributes", []))
     else:
-        names = set(attrs.keys())
-
-    kw = keyword.lower().strip()
-    if kw:
-        names = {n for n in names if kw in n.lower()}
-
-    results = []
-    for name in sorted(names):
-        info = attrs.get(name)
-        if info:
-            results.append({
-                "name": name,
-                "rw": info.get("rw", "?"),
-                "type": info.get("type", ""),
-                "desc": info.get("desc", ""),
-                "classes": info.get("classes", []),
-            })
-    return results
+        names = set(attrs)
+    return store.query_rows(attrs, names, keyword, _row)
 
 
 def main() -> None:

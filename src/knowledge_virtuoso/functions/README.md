@@ -54,6 +54,10 @@ def owns(entry) -> bool                     # 这条记录是否属于本来源
 PROFILE  # 本来源的渲染差异（见 §5.8）
 ```
 
+另有一个**可选**扩展点，不在上面这 10 项里、缺了照常工作：`print_report(entries, report)`
+——构建报表的口径（前缀/动词分布）。开发入口的 `--report` 只对 `registry.BASE` 做
+"有就调"，没有就原样打报告字典，因此它不必认识任何具体来源。
+
 缺任何一项 → 该树**不加载**（警告并跳过）：宁可不认，也不要一个半残的来源在跑。
 `python -m knowledge_virtuoso.functions --sources` 列出发现结果（顺序、角色、索引路径、
 语料），用来核对"自动发现"没有漏掉谁。
@@ -396,6 +400,11 @@ type-in fields.`、`Callback parameter list: (o_session r_form r_field)`）—�
   它是否与自己的记录相符。
 - `error` 一类"返回值是散文"的节由 `returns.text` 承载；官方标题笔误 7 例以字面量处理，
   若上游修正可逐条删除。
+- **重建路径（`build_entries`）没有直接测试**：只有真跑一次 `knowledge-virtuoso-build
+  functions`，或重建到临时文件与在用索引**逐字节比**，才碰得到它（命令见
+  `tests/README.md`「覆盖不到什么」）。搬移时 `_NAME_RE`/`_PREFIX_RE` 随契约去了
+  `core/contract.py`，引用却留在 `catalog.py`——golden 全绿、查询照常（索引还在），
+  而重建与 `--report` 直接 `NameError`，只有真跑一次才暴露。
 
 ## 8. 决策留痕（为什么是现在这样）
 

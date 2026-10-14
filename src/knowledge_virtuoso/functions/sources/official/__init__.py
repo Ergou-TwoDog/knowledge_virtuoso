@@ -10,13 +10,18 @@
   rebuild(doc_root)   从原始材料重建 → (记录, 报告)；没有这种能力的来源返回 None
   owns(entry)         这条记录是否属于本来源
   PROFILE             渲染差异（见 render.py）
+
+可选（不在上面那 10 项里，缺了照常工作）：`print_report(entries, report)` —— 构建报表的
+口径（前缀/动词分布是官方解析自己的知识）。开发入口的 `--report` 有就调，没有就原样打
+报告字典。这里显式 re-export：开发入口只认 `registry.BASE` 这一个名字，不认 `catalog`。
 """
 
 from __future__ import annotations
 
 from knowledge_virtuoso.functions.core.envelope import _read_index_entries
 from knowledge_virtuoso.functions.sources.official import catalog
-from knowledge_virtuoso.functions.sources.official.render import PROFILE
+from knowledge_virtuoso.functions.sources.official.catalog import print_report  # noqa: F401
+from knowledge_virtuoso.functions.sources.official.render import PROFILE  # noqa: F401
 
 NAME = "official"
 LABEL = "官方"
