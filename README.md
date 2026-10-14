@@ -22,7 +22,7 @@
 }
 ```
 
-`uvx` 会从 git 解析、构建并运行 `knowledge-virtuoso` 入口，依赖（`mcp==1.9.4`）自动装入隔离环境；可加 `@v0.2.0` 固定版本。本项目不修改使用方配置。
+`uvx` 会从 git 解析、构建并运行 `knowledge-virtuoso` 入口，依赖（`mcp==1.9.4`）自动装入隔离环境；可加 `@v0.2.1` 固定版本。本项目不修改使用方配置。
 
 **首次使用前必须让服务找到官方 doc，否则每次查询都会失败。** 索引不随包分发，只落在平台数据目录；服务在启动和建立连接时都不读索引，所以**「连接成功、工具列表正常」并不代表可查询**——索引缺失要等第一次查询才暴露。二选一：
 
@@ -193,7 +193,13 @@ uv run python -m knowledge_virtuoso.functions --sources              # 列出发
 
 0.2.0 没有改索引格式：改的是**包内模块路径**（函数库按来源分树、渲染层从 `server.py` 抽出）与一处契约校验（`returns` 条目必须带 `desc`）。**升级不需要重建索引**；但若你有脚本按旧模块路径导入（如 `knowledge_virtuoso.functions.core.catalog`），要一并改。
 
-`v0.2.0` **已知问题**（已在 main 修复，待 0.2.1）：这次搬移把两个模块级正则（`_NAME_RE`、`_PREFIX_RE`）留在 `core/contract.py` 而引用留在 `catalog.py`，于是**从官方 doc 重建索引的那条路**（`knowledge-virtuoso-build functions`，以及索引丢失时的惰性重建）会 `NameError`。查询不受影响——索引还在就照常读。撞上的话用 main，或先用旧版本重建。
+0.2.1 修掉 0.2.0 引入的一处残缺，**不改索引格式、不需要重建索引**：
+
+- **重建路径恢复**：0.2.0 那次搬移把两个模块级正则（`_NAME_RE`、`_PREFIX_RE`）留在了 `core/contract.py` 而引用留在 `sources/official/catalog.py`，于是**从官方 doc 重建索引的那条路**（`knowledge-virtuoso-build functions`，以及索引丢失时的惰性重建）会 `NameError`；查询不受影响（索引还在就照常读）。修完实测重建产物与在用索引**逐字节相同**。
+- **开发入口与 MCP 逐字一致**：`python -m knowledge_virtuoso.functions <函数>` 的输出现在就是 `skill_language_search_doc` 的输出（含 `（自定义）` 标记与 `load()` 前提行），并支持 `-d/--detail` 五档与 `-s/--sections`。此前它自己拼了一套简化输出，排障看到的形状与 LLM 看到的不同。
+- 三个属性库的索引存取（读 JSON、坏了从官方 doc 重建、缓存与锁）从三份逐字复制收敛为 `database/core/store.py` 一份——**去重**，属性库仍不分来源。
+
+**若你停在 `v0.2.0`**：不需要重建索引就照常可用；一旦要重建（索引丢失/损坏，或想用新解析产物），请升到 0.2.1。
 
 **四库统一惰性重建**：查询时加载对应 JSON；缺失、损坏或空记录时，若进程环境设了 `VIRTUOSO_DOC_DIR`（真实 IC618 doc 根），自动从官方 doc 重建、原子写回索引目录并返回结果；未设则报出含索引路径与修复提示的错误（提示运行 `knowledge-virtuoso-build`）。首次全量函数重建可能较慢，重建日志写 stderr。
 
