@@ -1,0 +1,65 @@
+{
+ "params": {
+  "object": "lib",
+  "keyword": ""
+ },
+ "rows": [
+  {
+   "name": "cells",
+   "kind": "relation",
+   "cardinality": "1:n",
+   "objectTypes": [
+    "lib"
+   ]
+  },
+  {
+   "name": "name",
+   "kind": "attr",
+   "cardinality": "",
+   "objectTypes": [
+    "lib",
+    "cell",
+    "view",
+    "libFile",
+    "cellFile",
+    "viewFile"
+   ]
+  },
+  {
+   "name": "parent",
+   "kind": "relation",
+   "cardinality": "1:1",
+   "objectTypes": [
+    "lib",
+    "cell",
+    "view",
+    "libFile",
+    "cellFile",
+    "viewFile"
+   ]
+  },
+  {
+   "name": "prop",
+   "kind": "attr",
+   "cardinality": "",
+   "objectTypes": [
+    "lib",
+    "cell",
+    "view"
+   ]
+  },
+  {
+   "name": "techfile",
+   "kind": "attr",
+   "cardinality": "",
+   "objectTypes": [
+    "lib",
+    "cell",
+    "view",
+    "libFile",
+    "cellFile",
+    "viewFile"
+   ]
+  }
+ ]
+}

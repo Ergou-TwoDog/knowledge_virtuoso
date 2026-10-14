@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
-"""设计库：检索 + 解析（断言式）：`database/db/core/catalog.py`。
+"""设计库：解析 + 检索（断言式）：`database/db/core/catalog.py`。
 
-- **检索**：哪个类型取哪些名字、关键词怎么筛、行长什么样。这套逻辑与另外两个属性库共用
-  `database/core/store.py`（见 `database/core/test_store.py`），本库自己的差异在这里锁住
-  ——载荷用 `expanded` 展开、行**没有** `classes` 列、缺字段默认 `?`/`?`/``。
-- **解析**：`fixtures/html/` 的官方 doc 片段（同类片段的出处见该目录 README），外加用自造
-  HTML 直接钉住几处**靠位置硬编码的脆技巧**——它们一坏就是"几十个属性静默消失"。
+设计见 `src/knowledge_virtuoso/database/db/core/README.md`。本文件锁三类东西：
 
-不读真索引、不需要 doc：载荷来自 `fixtures/search.json`（手写），片段是随仓库的 HTML。
+- **检索**：选择器怎么认（表标题／运行时名／忽略大小写与空格／兼容别名）、继承怎么合
+  （子覆盖父、`definedIn` 记归属）。载荷是 `fixtures/search.json`（**手写**，不引厂商原文）。
+- **片段回放**：`fixtures/html/` 的官方 doc 片段 —— 比"片段 ⇒ 对象"与"整份文件 ⇒
+  同一个对象"是否一致（切片边界、两种父写法都在这露头）。
+- **用自造 HTML 钉住那些"一坏就是几十条属性静默消失"的形状**：`include` 的三种拼法、
+  `<br>` 的两种含义、大写开头的属性名、以及 `name`/`value` 这种**曾被噪声词表吃掉**的名字。
+
+不读真索引、不需要 doc：载荷手写，片段随仓库。
 """
 
 from __future__ import annotations
@@ -19,74 +22,122 @@ import tempfile
 HERE = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(next(p for p in HERE.parents if (p / "common.py").exists())))
 
-from common import Report, run_attr_parse_cases, run_attr_search_cases  # noqa: E402
+from common import Report, read_json, run_attr_parse_cases, run_attr_search_cases  # noqa: E402
 
+from knowledge_virtuoso.database.core import objects as objects_mod  # noqa: E402
 from knowledge_virtuoso.database.db.core import catalog  # noqa: E402
 
+# ── 自造 HTML ──────────────────────────────────────────────
+_HEADER = "<tr><td>Attribute</td><td>Modify</td><td>Type</td><td>Description</td></tr>"
 
-def parse_synthetic(html: str) -> dict:
-    """把自造 HTML 写成文件喂给 `extract_all`（它收路径），返回解析结果。"""
+
+def _row(name_html: str, modify: str, typ: str, desc: str = "") -> str:
+    return (f"<tr><td><p><a>{name_html}</a></p></td><td><p><a>{modify}</a></p></td>"
+            f"<td><p><a>{typ}</a></p></td><td><p><a>{desc}</a></p></td></tr>")
+
+
+def _include(name: str, word: str = "include") -> str:
+    """表里的父指针行 —— 原文有 `include` / `Includes` / `includes` 三种写法。"""
+    return f"<tr><td><p><a>Note: {word} {name} Attributes</a></p></td></tr>"
+
+
+def _obj(name: str, *rows: str, pre: str = "", section: str = "节") -> str:
+    """一个对象 = `<h4>X Attributes</h4>` + （可选前导正文）+ 第一张表。"""
+    return (f"<h3>{section}</h3><h4><a>{name} Attributes</a></h4>{pre}"
+            f"<table>{_HEADER}{''.join(rows)}</table>")
+
+
+def _parse(html: str) -> dict:
+    """把自造 HTML 写成文件喂给 `extract_all`（它收路径），返回对象表。"""
     with tempfile.TemporaryDirectory() as tmp:
         path = pathlib.Path(tmp) / "attrib.html"
-        path.write_text(html, encoding="utf-8")
-        return catalog.extract_all(str(path))
+        path.write_text("<html><body>" + html + "</body></html>", encoding="utf-8")
+        return catalog.extract_all(str(path))["objects"]
 
 
-def cellview_section(body: str) -> str:
-    """一个 `Attributes of Cellviews` 节（自造）：短语 → 表格 → 下一个 `<h3` 边界。"""
-    return (f'<h3><a>Attributes of Cellviews</a></h3><table>{body}</table>')
-
-
-def row(name: str, cells: str) -> str:
-    return f"<tr><td>{name}</td>{cells}</tr>"
+def _objects() -> dict:
+    """`fixtures/search.json` 里的手写对象表（供纯函数断言用，不碰磁盘索引）。"""
+    return read_json(HERE / "fixtures" / "search.json")["payload"]["objects"]
 
 
 def run(report: Report, update: bool = False) -> None:
+    # ── 检索：手写载荷 → 选择器与合并 ──
     run_attr_search_cases(HERE, catalog, "search_attr", report)
 
-    # ── 片段回放：官方 doc 的节片段 → 归属名字集合与字段 ──
+    # ── 片段回放：官方 doc 的片段 → 该对象的父与自身属性 ──
     run_attr_parse_cases(HERE, "db", catalog, report)
-    report.expect("片段/夹具齐全（少一份就少一节的覆盖）",
+    report.expect("片段/夹具齐全（少一份就少一处的覆盖）",
                   sorted(p.stem for p in (HERE / "fixtures" / "html").glob("*.html")),
                   ["section_cellview", "section_inst", "shape_pathSeg", "shape_rect_note_only"])
 
-    # ── 节短语定位：**取第 3 次出现**（真实文件里是目录 + 页首 + 正文各一次）──
-    # 前两次的表格必须被忽略；只有第 3 次的属性进结果。
-    locator = (cellview_section(row("firstOnly", "<td>ro</td><td>string</td>"))
-               + cellview_section(row("secondOnly", "<td>ro</td><td>string</td>"))
-               + cellview_section(row("thirdOnly", "<td>ro</td><td>string</td>"))
-               + "<h3>边界</h3>")
-    got = parse_synthetic(locator)
-    report.expect("解析/节短语取第 3 次出现（前两次当目录/页首）",
-                  sorted({"firstOnly", "secondOnly", "thirdOnly"} & set(got)), ["thirdOnly"])
+    # ── 对象 id：去掉 ` Attributes`；原文 `Standard viaVariant . Attributes` 的尾巴也去掉 ──
+    report.expect("解析/对象 id 去掉后缀",
+                  [catalog._object_id("Marker Attributes"), catalog._object_id("Standard viaVariant . Attributes")],
+                  ["Marker", "Standard viaVariant"])
 
-    # ── 行形状：噪声词行与不足 3 格的行都要丢；`rw` 由 Modify 列是否含 yes 决定 ──
-    shapes = cellview_section(
-        row("note", "<td>yes</td><td>string</td>")               # 噪声词（表头残留）→ 丢
-        + row("onlyTwo", "<td>yes</td>")                         # 只有 2 格 → 丢
-        + row("writable", "<td>yes</td><td>string</td>")         # Modify=yes → rw
-        + row("readonly", "<td>no</td><td>integer</td>")         # 否则 → ro
-        + "<h3>边界</h3>")
-    got = parse_synthetic(shapes)
-    report.expect("解析/噪声词行与不足 3 格的行被丢，其余留下且 rw 按 Modify 列判",
-                  (sorted({"note", "onlyTwo", "writable", "readonly"} & set(got)),
-                   (got.get("writable", {}).get("rw"), got.get("readonly", {}).get("rw")),
-                   got.get("readonly", {}).get("type")),
-                  (["readonly", "writable"], ("rw", "ro"), "integer"))
+    # ── 名字格里的 <br>：折行 vs 一行两名 ──
+    report.expect("解析/<br> 折行算一个名字",
+                  catalog._names_in_cell(["modifiedButNot", "Saved"]), ["modifiedButNotSaved"])
+    report.expect("解析/<br> 一行两名算两个",
+                  catalog._names_in_cell(["startConn", "endConn"]), ["startConn", "endConn"])
 
-    # ── Generic 合成层：同名属性取**更长的 desc**，并追加 `_generic` 归属 ──
-    generic_desc = [a for a in catalog.GENERIC_ATTRS["Generic Figure"] if a["name"] == "bBox"][0]["desc"]
-    short = cellview_section(row("bBox", "<td>ro</td><td>bBox</td><td>短</td>") + "<h3>边界</h3>")
-    got = parse_synthetic(short)
-    report.expect("解析/Generic 层同名取更长 desc，并追加 _generic 归属",
-                  (got["bBox"]["desc"] == generic_desc, got["bBox"]["objTypes"]),
-                  (True, ["cellview", "_generic"]))
+    # ── 父指针的三种拼法 + 那处 `include s` 笔误 ──
+    report.expect("解析/父指针认大小写与单复数、容忍笔误",
+                  [catalog._parent_from("Note: include Generic Object Attributes"),
+                   catalog._parent_from("Note: Includes Generic Object Attributes ."),
+                   catalog._parent_from("Note: includes Generic Object Attributes"),
+                   catalog._parent_from("Note: include s Generic Object Attributes"),
+                   catalog._parent_from("这里没有父指针")],
+                  ["Generic Object"] * 4 + [None])
 
-    # ── 继承链展开：形状类型自己的属性 + Generic 层属性合在一起 ──
-    expanded = catalog.expand_objtype({"myRect": {"name": "myRect", "objTypes": ["rect"]}})
-    report.truthy("解析/expand_objtype 把自身归属与 Generic 层并进该类型",
-                  {"myRect", "layerName", "lpp"} <= set(expanded["rect"]),
-                  sorted(expanded["rect"])[:8])
+    # ── 端到端（自造）：根 / 前导正文里的父 / 表里的父 / 曾被噪声词吃掉的名字 ──
+    html = (
+        _obj("Generic Object", _row("cellView", "no", "objId", "c"),
+             _row("name", "no", "string", "n"), _row("value", "no", "string", "v")),
+        # 父指针写在小节正文里（原文 4 张 widthSpacing 表就是这么写的），且用 `Includes`
+        _obj("Generic Shape", _row("layerName", "yes", "string", "l"),
+             pre="<p><strong>Note: </strong>Includes <a>Generic Object Attributes</a>.</p>"),
+        _obj("Rectangle", _include("Generic Shape")),          # 自身 0 条，全靠继承
+        _obj("Foo", _include("Generic Shape"),
+             _row("modifiedButNot<br>Saved", "no", "Boolean", "x"),
+             _row("DBUPerUU", "yes", "float", "d"),
+             _row("layerName", "no", "string", "子覆盖父：改读写")),
+    )
+    objects = _parse("".join(html))
+    report.expect("解析/只认 h4 级 `… Attributes`，共 4 个对象",
+                  sorted(objects), ["Foo", "Generic Object", "Generic Shape", "Rectangle"])
+    report.expect("解析/父指针：根 / 正文里的 / 表里的",
+                  [objects["Generic Object"]["parent"], objects["Generic Shape"]["parent"],
+                   objects["Rectangle"]["parent"], objects["Foo"]["parent"]],
+                  [None, "Generic Object", "Generic Shape", "Generic Shape"])
+
+    merged = objects_mod.merged(objects, "Foo")
+    report.expect("解析/继承合并后拿到整条链上的属性（含曾被噪声词吃掉的 name/value）",
+                  sorted(merged), ["DBUPerUU", "cellView", "layerName", "modifiedButNotSaved", "name", "value"])
+    report.expect("解析/纯转发对象自身 0 条，合并后 4 条",
+                  (len(objects["Rectangle"]["attrs"]), len(objects_mod.merged(objects, "Rectangle"))), (0, 4))
+    report.expect("解析/子覆盖父：Foo 的 layerName 取代 Shape 的",
+                  (merged["layerName"]["modify"], merged["layerName"]["definedIn"],
+                   merged["cellView"]["definedIn"]),
+                  ("no", "Foo", "Generic Object"))
+
+    # ── 构建期校验：父认不出 / 成环都要炸，不许静默 ──
+    for label, bad in [("父不在索引里", {"A": {"id": "A", "parent": "Nope", "attrs": []}}),
+                       ("继承链成环", {"A": {"id": "A", "parent": "B", "attrs": []},
+                                   "B": {"id": "B", "parent": "A", "attrs": []}})]:
+        try:
+            objects_mod.validate_objects(bad)
+            report.truthy(f"校验/{label} → 抛错", False, "没有抛错")
+        except ValueError:
+            report.truthy(f"校验/{label} → 抛错", True)
+
+    # ── 选择器：表标题 / 运行时名 / 忽略大小写与空格 / 兼容别名 / 不认识 ──
+    objs = _objects()
+    report.expect("检索/选择器解析的几条路径",
+                  [objects_mod.resolve(objs, "Cellview"), objects_mod.resolve(objs, "cellview"),
+                   objects_mod.resolve(objs, "CELLVIEW"), objects_mod.resolve(objs, "rect", catalog._ALIASES),
+                   objects_mod.resolve(objs, "Rectangle"), objects_mod.resolve(objs, "没有这个")],
+                  ["Cellview", "Cellview", "Cellview", "Rectangle", "Rectangle", None])
 
 
 if __name__ == "__main__":

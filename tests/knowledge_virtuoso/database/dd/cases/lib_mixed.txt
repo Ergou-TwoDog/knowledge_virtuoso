@@ -1,0 +1,8 @@
+匹配 5 个 data management 属性/关系（原文未给类型与说明）:
+  name                     kind      card  适用对象
+  ------------------------ --------- ----- ------------------------------
+  cells                    relation  1:n   lib
+  name                     attr            lib,cell,view,libFile,cellFile,viewFile
+  parent                   relation  1:1   lib,cell,view,libFile,cellFile,viewFile
+  prop                     attr            lib,cell,view
+  techfile                 attr            lib,cell,view,libFile,cellFile,viewFile

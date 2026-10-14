@@ -13,9 +13,9 @@
 |---|---|---|---|
 | `section_cellview.html` | 43.7 KB | `skdfref/attrib.html` | Attributes of Cellviews |
 | `section_inst.html` | 43.0 KB | `skdfref/attrib.html` | Attributes of Instances, Instance Headers, and Mosaics |
-| `shape_pathSeg.html` | 8.8 KB | `skdfref/attrib.html` | pathSeg Attributes |
-| `shape_rect_note_only.html` | 1.7 KB | `skdfref/attrib.html` | Rectangle Attributes |
-| **合计** | **97.2 KB** | | |
+| `shape_pathSeg.html` | 8.9 KB | `skdfref/attrib.html` | pathSeg Attributes |
+| `shape_rect_note_only.html` | 1.8 KB | `skdfref/attrib.html` | Rectangle Attributes |
+| **合计** | **97.3 KB** | | |
 
 **这是 Cadence 官方文档的原文摘录**：进公开仓库前请确认符合其许可；要缩小
 暴露就减少片段（改 `capture_attrs_html.py` 的 `TARGETS` 后重跑，测试会报出

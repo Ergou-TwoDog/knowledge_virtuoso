@@ -35,7 +35,7 @@
    "name": "layer1",
    "rw": "?",
    "type": "l_objId",
-   "desc": "A list of database identifiers identifying the first layer in the derived layers",
+   "desc": "A list of database identifiers identifying the first layer in each via.",
    "classes": [
     "derivedLayers",
     "viaDefs",
@@ -45,8 +45,8 @@
   {
    "name": "layer1Num",
    "rw": "?",
-   "type": "l_string",
-   "desc": "A list of layer numbers identifying the first layer in the derived layers",
+   "type": "",
+   "desc": "A list of layer numbers identifying the first layer in each via.",
    "classes": [
     "derivedLayers",
     "viaDefs",
@@ -57,7 +57,7 @@
    "name": "layer2",
    "rw": "?",
    "type": "l_objId",
-   "desc": "A list of database identifiers identifying the second layer in the derived layers",
+   "desc": "A list of database identifiers identifying the second layer in each via.",
    "classes": [
     "derivedLayers",
     "viaDefs",
@@ -67,8 +67,8 @@
   {
    "name": "layer2Num",
    "rw": "?",
-   "type": "l_string",
-   "desc": "A list of layer numbers identifying the second layer in the derived layers",
+   "type": "",
+   "desc": "A list of layer numbers identifying the second layer in each via.",
    "classes": [
     "derivedLayers",
     "viaDefs",
@@ -78,8 +78,8 @@
   {
    "name": "libName",
    "rw": "?",
-   "type": "string",
-   "desc": "The name of the technology database identified by techID .",
+   "type": "",
+   "desc": "( customViaDefs ) A list of design libraries that contain the custom via cellviews.",
    "classes": [
     "techID",
     "viaDefs"
@@ -89,7 +89,7 @@
    "name": "name",
    "rw": "?",
    "type": "l_string",
-   "desc": "A list of layer names.",
+   "desc": "A list of via names.",
    "classes": [
     "layers",
     "derivedLayers",
@@ -117,7 +117,7 @@
    "name": "params",
    "rw": "?",
    "type": "",
-   "desc": "A list of derived layer parameters",
+   "desc": "( stdViaDefs ) A list of values defining the geometry of the vias.",
    "classes": [
     "derivedLayers",
     "viaDefs",
@@ -137,7 +137,7 @@
    "name": "tech",
    "rw": "?",
    "type": "l_objId",
-   "desc": "A list of database identifiers identifying the technology databases in which the layer-purpose pairs are defined.",
+   "desc": "A list of database identifiers identifying the technology databases in which the vias are defined.",
    "classes": [
     "lps",
     "viaDefs",
@@ -150,7 +150,7 @@
    "name": "techFile",
    "rw": "?",
    "type": "l_objId",
-   "desc": "A list of database identifiers identifying the technology databases in which the layer-purpose pairs are defined.",
+   "desc": "A list of database identifiers identifying the technology databases in which the vias are defined.",
    "classes": [
     "lps",
     "viaDefs",

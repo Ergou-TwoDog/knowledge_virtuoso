@@ -6,33 +6,38 @@
  "rows": [
   {
    "name": "baseName",
-   "rw": "ro",
+   "rw": "rw",
    "type": "string",
-   "desc": "Returns base name for the busNetDef."
+   "desc": "Base name of the instance. The name of an instance can contain a vector expression by which baseName and numInst are derived. numInst can also be defined at creation.",
+   "definedIn": "Generic anyInst"
   },
   {
    "name": "cellName",
    "rw": "ro",
    "type": "string",
-   "desc": "Name of the cell."
+   "desc": "Cell name of the master for this instance.",
+   "definedIn": "Generic anyInst"
   },
   {
    "name": "libName",
    "rw": "ro",
    "type": "string",
-   "desc": "Name of the library that contains the cellview."
+   "desc": "Name of the library that contains the master for this instance.",
+   "definedIn": "Generic anyInst"
   },
   {
    "name": "name",
    "rw": "rw",
    "type": "string",
-   "desc": "实例名称"
+   "desc": "Name of the instance.",
+   "definedIn": "Generic anyInst"
   },
   {
    "name": "viewName",
    "rw": "ro",
    "type": "string",
-   "desc": "Name of the view."
+   "desc": "View name of the master for this instance.",
+   "definedIn": "Generic anyInst"
   }
  ]
 }

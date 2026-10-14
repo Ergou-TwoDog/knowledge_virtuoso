@@ -2,8 +2,9 @@
  "source": "skdfref/attrib.html",
  "kind": "shape",
  "heading": "pathSeg Attributes",
- "runtime": "pathSeg",
- "names": [
+ "object": "pathSeg",
+ "parent": "Generic Shape",
+ "own": [
   "beginExt",
   "beginPt",
   "beginStyle",
@@ -15,85 +16,5 @@
   "route",
   "topology",
   "width"
- ],
- "rows": {
-  "width": {
-   "rw": "rw",
-   "type": "float"
-  },
-  "beginExt": {
-   "rw": "rw",
-   "type": "float"
-  },
-  "endExt": {
-   "rw": "rw",
-   "type": "float"
-  },
-  "boundary": {
-   "rw": "ro",
-   "type": "l_points"
-  },
-  "beginPt": {
-   "rw": "rw",
-   "type": "l_points"
-  },
-  "beginStyle": {
-   "rw": "rw",
-   "type": "string"
-  },
-  "endPt": {
-   "rw": "rw",
-   "type": "l_points"
-  },
-  "endStyle": {
-   "rw": "rw",
-   "type": "string"
-  },
-  "isOrthogonal": {
-   "rw": "ro",
-   "type": "boolean"
-  },
-  "route": {
-   "rw": "ro",
-   "type": "objId"
-  },
-  "topology": {
-   "rw": "rw",
-   "type": "string"
-  }
- },
- "unique": {
-  "boundary": {
-   "rw": "ro",
-   "type": "l_points"
-  },
-  "beginPt": {
-   "rw": "rw",
-   "type": "l_points"
-  },
-  "beginStyle": {
-   "rw": "rw",
-   "type": "string"
-  },
-  "endPt": {
-   "rw": "rw",
-   "type": "l_points"
-  },
-  "endStyle": {
-   "rw": "rw",
-   "type": "string"
-  },
-  "isOrthogonal": {
-   "rw": "ro",
-   "type": "boolean"
-  },
-  "route": {
-   "rw": "ro",
-   "type": "objId"
-  },
-  "topology": {
-   "rw": "rw",
-   "type": "string"
-  }
- }
+ ]
 }

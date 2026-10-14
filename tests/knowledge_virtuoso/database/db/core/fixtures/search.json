@@ -1,47 +1,138 @@
 {
-  "payload": {
-    "objTypes": {"Rect": {"name": "rect", "desc": "矩形"}},
-    "inheritance": {},
-    "genericLayers": {},
-    "attributes": {
-      "bBox": {"name": "bBox", "rw": "ro", "type": "bBox", "desc": "包围盒"},
-      "bare": {"name": "bare"},
-      "layerName": {"name": "layerName", "rw": "rw", "type": "string", "desc": "层名"},
-      "purpose": {"name": "purpose", "rw": "rw", "type": "string", "desc": "layer purpose"}
-    },
-    "expanded": {"rect": ["bBox", "layerName", "purpose", "notStored"]}
+ "payload": {
+  "objects": {
+   "Generic Object": {
+    "id": "Generic Object", "title": "Generic Object Attributes", "section": "Generic Attributes",
+    "runtime": null, "parent": null,
+    "attrs": [
+     {"name": "cellView", "modify": "no", "type": "objId", "desc": "The cellview that contains this object."},
+     {"name": "objType", "modify": "no", "type": "string", "desc": "The name of the object's type."},
+     {"name": "prop", "modify": "no", "type": "l_objId", "desc": "List of properties on this object."}
+    ]
+   },
+   "Generic Figure": {
+    "id": "Generic Figure", "title": "Generic Figure Attributes", "section": "Generic Attributes",
+    "runtime": null, "parent": "Generic Object",
+    "attrs": [
+     {"name": "bBox", "modify": "no", "type": "bBox", "desc": "The figure's bounding box."},
+     {"name": "purpose", "modify": "yes", "type": "string", "desc": "layer purpose"}
+    ]
+   },
+   "Generic Shape": {
+    "id": "Generic Shape", "title": "Generic Shape Attributes", "section": "Generic Attributes",
+    "runtime": null, "parent": "Generic Figure",
+    "attrs": [
+     {"name": "layerName", "modify": "yes", "type": "string", "desc": "Layer name."},
+     {"name": "layerNum", "modify": "yes", "type": "integer", "desc": "Layer number."}
+    ]
+   },
+   "Rectangle": {
+    "id": "Rectangle", "title": "Rectangle Attributes", "section": "Attributes of Shapes",
+    "runtime": null, "parent": "Generic Shape",
+    "attrs": []
+   },
+   "Cellview": {
+    "id": "Cellview", "title": "Cellview Attributes", "section": "Attributes of Cellviews",
+    "runtime": "cellview", "parent": "Generic Object",
+    "attrs": [
+     {"name": "objType", "modify": "no", "type": "string", "desc": "Type of the object, in this case \"cellview\"."},
+     {"name": "cellName", "modify": "no", "type": "string", "desc": "Name of the cell."},
+     {"name": "height", "modify": "yes", "type": "float", "desc": "Cell height."}
+    ]
+   },
+   "Label": {
+    "id": "Label", "title": "Label Attributes", "section": "Attributes of Shapes",
+    "runtime": "label", "parent": "Generic Shape",
+    "attrs": [
+     {"name": "height", "modify": "yes", "type": "integer", "desc": "Label height."},
+     {"name": "theLabel", "modify": "yes", "type": "string", "desc": "Label text."}
+    ]
+   }
+  }
+ },
+ "cases": [
+  {
+   "params": {},
+   "expect": [
+    {"name": "bBox", "rw": "ro", "type": "bBox", "desc": "The figure's bounding box.", "definedIn": "Generic Figure"},
+    {"name": "cellName", "rw": "ro", "type": "string", "desc": "Name of the cell.", "definedIn": "Cellview"},
+    {"name": "cellView", "rw": "ro", "type": "objId", "desc": "The cellview that contains this object.", "definedIn": "Generic Object"},
+    {"name": "height", "rw": "rw", "type": "float", "desc": "Cell height.", "definedIn": "Cellview"},
+    {"name": "layerName", "rw": "rw", "type": "string", "desc": "Layer name.", "definedIn": "Generic Shape"},
+    {"name": "layerNum", "rw": "rw", "type": "integer", "desc": "Layer number.", "definedIn": "Generic Shape"},
+    {"name": "objType", "rw": "ro", "type": "string", "desc": "The name of the object's type.", "definedIn": "Generic Object"},
+    {"name": "prop", "rw": "ro", "type": "l_objId", "desc": "List of properties on this object.", "definedIn": "Generic Object"},
+    {"name": "purpose", "rw": "rw", "type": "string", "desc": "layer purpose", "definedIn": "Generic Figure"},
+    {"name": "theLabel", "rw": "rw", "type": "string", "desc": "Label text.", "definedIn": "Label"}
+   ]
   },
-  "cases": [
-    {
-      "params": {},
-      "expect": [
-        {"name": "bBox", "rw": "ro", "type": "bBox", "desc": "包围盒"},
-        {"name": "bare", "rw": "?", "type": "?", "desc": ""},
-        {"name": "layerName", "rw": "rw", "type": "string", "desc": "层名"},
-        {"name": "purpose", "rw": "rw", "type": "string", "desc": "layer purpose"}
-      ]
-    },
-    {
-      "params": {"objType": "rect"},
-      "expect": [
-        {"name": "bBox", "rw": "ro", "type": "bBox", "desc": "包围盒"},
-        {"name": "layerName", "rw": "rw", "type": "string", "desc": "层名"},
-        {"name": "purpose", "rw": "rw", "type": "string", "desc": "layer purpose"}
-      ]
-    },
-    {
-      "params": {"objType": "rect", "keyword": "layer"},
-      "expect": [
-        {"name": "layerName", "rw": "rw", "type": "string", "desc": "层名"}
-      ]
-    },
-    {
-      "params": {"keyword": "PURPOSE"},
-      "expect": [
-        {"name": "purpose", "rw": "rw", "type": "string", "desc": "layer purpose"}
-      ]
-    },
-    {"params": {"objType": "nosuch"}, "expect": []},
-    {"params": {"keyword": "zzz"}, "expect": []}
-  ]
+  {
+   "params": {"objType": "Rectangle"},
+   "expect": [
+    {"name": "bBox", "rw": "ro", "type": "bBox", "desc": "The figure's bounding box.", "definedIn": "Generic Figure"},
+    {"name": "cellView", "rw": "ro", "type": "objId", "desc": "The cellview that contains this object.", "definedIn": "Generic Object"},
+    {"name": "layerName", "rw": "rw", "type": "string", "desc": "Layer name.", "definedIn": "Generic Shape"},
+    {"name": "layerNum", "rw": "rw", "type": "integer", "desc": "Layer number.", "definedIn": "Generic Shape"},
+    {"name": "objType", "rw": "ro", "type": "string", "desc": "The name of the object's type.", "definedIn": "Generic Object"},
+    {"name": "prop", "rw": "ro", "type": "l_objId", "desc": "List of properties on this object.", "definedIn": "Generic Object"},
+    {"name": "purpose", "rw": "rw", "type": "string", "desc": "layer purpose", "definedIn": "Generic Figure"}
+   ]
+  },
+  {
+   "params": {"objType": "Cellview"},
+   "expect": [
+    {"name": "cellName", "rw": "ro", "type": "string", "desc": "Name of the cell.", "definedIn": "Cellview"},
+    {"name": "cellView", "rw": "ro", "type": "objId", "desc": "The cellview that contains this object.", "definedIn": "Generic Object"},
+    {"name": "height", "rw": "rw", "type": "float", "desc": "Cell height.", "definedIn": "Cellview"},
+    {"name": "objType", "rw": "ro", "type": "string", "desc": "Type of the object, in this case \"cellview\".", "definedIn": "Cellview"},
+    {"name": "prop", "rw": "ro", "type": "l_objId", "desc": "List of properties on this object.", "definedIn": "Generic Object"}
+   ]
+  },
+  {
+   "params": {"objType": "cellview"},
+   "expect": [
+    {"name": "cellName", "rw": "ro", "type": "string", "desc": "Name of the cell.", "definedIn": "Cellview"},
+    {"name": "cellView", "rw": "ro", "type": "objId", "desc": "The cellview that contains this object.", "definedIn": "Generic Object"},
+    {"name": "height", "rw": "rw", "type": "float", "desc": "Cell height.", "definedIn": "Cellview"},
+    {"name": "objType", "rw": "ro", "type": "string", "desc": "Type of the object, in this case \"cellview\".", "definedIn": "Cellview"},
+    {"name": "prop", "rw": "ro", "type": "l_objId", "desc": "List of properties on this object.", "definedIn": "Generic Object"}
+   ]
+  },
+  {
+   "params": {"objType": "rect"},
+   "expect": [
+    {"name": "bBox", "rw": "ro", "type": "bBox", "desc": "The figure's bounding box.", "definedIn": "Generic Figure"},
+    {"name": "cellView", "rw": "ro", "type": "objId", "desc": "The cellview that contains this object.", "definedIn": "Generic Object"},
+    {"name": "layerName", "rw": "rw", "type": "string", "desc": "Layer name.", "definedIn": "Generic Shape"},
+    {"name": "layerNum", "rw": "rw", "type": "integer", "desc": "Layer number.", "definedIn": "Generic Shape"},
+    {"name": "objType", "rw": "ro", "type": "string", "desc": "The name of the object's type.", "definedIn": "Generic Object"},
+    {"name": "prop", "rw": "ro", "type": "l_objId", "desc": "List of properties on this object.", "definedIn": "Generic Object"},
+    {"name": "purpose", "rw": "rw", "type": "string", "desc": "layer purpose", "definedIn": "Generic Figure"}
+   ]
+  },
+  {
+   "params": {"objType": "Label"},
+   "expect": [
+    {"name": "bBox", "rw": "ro", "type": "bBox", "desc": "The figure's bounding box.", "definedIn": "Generic Figure"},
+    {"name": "cellView", "rw": "ro", "type": "objId", "desc": "The cellview that contains this object.", "definedIn": "Generic Object"},
+    {"name": "height", "rw": "rw", "type": "integer", "desc": "Label height.", "definedIn": "Label"},
+    {"name": "layerName", "rw": "rw", "type": "string", "desc": "Layer name.", "definedIn": "Generic Shape"},
+    {"name": "layerNum", "rw": "rw", "type": "integer", "desc": "Layer number.", "definedIn": "Generic Shape"},
+    {"name": "objType", "rw": "ro", "type": "string", "desc": "The name of the object's type.", "definedIn": "Generic Object"},
+    {"name": "prop", "rw": "ro", "type": "l_objId", "desc": "List of properties on this object.", "definedIn": "Generic Object"},
+    {"name": "purpose", "rw": "rw", "type": "string", "desc": "layer purpose", "definedIn": "Generic Figure"},
+    {"name": "theLabel", "rw": "rw", "type": "string", "desc": "Label text.", "definedIn": "Label"}
+   ]
+  },
+  {
+   "params": {"objType": "没有这个对象"},
+   "expect": []
+  },
+  {
+   "params": {"objType": "Rectangle", "keyword": "box"},
+   "expect": [
+    {"name": "bBox", "rw": "ro", "type": "bBox", "desc": "The figure's bounding box.", "definedIn": "Generic Figure"}
+   ]
+  }
+ ]
 }

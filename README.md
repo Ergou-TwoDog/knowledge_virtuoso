@@ -84,16 +84,22 @@ knowledge_virtuoso/
         │           ├── catalog.py
         │           └── render.py    #       本渲染差异（（自定义）标记 + load() 前提行）
         └── database/
-            ├── core/store.py            # 三库共用的索引存取（读/重建/缓存/锁）
+            ├── core/store.py            # 属性库共用的索引存取（读/重建/缓存/锁）
+            ├── core/registry.py         # 属性库发现（扫 database/ 自动发现）
             ├── db/core/catalog.py       # 基本数据库对象属性
             ├── db/render.py             # 该库属性表的渲染
             ├── techdb/core/catalog.py   # 技术库对象属性
             ├── techdb/render.py
             ├── cdfdb/core/catalog.py    # CDF 对象属性
-            └── cdfdb/render.py
+            ├── cdfdb/render.py
+            ├── dd/core/catalog.py       # 数据管理对象属性与关系
+            └── dd/render.py
+
+每个属性库还有一份 `__init__.py`（库接口：NAME / SELECTOR / DOC / build / search / render）
+与 `core/README.md`（该库的原文事实与设计取舍）。
 ```
 
-函数库**按来源分树**：每个来源一棵 `sources/<来源>/`（该来源的索引本事 + 渲染差异），来源树之间**互不认识**；与来源无关的放 `core/`；跨来源的只有两件事——`registry.py` 负责**扫描 `sources/` 自动发现**（顺序由各来源自己的 `ORDER` 决定，不看目录名），`index.py` 负责把它们装配成一张索引并在这上面查询。**加一个来源 = 在 `sources/` 下加一棵树**，`core/`、`registry.py`、`index.py`、`server.py` 都不用改。三个属性库（db/techdb/cdfdb）仍是各自的 `core/catalog.py` + `render.py`，暂不分来源；它们的索引存取（读 JSON、坏了从官方 doc 重建、缓存与锁）收敛在 `database/core/store.py` 一份里——那是**去重**，不是来源抽象。渲染层只做"记录/行 → 文本"，不 import `mcp`、不 import 来源、不读索引、不做 I/O。`server.py` 只做接线：校验参数 → 查 catalog → 交给对应渲染层；所以改输出不必碰 MCP 接口，改工具契约（名字、参数、docstring）也不必碰渲染层。**包内不含索引**——索引写到平台数据目录（见下），因此 wheel 体积小、可反复 `uvx` 冷启动。
+函数库**按来源分树**：每个来源一棵 `sources/<来源>/`（该来源的索引本事 + 渲染差异），来源树之间**互不认识**；与来源无关的放 `core/`；跨来源的只有两件事——`registry.py` 负责**扫描 `sources/` 自动发现**（顺序由各来源自己的 `ORDER` 决定，不看目录名），`index.py` 负责把它们装配成一张索引并在这上面查询。**加一个来源 = 在 `sources/` 下加一棵树**，`core/`、`registry.py`、`index.py`、`server.py` 都不用改。四个属性库（db/techdb/cdfdb/dd）仍是各自的 `core/catalog.py` + `render.py`，**互相独立**；上层由 `database/core/registry.py` **扫描 `database/` 自动发现**（各库在自己的 `__init__.py` 里声明 `NAME`/`SELECTOR`/`DOC` 与三个函数）——**加一个属性库 = 在 `database/` 下加一棵树**，`server.py`、`cli.py` 一行不用改。它们的索引存取（读 JSON、坏了从官方 doc 重建、缓存与锁）收敛在 `database/core/store.py` 一份里——那是**去重**，不是来源抽象。渲染层只做"记录/行 → 文本"，不 import `mcp`、不 import 来源、不读索引、不做 I/O。`server.py` 只做接线：校验参数 → 查 catalog → 交给对应渲染层；所以改输出不必碰 MCP 接口，改工具契约（名字、参数、docstring）也不必碰渲染层。**包内不含索引**——索引写到平台数据目录（见下），因此 wheel 体积小、可反复 `uvx` 冷启动。
 
 维护对象为包内解析器、工具与索引；不直接手改生成 JSON。**索引字段、解析边界、设计原则与工具层取舍都在随包发布的 [src/knowledge_virtuoso/functions/README.md](src/knowledge_virtuoso/functions/README.md)**（设计文档不单独放在仓库里）。原文地址按实际 IC618 doc 根目录拼接 `source.file` 与 `source.anchor`，相对参考链接以 source.file 所在目录解析。
 
@@ -133,7 +139,7 @@ knowledge_virtuoso/
 
 见「作为 uvx 工具」；无需克隆或复制资产。若要指向本地克隆而非 git 源，可用 `uvx --from <本地路径> knowledge-virtuoso`。移除使用方的 virtuoso 配置并重新加载客户端即可停止接入。
 
-## 五个查询工具
+## 六个查询工具
 
 以下是 MCP 参数，不是 SKILL 代码，也不要求安装同名 slash skill。
 
@@ -144,6 +150,7 @@ knowledge_virtuoso/
 | `db_search_attr` | `objType=""`, `keyword=""` | `{"objType":"rect","keyword":"bBox"}` |
 | `techdb_search_attr` | `className=""`, `keyword=""` | `{"className":"viaDefs","keyword":"name"}` |
 | `cdfdb_search_attr` | `className=""`, `keyword=""` | `{"className":"cdfParamId","keyword":"value"}` |
+| `dd_search_attr` | `object=""`, `keyword=""` | `{"object":"cellFile"}` |
 
 函数搜索至少提供 prefix/keywords 一个非空条件，结果行默认**附带一行摘要**（`with_digest=false` 只要名字与来源，每行省约 100–200 字）。，主要匹配名称及拆词，不是自然语言语义搜索。关键词按**驼峰自动拆词**，且对无边界写法兜底——`createRect`、`create rect`、`createrect`、完整名 `dbCreateRect` 都能命中，不必手动拆分；offset 非负，limit 为 1–500，按返回的 next offset 翻页。查询单函数（`skill_language_search_doc`）与搜索（`skill_language_search_components`）未命中时都会给出相近名建议（搜索建议限同前缀内）。
 
@@ -161,7 +168,7 @@ knowledge_virtuoso/
 
 输出形式约定（便于程序化切分）：单行项用行内前缀（`函数:`、`签名:`、`描述:`、`来源:`、`解析状态:`），多行块用独占一行的节标题（`参数:`、`返回:`、`示例:`）——块内条目再缩进一层，`主参数组 […]`／`子参数 […]（属于 …）` 标识分组，不与参数条目同级。用两行正则即可切分：块标题 = `^[^ \t].*:$`（行首无空格且以冒号结尾），块内条目首行 = `^ +.+? — `（行首有空格、含 ` — `），其后缩进更深的行属于上一条目。
 
-属性工具的对象类型/类名留空可跨类搜索，keyword 留空列出该类全部属性。db 与 techdb、cdfdb 的数据模型不能混用。
+属性工具的对象类型/类名留空可跨类搜索，keyword 留空列出该类全部属性。db 与 techdb、cdfdb、dd 的数据模型不能混用。
 
 不经 MCP 查询单个函数：
 
@@ -185,11 +192,13 @@ uv run python -m knowledge_virtuoso.functions --sources              # 列出发
 | macOS | `~/Library/Application Support/knowledge-virtuoso/` |
 | Linux | `$XDG_DATA_HOME/knowledge-virtuoso/`（未设则 `~/.local/share/knowledge-virtuoso/`） |
 
-可用环境变量 `VIRTUOSO_DATA_DIR`（绝对路径）覆盖。四个库各占一份 `<目录>/<库>/index.json`（`functions`、`db`、`techdb`、`cdfdb`）。索引目录在进程启动时读取，改后需重启服务。
+可用环境变量 `VIRTUOSO_DATA_DIR`（绝对路径）覆盖。五个库各占一份 `<目录>/<库>/index.json`（`functions`、`db`、`techdb`、`cdfdb`、`dd`）。索引目录在进程启动时读取，改后需重启服务。
 
-函数库索引是**紧凑 JSON 经 gzip 压缩**的（约 2 MB，加载时自动解压），因此不能直接查看或 grep，排障用 `gzip -dc <索引> | head`；三个属性库索引仍是明文 JSON。
+函数库索引是**紧凑 JSON 经 gzip 压缩**的（约 2 MB，加载时自动解压），因此不能直接查看或 grep，排障用 `gzip -dc <索引> | head`；四个属性库索引仍是明文 JSON。
 
 索引**格式**变了会自动判为不兼容并触发重建；但**内容**改进不会——0.1.7 补上了老式排版的两类表结构（裸 `<tr>` 续排的表、首列被占位的表行），格式仍是 v3，因此**已有的旧 v3 索引不会自动重建**。升级到 0.1.7 后需跑一次 `knowledge-virtuoso-build functions`（或删除该索引让服务按惰性重建），才能用上改进后的内容。
+
+四个属性库各带一份**载荷格式版本**（写进索引 JSON，各库的 `_PAYLOAD_VERSION`）：版本不符即当作损坏——有 `VIRTUOSO_DOC_DIR` 就自动重建，没有就明确报"索引不可用"。db/techdb/cdfdb 自并入 `database/core/objects.py` 的共用对象模型起为 **v2**（techdb/cdfdb 的 `classes` 键随之改名 `objects`），dd 为 **v2**；**旧形状（没有 `version` 键、或版本较低）的索引会被自动识别并重建，不需要手动删**。
 
 0.2.0 没有改索引格式：改的是**包内模块路径**（函数库按来源分树、渲染层从 `server.py` 抽出）与一处契约校验（`returns` 条目必须带 `desc`）。**升级不需要重建索引**；但若你有脚本按旧模块路径导入（如 `knowledge_virtuoso.functions.core.catalog`），要一并改。
 
@@ -201,7 +210,18 @@ uv run python -m knowledge_virtuoso.functions --sources              # 列出发
 
 **若你停在 `v0.2.0`**：不需要重建索引就照常可用；一旦要重建（索引丢失/损坏，或想用新解析产物），请升到 0.2.1。
 
-**四库统一惰性重建**：查询时加载对应 JSON；缺失、损坏或空记录时，若进程环境设了 `VIRTUOSO_DOC_DIR`（真实 IC618 doc 根），自动从官方 doc 重建、原子写回索引目录并返回结果；未设则报出含索引路径与修复提示的错误（提示运行 `knowledge-virtuoso-build`）。首次全量函数重建可能较慢，重建日志写 stderr。
+**（未发布）属性库重构：上层统一 + 新增 `dd` 库——索引格式不兼容**
+
+- **四个属性库各存各的、互不认识**；上层由 `database/core/registry.py` 扫描 `database/` **自动发现**，`server.py` 按发现的库生成 MCP 工具（工具名 = `<库名>_search_attr`，第一个参数名 = 该库自己的选择器：`objType`/`className`/`object`）。
+- **db/techdb/cdfdb 的载荷容器统一到 `database/core/objects.py` 的对象模型**（`{version, objects: {id: {id, title, parent, attrs}}}`）：校验、选择器解析、继承合并都收在那份共享件里，各库只剩**解析器 + 别名表 + 行工厂 + 一份列声明**（表格渲染也收在 `database/core/render.py`——四份渲染器的差别全在列上）。「有没有继承」不用旗子标——没有继承的库 `parent` 恒为 `null`，合并自动塌缩成自身。四库对照见 `src/knowledge_virtuoso/database/core/README.md`。**渲染输出一行未变**（golden 零变化）。
+- **dd 不在这套容器里**：它原文是转置的（一条记录列适用对象），套进来要物化 3.4×——那与「忠实还原」相悖。
+- **加一个属性库 = 在 `database/` 下加一棵树**，`server.py`、`cli.py` 一行不用改。
+- **新增第 6 个工具 `dd_search_attr`**：数据管理对象（`lib`/`cell`/`view`/`libFile`/`cellFile`/`viewFile`）的属性与关系。**原文没有类型也没有说明**（类型只出现在没进 HTML 的图里），所以输出只有 name/kind/基数/适用对象——不是解析漏了。
+- **techdb 改为每个类各存自己的属性**：此前是"全局按属性名去重"，24 个跨类同名属性只留第一个类的说明与类型，实测 **8 处类型与该类原文不符**（`snapPatternDefs~>layer` 显示 `l_objId`，而该类原文推出来是 `l_string`——这在渲染里看得见）。**跨类查询现在每个类各出一行**，不再合并。类说明改用原文的 `Description`，不再用手写的 11 条中文。
+- **cdfdb 同样改为逐类存储**（两个类零重名，输出不变）。`parseAsNumber` 从"手写补录"回到字段区（原文那个 h4 的首个锚点是空的，旧正则匹配不到）；`name`/`description` 仍是补录，但标出来源，且 `description` 的说明**如实留空**（原文没给）。
+- **不兼容**：db/techdb/cdfdb 的载荷格式都变成 v2，旧索引会被自动识别并重建（设了 `VIRTUOSO_DOC_DIR`）或明确报"索引不可用"（没设）。升级后跑一次 `knowledge-virtuoso-build <库>` 即可，或设好 `VIRTUOSO_DOC_DIR` 让服务惰性重建。
+
+**五库统一惰性重建**：查询时加载对应 JSON；缺失、损坏或空记录时，若进程环境设了 `VIRTUOSO_DOC_DIR`（真实 IC618 doc 根），自动从官方 doc 重建、原子写回索引目录并返回结果；未设则报出含索引路径与修复提示的错误（提示运行 `knowledge-virtuoso-build`）。首次全量函数重建可能较慢，重建日志写 stderr。
 
 函数库另有内存层：**健康内存 → 有效 JSON → 官方 doc 构建非空索引、原子写盘、发布内存**；全部失败则报告实际原因。读取、解析或写入失败不发布半成品。函数内存健康检查只检查 ready、字典类型、非空主索引与长度快照，不检测等量篡改或嵌套损坏；正常内存不自动热更新，零匹配不触发重建。
 
@@ -223,7 +243,7 @@ MCP 工具除官方索引外，还可**同时加载多个与本库同构的 cust
 
 例（`skill_dev_kit` 产出并把 MCP 指向它）：`python tools/gen_records.py src/ --json --out records.json`（省略 `--out` 则信封打到 stdout），再将 `VIRTUOSO_CUSTOM_INDEX` 设为 `records.json`（或它所在目录）。
 
-加载与合并规则：官方索引恒为基准；custom 逐源读取，**坏源（缺失、损坏、非 v3 envelope、记录不合法）跳过并在 stderr 警告，不影响官方查询**；同名时**custom 覆盖官方**（二次开发的定位即扩展／打补丁），遮蔽写 stderr 警告。custom 记录比官方多三处扩展位 `origin`／`origin_meta`／`lint`，渲染时据此标注（见「五个查询工具」）；官方条目无这些键、行为不变。**未设该变量时，加载与渲染与只用官方索引时逐字一致。** 自定义索引只在**函数库**（`skill_language_*`）生效，三个属性库不读它。
+加载与合并规则：官方索引恒为基准；custom 逐源读取，**坏源（缺失、损坏、非 v3 envelope、记录不合法）跳过并在 stderr 警告，不影响官方查询**；同名时**custom 覆盖官方**（二次开发的定位即扩展／打补丁），遮蔽写 stderr 警告。custom 记录比官方多三处扩展位 `origin`／`origin_meta`／`lint`，渲染时据此标注（见「六个查询工具」）；官方条目无这些键、行为不变。**未设该变量时，加载与渲染与只用官方索引时逐字一致。** 自定义索引只在**函数库**（`skill_language_*`）生效，四个属性库不读它。
 
 ## 显式重建
 
@@ -234,6 +254,7 @@ knowledge-virtuoso-build functions
 knowledge-virtuoso-build db
 knowledge-virtuoso-build techdb
 knowledge-virtuoso-build cdfdb
+knowledge-virtuoso-build dd
 ```
 
 本项目开发时用 `uv run knowledge-virtuoso-build <库>`；包已安装时可直接调用脚本名。`functions` 取 `VIRTUOSO_DOC_DIR` 或 `--doc` 作为 doc 根；属性库 `--doc` 取对应 HTML（默认 `skdfref/attrib.html`、`sktechfile/appA.html`、`skartistref/chap21.html`）。`--output` 可覆盖写入位置。重建结束后重启服务。

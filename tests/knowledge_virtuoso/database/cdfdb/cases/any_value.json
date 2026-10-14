@@ -9,6 +9,7 @@
    "rw": "rw",
    "type": "",
    "desc": "Default value of the parameter. You must specify this field. This field is editable.",
+   "source": "field",
    "classes": [
     "cdfParamId"
    ]
@@ -18,6 +19,7 @@
    "rw": "rw",
    "type": "",
    "desc": "Current value of the parameter. This field is editable.",
+   "source": "field",
    "classes": [
     "cdfParamId"
    ]

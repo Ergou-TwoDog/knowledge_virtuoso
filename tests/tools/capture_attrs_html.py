@@ -6,18 +6,20 @@ VIRTUOSO_DOC_DIR=<IC618 doc 根> uv run python -B tests/capture_attrs_html.py
 ```
 
 三个属性库的解析器（`database/<库>/core/catalog.py` 的 `extract_all`）各按自己的方式在整份
-HTML 里**扫**：db 靠 6 个节短语（且取第 3 次出现！）、techdb 靠 `techID~>` 的 `<h3>` 段、
-cdfdb 靠按字段名找 `<h4>`。所以片段就是"该解析器会看成一段"的那块 HTML：
+HTML 里**扫**：db 按标题走（h4 = 一个对象，紧随的第一张表 = 它的属性表）、techdb 靠
+`techID~>` 的 `<h3>` 段、cdfdb 靠按字段名找 `<h4>`。所以片段就是"该解析器会看成一段"的
+那块 HTML：
 
   database/<库>/core/fixtures/html/<片段>.html   片段
   database/<库>/core/fixtures/html/<片段>.json   期望值（**取自线上索引**，非解析器跑出来的）
 
-期望值的取法（这段 HTML 在线上索引里对应谁）：按片段的归属过滤线上索引——db 按
-`objTypes` 含本节的运行时类型、techdb/cdfdb 按 `classes[cid].attributes`。这样夹具与"用户
-机器上真正在用的索引"对齐，而不是与解析器自己对齐。
+期望值的取法（这段 HTML 在线上索引里对应谁）：**db 取该对象在整份文件里的样子**
+（父 + 自身属性名），比"片段 ⇒ 对象"与"整份文件 ⇒ 同一个对象"是否一致；techdb/cdfdb
+按 `classes[cid].attributes` 取归属名字集合。这样夹具与"用户机器上真正在用的索引"对齐，
+而不是与解析器自己对齐。
 
-**不比 `desc`**（db/techdb）：线上记录的 desc 来自**第一次**出现该名字的那个节，片段之外的
-节可能才是首发者；解析器在片段里给出的 desc 与线上不同是正常的。比的是名字集合与
+**techdb 不比 `desc`**：线上记录的 desc 来自**第一次**出现该名字的那个节，片段之外的节
+可能才是首发者；解析器在片段里给出的 desc 与线上不同是正常的。比的是名字集合与
 `rw`/`type`（以及归属关系）。cdfdb 单类片段不存在这个问题，它比 desc。
 """
 
@@ -38,6 +40,7 @@ sys.path.insert(0, str(TESTS))
 from common import write_text  # noqa: E402
 
 from knowledge_virtuoso.database.cdfdb.core import catalog as cdf_cat  # noqa: E402
+from knowledge_virtuoso.database.dd.core import catalog as dd_cat  # noqa: E402
 from knowledge_virtuoso.database.db.core import catalog as db_cat  # noqa: E402
 from knowledge_virtuoso.database.techdb.core import catalog as tech_cat  # noqa: E402
 
@@ -47,16 +50,16 @@ FIXTURES = TESTS / "knowledge_virtuoso" / "database"
 # techdb/cdfdb 用类名。实测数量/为何选它写在 tests/README.md 的族清单里。
 TARGETS = (
     ("db", "section_cellview", "skdfref/attrib.html",
-     {"kind": "phrase", "phrase": "Attributes of Cellviews", "runtime": "cellview"}),
+     {"kind": "phrase", "phrase": "Attributes of Cellviews", "object": "Cellview"}),
     ("db", "section_inst", "skdfref/attrib.html",
      {"kind": "phrase", "phrase": "Attributes of Instances, Instance Headers, and Mosaics",
-      "runtime": "inst"}),
+      "object": "Instance"}),
     ("db", "shape_pathSeg", "skdfref/attrib.html",
-     {"kind": "shape", "heading": "pathSeg Attributes", "runtime": "pathSeg"}),
-    # Rectangle 一节原文只写了一句 "include Generic Shape Attributes"，没有属性表——它是
-    # "本节不产出属性、属性全部来自 Generic 层"的真实样例（线上索引里确实没有 rect 归属）。
+     {"kind": "shape", "heading": "pathSeg Attributes", "object": "pathSeg"}),
+    # Rectangle 一节原文只有一句 "include Generic Shape Attributes"，没有自己的属性行——
+    # 它是"自身 0 条、全部靠继承"的真实样例（父 = Generic Shape）。
     ("db", "shape_rect_note_only", "skdfref/attrib.html",
-     {"kind": "shape", "heading": "Rectangle Attributes", "runtime": "rect"}),
+     {"kind": "shape", "heading": "Rectangle Attributes", "object": "Rectangle"}),
     ("techdb", "class_viaDefs", "sktechfile/appA.html",
      {"kind": "h3", "class": "viaDefs"}),
     ("techdb", "class_layers", "sktechfile/appA.html",
@@ -65,6 +68,9 @@ TARGETS = (
      {"kind": "class", "class": "cdfDataId"}),
     ("cdfdb", "class_cdfParamId", "skartistref/chap21.html",
      {"kind": "class", "class": "cdfParamId"}),
+    # ② 数据管理对象：整节（h2 到下一个 h2）——本节里没有 h3/h4，转置表与关系表都在里头
+    ("dd", "dd_section", "skdfref/chap3.html",
+     {"kind": "h2", "heading": "Attributes of Data Management Objects"}),
 )
 
 _LIVE = {}
@@ -73,7 +79,7 @@ _LIVE = {}
 def live(library: str) -> dict:
     """线上索引载荷（进程内只读一次）。"""
     if library not in _LIVE:
-        module = {"db": db_cat, "techdb": tech_cat, "cdfdb": cdf_cat}[library]
+        module = {"db": db_cat, "techdb": tech_cat, "cdfdb": cdf_cat, "dd": dd_cat}[library]
         _LIVE[library] = module._STORE.load()
     return _LIVE[library]
 
@@ -102,6 +108,10 @@ def slice_db(text: str, spec: dict) -> str:
         last, idx = pos, pos + 1
     if last == -1:
         raise SystemExit(f"找不到形状标题 {spec['heading']!r}")
+    # 起点要从**标题元素开头**算：`last` 落在 `<h4><a …>pathSeg Attributes</a></h4>` 的
+    # 文字上，从那里切会把开标签切掉。解析器按标题走，片段得从 `<h4` 起。
+    start = text.rfind("<h4", 0, last)
+    last = start if start != -1 else last
     end = last
     for tag in ("<h4", "<h3"):
         nxt = text.find(tag, last + 10)
@@ -135,14 +145,23 @@ def slice_cdfdb(text: str, spec: dict) -> str:
     """
     fields = {"cdfDataId": ("id", "type", "parameters", "doneProc", "formInitProc"),
               "cdfParamId": ("use", "paramType", "defValue", "value", "prompt", "choices",
-                             "units", "editable", "callback", "dontSave", "parseAsCEL",
-                             "storeDefault", "display")}
+                             "units", "editable", "callback", "parseAsNumber", "dontSave",
+                             "parseAsCEL", "storeDefault", "display")}
     other = "cdfParamId" if spec["class"] == "cdfDataId" else "cdfDataId"
 
     def positions(names) -> list[int]:
-        return [m.start() for fn in names
-                for m in [re.search(r'<h4[^>]*>\s*<a[^>]*>' + re.escape(fn) + r'</a>\s*</h4>', text)]
-                if m]
+        # 按 **h4 文本**找，与 catalog 的 `_h4_index` 同一口径：原文有 `parseAsNumber`
+        # 这种"首个锚点为空"的写法，按 `<h4><a>名</a></h4>` 的形状匹配会整个漏掉。
+        out = []
+        for fn in names:
+            m = re.search(r'<h4[^>]*>(?:(?!</h4>).)*?>' + re.escape(fn) + r'</a>\s*</h4>',
+                          text, re.DOTALL)
+            if not m:
+                m = re.search(r'<h4[^>]*>(?:(?!</h4>).)*?' + re.escape(fn) +
+                              r'(?:(?!</h4>).)*?</h4>', text, re.DOTALL)
+            if m:
+                out.append(m.start())
+        return out
 
     starts = positions(fields[spec["class"]])
     if not starts:
@@ -154,7 +173,17 @@ def slice_cdfdb(text: str, spec: dict) -> str:
     return text[start:min(bounds) if bounds else len(text)], start
 
 
-SLICERS = {"db": slice_db, "techdb": slice_techdb, "cdfdb": slice_cdfdb}
+def slice_dd(text: str, spec: dict) -> str:
+    """dd 的整节：该 ``<h2>`` 文字到下个 ``<h2``（本节里没有 h3/h4）。"""
+    for m in re.finditer(r'<h2[^>]*>(.*?)</h2>', text, re.DOTALL | re.IGNORECASE):
+        if dd_cat._strip(m.group(1)) == spec["heading"]:
+            nxt = re.search(r'<h2', text[m.end():], re.IGNORECASE)
+            end = m.end() + nxt.start() if nxt else len(text)
+            return text[m.start():end], m.start()
+    raise SystemExit(f"dd 找不到小节 {spec['heading']!r}")
+
+
+SLICERS = {"db": slice_db, "techdb": slice_techdb, "cdfdb": slice_cdfdb, "dd": slice_dd}
 
 
 def with_boundary(text: str, region: str, start: int) -> str:
@@ -166,8 +195,8 @@ def with_boundary(text: str, region: str, start: int) -> str:
     真实文件里这个标题本来就在，补回来才是解析器真正看到的样子。
     """
     end = start + len(region)
-    pos = min((p for p in (text.find("<h3", end), text.find("<h4", end)) if p != -1),
-              default=-1)
+    pos = min((p for p in (text.find("<h3", end), text.find("<h4", end), text.find("<h2", end))
+               if p != -1), default=-1)
     if pos == -1:
         raise SystemExit(f"片段起点 {start} 之后找不到标题边界")
     close = text.find(">", pos)
@@ -177,36 +206,24 @@ def with_boundary(text: str, region: str, start: int) -> str:
 def expectation(library: str, spec: dict, payload: dict) -> dict:
     """这段 HTML 在线上索引里对应的那部分。
 
-    ``names`` 是归属成员（**全部要比**）；``unique`` 是"只属于本片段"的那些名字——
-    只有它们的字段可比。理由：同一个名字若在别的节/类里也出现，线上记录的 `rw`/`type`
-    来自**第一次**出现的那个节（`add_attr` 只追加归属、不覆盖字段），片段单独解析出来的
-    自然不同。``rows`` 保留全部线上字段只作参考，不参与比对。
+    期望值 = "那段 HTML 在整份文件里对应谁"：`db` 取该对象的父与自身属性名；其余库取该类的
+    **全部属性记录**（名字/类型/说明）。比的是"片段 ⇒ 对象"与"整份文件 ⇒ 同一个对象"一致
+    （切片边界、表头/前导两种父写法、类的字段区边界都在这露头）。
     """
-    rows: dict[str, dict] = {}
-    unique: dict[str, dict] = {}
+    if library == "dd":
+        # 期望值 = 这一节在整份文件里解析出来的三样：对象全集 / 属性 / 关系
+        return {"objectTypes": payload["objectTypes"], "attributes": payload["attributes"],
+                "relations": payload["relations"]}
     if library == "db":
-        runtime = spec["runtime"]
-        for name, info in payload["attributes"].items():
-            if runtime not in info.get("objTypes", []):
-                continue
-            row = {"rw": info["rw"], "type": info["type"]}
-            rows[name] = row
-            others = [t for t in info["objTypes"] if t != "_generic"]   # Generic 层只追加归属
-            if others == [runtime]:
-                unique[name] = dict(row)
-        return {"runtime": runtime, "names": sorted(rows), "rows": rows, "unique": unique}
+        obj = payload["objects"][spec["object"]]
+        return {"object": obj["id"], "parent": obj["parent"],
+                "own": sorted(a["name"] for a in obj["attrs"])}
 
-    cid = spec["class"]
-    for name in payload["classes"][cid]["attributes"]:
-        info = payload["attributes"][name]
-        row = {"rw": info["rw"], "type": info["type"]}
-        if library == "cdfdb":
-            row["desc"] = info["desc"]          # 单类片段且名字唯一：首发者就在这段里
-        rows[name] = row
-        if info.get("classes") == [cid]:
-            unique[name] = dict(row)
-    return {"class": cid, "names": sorted(rows), "rows": rows, "unique": unique,
-            "class_desc": payload["classes"][cid]["desc"]}
+    # 逐类存储之后不必再退而求其次只比"唯一名字"——同名属性出现在别的类里也不影响本类。
+    cls = payload["objects"][spec["class"]]
+    attrs = sorted(({"name": a["name"], "type": a["type"], "desc": a["desc"]}
+                    for a in cls["attrs"]), key=lambda r: r["name"])
+    return {"class": cls["id"], "attrs": attrs}
 
 
 def main() -> None:
@@ -234,7 +251,13 @@ def main() -> None:
         rows.setdefault(library, []).append(
             f"| `{name}.html` | {size / 1024:.1f} KB | `{rel}` | "
             f"{spec.get('phrase') or spec.get('heading') or spec['class']} |")
-        print(f"{library}/{name}: {size} 字节  ← {rel}  期望 {len(want['rows'])} 条属性")
+        if library == "db":
+            count = len(want["own"])
+        elif library == "dd":
+            count = len(want["attributes"]) + len(want["relations"])
+        else:
+            count = len(want["attrs"])
+        print(f"{library}/{name}: {size} 字节  ← {rel}  期望 {count} 条属性")
 
     for library, lines in rows.items():
         write_text(FIXTURES / library / "core" / "fixtures" / "html" / "README.md",

@@ -1,25 +1,36 @@
 #!/usr/bin/env python3
 """
-knowledge_virtuoso.database.db.core.catalog — 从 index.json 查询数据库对象属性信息。
+knowledge_virtuoso.database.db.core.catalog — 解析 attrib.html，按**对象**查询设计库属性。
 
-本模块只管**本库的内容**：attrib.html 怎么解析成载荷、载荷怎么变成行。索引在哪、怎么读、
-坏了怎么从官方 doc 重建（缓存、锁、原子写回）都在 `database/core/store.py`——三个属性库
-共用那一份，这里只给出索引路径、来源文档与载荷包装。
+设计见同目录 README.md。一句话：文档的每张表 = **表头 → `Note: include <父表>` → 自己的属性行**，
+所以
+
+    对象 = { id（表标题）, 运行时名, 父, 自身属性[] }
+    attrs(x) = 自身属性(x) ∪ attrs(父(x))      # 子覆盖父；父为空即止
+
+**索引只存每个对象自己的行**（含与祖先同名的那些，被覆盖的不删——那是事实），
+**继承在查询时算**。索引在哪、怎么读、坏了怎么从官方 doc 重建在 `database/core/store.py`。
+
+解析只依赖原文的**结构**，不认词表：
+* 对象 = 文档里 h4 级、标题以 ` Attributes` 结尾的小节
+* 属性表 = 该标题后**第一张**表；表头行丢掉，含 `include` 的那行当父指针，其余当属性
+* 名字用**原文**（`DBUPerUU` 这种大写开头也要留），`<br>` 折行与"一行两名"按大小写交界分辨
 
 用法:
-  from knowledge_virtuoso.database.db.core.catalog import search_attr, build_from_html
-
-  search_attr(objType="rect")              → 列出 rect 的全部属性
-  search_attr(objType="rect", keyword="box")    → 按关键词过滤
+  search_attr(objType="rect")              → rect 的全部属性（含继承）
+  search_attr(objType="rect", keyword="box")
   build_from_html()                        → 从 attrib.html 显式构建索引
 """
 
+from __future__ import annotations
+
 import re
 import sys
+from html.parser import HTMLParser
 from pathlib import Path
-from html import unescape
 
 from knowledge_virtuoso._paths import atomic_write_json, index_path
+from knowledge_virtuoso.database.core import objects as objects_mod
 from knowledge_virtuoso.database.core import store
 
 for _s in (sys.stdout, sys.stderr):
@@ -31,272 +42,268 @@ for _s in (sys.stdout, sys.stderr):
 
 _DEFAULT_INDEX = index_path("db")
 
-# ─── section 名 → ~>objType 运行时值 ───
-OBJTYPE_MAP = {
-    "Arc":         {"name": "arc",         "desc": "椭圆弧线"},
-    "Donut":       {"name": "donut",       "desc": "环形"},
-    "Dot":         {"name": "dot",         "desc": "点"},
-    "Ellipse":     {"name": "ellipse",     "desc": "椭圆"},
-    "Label":       {"name": "label",       "desc": "标签"},
-    "Line":        {"name": "line",        "desc": "线段"},
-    "Path":        {"name": "path",        "desc": "路径"},
-    "pathSeg":     {"name": "pathSeg",     "desc": "路径段"},
-    "Polygon":     {"name": "polygon",     "desc": "多边形"},
-    "Rect":        {"name": "rect",        "desc": "矩形"},
-    "TextDisplay": {"name": "textDisplay", "desc": "文本显示"},
-    "Cellview":    {"name": "cellview",    "desc": "设计视图"},
-    "Instance":    {"name": "inst",        "desc": "实例（含 Pcell）"},
-    "Mosaic":      {"name": "mosaic",      "desc": "二维实例阵列"},
-    "InstTerm":    {"name": "instTerm",    "desc": "实例终端"},
-    "Pin":         {"name": "pin",         "desc": "引脚"},
-    "Terminal":    {"name": "term",        "desc": "终端"},
-    "Net":         {"name": "net",         "desc": "线网"},
-    "StdVia":      {"name": "stdVia",      "desc": "标准通孔"},
-    "CustomVia":   {"name": "customVia",   "desc": "自定义通孔"},
-    "ViaHeader":   {"name": "viaHeader",   "desc": "通孔头"},
-    "InstHeader":  {"name": "instHeader",  "desc": "实例头"},
-    "BusDef":      {"name": "busDef",      "desc": "总线定义"},
-    "Signal":      {"name": "signal",      "desc": "信号"},
-    "LP":          {"name": "lp",          "desc": "Layer-Purpose Pair"},
-    "LayerHeader": {"name": "layerHeader", "desc": "层头"},
-    "Group":       {"name": "group",       "desc": "对象组"},
-    "Property":    {"name": "prop",        "desc": "属性"},
-}
+# 载荷格式版本。v1 = "每个对象 = 自身属性 + 父指针"；v2 = 并入 `database/core/objects.py`
+# 的共用对象模型（形状不变，语义由共用件承担）。更早那套"全局按名去重 + `expanded`"
+# 的索引读出来只会是个形状不对的 dict——靠这个号认出来并重建。
+_PAYLOAD_VERSION = 2
 
-# ─── 继承链 ───
-INHERITANCE = {
-    "rect":        ["Generic Shape", "Generic Figure", "Generic Object"],
-    "polygon":     ["Generic Shape", "Generic Figure", "Generic Object"],
-    "path":        ["Generic Shape", "Generic Figure", "Generic Object"],
-    "pathSeg":     ["Generic Shape", "Generic Figure", "Generic Object"],
-    "line":        ["Generic Shape", "Generic Figure", "Generic Object"],
-    "arc":         ["Generic Shape", "Generic Figure", "Generic Object"],
-    "ellipse":     ["Generic Shape", "Generic Figure", "Generic Object"],
-    "donut":       ["Generic Shape", "Generic Figure", "Generic Object"],
-    "dot":         ["Generic Shape", "Generic Figure", "Generic Object"],
-    "label":       ["Generic Shape", "Generic Figure", "Generic Object"],
-    "textDisplay": ["Generic Shape", "Generic Figure", "Generic Object"],
-    "inst":        ["Generic anyInst", "Generic Figure", "Generic Object"],
-    "mosaic":      ["Generic Object"],
-    "stdVia":      ["Generic Via", "Generic Object"],
-    "customVia":   ["Generic Via", "Generic Object"],
-    "viaHeader":   ["Generic Via Header", "Generic Object"],
-    "instHeader":  ["Generic Object"],
-    "cellview":    ["Generic Object"],
-    "net":         ["Generic Object"],
-    "instTerm":    ["Generic Object"],
-    "pin":         ["Generic Object"],
-    "term":        ["Generic Object"],
-    "group":       ["Generic Object"],
-    "prop":        ["Generic Object"],
-}
+# 「对象」的识别口径：h4 级、标题以它结尾的小节。
+_SUFFIX = " Attributes"
+# 父指针那行。原文有三种写法（`include` 64 · `Includes` 4 · `includes` 1），
+# 还有一处笔误 `include s Generic Object Attributes`，所以大小写不敏感 + 容忍多余的 `s`。
+_INCLUDE_RE = re.compile(r"Note:\s*includes?\s+(?:s\s+)?(.+?)\s+Attributes\b", re.I)
+# 运行时名只在对象的 `objType` 行里自报（"Type of the object: \"layer\""）。
+_OBJTYPE_HINT_RE = re.compile(r"type of (?:the )?object", re.I)
+_QUOTED_RE = re.compile(r'"\s*([^"\s]+)\s*"')
+# 属性名的合法形状：**允许大写开头**（`DBUPerUU`、`IOBox` 是原文里的合法属性名）。
+_NAME_RE = re.compile(r"^[A-Za-z][A-Za-z0-9_]*$")
 
-# ─── Generic 层所包含的属性 ───
-GENERIC_ATTRS = {
-    "Generic Object": [
-        {"name": "cellView", "rw": "ro", "type": "objId",  "desc": "所属 cellview ID"},
-        {"name": "objType",  "rw": "ro", "type": "string", "desc": "对象类型字符串"},
-        {"name": "prop",     "rw": "ro", "type": "l_objId","desc": "属性列表"},
-    ],
-    "Generic Figure": [
-        {"name": "bBox",              "rw": "ro", "type": "bBox",    "desc": "包围盒（rect/dot/ellipse/textDisplay 可写）"},
-        {"name": "net",               "rw": "rw", "type": "objId",   "desc": "关联的 net"},
-        {"name": "parent",            "rw": "rw", "type": "objId",   "desc": "父 figure"},
-        {"name": "pin",               "rw": "ro", "type": "objId",   "desc": "关联的 pin"},
-        {"name": "purpose",           "rw": "rw", "type": "string",  "desc": "layer purpose"},
-        {"name": "isAnyInst",         "rw": "ro", "type": "boolean", "desc": "t=instance, nil=shape"},
-        {"name": "isShape",           "rw": "ro", "type": "boolean", "desc": "t=shape, nil=instance"},
-        {"name": "children",          "rw": "ro", "type": "l_objId", "desc": "以当前对象为 parent 的子对象"},
-        {"name": "groupMembers",      "rw": "ro", "type": "l_objId", "desc": "group 成员列表"},
-        {"name": "figGroup",          "rw": "ro", "type": "objId",   "desc": "所属 figGroup"},
-        {"name": "assocTextDisplays", "rw": "ro", "type": "l_objId", "desc": "关联的 textDisplay 列表"},
-        {"name": "textDisplays",      "rw": "ro", "type": "l_objId", "desc": "拥有的 textDisplay 列表"},
-        {"name": "markers",           "rw": "ro", "type": "l_objId", "desc": "关联的 marker 列表"},
-        {"name": "matchPoints",       "rw": "rw", "type": "boolean", "desc": "子对象点匹配"},
-    ],
-    "Generic Shape": [
-        {"name": "layerName",    "rw": "rw", "type": "string",  "desc": "层名"},
-        {"name": "layerNum",     "rw": "rw", "type": "integer", "desc": "层号"},
-        {"name": "lpp",          "rw": "rw", "type": "list",    "desc": "layer-purpose pair"},
-        {"name": "routeStatus",  "rw": "rw", "type": "string",  "desc": "normal/fixed/locked"},
-        {"name": "connRoutes",   "rw": "ro", "type": "l_objId", "desc": "连接的 route 列表"},
-        {"name": "isUnshielded", "rw": "rw", "type": "boolean", "desc": "是否未屏蔽"},
-        {"name": "shieldedNet1", "rw": "rw", "type": "netId",   "desc": "屏蔽 net 1"},
-        {"name": "shieldedNet2", "rw": "rw", "type": "netId",   "desc": "屏蔽 net 2"},
-    ],
-    "Generic anyInst": [
-        {"name": "name",       "rw": "rw", "type": "string",  "desc": "实例名称"},
-        {"name": "master",     "rw": "rw", "type": "objId",   "desc": "master cellview 指针"},
-        {"name": "cellName",   "rw": "ro", "type": "string",  "desc": "master cell 名称"},
-        {"name": "libName",    "rw": "ro", "type": "string",  "desc": "master lib 名称"},
-        {"name": "viewName",   "rw": "ro", "type": "string",  "desc": "master view 名称"},
-        {"name": "baseName",   "rw": "rw", "type": "string",  "desc": "实例基础名"},
-        {"name": "instHeader", "rw": "ro", "type": "objId",   "desc": "所属 instHeader"},
-        {"name": "instTerms",  "rw": "ro", "type": "l_objId", "desc": "实例终端列表"},
-        {"name": "numInst",    "rw": "rw", "type": "integer", "desc": "迭代次数"},
-    ],
+# 选择器的**兼容别名**：这些名字原文里从没写过（是用户和历史工具在用的），所以
+# **不进索引载荷**，只作用于查找入口。要"纯粹按文档"就把这张表清空——清空后
+# `objType="rect"` 之类会失效，得改用表标题（`"Rectangle"`）。
+# 只收**指向唯一对象**的别名：`busDef`（对应 Bus Net/Terminal/Vector 三张表）、
+# `viaHeader`（Standard/Custom 两张）都不收——那种"猜一个"正是静默错答案。
+_ALIASES = {
+    "rect": "Rectangle",
+    "inst": "Instance",
+    "instTerm": "Instance Terminal",
+    "stdVia": "Standard Via",
+    "customVia": "Custom Via",
+    "instHeader": "Instance Header",
+    "lp": "Layer-Purpose Pair",
+    "layerHeader": "Layer Header",
+    "prop": "Property",
 }
 
 
-def extract_attrs_from_table(html_section: str) -> list[dict]:
-    """从 HTML 表格中提取属性行。"""
-    attrs = []
-    rows = re.findall(r'<tr[^>]*>(.*?)</tr>', html_section, re.DOTALL)
-    for row in rows:
-        if re.search(r'<th', row, re.IGNORECASE):
-            continue
-        tds = re.findall(r'<td[^>]*>(.*?)</td>', row, re.DOTALL)
-        if len(tds) < 3:
-            continue
-        t1 = unescape(re.sub(r'<[^>]+>', ' ', tds[0])).strip()
-        if not re.match(r'^[a-z][a-zA-Z]+$', t1):
-            continue
-        noise = {'attribute', 'note', 'include', 'type', 'modify',
-                 'description', 'name', 'value'}
-        if t1.lower() in noise:
-            continue
+def _text(buf) -> str:
+    """把一段文本节点拼成一个规范化字符串。"""
+    return re.sub(r"\s+", " ", "".join(buf).replace("\xa0", " ")).strip()
 
-        rw_raw = unescape(re.sub(r'<[^>]+>', ' ', tds[1])).strip()
-        type_raw = unescape(re.sub(r'<[^>]+>', ' ', tds[2])).strip()
-        rw = 'rw' if 'yes' in rw_raw.lower() else 'ro'
-        typ = re.sub(r'\s+', ' ', type_raw)[:40]
 
-        desc_parts = []
-        for td in tds[3:]:
-            d = unescape(re.sub(r'<[^>]+>', ' ', td)).strip()
-            if d:
-                desc_parts.append(d)
-        desc = re.sub(r'\s+', ' ', ' '.join(desc_parts)).strip()[:200]
+class _DocParser(HTMLParser):
+    """只服务 attrib.html 的两个形状：**标题顺序** 与 **某标题后第一张表的行**。
 
-        attrs.append({"name": t1, "rw": rw, "type": typ, "desc": desc})
-    return attrs
+    老排版 HTML 不能当良构 XML 读，这里只做必要的事：一个打开的标题 / 一行 / 一个单元格，
+    遇到同类新标签就自动收口；`<br>` 是空标签（正是靠它把「折行」和「一行两名」分开）。
+    嵌套表格用深度计数挡掉——只取最外层那张。
+    """
+
+    _HEADINGS = {"h1", "h2", "h3", "h4", "h5", "h6"}
+    _VOID = {"br", "hr", "img", "meta", "link", "input", "area", "base", "embed", "param", "wbr"}
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.headings: list[tuple[str, str]] = []      # 文档顺序的 (级别, 文本)
+        self.by_heading: dict[str, list] = {}          # 表标题 → 该表的最外层行
+        self.preamble: dict[str, str] = {}             # 表标题 → 标题与表之间的正文
+        self._head = None                              # 正在收集的标题级别
+        self._buf: list[str] = []
+        self._pending = None                           # 标题收口后，等第一张表的对象标题
+        self._pre = None                               # 同一标题与表之间的正文
+        self._depth = 0
+        self._rows = None
+        self._row = None
+        self._cell = None
+
+    # ── 标签 ────────────────────────────────────────────────
+    def handle_starttag(self, tag, attrs):
+        tag = tag.lower()
+        if tag in self._HEADINGS:
+            self._head, self._buf = tag, []
+        elif tag == "table":
+            self._depth += 1
+            if self._depth == 1:
+                if self._pending is not None:
+                    self._rows = []
+                    # 少数表把父指针写在**表前的一段正文**里（见 extract_all 里的说明），
+                    # 这里趁 `_pre` 还在先收下来，再封口。
+                    self.preamble[self._pending] = _text(self._pre or [])
+                self._pre = None                   # 前导正文到此为止
+        elif tag == "tr" and self._depth == 1 and self._rows is not None:
+            self._row = []
+        elif tag in ("td", "th"):
+            if self._depth == 1 and self._row is not None:
+                self._cell = [""]
+        elif tag == "br" and self._cell is not None:
+            self._cell.append("")              # 段与段的交界
+
+    def handle_endtag(self, tag):
+        tag = tag.lower()
+        if tag == self._head:
+            self._close_heading()
+        elif tag in ("td", "th") and self._cell is not None:
+            self._row.append(self._cell)
+            self._cell = None
+        elif tag == "tr" and self._row is not None:
+            self._rows.append(self._row)
+            self._row = None
+        elif tag == "table":
+            self._depth = max(0, self._depth - 1)
+            if self._depth == 0 and self._pending is not None:
+                title = self._pending
+                if title not in self.by_heading:              # 只要第一张
+                    self.by_heading[title] = self._rows or []
+                self._rows, self._pending = None, None
+                self._pre = None
+
+    def handle_data(self, data):
+        if self._head is not None:
+            self._buf.append(data)
+        elif self._cell is not None:
+            self._cell[-1] += data
+        elif self._pre is not None:
+            self._pre.append(data)
+
+    # ── 收口 ────────────────────────────────────────────────
+    def _close_heading(self):
+        level, text = self._head, _text(self._buf)
+        self._head, self._buf = None, []
+        if not text:
+            return
+        self.headings.append((level, text))
+        if text.endswith(_SUFFIX):
+            self._pending, self._pre = text, []
+        else:
+            self._pending, self._pre = None, None
+
+
+def _object_id(title: str) -> str:
+    """表标题 → 对象 id（去掉 ` Attributes` 后缀；原文有一处 `Standard viaVariant .` 的尾巴也去掉）。"""
+    oid = title[: -len(_SUFFIX)] if title.endswith(_SUFFIX) else title
+    return re.sub(r"\s*\.\s*$", "", oid).strip()
+
+
+def _names_in_cell(segments) -> list[str]:
+    """名字格里 `<br>` 的两种含义（见 README §五 规则 8），只能靠大小写交界分辨：
+
+    * `modifiedButNot<br>Saved`  —— 长名字被排版断开 → **一个**名字
+    * `startConn<br>endConn`     —— 一行列了两个名字 → **两个**名字（共享同一条描述）
+
+    交界处是「小写→大写」的算折行（长标识符断在驼峰处），其余算两名。
+    """
+    parts = [_text([s]) for s in segments if _text([s])]
+    if len(parts) <= 1:
+        return parts
+    if all(p[-1].islower() and q[0].isupper() for p, q in zip(parts, parts[1:])):
+        return ["".join(parts)]
+    return parts
+
+
+def _row_cells(row) -> list[list[str]]:
+    """一行的非空格子；每个格子保留 `<br>` 分出的段落。"""
+    return [[_text([seg]) for seg in cell] if cell else [] for cell in row]
+
+
+def _parent_from(text: str) -> str | None:
+    """从一段文本里认父指针（`Note: include[s] X Attributes`），认不出返回 None。
+
+    父指针有**两种位置**：多数表在表里的第二行；`Generic widthSpacingPattern` 等 4 张表
+    写在表**前**的正文段落里（`<p><strong>Note: </strong>Includes <a>Generic Object
+    Attributes</a>.</p>`）。两处都用同一个正则，只是喂进来的文本不同。
+    """
+    m = _INCLUDE_RE.search(text or "")
+    return _object_id(m.group(1).strip()) if m else None
 
 
 def extract_all(doc_path: str) -> dict:
-    """从 attrib.html 提取所有属性定义。"""
-    text = Path(doc_path).read_text(encoding='utf-8', errors='ignore')
+    """从 attrib.html 提取**每个对象自己的**属性表与父指针，返回索引载荷。"""
+    parser = _DocParser()
+    parser.feed(Path(doc_path).read_text(encoding="utf-8", errors="ignore"))
+    parser.close()
 
-    all_attrs: dict[str, dict] = {}
+    # 每个对象记下它所在的 h3 节（文档自己的归类，供上层决定归属，不在这里预判）
+    section_of: dict[str, str] = {}
+    current = ""
+    for level, text in parser.headings:
+        if level == "h3":
+            current = text
+        elif level == "h4" and text.endswith(_SUFFIX):
+            section_of.setdefault(text, current)
 
-    def add_attr(attr: dict, runtime_name: str):
-        name = attr["name"]
-        if name not in all_attrs:
-            attr["objTypes"] = [runtime_name]
-            all_attrs[name] = attr
-        else:
-            if runtime_name not in all_attrs[name]["objTypes"]:
-                all_attrs[name]["objTypes"].append(runtime_name)
-
-    sections = {
-        "cellview": ("Attributes of Cellviews", None),
-        "inst":      ("Attributes of Instances, Instance Headers, and Mosaics", None),
-        "instTerm":  ("Attributes of Instance Terminals, Pins, and Terminals", None),
-        "net":       ("Attributes of Bus Definitions, Nets, and Signals", None),
-        "lp":        ("Attributes of Layer Purpose Pairs and Layer Headers", None),
-        "group":     ("Attributes of Groups, Group Members, and Properties", None),
-    }
-
-    for runtime_name, (needle, _) in sections.items():
-        first = text.find(needle)
-        if first == -1:
+    objects: dict[str, dict] = {}
+    for title, rows in parser.by_heading.items():
+        if title not in section_of or not rows:
             continue
-        second = text.find(needle, first + 10)
-        if second == -1:
-            second = first
-        third = text.find(needle, second + 10)
-        start_idx = third if third != -1 else second
+        oid = _object_id(title)
+        attrs, parent, runtime = [], _parent_from(parser.preamble.get(title, "")), None
+        for row in rows[1:]:                       # 第 0 行是表头
+            cells = [c for c in _row_cells(row) if any(c)]
+            if not cells:
+                continue
+            head = _text(cells[0])
+            if len(cells) == 1 and head.lower().startswith("note:"):
+                # 绝大多数表的父指针是表里的第二行（`Note: include X Attributes`）
+                parent = _parent_from(head) or parent
+                continue
+            if len(cells) < 3:
+                continue                           # 枚举值的续行等，不是属性
+            names = _names_in_cell(cells[0])
+            if not names or not all(_NAME_RE.match(n) for n in names):
+                continue
+            modify = _text(cells[1])
+            typ = _text(cells[2])
+            desc = _text([" ".join(c) for c in cells[3:]]) if len(cells) > 3 else ""
+            for name in names:
+                attrs.append({"name": name, "modify": modify, "type": typ, "desc": desc})
+            if runtime is None and names[0] == "objType" and _OBJTYPE_HINT_RE.search(desc):
+                q = _QUOTED_RE.search(desc)        # 只在对象自报时才取（"in this case \"cellview\""）
+                runtime = q.group(1) if q else None
+        objects[oid] = {"id": oid, "title": title, "section": section_of[title],
+                        "runtime": runtime, "parent": parent, "attrs": attrs}
 
-        end_idx = text.find('<h3', start_idx + 10)
-        if end_idx == -1:
-            end_idx = min(start_idx + 15000, len(text))
-        for a in extract_attrs_from_table(text[start_idx:end_idx]):
-            add_attr(a, runtime_name)
-
-    shape_headings = {
-        "arc":         "Arc Attributes",
-        "donut":       "Donut Attributes",
-        "dot":         "Dot Attributes",
-        "ellipse":     "Ellipse Attributes",
-        "label":       "Label Attributes",
-        "line":        "Line Attributes",
-        "path":        "Path Attributes",
-        "pathSeg":     "pathSeg Attributes",
-        "polygon":     "Polygon Attributes",
-        "rect":        "Rectangle Attributes",
-        "textDisplay": "Text Display Attributes",
-    }
-
-    for runtime_name, heading in shape_headings.items():
-        idx = 0
-        last_idx = -1
-        while True:
-            pos = text.find(heading, idx)
-            if pos == -1:
-                break
-            last_idx = pos
-            idx = pos + 1
-        if last_idx == -1:
-            continue
-        end = last_idx
-        for tag in ['<h4', '<h3']:
-            nxt = text.find(tag, end + 10)
-            if nxt != -1 and nxt < end + 10000:
-                end = nxt
-                break
-        else:
-            end = last_idx + 5000
-        for a in extract_attrs_from_table(text[last_idx:end]):
-            add_attr(a, runtime_name)
-
-    for layer_name, layer_attrs in GENERIC_ATTRS.items():
-        for ga in layer_attrs:
-            name = ga["name"]
-            if name not in all_attrs:
-                all_attrs[name] = {
-                    "name": name,
-                    "rw": ga["rw"],
-                    "type": ga["type"],
-                    "desc": ga["desc"],
-                    "objTypes": ["_generic"],
-                }
-            else:
-                if "_generic" not in all_attrs[name]["objTypes"]:
-                    all_attrs[name]["objTypes"].append("_generic")
-                if ga["desc"] and len(ga["desc"]) > len(all_attrs[name].get("desc", "")):
-                    all_attrs[name]["desc"] = ga["desc"]
-
-    return all_attrs
+    return {"objects": objects}
 
 
-def expand_objtype(attrs: dict) -> dict:
-    """为每个 objType 展开完整属性列表（含继承链）。"""
-    expanded = {}
-    for rt_name, chain in INHERITANCE.items():
-        all_names = set()
-        for layer in chain:
-            for ga in GENERIC_ATTRS.get(layer, []):
-                all_names.add(ga["name"])
-        for name, info in attrs.items():
-            if rt_name in info.get("objTypes", []):
-                all_names.add(name)
-        expanded[rt_name] = sorted(all_names)
-    return expanded
+def _validated(payload: dict) -> dict:
+    """构建期的载荷包装：交给共用对象模型校验，再打上格式版本。
+
+    校验放在**构建**而不是**解析**：解析要能吃半份文档（测试里的 HTML 片段就是一节），
+    而一旦要落成索引，父指针就必须条条有着落。见 `database/core/objects.py`。
+    """
+    objects_mod.validate_objects(payload["objects"])
+    return {"version": _PAYLOAD_VERSION, **payload}
 
 
-# 本库交给共用索引存取的配置：位置、称呼、来源文档、解析、载荷包装。
+def _row(name: str, info: dict) -> dict:
+    """本库的行形状：db 没有 `classes` 列（那是 techdb/cdfdb 的）。
+
+    `rw` 是 `modify` 的**呈现形式**（原文的 Modify 列有 `no`/`yes`/`no/yes`），
+    索引里存的是原文，这里才收成两值。
+    """
+    modify = info.get("modify", "")
+    return {"name": name, "rw": "rw" if "yes" in modify.lower() else "ro",
+            "type": info.get("type", "?"), "desc": info.get("desc", ""),
+            "definedIn": info.get("definedIn", "")}
+
+
+def search_attr(objType: str = "", keyword: str = "") -> list[dict]:
+    """按对象和关键词搜索属性。属性表**在查询时**按继承合并。"""
+    objects = _load()["objects"]
+    if objType:
+        oid = objects_mod.resolve(objects, objType, _ALIASES)
+        if oid is None:
+            return []                              # 不认识的选择器：区别于"认识但筛完没属性"
+        merged = objects_mod.merged(objects, oid)
+    else:
+        # 不给对象时跨全部对象搜。同名属性在别的对象里可以是别的类型（实测 39 个），
+        # 这里按**文档顺序先到先占**，`definedIn` 记着它属于谁。
+        merged = {}
+        for oid, obj in objects.items():
+            for attr in obj["attrs"]:
+                merged.setdefault(attr["name"], {**attr, "definedIn": oid})
+    return store.query_rows(merged, set(merged), keyword, _row)
+
+
+# 本库交给共用索引存取的配置：位置、称呼、来源文档、解析、构建期的校验。
 _STORE = store.Store(
     index_path=_DEFAULT_INDEX,
     label="db_attr",
     lib="db",
     doc_parts=("skdfref", "attrib.html"),
     parse=extract_all,
-    payload=lambda attrs: {
-        "objTypes": OBJTYPE_MAP,
-        "inheritance": INHERITANCE,
-        "genericLayers": {k: [a["name"] for a in v] for k, v in GENERIC_ATTRS.items()},
-        "attributes": attrs,
-        "expanded": expand_objtype(attrs),
-    },
+    payload=_validated,
+    version=_PAYLOAD_VERSION,
 )
 
 
@@ -310,21 +317,6 @@ def _load() -> dict:
     return _STORE.load()
 
 
-def _row(name: str, info: dict) -> dict:
-    """本库的行形状：db 没有 `classes` 列（那是 techdb/cdfdb 的）。"""
-    return {"name": name, "rw": info.get("rw", "?"),
-            "type": info.get("type", "?"), "desc": info.get("desc", "")}
-
-
-def search_attr(objType: str = "", keyword: str = "") -> list[dict]:
-    """按对象类型和关键词搜索属性。"""
-    data = _load()
-    attrs = data["attributes"]
-    # 类型选择器给的是展开后的完整属性列表（含继承与 Generic 层），不是该类型自己的表。
-    names = set(data["expanded"].get(objType, [])) if objType else set(attrs)
-    return store.query_rows(attrs, names, keyword, _row)
-
-
 def main() -> None:
     """CLI：从 attrib.html 提取 dbObject 属性定义，重建 index.json。"""
     import argparse
@@ -335,17 +327,16 @@ def main() -> None:
     args = parser.parse_args()
 
     output = build_from_html(args.doc)
+    objects = output["objects"]
+    atomic_write_json(Path(args.output), output)
 
-    output_path = Path(args.output)
-    atomic_write_json(output_path, output)
-    print(f"\n已导出到 {output_path}")
-    print(f"  objTypes:    {len(output['objTypes'])} 个运行时类型映射")
-    print(f"  attributes:  {len(output['attributes'])} 个属性")
-    print(f"  inheritance: {len(output['inheritance'])} 条继承链")
-    print(f"  expanded:    {len(output['expanded'])} 个类型的完整属性列表")
+    roots = [o["id"] for o in objects.values() if o["parent"] is None]
+    print(f"\n已导出到 {args.output}")
+    print(f"  objects:    {len(objects)} 个对象")
+    print(f"  自身属性:   {sum(len(o['attrs']) for o in objects.values())} 条")
+    print(f"  根:         {len(roots)} 个 → {', '.join(sorted(roots))}")
+    print(f"  自报运行时名: {sum(1 for o in objects.values() if o['runtime'])} 个")
 
 
 if __name__ == "__main__":
     main()
-
-

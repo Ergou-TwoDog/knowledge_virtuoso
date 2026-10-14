@@ -1,0 +1,6 @@
+匹配 3 个 data management 属性/关系（原文未给类型与说明）:
+  name                     kind      适用对象
+  ------------------------ --------- ------------------------------
+  group                    attr      libFile,cellFile,viewFile
+  groupAccess              attr      libFile,cellFile,viewFile
+  isReadable               attr      libFile,cellFile,viewFile

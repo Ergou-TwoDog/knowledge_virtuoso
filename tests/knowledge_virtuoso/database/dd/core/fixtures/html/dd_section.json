@@ -1,0 +1,231 @@
+{
+ "source": "skdfref/chap3.html",
+ "kind": "h2",
+ "heading": "Attributes of Data Management Objects",
+ "objectTypes": [
+  "lib",
+  "cell",
+  "view",
+  "libFile",
+  "cellFile",
+  "viewFile"
+ ],
+ "attributes": {
+  "group": {
+   "name": "group",
+   "kind": "attr",
+   "objectTypes": [
+    "libFile",
+    "cellFile",
+    "viewFile"
+   ]
+  },
+  "groupAccess": {
+   "name": "groupAccess",
+   "kind": "attr",
+   "objectTypes": [
+    "libFile",
+    "cellFile",
+    "viewFile"
+   ]
+  },
+  "isReadable": {
+   "name": "isReadable",
+   "kind": "attr",
+   "objectTypes": [
+    "libFile",
+    "cellFile",
+    "viewFile"
+   ]
+  },
+  "isWritable": {
+   "name": "isWritable",
+   "kind": "attr",
+   "objectTypes": [
+    "libFile",
+    "cellFile",
+    "viewFile"
+   ]
+  },
+  "lastModify": {
+   "name": "lastModify",
+   "kind": "attr",
+   "objectTypes": [
+    "libFile",
+    "cellFile",
+    "viewFile"
+   ]
+  },
+  "name": {
+   "name": "name",
+   "kind": "attr",
+   "objectTypes": [
+    "lib",
+    "cell",
+    "view",
+    "libFile",
+    "cellFile",
+    "viewFile"
+   ]
+  },
+  "owner": {
+   "name": "owner",
+   "kind": "attr",
+   "objectTypes": [
+    "libFile",
+    "cellFile",
+    "viewFile"
+   ]
+  },
+  "ownerAccess": {
+   "name": "ownerAccess",
+   "kind": "attr",
+   "objectTypes": [
+    "libFile",
+    "cellFile",
+    "viewFile"
+   ]
+  },
+  "prop": {
+   "name": "prop",
+   "kind": "attr",
+   "objectTypes": [
+    "lib",
+    "cell",
+    "view"
+   ]
+  },
+  "publicAccess": {
+   "name": "publicAccess",
+   "kind": "attr",
+   "objectTypes": [
+    "libFile",
+    "cellFile",
+    "viewFile"
+   ]
+  },
+  "readPath": {
+   "name": "readPath",
+   "kind": "attr",
+   "objectTypes": [
+    "libFile",
+    "cellFile",
+    "viewFile"
+   ]
+  },
+  "techfile": {
+   "name": "techfile",
+   "kind": "attr",
+   "objectTypes": [
+    "lib",
+    "cell",
+    "view",
+    "libFile",
+    "cellFile",
+    "viewFile"
+   ]
+  },
+  "type": {
+   "name": "type",
+   "kind": "attr",
+   "objectTypes": [
+    "lib",
+    "cell",
+    "view",
+    "libFile",
+    "cellFile",
+    "viewFile"
+   ]
+  },
+  "writePath": {
+   "name": "writePath",
+   "kind": "attr",
+   "objectTypes": [
+    "libFile",
+    "cellFile",
+    "viewFile"
+   ]
+  }
+ },
+ "relations": {
+  "cell": {
+   "name": "cell",
+   "kind": "relation",
+   "cardinality": "1:1",
+   "objectTypes": [
+    "view",
+    "cellFile"
+   ]
+  },
+  "cells": {
+   "name": "cells",
+   "kind": "relation",
+   "cardinality": "1:n",
+   "objectTypes": [
+    "lib"
+   ]
+  },
+  "children": {
+   "name": "children",
+   "kind": "relation",
+   "cardinality": "1:n",
+   "objectTypes": [
+    "lib",
+    "cell",
+    "view"
+   ]
+  },
+  "files": {
+   "name": "files",
+   "kind": "relation",
+   "cardinality": "1:n",
+   "objectTypes": [
+    "lib",
+    "cell",
+    "view"
+   ]
+  },
+  "lib": {
+   "name": "lib",
+   "kind": "relation",
+   "cardinality": "1:1",
+   "objectTypes": [
+    "lib",
+    "cell",
+    "view",
+    "libFile",
+    "cellFile",
+    "viewFile"
+   ]
+  },
+  "parent": {
+   "name": "parent",
+   "kind": "relation",
+   "cardinality": "1:1",
+   "objectTypes": [
+    "lib",
+    "cell",
+    "view",
+    "libFile",
+    "cellFile",
+    "viewFile"
+   ]
+  },
+  "view": {
+   "name": "view",
+   "kind": "relation",
+   "cardinality": "1:1",
+   "objectTypes": [
+    "viewFile"
+   ]
+  },
+  "views": {
+   "name": "views",
+   "kind": "relation",
+   "cardinality": "1:n",
+   "objectTypes": [
+    "cell"
+   ]
+  }
+ }
+}

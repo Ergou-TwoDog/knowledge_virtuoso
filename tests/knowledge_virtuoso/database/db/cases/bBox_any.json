@@ -6,33 +6,38 @@
  "rows": [
   {
    "name": "bBox",
-   "rw": "ro",
+   "rw": "rw",
    "type": "bBox",
-   "desc": "包围盒（rect/dot/ellipse/textDisplay 可写）"
+   "desc": "The figure's bounding box. Only the bBox of a dot, ellipse, rectangle, or text can be modified.",
+   "definedIn": "Generic Figure"
   },
   {
    "name": "blockageBBox",
    "rw": "ro",
    "type": "bBox",
-   "desc": "Blockage bBox."
+   "desc": "Blockage bBox.",
+   "definedIn": "Layer Header"
   },
   {
    "name": "ellipseBBox",
    "rw": "rw",
    "type": "bBox",
-   "desc": "Bounding box of the ellipse containing the arc."
+   "desc": "Bounding box of the ellipse containing the arc.",
+   "definedIn": "Arc"
   },
   {
    "name": "guideBBox",
    "rw": "ro",
    "type": "bBox",
-   "desc": "Guide bBox."
+   "desc": "Guide bBox.",
+   "definedIn": "Layer Header"
   },
   {
    "name": "steinerBBox",
    "rw": "ro",
    "type": "bBox",
-   "desc": "Steiner bBox."
+   "desc": "Steiner bBox.",
+   "definedIn": "Layer Header"
   }
  ]
 }

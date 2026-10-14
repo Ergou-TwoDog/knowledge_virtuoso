@@ -1,8 +1,8 @@
 匹配 5 个属性:
   name                      rw   type            desc
   ------------------------- ---- --------------- ------------------------------
-  baseName                  ro   string          Returns base name for the busNetDef.
-  cellName                  ro   string          Name of the cell.
-  libName                   ro   string          Name of the library that contains the cellview.
-  name                      rw   string          实例名称
-  viewName                  ro   string          Name of the view.
+  baseName                  rw   string          Base name of the instance. The name of an instance can cont…
+  cellName                  ro   string          Cell name of the master for this instance.
+  libName                   ro   string          Name of the library that contains the master for this insta…
+  name                      rw   string          Name of the instance.
+  viewName                  ro   string          View name of the master for this instance.

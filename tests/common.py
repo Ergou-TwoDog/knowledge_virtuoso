@@ -151,31 +151,39 @@ def run_attr_cases(here: pathlib.Path, renderer, report: "Report", update: bool 
 def run_attr_parse_cases(here: pathlib.Path, library: str, catalog, report: "Report") -> None:
     """属性库解析器的公共跑法：片段 = `fixtures/html/<名>.html`，期望值 = 同名 `.json`。
 
-    入参是**文件路径**（三个 `extract_all` 都收路径），所以片段直接喂进去。比两样：
-    **归属名字集合**（`names`，全部要比）与**只属于本片段**的名字的字段（`unique`）——
-    另一个节/类也列过的名字，线上字段取自首发节，片段单独解析出来自然不同
-    （取法见 `capture_attrs_html.py` 的 `expectation()`）。不读索引、不碰缓存。
+    入参是**文件路径**（各库的 `extract_all` 都收路径），所以片段直接喂进去。不读索引、不碰缓存。
+
+    比的是"**片段 ⇒ 那个对象**"与"**整份文件 ⇒ 同一个对象**"是否一致（切片边界、表头/前导
+    两种父写法、类的字段区边界都在这儿露头）：
+
+    * `db`：对象 = 父指针 + 自身属性名集合；
+    * 其余库：对象（类）的全部属性记录**逐条比**（名字/类型/说明）。
+
+    逐类存储之前这里只敢比"唯一名字的字段"（同名属性在别的类里也出现时，线上记录取自首发
+    类），**现在每类各存各的，那条限制没有了**——所以比全。
     """
     for fragment in sorted((here / "fixtures" / "html").glob("*.html")):
         want = read_json(fragment.with_suffix(".json"))
         payload = catalog.extract_all(str(fragment))
+        if library == "dd":
+            got = {k: payload[k] for k in ("objectTypes", "attributes", "relations")}
+            report.expect(f"片段/{fragment.stem} 对象全集 / 属性 / 关系",
+                          got, {k: want[k] for k in ("objectTypes", "attributes", "relations")})
+            continue
         if library == "db":
-            rows = {name: {"rw": info["rw"], "type": info["type"]}
-                    for name, info in payload.items()
-                    if want["runtime"] in info.get("objTypes", [])}
-        else:
-            cid = want["class"]
-            rows = {}
-            for name in payload["classes"][cid]["attributes"]:
-                info = payload["attributes"][name]
-                row = {"rw": info["rw"], "type": info["type"]}
-                if library == "cdfdb":
-                    row["desc"] = info["desc"]
-                rows[name] = row
-        report.expect(f"片段/{fragment.stem} 归属名字集合", sorted(rows), want["names"])
-        report.expect(f"片段/{fragment.stem} 唯一名字的字段",
-                      {name: rows[name] for name in want["unique"] if name in rows},
-                      want["unique"])
+            oid = want["object"]
+            obj = payload["objects"].get(oid)
+            got = None if obj is None else {"parent": obj["parent"],
+                                            "own": sorted(a["name"] for a in obj["attrs"])}
+            report.expect(f"片段/{fragment.stem} 对象 {oid} 的父与自身属性",
+                          got, {"parent": want["parent"], "own": sorted(want["own"])})
+            continue
+        cid = want["class"]
+        cls = payload["objects"].get(cid)
+        got = None if cls is None else sorted(
+            ({"name": a["name"], "type": a["type"], "desc": a["desc"]} for a in cls["attrs"]),
+            key=lambda r: r["name"])
+        report.expect(f"片段/{fragment.stem} 类 {cid} 的全部属性记录", got, want["attrs"])
 
 
 def run_attr_search_cases(here: pathlib.Path, catalog, fn_name: str, report: "Report") -> None:

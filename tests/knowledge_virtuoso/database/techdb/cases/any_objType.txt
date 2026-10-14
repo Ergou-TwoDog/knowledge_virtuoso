@@ -1,4 +1,6 @@
-匹配 1 个 tech 属性:
+匹配 3 个 tech 属性:
   name                      type       所属类
   ------------------------- ---------- ------------------------------
+  objType                              viaDefs,viaVariants,siteDefs
+  objType                              viaDefs,viaVariants,siteDefs
   objType                              viaDefs,viaVariants,siteDefs

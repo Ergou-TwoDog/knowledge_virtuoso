@@ -1,0 +1,270 @@
+{
+ "payload": {
+  "objectTypes": [
+   "lib",
+   "cell",
+   "view",
+   "libFile",
+   "cellFile",
+   "viewFile"
+  ],
+  "attributes": {
+   "group": {
+    "name": "group",
+    "kind": "attr",
+    "objectTypes": [
+     "libFile",
+     "cellFile",
+     "viewFile"
+    ]
+   },
+   "name": {
+    "name": "name",
+    "kind": "attr",
+    "objectTypes": [
+     "lib",
+     "cell",
+     "view",
+     "libFile",
+     "cellFile",
+     "viewFile"
+    ]
+   },
+   "prop": {
+    "name": "prop",
+    "kind": "attr",
+    "objectTypes": [
+     "lib",
+     "cell",
+     "view"
+    ]
+   }
+  },
+  "relations": {
+   "cells": {
+    "name": "cells",
+    "kind": "relation",
+    "cardinality": "1:n",
+    "objectTypes": [
+     "lib"
+    ]
+   },
+   "parent": {
+    "name": "parent",
+    "kind": "relation",
+    "cardinality": "1:1",
+    "objectTypes": [
+     "lib",
+     "cell",
+     "view",
+     "libFile",
+     "cellFile",
+     "viewFile"
+    ]
+   },
+   "view": {
+    "name": "view",
+    "kind": "relation",
+    "cardinality": "1:1",
+    "objectTypes": [
+     "viewFile"
+    ]
+   }
+  }
+ },
+ "cases": [
+  {
+   "params": {
+    "object": "lib"
+   },
+   "expect": [
+    {
+     "name": "cells",
+     "kind": "relation",
+     "cardinality": "1:n",
+     "objectTypes": [
+      "lib"
+     ]
+    },
+    {
+     "name": "name",
+     "kind": "attr",
+     "cardinality": "",
+     "objectTypes": [
+      "lib",
+      "cell",
+      "view",
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ]
+    },
+    {
+     "name": "parent",
+     "kind": "relation",
+     "cardinality": "1:1",
+     "objectTypes": [
+      "lib",
+      "cell",
+      "view",
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ]
+    },
+    {
+     "name": "prop",
+     "kind": "attr",
+     "cardinality": "",
+     "objectTypes": [
+      "lib",
+      "cell",
+      "view"
+     ]
+    }
+   ]
+  },
+  {
+   "params": {
+    "object": "viewFile"
+   },
+   "expect": [
+    {
+     "name": "group",
+     "kind": "attr",
+     "cardinality": "",
+     "objectTypes": [
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ]
+    },
+    {
+     "name": "name",
+     "kind": "attr",
+     "cardinality": "",
+     "objectTypes": [
+      "lib",
+      "cell",
+      "view",
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ]
+    },
+    {
+     "name": "parent",
+     "kind": "relation",
+     "cardinality": "1:1",
+     "objectTypes": [
+      "lib",
+      "cell",
+      "view",
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ]
+    },
+    {
+     "name": "view",
+     "kind": "relation",
+     "cardinality": "1:1",
+     "objectTypes": [
+      "viewFile"
+     ]
+    }
+   ]
+  },
+  {
+   "params": {
+    "object": "viewFile",
+    "keyword": "group"
+   },
+   "expect": [
+    {
+     "name": "group",
+     "kind": "attr",
+     "cardinality": "",
+     "objectTypes": [
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ]
+    }
+   ]
+  },
+  {
+   "params": {},
+   "expect": [
+    {
+     "name": "cells",
+     "kind": "relation",
+     "cardinality": "1:n",
+     "objectTypes": [
+      "lib"
+     ]
+    },
+    {
+     "name": "group",
+     "kind": "attr",
+     "cardinality": "",
+     "objectTypes": [
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ]
+    },
+    {
+     "name": "name",
+     "kind": "attr",
+     "cardinality": "",
+     "objectTypes": [
+      "lib",
+      "cell",
+      "view",
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ]
+    },
+    {
+     "name": "parent",
+     "kind": "relation",
+     "cardinality": "1:1",
+     "objectTypes": [
+      "lib",
+      "cell",
+      "view",
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ]
+    },
+    {
+     "name": "prop",
+     "kind": "attr",
+     "cardinality": "",
+     "objectTypes": [
+      "lib",
+      "cell",
+      "view"
+     ]
+    },
+    {
+     "name": "view",
+     "kind": "relation",
+     "cardinality": "1:1",
+     "objectTypes": [
+      "viewFile"
+     ]
+    }
+   ]
+  },
+  {
+   "params": {
+    "object": "没有这个对象"
+   },
+   "expect": []
+  }
+ ]
+}

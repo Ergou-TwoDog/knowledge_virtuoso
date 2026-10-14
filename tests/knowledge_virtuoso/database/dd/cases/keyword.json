@@ -1,0 +1,18 @@
+{
+ "params": {
+  "object": "",
+  "keyword": "valid"
+ },
+ "rows": [
+  {
+   "name": "allowSetToValid",
+   "kind": "attr",
+   "cardinality": "",
+   "objectTypes": [
+    "layers",
+    "purposeDefs",
+    "lps"
+   ]
+  }
+ ]
+}

@@ -1,36 +1,192 @@
 {
-  "payload": {
-    "classes": {
-      "cdfDataId": {"name": "cdfDataId", "attributes": ["simInfo", "termOrder"]},
-      "cdfParamId": {"name": "cdfParamId", "attributes": ["defaultValue", "simInfo"]}
+ "payload": {
+  "objects": {
+   "cdfDataId": {
+    "id": "cdfDataId",
+    "title": "g_cdfDataId",
+    "section": "Data Objects",
+    "parent": null,
+    "attrs": [
+     {
+      "name": "id",
+      "rw": "rw",
+      "type": "objId",
+      "desc": "The database object to which this CDF is attached.",
+      "source": "field"
+     },
+     {
+      "name": "fieldWidth",
+      "rw": "rw",
+      "type": "",
+      "desc": "Width of a field.",
+      "source": "field"
+     }
+    ]
+   },
+   "cdfParamId": {
+    "id": "cdfParamId",
+    "title": "g_cdfParamId",
+    "section": "Parameters",
+    "parent": null,
+    "attrs": [
+     {
+      "name": "editable",
+      "rw": "ro",
+      "type": "",
+      "desc": "This field is not editable.",
+      "source": "field"
+     },
+     {
+      "name": "name",
+      "rw": "rw",
+      "type": "string",
+      "desc": "The name of the parameter.",
+      "source": "arg"
+     },
+     {
+      "name": "value",
+      "rw": "rw",
+      "type": "",
+      "desc": "Current value of the parameter.",
+      "source": "field"
+     }
+    ]
+   }
+  }
+ },
+ "cases": [
+  {
+   "params": {
+    "className": "cdfParamId"
+   },
+   "expect": [
+    {
+     "name": "editable",
+     "rw": "ro",
+     "type": "",
+     "desc": "This field is not editable.",
+     "source": "field",
+     "classes": [
+      "cdfParamId"
+     ]
     },
-    "attributes": {
-      "defaultValue": {"name": "defaultValue", "rw": "rw", "type": "string", "desc": "默认值", "classes": ["cdfParamId"]},
-      "simInfo": {"name": "simInfo", "rw": "rw", "type": "string", "desc": "仿真信息", "classes": ["cdfDataId", "cdfParamId"]},
-      "termOrder": {"name": "termOrder", "rw": "rw", "type": "integer", "desc": "端口顺序", "classes": ["cdfDataId"]}
+    {
+     "name": "name",
+     "rw": "rw",
+     "type": "string",
+     "desc": "The name of the parameter.",
+     "source": "arg",
+     "classes": [
+      "cdfParamId"
+     ]
+    },
+    {
+     "name": "value",
+     "rw": "rw",
+     "type": "",
+     "desc": "Current value of the parameter.",
+     "source": "field",
+     "classes": [
+      "cdfParamId"
+     ]
     }
+   ]
   },
-  "cases": [
+  {
+   "params": {
+    "className": "cdfParamId",
+    "keyword": "name"
+   },
+   "expect": [
     {
-      "params": {"className": "cdfParamId"},
-      "expect": [
-        {"name": "defaultValue", "rw": "rw", "type": "string", "desc": "默认值", "classes": ["cdfParamId"]},
-        {"name": "simInfo", "rw": "rw", "type": "string", "desc": "仿真信息", "classes": ["cdfDataId", "cdfParamId"]}
-      ]
+     "name": "name",
+     "rw": "rw",
+     "type": "string",
+     "desc": "The name of the parameter.",
+     "source": "arg",
+     "classes": [
+      "cdfParamId"
+     ]
+    }
+   ]
+  },
+  {
+   "params": {},
+   "expect": [
+    {
+     "name": "editable",
+     "rw": "ro",
+     "type": "",
+     "desc": "This field is not editable.",
+     "source": "field",
+     "classes": [
+      "cdfParamId"
+     ]
     },
     {
-      "params": {"className": "cdfParamId", "keyword": "default"},
-      "expect": [
-        {"name": "defaultValue", "rw": "rw", "type": "string", "desc": "默认值", "classes": ["cdfParamId"]}
-      ]
+     "name": "fieldWidth",
+     "rw": "rw",
+     "type": "",
+     "desc": "Width of a field.",
+     "source": "field",
+     "classes": [
+      "cdfDataId"
+     ]
     },
-    {"params": {"className": "nosuch"}, "expect": []},
     {
-      "params": {"keyword": "sim"},
-      "expect": [
-        {"name": "simInfo", "rw": "rw", "type": "string", "desc": "仿真信息", "classes": ["cdfDataId", "cdfParamId"]}
-      ]
+     "name": "id",
+     "rw": "rw",
+     "type": "objId",
+     "desc": "The database object to which this CDF is attached.",
+     "source": "field",
+     "classes": [
+      "cdfDataId"
+     ]
     },
-    {"params": {"keyword": "zzz"}, "expect": []}
-  ]
+    {
+     "name": "name",
+     "rw": "rw",
+     "type": "string",
+     "desc": "The name of the parameter.",
+     "source": "arg",
+     "classes": [
+      "cdfParamId"
+     ]
+    },
+    {
+     "name": "value",
+     "rw": "rw",
+     "type": "",
+     "desc": "Current value of the parameter.",
+     "source": "field",
+     "classes": [
+      "cdfParamId"
+     ]
+    }
+   ]
+  },
+  {
+   "params": {
+    "keyword": "field"
+   },
+   "expect": [
+    {
+     "name": "fieldWidth",
+     "rw": "rw",
+     "type": "",
+     "desc": "Width of a field.",
+     "source": "field",
+     "classes": [
+      "cdfDataId"
+     ]
+    }
+   ]
+  },
+  {
+   "params": {
+    "className": "没有这个类"
+   },
+   "expect": []
+  }
+ ]
 }

@@ -14,6 +14,28 @@
     "viaVariants",
     "siteDefs"
    ]
+  },
+  {
+   "name": "objType",
+   "rw": "?",
+   "type": "",
+   "desc": "A list of object types, stdViaVariant or customViaVariant .",
+   "classes": [
+    "viaDefs",
+    "viaVariants",
+    "siteDefs"
+   ]
+  },
+  {
+   "name": "objType",
+   "rw": "?",
+   "type": "",
+   "desc": "A list of the types of site definitions, scalarSiteDefs or arraySiteDefs .",
+   "classes": [
+    "viaDefs",
+    "viaVariants",
+    "siteDefs"
+   ]
   }
  ]
 }

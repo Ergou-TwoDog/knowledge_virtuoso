@@ -2,22 +2,23 @@
 """knowledge_virtuoso.database.cdfdb.render — CDF 属性表的渲染层。
 
 **只做"行 → 文本"**：入参是 ``catalog.search_cdf_attr()`` 返回的行，出参是字符串。
-不 import ``mcp``、不读索引、不做 I/O。描述截断（55 字）是本库自己的表示。
+不 import ``mcp``、不读索引、不做 I/O。表格本体在 `database/core/render.py`，
+这里只声明**本库的列**（描述截断 55 与本库的列宽一样，属于本库的表示）。
 """
 
+from knowledge_virtuoso.database.core.render import Column, render_table
+
 __all__ = ["render_cdfdb_attrs"]
+
+_COLUMNS = (
+    Column("name", "name", 25),
+    Column("rw", "rw", 4),
+    Column("type", "type", 10),
+    Column("desc", "desc", 0, truncate=55, sep=40),
+)
 
 
 def render_cdfdb_attrs(rows: list[dict], className: str = "", keyword: str = "") -> str:
     """把 CDF 属性行渲染成对齐的表格；无行时按查询条件给出"未找到"提示。"""
-    if not rows:
-        ctx = f"类='{className}'" if className else "全部类"
-        ctx += f" keyword='{keyword}'" if keyword else ""
-        return f"未找到匹配 {ctx} 的 CDF 属性。"
-    lines = [f"匹配 {len(rows)} 个 CDF 属性:"]
-    lines.append(f"  {'name':25s} {'rw':4s} {'type':10s} desc")
-    lines.append(f"  {'-'*25} {'-'*4} {'-'*10} {'-'*40}")
-    for r in rows:
-        desc = r["desc"] if len(r["desc"]) <= 55 else r["desc"][:54] + "…"
-        lines.append(f"  {r['name']:25s} {r['rw']:4s} {r['type']:10s} {desc}")
-    return "\n".join(lines)
+    return render_table(rows, _COLUMNS, subject=" CDF 属性", selector_label="类",
+                        all_label="全部类", selector=className, keyword=keyword)

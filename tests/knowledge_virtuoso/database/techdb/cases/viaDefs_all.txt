@@ -5,10 +5,10 @@
   implant1                  l_objId    viaDefs
   implant2                  l_objId    viaDefs
   layer1                    l_objId    derivedLayers,viaDefs,viaSpecs
-  layer1Num                 l_string   derivedLayers,viaDefs,viaSpecs
+  layer1Num                            derivedLayers,viaDefs,viaSpecs
   layer2                    l_objId    derivedLayers,viaDefs,viaSpecs
-  layer2Num                 l_string   derivedLayers,viaDefs,viaSpecs
-  libName                   string     techID,viaDefs
+  layer2Num                            derivedLayers,viaDefs,viaSpecs
+  libName                              techID,viaDefs
   name                      l_string   layers,derivedLayers,purposeDefs,lps,viaDefs,viaVariants,siteDefs,snapPatternDefs,widthSpacingSnapPatternDefs
   objType                              viaDefs,viaVariants,siteDefs
   params                               derivedLayers,viaDefs,viaVariants

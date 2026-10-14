@@ -8,151 +8,176 @@
    "name": "assocTextDisplays",
    "rw": "ro",
    "type": "l_objId",
-   "desc": "List of text displays associated with the cellview."
+   "desc": "List of text displays with this figure as their associate.",
+   "definedIn": "Generic Figure"
   },
   {
    "name": "bBox",
-   "rw": "ro",
+   "rw": "rw",
    "type": "bBox",
-   "desc": "包围盒（rect/dot/ellipse/textDisplay 可写）"
+   "desc": "The figure's bounding box. Only the bBox of a dot, ellipse, rectangle, or text can be modified.",
+   "definedIn": "Generic Figure"
   },
   {
    "name": "cellView",
    "rw": "ro",
    "type": "objId",
-   "desc": "所属 cellview ID"
+   "desc": "The cellview that contains this object.",
+   "definedIn": "Generic Object"
   },
   {
    "name": "children",
    "rw": "ro",
    "type": "l_objId",
-   "desc": "List of objects that have this mosaic as their parent."
+   "desc": "List of objects that have this object as their parent.",
+   "definedIn": "Generic Figure"
   },
   {
    "name": "connRoutes",
    "rw": "ro",
    "type": "l_objId",
-   "desc": "A list of all routes that connected to this instTerm."
+   "desc": "List of all route start/end connections that connect to this shape.",
+   "definedIn": "Generic Shape"
   },
   {
    "name": "figGroup",
    "rw": "ro",
    "type": "objId",
-   "desc": "所属 figGroup"
+   "desc": "List the ID of the figGroup to which this figure belongs.",
+   "definedIn": "Generic Figure"
   },
   {
    "name": "groupMembers",
    "rw": "ro",
    "type": "l_objId",
-   "desc": "List of all group members that exist in the cellview."
+   "desc": "List of group members for this object.",
+   "definedIn": "Generic Figure"
   },
   {
    "name": "isAnyInst",
    "rw": "ro",
    "type": "boolean",
-   "desc": "t=instance, nil=shape"
+   "desc": "Indicates whether the figure is an instance.",
+   "definedIn": "Generic Figure"
   },
   {
    "name": "isShape",
    "rw": "ro",
    "type": "boolean",
-   "desc": "t=shape, nil=instance"
+   "desc": "Indicates whether the figure is a shape.",
+   "definedIn": "Generic Figure"
   },
   {
    "name": "isUnshielded",
    "rw": "rw",
    "type": "boolean",
-   "desc": "是否未屏蔽"
+   "desc": "Indicates whether this shape is not shielded.",
+   "definedIn": "Generic Shape"
   },
   {
    "name": "layerName",
-   "rw": "ro",
+   "rw": "rw",
    "type": "string",
-   "desc": "Name of the layer."
+   "desc": "The shape's layer name.",
+   "definedIn": "Generic Shape"
   },
   {
    "name": "layerNum",
-   "rw": "ro",
+   "rw": "rw",
    "type": "integer",
-   "desc": "Layer number of this layer."
+   "desc": "The shape's layer number.",
+   "definedIn": "Generic Shape"
   },
   {
    "name": "lpp",
    "rw": "rw",
    "type": "list",
-   "desc": "layer-purpose pair"
+   "desc": "List consisting of the shape's layer number and purpose.",
+   "definedIn": "Generic Shape"
   },
   {
    "name": "markers",
    "rw": "ro",
    "type": "l_objId",
-   "desc": "List of all markers that exist in the cellview."
+   "desc": "List of markers for this object.",
+   "definedIn": "Generic Figure"
   },
   {
    "name": "matchPoints",
    "rw": "rw",
    "type": "boolean",
-   "desc": "子对象点匹配"
+   "desc": "Indicates whether the figure's children have points that match the figure's points.",
+   "definedIn": "Generic Figure"
   },
   {
    "name": "net",
    "rw": "rw",
    "type": "objId",
-   "desc": "Net to which the instTerm is attached."
+   "desc": "Net object ID if the figure is associated with a net",
+   "definedIn": "Generic Figure"
   },
   {
    "name": "objType",
    "rw": "ro",
    "type": "string",
-   "desc": "Type of the object, in this case \"cellview\" ."
+   "desc": "The name of the object's type.",
+   "definedIn": "Generic Object"
   },
   {
    "name": "parent",
-   "rw": "ro",
+   "rw": "rw",
    "type": "objId",
-   "desc": "Parent net if this is a child net, otherwise nil."
+   "desc": "The figure's parent.",
+   "definedIn": "Generic Figure"
   },
   {
    "name": "pin",
    "rw": "ro",
    "type": "objId",
-   "desc": "Pin object if the mosaic is associated with a pin."
+   "desc": "Pin object if the figure is associated with a pin.",
+   "definedIn": "Generic Figure"
   },
   {
    "name": "prop",
    "rw": "ro",
    "type": "l_objId",
-   "desc": "属性列表"
+   "desc": "List of properties on this object.",
+   "definedIn": "Generic Object"
   },
   {
    "name": "purpose",
    "rw": "rw",
-   "type": "string",
-   "desc": "Layer purpose."
+   "type": "string/",
+   "desc": "The figure's layer purpose.",
+   "definedIn": "Generic Figure"
   },
   {
    "name": "routeStatus",
    "rw": "rw",
-   "type": "string",
-   "desc": "normal/fixed/locked"
+   "type": "Status of the route associated with the via.\"normal\"The normal routing status. The route can be modified manually or by an automatic tool.\"fixed\"Automatic tools cannot edit the route but the route can be manually edited.\"locked\"The route cannot be edited by automatic tools or manually.",
+   "desc": "",
+   "definedIn": "Generic Shape"
   },
   {
    "name": "shieldedNet1",
    "rw": "rw",
    "type": "netId",
-   "desc": "屏蔽 net 1"
+   "desc": "Sets the first shielded net for this shape to the specified bit net. A shape may shield up to two nets.",
+   "definedIn": "Generic Shape"
   },
   {
    "name": "shieldedNet2",
    "rw": "rw",
    "type": "netId",
-   "desc": "屏蔽 net 2"
+   "desc": "Sets the second shielded net for this shape to the specified bit net.",
+   "definedIn": "Generic Shape"
   },
   {
    "name": "textDisplays",
    "rw": "ro",
    "type": "l_objId",
-   "desc": "List of text displays owned by the cellview."
+   "desc": "List of text displays owned by this figure object.",
+   "definedIn": "Generic Figure"
   }
  ]
 }

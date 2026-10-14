@@ -46,7 +46,13 @@ CALLS = (
     ("db_search_attr", {"objType": "rect", "keyword": "bBox"}),
     ("techdb_search_attr", {"className": "viaDefs"}),
     ("cdfdb_search_attr", {"className": "cdfParamId", "keyword": "value"}),
+    ("dd_search_attr", {"object": "cellFile"}),
 )
+
+# 每个属性库工具的第一个参数名必须与它自己的选择器一致——**这是会静默坏掉的一道缝**：
+# 参数名注册错了，工具照样出现在列表里（名字对），但每次调用都会因为 schema 不符而失败。
+SELECTORS = {"db_search_attr": "objType", "techdb_search_attr": "className",
+             "cdfdb_search_attr": "className", "dd_search_attr": "object"}
 
 # 索引缺失时服务会报这些字样——那是环境问题（没索引也没 doc），不是服务坏了。
 INDEX_HINTS = ("索引不可用", "IndexLoadError", "请重建索引", "重建索引", "index JSON unavailable")
@@ -73,13 +79,15 @@ async def _smoke(verbose: bool) -> dict:
         async with stdio_client(params, errlog=sink or sys.stderr) as (read, write):
             async with ClientSession(read, write) as session:
                 await session.initialize()
-                tools = sorted(t.name for t in (await session.list_tools()).tools)
+                listed = (await session.list_tools()).tools
+                tools = sorted(t.name for t in listed)
+                tool_params = {t.name: sorted(t.inputSchema.get("properties", {})) for t in listed}
                 say(f"工具列表（{len(tools)}）: {', '.join(tools)}")
                 missing = sorted({name for name, _ in CALLS} - set(tools))
                 if missing:
                     say(f"FAIL 缺工具: {missing}")
-                    return {"tools": tools, "missing": missing, "failures": [],
-                            "verified": 0, "skipped": 0}
+                    return {"tools": tools, "toolParams": tool_params, "missing": missing,
+                            "failures": [], "verified": 0, "skipped": 0}
 
                 failures: list[str] = []
                 skipped = verified = 0
@@ -100,7 +108,7 @@ async def _smoke(verbose: bool) -> dict:
         if sink is not None:
             sink.close()
 
-    return {"tools": tools, "missing": missing, "failures": failures,
+    return {"tools": tools, "toolParams": tool_params, "missing": missing, "failures": failures,
             "verified": verified, "skipped": skipped}
 
 
@@ -127,7 +135,10 @@ def run(report: Report, update: bool = False) -> None:
     索引不可用时查询全部 SKIP——记 `report.skip()`，不算过也不算错，但汇总里会写"跳过 1 次"。
     """
     outcome = asyncio.run(_smoke(verbose=False))
-    report.expect("stdio/工具列表齐全（五个工具都在）", outcome["missing"], [])
+    report.expect("stdio/工具列表齐全（六个工具都在）", outcome["missing"], [])
+    report.expect("stdio/各属性库工具的**参数名**与自己的选择器一致",
+                  {name: set(outcome["toolParams"].get(name) or []) for name in SELECTORS},
+                  {name: {sel, "keyword"} for name, sel in SELECTORS.items()})
     report.expect("stdio/没有调用报错", outcome["failures"], [])
     if outcome["skipped"] == len(CALLS):
         report.skip("stdio/查询真验过", "本机索引不可用（设 VIRTUOSO_DOC_DIR 或跑构建）")

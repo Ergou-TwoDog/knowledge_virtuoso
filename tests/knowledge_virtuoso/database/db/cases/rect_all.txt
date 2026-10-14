@@ -1,28 +1,28 @@
 匹配 25 个属性:
   name                      rw   type            desc
   ------------------------- ---- --------------- ------------------------------
-  assocTextDisplays         ro   l_objId         List of text displays associated with the cellview.
-  bBox                      ro   bBox            包围盒（rect/dot/ellipse/textDisplay 可写）
-  cellView                  ro   objId           所属 cellview ID
-  children                  ro   l_objId         List of objects that have this mosaic as their parent.
-  connRoutes                ro   l_objId         A list of all routes that connected to this instTerm.
-  figGroup                  ro   objId           所属 figGroup
-  groupMembers              ro   l_objId         List of all group members that exist in the cellview.
-  isAnyInst                 ro   boolean         t=instance, nil=shape
-  isShape                   ro   boolean         t=shape, nil=instance
-  isUnshielded              rw   boolean         是否未屏蔽
-  layerName                 ro   string          Name of the layer.
-  layerNum                  ro   integer         Layer number of this layer.
-  lpp                       rw   list            layer-purpose pair
-  markers                   ro   l_objId         List of all markers that exist in the cellview.
-  matchPoints               rw   boolean         子对象点匹配
-  net                       rw   objId           Net to which the instTerm is attached.
-  objType                   ro   string          Type of the object, in this case "cellview" .
-  parent                    ro   objId           Parent net if this is a child net, otherwise nil.
-  pin                       ro   objId           Pin object if the mosaic is associated with a pin.
-  prop                      ro   l_objId         属性列表
-  purpose                   rw   string          Layer purpose.
-  routeStatus               rw   string          normal/fixed/locked
-  shieldedNet1              rw   netId           屏蔽 net 1
-  shieldedNet2              rw   netId           屏蔽 net 2
-  textDisplays              ro   l_objId         List of text displays owned by the cellview.
+  assocTextDisplays         ro   l_objId         List of text displays with this figure as their associate.
+  bBox                      rw   bBox            The figure's bounding box. Only the bBox of a dot, ellipse,…
+  cellView                  ro   objId           The cellview that contains this object.
+  children                  ro   l_objId         List of objects that have this object as their parent.
+  connRoutes                ro   l_objId         List of all route start/end connections that connect to thi…
+  figGroup                  ro   objId           List the ID of the figGroup to which this figure belongs.
+  groupMembers              ro   l_objId         List of group members for this object.
+  isAnyInst                 ro   boolean         Indicates whether the figure is an instance.
+  isShape                   ro   boolean         Indicates whether the figure is a shape.
+  isUnshielded              rw   boolean         Indicates whether this shape is not shielded.
+  layerName                 rw   string          The shape's layer name.
+  layerNum                  rw   integer         The shape's layer number.
+  lpp                       rw   list            List consisting of the shape's layer number and purpose.
+  markers                   ro   l_objId         List of markers for this object.
+  matchPoints               rw   boolean         Indicates whether the figure's children have points that ma…
+  net                       rw   objId           Net object ID if the figure is associated with a net
+  objType                   ro   string          The name of the object's type.
+  parent                    rw   objId           The figure's parent.
+  pin                       ro   objId           Pin object if the figure is associated with a pin.
+  prop                      ro   l_objId         List of properties on this object.
+  purpose                   rw   string/         The figure's layer purpose.
+  routeStatus               rw   Status of the route associated with the via."normal"The normal routing status. The route can be modified manually or by an automatic tool."fixed"Automatic tools cannot edit the route but the route can be manually edited."locked"The route cannot be edited by automatic tools or manually. 
+  shieldedNet1              rw   netId           Sets the first shielded net for this shape to the specified…
+  shieldedNet2              rw   netId           Sets the second shielded net for this shape to the specifie…
+  textDisplays              ro   l_objId         List of text displays owned by this figure object.

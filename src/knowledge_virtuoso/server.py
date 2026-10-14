@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-knowledge_virtuoso.server — MCP Server: SKILL 函数知识库查询服务。
+knowledge_virtuoso.server — MCP Server: SKILL 函数与对象属性知识库查询服务。
 
 提供 tool:
 
@@ -8,14 +8,15 @@ knowledge_virtuoso.server — MCP Server: SKILL 函数知识库查询服务。
   skill_language_search_doc         — 查询函数签名（detail=signature/brief/full 控制粒度）
   skill_language_search_components  — 按前缀+关键词组合搜索函数名（推荐）
 
- 设计库对象属性查询 (virtuoso_db):
-  db_search_attr        — 按 objType + 关键词搜索属性
+ 对象属性查询——**每个属性库一个工具，由 `database/core/registry.py` 按发现的库生成**：
+  db_search_attr        选择器 objType     — 设计库对象属性
+  techdb_search_attr    选择器 className   — 技术库对象属性
+  cdfdb_search_attr     选择器 className   — CDF 对象属性
+  dd_search_attr        选择器 object      — 数据管理对象属性
 
- tech 数据库对象属性查询 (virtuoso_techdb):
-  techdb_search_attr         — 按类 + 关键词搜索 tech 属性
-
- CDF 对象属性查询 (virtuoso_cdfdb):
-  cdfdb_search_attr          — 按类（cdfDataId/cdfParamId）+ 关键词搜索 CDF 属性
+ **加一个属性库 = 在 `database/` 下加一棵树**，本文件一行不用改。各库的选择器不是同一个
+ 概念（运行时对象类型／技术库类名／CDF 类名／数据管理对象），所以**不压成一个词**：
+  registry 生成工具时按各库自己的 `SELECTOR` 造参数名。
 
 启动方式:
   knowledge-virtuoso          （console script）
@@ -28,17 +29,15 @@ functions/sources/<来源>/render.py），接线约定见 tests/README.md，
 因此改渲染策略不需要动这里，改工具契约（名字、参数、docstring）也不需要动渲染层。
 """
 
+import asyncio
+import inspect
+
 from mcp.server.fastmcp import FastMCP
 
-from knowledge_virtuoso.functions import registry
 from knowledge_virtuoso.functions import index as skill_language
+from knowledge_virtuoso.functions import registry
 from knowledge_virtuoso.functions.core import render as skill_render
-from knowledge_virtuoso.database.db.core import catalog as db_attr
-from knowledge_virtuoso.database.db.render import render_db_attrs
-from knowledge_virtuoso.database.techdb.core import catalog as techdb_attr
-from knowledge_virtuoso.database.techdb.render import render_techdb_attrs
-from knowledge_virtuoso.database.cdfdb.core import catalog as cdfdb_attr
-from knowledge_virtuoso.database.cdfdb.render import render_cdfdb_attrs
+from knowledge_virtuoso.database.core import registry as attr_registry
 
 mcp = FastMCP("virtuoso")
 
@@ -103,66 +102,39 @@ async def skill_language_search_components(prefix: str = "", keywords: str = "",
         profile_for=registry.profile_for)
 
 
-# ─── 属性查询 ──────────────────────────────────────────────
+# ─── 属性查询：每个属性库一个工具，由注册表生成 ────────────────
+#
+# 工具名 = `<库名>_search_attr`，第一个参数名用该库自己的 `SELECTOR`（objType /
+# className / object）——那是四个不同的概念，压成一个词会让调用方以为它们通用。
+#
+# FastMCP 从 `inspect.signature` 建输入 schema，而 `inspect.signature` 认手工赋的
+# `__signature__`：于是同一个实现能按库生成各自契约的工具，不必为每个库抄一遍函数。
 
-@mcp.tool()
-async def db_search_attr(objType: str = "", keyword: str = "") -> str:
-    """搜索数据库对象属性。按 objType + 关键词查找属性名、类型和读写权限。
+def _attr_tool(lib):
+    """库 → 一个 MCP 工具函数（参数名 = 该库的 SELECTOR + keyword）。"""
+    selector = lib.SELECTOR
 
-    参数:
-      objType: ~>objType 返回值，如 "rect"/"inst"/"stdVia"。留空搜全部类型。
-      keyword: 属性名关键词（子串匹配）。留空列出该类型的全部属性。
+    def fn(**kwargs):                       # 真调用时 FastMCP 按 schema 传关键字
+        value = kwargs.get(selector, "")
+        keyword = kwargs.get("keyword", "")
+        return lib.render(lib.search(value, keyword), value, keyword)
 
-    示例:
-      objType="rect" keyword=""       → 列出 rect 全部属性
-      objType="inst" keyword="name"   → inst 属性中带 "name" 的
-      objType="" keyword="bBox"       → 所有类型中名为 bBox 的属性
-    """
-    return render_db_attrs(db_attr.search_attr(objType=objType, keyword=keyword), objType, keyword)
-
-
-# ─── tech 数据库对象属性查询 ──────────────────────────────────
-
-@mcp.tool()
-async def techdb_search_attr(className: str = "", keyword: str = "") -> str:
-    """搜索 tech 数据库对象属性。按类 + 关键词查找属性名、描述和所属类。
-
-    参数:
-      className: tech 对象类名，如 "techID"/"layers"/"lps"/"viaDefs"/"siteDefs"。
-                 留空搜全部类。
-      keyword:   属性名关键词（子串匹配）。留空列出该类全部属性。
-
-    示例:
-      className="viaDefs" keyword=""            → 列出 viaDefs 全部属性
-      className="lps" keyword="valid"           → lps 属性中带 "valid" 的
-      className="" keyword="objType"            → 所有类中名为 objType 的属性
-    """
-    return render_techdb_attrs(
-        techdb_attr.search_tech_attr(className=className, keyword=keyword), className, keyword)
+    fn.__name__ = attr_registry.tool_name(lib)
+    fn.__doc__ = lib.DOC
+    fn.__signature__ = inspect.Signature(
+        [inspect.Parameter(selector, inspect.Parameter.POSITIONAL_OR_KEYWORD,
+                           default="", annotation=str),
+         inspect.Parameter("keyword", inspect.Parameter.POSITIONAL_OR_KEYWORD,
+                           default="", annotation=str)],
+        return_annotation=str)
+    return fn
 
 
-# ─── CDF 对象属性查询 ──────────────────────────────────
-
-@mcp.tool()
-async def cdfdb_search_attr(className: str = "", keyword: str = "") -> str:
-    """搜索 CDF 对象属性。按类 + 关键词查找属性名、描述和所属类。
-
-    参数:
-      className: CDF 对象类名，如 "cdfDataId"/"cdfParamId"。留空搜全部类。
-      keyword:   属性名关键词（子串匹配）。留空列出该类全部属性。
-
-    示例:
-      className="cdfParamId" keyword=""        → 列出 cdfParamId 全部属性
-      className="cdfDataId" keyword="param"    → cdfDataId 属性中带 "param" 的
-      className="" keyword="value"             → 所有类中名为 value 的属性
-    """
-    return render_cdfdb_attrs(
-        cdfdb_attr.search_cdf_attr(className=className, keyword=keyword), className, keyword)
+for _lib in attr_registry.LIBS:
+    mcp.add_tool(_attr_tool(_lib), name=attr_registry.tool_name(_lib), description=_lib.DOC)
 
 
 def main() -> None:
-    import asyncio
-
     asyncio.run(mcp.run_stdio_async())
 
 

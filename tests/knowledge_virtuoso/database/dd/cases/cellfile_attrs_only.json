@@ -1,0 +1,37 @@
+{
+ "params": {
+  "object": "cellFile"
+ },
+ "rows": [
+  {
+   "name": "group",
+   "kind": "attr",
+   "cardinality": "",
+   "objectTypes": [
+    "libFile",
+    "cellFile",
+    "viewFile"
+   ]
+  },
+  {
+   "name": "groupAccess",
+   "kind": "attr",
+   "cardinality": "",
+   "objectTypes": [
+    "libFile",
+    "cellFile",
+    "viewFile"
+   ]
+  },
+  {
+   "name": "isReadable",
+   "kind": "attr",
+   "cardinality": "",
+   "objectTypes": [
+    "libFile",
+    "cellFile",
+    "viewFile"
+   ]
+  }
+ ]
+}

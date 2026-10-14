@@ -2,73 +2,56 @@
  "source": "sktechfile/appA.html",
  "kind": "h3",
  "class": "layers",
- "names": [
-  "abbrev",
-  "allowSetToValid",
-  "allowSetToValidInSession",
-  "backside",
-  "incompatibleLayerNames",
-  "lps",
-  "material",
-  "name",
-  "number",
-  "valid"
- ],
- "rows": {
-  "number": {
-   "rw": "?",
-   "type": "l_string"
+ "attrs": [
+  {
+   "name": "abbrev",
+   "type": "l_string",
+   "desc": "A list of abbreviated names assigned to layers."
   },
-  "name": {
-   "rw": "?",
-   "type": "l_string"
+  {
+   "name": "allowSetToValid",
+   "type": "boolean",
+   "desc": "A flag corresponding to each layer. t if the layer can be set as valid; nil if the layer cannot be set as valid."
   },
-  "abbrev": {
-   "rw": "?",
-   "type": "l_string"
+  {
+   "name": "allowSetToValidInSession",
+   "type": "boolean",
+   "desc": "A flag corresponding to each layer. t if the layer can be set as valid during a session; nil if the layer cannot be set as valid during a session."
   },
-  "lps": {
-   "rw": "?",
-   "type": "l_objId"
+  {
+   "name": "backside",
+   "type": "boolean",
+   "desc": "A flag corresponding to each layer, t or nil ."
   },
-  "incompatibleLayerNames": {
-   "rw": "?",
-   "type": "l_string"
+  {
+   "name": "incompatibleLayerNames",
+   "type": "l_string",
+   "desc": "A list of names of all incompatible layers."
   },
-  "backside": {
-   "rw": "?",
-   "type": "boolean"
+  {
+   "name": "lps",
+   "type": "l_objId",
+   "desc": "A list of database identifiers for layer-purpose pairs."
   },
-  "material": {
-   "rw": "?",
-   "type": ""
+  {
+   "name": "material",
+   "type": "",
+   "desc": "A list of layer functions, such as metal , cut , poly , nwell , and pwell ."
   },
-  "valid": {
-   "rw": "?",
-   "type": "boolean"
+  {
+   "name": "name",
+   "type": "l_string",
+   "desc": "A list of layer names."
   },
-  "allowSetToValid": {
-   "rw": "?",
-   "type": "boolean"
+  {
+   "name": "number",
+   "type": "l_string",
+   "desc": "A list of numbers assigned to layers."
   },
-  "allowSetToValidInSession": {
-   "rw": "?",
-   "type": "boolean"
+  {
+   "name": "valid",
+   "type": "boolean",
+   "desc": "A flag corresponding to each layer. t if the layer is valid; nil if the layer is invalid."
   }
- },
- "unique": {
-  "incompatibleLayerNames": {
-   "rw": "?",
-   "type": "l_string"
-  },
-  "backside": {
-   "rw": "?",
-   "type": "boolean"
-  },
-  "material": {
-   "rw": "?",
-   "type": ""
-  }
- },
- "class_desc": "层"
+ ]
 }

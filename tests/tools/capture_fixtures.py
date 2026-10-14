@@ -31,11 +31,13 @@ from knowledge_virtuoso.functions import index as skill_language  # noqa: E402
 from knowledge_virtuoso.database.db.core import catalog as db_cat  # noqa: E402
 from knowledge_virtuoso.database.techdb.core import catalog as tech_cat  # noqa: E402
 from knowledge_virtuoso.database.cdfdb.core import catalog as cdf_cat  # noqa: E402
+from knowledge_virtuoso.database.dd.core import catalog as dd_cat  # noqa: E402
 
 ATTR_LIBS = {
     "db": (db_cat, "search_attr"),
     "techdb": (tech_cat, "search_tech_attr"),
     "cdfdb": (cdf_cat, "search_cdf_attr"),
+    "dd": (dd_cat, "search_dd_attr"),
 }
 
 
