@@ -22,7 +22,7 @@
 }
 ```
 
-`uvx` 会从 git 解析、构建并运行 `knowledge-virtuoso` 入口，依赖（`mcp==1.9.4`）自动装入隔离环境；可加 `@v0.2.1` 固定版本。本项目不修改使用方配置。
+`uvx` 会从 git 解析、构建并运行 `knowledge-virtuoso` 入口，依赖（`mcp==1.9.4`）自动装入隔离环境；可加 `@v0.2.2` 固定版本。本项目不修改使用方配置。
 
 **首次使用前必须让服务找到官方 doc，否则每次查询都会失败。** 索引不随包分发，只落在平台数据目录；服务在启动和建立连接时都不读索引，所以**「连接成功、工具列表正常」并不代表可查询**——索引缺失要等第一次查询才暴露。二选一：
 
@@ -210,7 +210,7 @@ uv run python -m knowledge_virtuoso.functions --sources              # 列出发
 
 **若你停在 `v0.2.0`**：不需要重建索引就照常可用；一旦要重建（索引丢失/损坏，或想用新解析产物），请升到 0.2.1。
 
-**（未发布）属性库重构：上层统一 + 新增 `dd` 库——索引格式不兼容**
+0.2.2 属性库重构：上层统一 + 新增 `dd` 库，**索引格式不兼容**：
 
 - **四个属性库各存各的、互不认识**；上层由 `database/core/registry.py` 扫描 `database/` **自动发现**，`server.py` 按发现的库生成 MCP 工具（工具名 = `<库名>_search_attr`，第一个参数名 = 该库自己的选择器：`objType`/`className`/`object`）。
 - **db/techdb/cdfdb 的载荷容器统一到 `database/core/objects.py` 的对象模型**（`{version, objects: {id: {id, title, parent, attrs}}}`）：校验、选择器解析、继承合并都收在那份共享件里，各库只剩**解析器 + 别名表 + 行工厂 + 一份列声明**（表格渲染也收在 `database/core/render.py`——四份渲染器的差别全在列上）。「有没有继承」不用旗子标——没有继承的库 `parent` 恒为 `null`，合并自动塌缩成自身。四库对照见 `src/knowledge_virtuoso/database/core/README.md`。**渲染输出一行未变**（golden 零变化）。
