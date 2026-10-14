@@ -55,9 +55,10 @@ knowledge_virtuoso/
 ├── CLAUDE.md
 ├── pyproject.toml      # 构建与依赖声明；首次 uv 运行生成 uv.lock
 ├── .gitignore
-├── tests/              # 四类渲染回归（fixture + golden，随仓库，见 tests/README.md）
-│   ├── run_tests.py    # 跑全部分类；--update 重录 golden
-│   └── functions/ db/ techdb/ cdfdb/   # 各有自己的 fixtures/、golden/、test_render.py
+├── tests/              # 测试网：与 src 同构的镜像树 + 真实 MCP 冒烟（见 tests/README.md）
+│   ├── run_tests.py    # 跑全部；--update 重录 golden
+│   ├── tools/          # 夹具生成器（不是测试；见 tests/tools/README.md）
+│   └── knowledge_virtuoso/     # 镜像 src（含 test_server.py：真起一次服务走 MCP 协议）
 └── src/
     └── knowledge_virtuoso/          # 唯一顶层包
         ├── __init__.py  __main__.py
@@ -83,6 +84,7 @@ knowledge_virtuoso/
         │           ├── catalog.py
         │           └── render.py    #       本渲染差异（（自定义）标记 + load() 前提行）
         └── database/
+            ├── core/store.py            # 三库共用的索引存取（读/重建/缓存/锁）
             ├── db/core/catalog.py       # 基本数据库对象属性
             ├── db/render.py             # 该库属性表的渲染
             ├── techdb/core/catalog.py   # 技术库对象属性
@@ -91,13 +93,13 @@ knowledge_virtuoso/
             └── cdfdb/render.py
 ```
 
-函数库**按来源分树**：每个来源一棵 `sources/<来源>/`（该来源的索引本事 + 渲染差异），来源树之间**互不认识**；与来源无关的放 `core/`；跨来源的只有两件事——`registry.py` 负责**扫描 `sources/` 自动发现**（顺序由各来源自己的 `ORDER` 决定，不看目录名），`index.py` 负责把它们装配成一张索引并在这上面查询。**加一个来源 = 在 `sources/` 下加一棵树**，`core/`、`registry.py`、`index.py`、`server.py` 都不用改。三个属性库（db/techdb/cdfdb）仍是各自的 `core/catalog.py` + `render.py`，暂不分来源。渲染层只做"记录/行 → 文本"，不 import `mcp`、不 import 来源、不读索引、不做 I/O。`server.py` 只做接线：校验参数 → 查 catalog → 交给对应渲染层；所以改输出不必碰 MCP 接口，改工具契约（名字、参数、docstring）也不必碰渲染层。**包内不含索引**——索引写到平台数据目录（见下），因此 wheel 体积小、可反复 `uvx` 冷启动。
+函数库**按来源分树**：每个来源一棵 `sources/<来源>/`（该来源的索引本事 + 渲染差异），来源树之间**互不认识**；与来源无关的放 `core/`；跨来源的只有两件事——`registry.py` 负责**扫描 `sources/` 自动发现**（顺序由各来源自己的 `ORDER` 决定，不看目录名），`index.py` 负责把它们装配成一张索引并在这上面查询。**加一个来源 = 在 `sources/` 下加一棵树**，`core/`、`registry.py`、`index.py`、`server.py` 都不用改。三个属性库（db/techdb/cdfdb）仍是各自的 `core/catalog.py` + `render.py`，暂不分来源；它们的索引存取（读 JSON、坏了从官方 doc 重建、缓存与锁）收敛在 `database/core/store.py` 一份里——那是**去重**，不是来源抽象。渲染层只做"记录/行 → 文本"，不 import `mcp`、不 import 来源、不读索引、不做 I/O。`server.py` 只做接线：校验参数 → 查 catalog → 交给对应渲染层；所以改输出不必碰 MCP 接口，改工具契约（名字、参数、docstring）也不必碰渲染层。**包内不含索引**——索引写到平台数据目录（见下），因此 wheel 体积小、可反复 `uvx` 冷启动。
 
 维护对象为包内解析器、工具与索引；不直接手改生成 JSON。**索引字段、解析边界、设计原则与工具层取舍都在随包发布的 [src/knowledge_virtuoso/functions/README.md](src/knowledge_virtuoso/functions/README.md)**（设计文档不单独放在仓库里）。原文地址按实际 IC618 doc 根目录拼接 `source.file` 与 `source.anchor`，相对参考链接以 source.file 所在目录解析。
 
 ### 开发验证
 
-根据改动范围验证 CLI、查询和恢复逻辑。**改解析或渲染后跑 `uv run python -B tests/run_tests.py`**（四类逐字节比对，不需要 IC618 doc 或索引）；搬移类改动（行为必须逐字不变）还要拿另一份代码重放同一套 golden 做双向验证。golden 是**变更探测器，不是正确性判据**——它只说明输出没变；**没有输出变化就不要 `--update`**，否则等于把回归网剪掉。修改服务入口或 MCP 接口时，通过实际 stdio 客户端完成初始化、工具列表和相关工具调用（渲染回归不覆盖 `server.py` 的接线）；修改路径定位时，同时验证项目内启动与外部工作目录启动，并核对构建产物（wheel/sdist）内容。接口调整需核对参数与返回的兼容性。
+根据改动范围验证 CLI、查询和恢复逻辑。**改解析或渲染后跑 `uv run python -B tests/run_tests.py`**（golden 逐字节比对 + 断言，不需要 IC618 doc 或索引）；搬移类改动（行为必须逐字不变）还要拿另一份代码重放同一套 golden 做双向验证。golden 是**变更探测器，不是正确性判据**——它只说明输出没变；**没有输出变化就不要 `--update`**，否则等于把回归网剪掉。修改服务入口或 MCP 接口时，通过实际 stdio 客户端完成初始化、工具列表和相关工具调用（渲染回归不覆盖 `server.py` 的接线）；修改路径定位时，同时验证项目内启动与外部工作目录启动，并核对构建产物（wheel/sdist）内容。接口调整需核对参数与返回的兼容性。
 
 使用 `uv run python -B` 避免生成字节码缓存；测试索引恢复时用临时输出目录（如把 `VIRTUOSO_DATA_DIR` 指向临时目录），不删除或覆盖正式索引模拟故障。验证结束后清理临时材料，不默认保留测试脚本或报告。
 
@@ -164,8 +166,14 @@ knowledge_virtuoso/
 不经 MCP 查询单个函数：
 
 ```bash
-uv run python -m knowledge_virtuoso.functions dbCreateRect
+uv run python -m knowledge_virtuoso.functions dbCreateRect           # 默认 brief 档
+uv run python -m knowledge_virtuoso.functions dbCreateRect -d skel   # 五档同 MCP
+uv run python -m knowledge_virtuoso.functions --sources              # 列出发现到的来源
 ```
+
+输出与 MCP 的 `skill_language_search_doc` **逐字一致**（同一个渲染入口，含 `（自定义）`
+标记与 `load()` 前提行）——排障时看到的形状就是 LLM 看到的形状。从官方 doc 重建/导出见
+`--doc-root … --report | --export | --export-json`。
 
 ## 索引恢复与官方文档
 
@@ -184,6 +192,8 @@ uv run python -m knowledge_virtuoso.functions dbCreateRect
 索引**格式**变了会自动判为不兼容并触发重建；但**内容**改进不会——0.1.7 补上了老式排版的两类表结构（裸 `<tr>` 续排的表、首列被占位的表行），格式仍是 v3，因此**已有的旧 v3 索引不会自动重建**。升级到 0.1.7 后需跑一次 `knowledge-virtuoso-build functions`（或删除该索引让服务按惰性重建），才能用上改进后的内容。
 
 0.2.0 没有改索引格式：改的是**包内模块路径**（函数库按来源分树、渲染层从 `server.py` 抽出）与一处契约校验（`returns` 条目必须带 `desc`）。**升级不需要重建索引**；但若你有脚本按旧模块路径导入（如 `knowledge_virtuoso.functions.core.catalog`），要一并改。
+
+`v0.2.0` **已知问题**（已在 main 修复，待 0.2.1）：这次搬移把两个模块级正则（`_NAME_RE`、`_PREFIX_RE`）留在 `core/contract.py` 而引用留在 `catalog.py`，于是**从官方 doc 重建索引的那条路**（`knowledge-virtuoso-build functions`，以及索引丢失时的惰性重建）会 `NameError`。查询不受影响——索引还在就照常读。撞上的话用 main，或先用旧版本重建。
 
 **四库统一惰性重建**：查询时加载对应 JSON；缺失、损坏或空记录时，若进程环境设了 `VIRTUOSO_DOC_DIR`（真实 IC618 doc 根），自动从官方 doc 重建、原子写回索引目录并返回结果；未设则报出含索引路径与修复提示的错误（提示运行 `knowledge-virtuoso-build`）。首次全量函数重建可能较慢，重建日志写 stderr。
 
