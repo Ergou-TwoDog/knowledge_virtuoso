@@ -1,0 +1,549 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "hiSetCursor(\nw_windowIdx_cursor\n)=> t / nil",
+   "shared_from": null
+  }
+ ],
+ "where": {
+  "file": "skuiref/chap9.html",
+  "topic": "hiSetCursor",
+  "marker_text": "hiSetCursor",
+  "anchor": "hiSetCursor"
+ },
+ "also_at": [],
+ "sections": {
+  "description": {
+   "text": "Sets the cursor you specify for the window."
+  },
+  "arguments": {
+   "root": {
+    "title": null,
+    "items": [
+     {
+      "name": "w_windowId",
+      "desc": "The window ID.",
+      "values": null
+     },
+     {
+      "name": "x_cursor",
+      "desc": "The integer ID associated with the cursor you want to set. The following table lists the constants that are legal values for this argument, as well as their equivalent X Windows cursors:",
+      "values": null
+     },
+     {
+      "name": "x_cursor Constant",
+      "desc": "Description\nX Windows Equivalent",
+      "values": null
+     },
+     {
+      "name": "hicArrow",
+      "desc": "The default pointer cursor\nXC_left_ptr",
+      "values": null
+     },
+     {
+      "name": "hicArrowPadlock",
+      "desc": "A pointer with a lock",
+      "values": null
+     },
+     {
+      "name": "hicCreateRuler",
+      "desc": "A pointer with a ruler\n-",
+      "values": null
+     },
+     {
+      "name": "hicCreateRulerDistance",
+      "desc": "A two-sided arrow\n-",
+      "values": null
+     },
+     {
+      "name": "hicCreateRulerEdge",
+      "desc": "A two-sided arrow between edges\n-",
+      "values": null
+     },
+     {
+      "name": "hicCross",
+      "desc": "A multi-lined cross\nXC_cross",
+      "values": null
+     },
+     {
+      "name": "hicFastEdit",
+      "desc": "A pencil with a via pointing to the top-left corner of the window",
+      "values": null
+     },
+     {
+      "name": "hicFastEditPadlock",
+      "desc": "A pencil with a lock pointing to the top-left corner of the window",
+      "values": null
+     },
+     {
+      "name": "hicHand",
+      "desc": "A hand with index finger extended\nXC_hand2",
+      "values": null
+     },
+     {
+      "name": "hicHelp",
+      "desc": "A question mark with an arrow\nXC_question_arrow",
+      "values": null
+     },
+     {
+      "name": "hicIbeam",
+      "desc": "An \"I-beam\" text insertion cursor\nXC_xterm",
+      "values": null
+     },
+     {
+      "name": "hicNo",
+      "desc": "A skull and crossbones\nXC_pirate",
+      "values": null
+     },
+     {
+      "name": "hicSizeAll",
+      "desc": "Four connected arrows pointing up/down/left/right\nXC_fleur",
+      "values": null
+     },
+     {
+      "name": "hicSizeNESW",
+      "desc": "Two connected arrows pointing top-right and bottom-left\n--",
+      "values": null
+     },
+     {
+      "name": "hicSizeNS",
+      "desc": "Two arrows pointing top and bottom\nXC_sb_v_double_arrow",
+      "values": null
+     },
+     {
+      "name": "hicSizeNWSE",
+      "desc": "Two connected arrows pointing top-left and bottom-right\n--",
+      "values": null
+     },
+     {
+      "name": "hicSizeWE",
+      "desc": "Two arrows pointing left and right\nXC_sb_h_double_arrow",
+      "values": null
+     },
+     {
+      "name": "hicUpArrow",
+      "desc": "An arrow pointing straight up\nXC_sb_up_arrow",
+      "values": null
+     },
+     {
+      "name": "hicWait",
+      "desc": "An analog wristwatch\nXC_watch",
+      "values": null
+     },
+     {
+      "name": "hicArrowHourglass",
+      "desc": "An hourglass shape\n--",
+      "values": null
+     },
+     {
+      "name": "hicHourglass",
+      "desc": "As above\n--",
+      "values": null
+     },
+     {
+      "name": "hicNoCursor",
+      "desc": "The default cursor for the widget (typically the pointer cursor)\n--",
+      "values": null
+     },
+     {
+      "name": "hicInvertedArrow",
+      "desc": "A pointer cursor with white and black inverted\n--",
+      "values": null
+     },
+     {
+      "name": "hicTumblingDice1",
+      "desc": "A box with a dot in the upper left corner\n--",
+      "values": null
+     },
+     {
+      "name": "hicTumblingDice2",
+      "desc": "A box with a dot in the upper right corner\n--",
+      "values": null
+     },
+     {
+      "name": "hicTumblingDice3",
+      "desc": "A box with a dot in the lower left corner\n--",
+      "values": null
+     },
+     {
+      "name": "hicTumblingDice4",
+      "desc": "A box with a dot in the lower right corner.\nNote: The above tumbling dice cursors are used, in turn, to indicate that DFII is busy. They will be displayed when hiGetUserAbort() or voGetUserAbort() is called during long operations.\n--",
+      "values": null
+     },
+     {
+      "name": "hicBusyRead",
+      "desc": "An open book (used for SKILL context loading)\n--",
+      "values": null
+     },
+     {
+      "name": "hicHourglass1",
+      "desc": "An hourglass just turned over\n--",
+      "values": null
+     },
+     {
+      "name": "hicHourglass2",
+      "desc": "An hourglass with some sand in the bottom\n--",
+      "values": null
+     },
+     {
+      "name": "hicHourglass3",
+      "desc": "An hourglass with more sand in the bottom\n--",
+      "values": null
+     },
+     {
+      "name": "hicHourglass4",
+      "desc": "An hourglass with most of the sand in the bottom\n--",
+      "values": null
+     },
+     {
+      "name": "hicHourglass5",
+      "desc": "An hourglass with all the sand in the bottom\n--",
+      "values": null
+     },
+     {
+      "name": "hicHourglass6",
+      "desc": "An hourglass on its side\nNote: The numbered hourglass cursors are displayed during SKILL garbage collection.\n--",
+      "values": null
+     },
+     {
+      "name": "hicTCross",
+      "desc": "A single line cross\nXC_tcross",
+      "values": null
+     },
+     {
+      "name": "The following cursor definitions specifically use Qt defined cursor shapes.",
+      "desc": "",
+      "values": null
+     },
+     {
+      "name": "hicQtArrow",
+      "desc": "Same as hicArrow\nXC_left_ptr",
+      "values": null
+     },
+     {
+      "name": "hicQtUpArrow",
+      "desc": "An arrow pointing up\nXC_center_ptr",
+      "values": null
+     },
+     {
+      "name": "hicQtCross",
+      "desc": "A single-line crosshair\nXC_crosshair",
+      "values": null
+     },
+     {
+      "name": "hicQtIBeam",
+      "desc": "An I-Beam text cursor\nXC_xterm",
+      "values": null
+     },
+     {
+      "name": "hicQtWait",
+      "desc": "An analog wristwatch\nXC_watch",
+      "values": null
+     },
+     {
+      "name": "hicQtBusy",
+      "desc": "An arrow with an hourglass\n--",
+      "values": null
+     },
+     {
+      "name": "hicQtForbidden",
+      "desc": "A circle with a diagonal line\n--",
+      "values": null
+     },
+     {
+      "name": "hicQtPointingHand",
+      "desc": "A hand with index finger extended\nXC_hand2",
+      "values": null
+     },
+     {
+      "name": "hicQtWhatsThis",
+      "desc": "An arrow with a question mark\n--",
+      "values": null
+     },
+     {
+      "name": "hicQtSizeVer",
+      "desc": "A solid vertical arrow pointing up and down\n--",
+      "values": null
+     },
+     {
+      "name": "hicQtSizeHor",
+      "desc": "A solid horizontal arrow pointing left and right\n--",
+      "values": null
+     },
+     {
+      "name": "hicQtSizeBDiag",
+      "desc": "A solid diagonal arrow pointing down-left and up-right\n--",
+      "values": null
+     },
+     {
+      "name": "hicQtSizeFDiag",
+      "desc": "A solid diagonal arrow pointing down-right and up-left\n--",
+      "values": null
+     },
+     {
+      "name": "hicQtSizeAll",
+      "desc": "Four connected arrows pointing up/down/left/right\nXC_fleur",
+      "values": null
+     },
+     {
+      "name": "hicQtSplitV",
+      "desc": "Two horizontal lines with up/down arrows\n--",
+      "values": null
+     },
+     {
+      "name": "hicQtSplitH",
+      "desc": "Two vertical lines with left/right arrows\n--",
+      "values": null
+     },
+     {
+      "name": "hicQtOpenHand",
+      "desc": "A hand with fingers extended\n--",
+      "values": null
+     },
+     {
+      "name": "hiQtClosedHand",
+      "desc": "A hand with fingers curled up\n--",
+      "values": null
+     },
+     {
+      "name": "hicMagnifier",
+      "desc": "A magnifying glass that can be used with the Zoom command (the hotspot being the center of the magnifying glass)\n--",
+      "values": null
+     },
+     {
+      "name": "hicMagnifierPlus",
+      "desc": "A magnifying glass that can be used with the Zoom-In command (the hotspot being the center of the \"+\")\n--",
+      "values": null
+     },
+     {
+      "name": "hicMagnifierMinus",
+      "desc": "A magnifying glass that can be used with the Zoom-Out command (the hotspot being the center of the \"-\")\n--",
+      "values": null
+     },
+     {
+      "name": "hicArrowEllipsis",
+      "desc": "An arrow with three dots for the default enterfunction cursor\n--",
+      "values": null
+     },
+     {
+      "name": "hicArrowMagnifier",
+      "desc": "An arrow with a magnifier for the Zoom command\n--",
+      "values": null
+     },
+     {
+      "name": "hicArrowA",
+      "desc": "An arrow with an \"A\" for a label or other text\n--",
+      "values": null
+     },
+     {
+      "name": "hicArrowT",
+      "desc": "An arrow with a \"T\" for direct text edit\n--",
+      "values": null
+     },
+     {
+      "name": "hicArrowIBeam",
+      "desc": "An arrow with an I-Beam for direct text edit\n--",
+      "values": null
+     },
+     {
+      "name": "hicArrowX",
+      "desc": "An arrow with a X for the Delete command\n--",
+      "values": null
+     },
+     {
+      "name": "hicArrowSlashCircle",
+      "desc": "An arrow with a \"forbidden\" glyph\n--",
+      "values": null
+     },
+     {
+      "name": "hicArrowRotate",
+      "desc": "An arrow with a \"rotation\" glyph\n--",
+      "values": null
+     },
+     {
+      "name": "hicArrowCopy",
+      "desc": "An arrow with a glyph that represents copying.\n--",
+      "values": null
+     },
+     {
+      "name": "hicArrowBox",
+      "desc": "An arrow with a box that represents moving or stretching\n--",
+      "values": null
+     },
+     {
+      "name": "hicArrowWire",
+      "desc": "An arrow with a zig-zag line that represents drawing a wire or a path\n--",
+      "values": null
+     },
+     {
+      "name": "hicArrowPolygon",
+      "desc": "An arrow with a polygon\n--",
+      "values": null
+     },
+     {
+      "name": "hicArrowDot",
+      "desc": "An arrow with a dot that represents a solder dot\n--",
+      "values": null
+     },
+     {
+      "name": "hicArrowTextWire",
+      "desc": "An arrow with a glyph used for \"create wire name\"\n--",
+      "values": null
+     },
+     {
+      "name": "hicArrowText",
+      "desc": "An arrow with a glyph used for \"create label\"\n--",
+      "values": null
+     },
+     {
+      "name": "hicArrowTextBox",
+      "desc": "An arrow with text in a box\n--",
+      "values": null
+     },
+     {
+      "name": "hicArrowInstance",
+      "desc": "An arrow with a glyph for \"create instance\"\n--",
+      "values": null
+     },
+     {
+      "name": "hicArrowPin",
+      "desc": "An arrow with a \"pin\" glyph\n--",
+      "values": null
+     },
+     {
+      "name": "hicArrowArc",
+      "desc": "An arrow with an arc\n--",
+      "values": null
+     },
+     {
+      "name": "hicArrowCircle",
+      "desc": "An arrow with a circle\n--",
+      "values": null
+     },
+     {
+      "name": "hicArrowEllipse",
+      "desc": "An arrow with an ellipse\n--",
+      "values": null
+     },
+     {
+      "name": "hicArrowRectangle",
+      "desc": "An arrow with a rectangle\n--",
+      "values": null
+     },
+     {
+      "name": "hicArrowCircleI",
+      "desc": "An arrow with an \"i\" in a circle\n--",
+      "values": null
+     },
+     {
+      "name": "hicProbe",
+      "desc": "A \"probe\" cursor\n--",
+      "values": null
+     },
+     {
+      "name": "hicSpinCircle",
+      "desc": "A cursor to indicate that a command is running (the hotspot being the center of the circle)\n--",
+      "values": null
+     },
+     {
+      "name": "hicMove",
+      "desc": "A cursor that represents moving.\n--",
+      "values": null
+     },
+     {
+      "name": "hicStretchE",
+      "desc": "A cursor that represents stretching East.\n--",
+      "values": null
+     },
+     {
+      "name": "hicStretchN",
+      "desc": "A cursor that represents stretching North.\n--",
+      "values": null
+     },
+     {
+      "name": "hicStretchW",
+      "desc": "A cursor that represents stretching West.\n--",
+      "values": null
+     },
+     {
+      "name": "hicStretchS",
+      "desc": "A cursor that represents stretching South.\n--",
+      "values": null
+     },
+     {
+      "name": "hicStretchNE",
+      "desc": "A cursor that represents stretching North-East.\n--",
+      "values": null
+     },
+     {
+      "name": "hicStretchNW",
+      "desc": "A cursor that represents stretching North-West.\n--",
+      "values": null
+     },
+     {
+      "name": "hicStretchSE",
+      "desc": "A cursor that represents stretching South-East.\n--",
+      "values": null
+     },
+     {
+      "name": "hicStretchSW",
+      "desc": "A cursor that represents stretching South-West.\n--",
+      "values": null
+     }
+    ]
+   },
+   "lists": [],
+   "text": "w_windowId\nThe window ID.\nx_cursor\nThe integer ID associated with the cursor you want to set. The following table lists the constants that are legal values for this argument, as well as their equivalent X Windows cursors:\nx_cursor Constant\nDescription\nX Windows Equivalent\nhicArrow\nThe default pointer cursor\nXC_left_ptr\nhicArrowPadlock\nA pointer with a lock\nhicCreateRuler\nA pointer with a ruler\n-\nhicCreateRulerDistance\nA two-sided arrow\n-\nhicCreateRulerEdge\nA two-sided arrow between edges\n-\nhicCross\nA multi-lined cross\nXC_cross\nhicFastEdit\nA pencil with a via pointing to the top-left corner of the window\nhicFastEditPadlock\nA pencil with a lock pointing to the top-left corner of the window\nhicHand\nA hand with index finger extended\nXC_hand2\nhicHelp\nA question mark with an arrow\nXC_question_arrow\nhicIbeam\nAn \"I-beam\" text insertion cursor\nXC_xterm\nhicNo\nA skull and crossbones\nXC_pirate\nhicSizeAll\nFour connected arrows pointing up/down/left/right\nXC_fleur\nhicSizeNESW\nTwo connected arrows pointing top-right and bottom-left\n--\nhicSizeNS\nTwo arrows pointing top and bottom\nXC_sb_v_double_arrow\nhicSizeNWSE\nTwo connected arrows pointing top-left and bottom-right\n--\nhicSizeWE\nTwo arrows pointing left and right\nXC_sb_h_double_arrow\nhicUpArrow\nAn arrow pointing straight up\nXC_sb_up_arrow\nhicWait\nAn analog wristwatch\nXC_watch\nhicArrowHourglass\nAn hourglass shape\n--\nhicHourglass\nAs above\n--\nhicNoCursor\nThe default cursor for the widget (typically the pointer cursor)\n--\nhicInvertedArrow\nA pointer cursor with white and black inverted\n--\nhicTumblingDice1\nA box with a dot in the upper left corner\n--\nhicTumblingDice2\nA box with a dot in the upper right corner\n--\nhicTumblingDice3\nA box with a dot in the lower left corner\n--\nhicTumblingDice4\nA box with a dot in the lower right corner.\nNote: The above tumbling dice cursors are used, in turn, to indicate that DFII is busy. They will be displayed when hiGetUserAbort() or voGetUserAbort() is called during long operations.\n--\nhicBusyRead\nAn open book (used for SKILL context loading)\n--\nhicHourglass1\nAn hourglass just turned over\n--\nhicHourglass2\nAn hourglass with some sand in the bottom\n--\nhicHourglass3\nAn hourglass with more sand in the bottom\n--\nhicHourglass4\nAn hourglass with most of the sand in the bottom\n--\nhicHourglass5\nAn hourglass with all the sand in the bottom\n--\nhicHourglass6\nAn hourglass on its side\nNote: The numbered hourglass cursors are displayed during SKILL garbage collection.\n--\nhicTCross\nA single line cross\nXC_tcross\nThe following cursor definitions specifically use Qt defined cursor shapes.\nhicQtArrow\nSame as hicArrow\nXC_left_ptr\nhicQtUpArrow\nAn arrow pointing up\nXC_center_ptr\nhicQtCross\nA single-line crosshair\nXC_crosshair\nhicQtIBeam\nAn I-Beam text cursor\nXC_xterm\nhicQtWait\nAn analog wristwatch\nXC_watch\nhicQtBusy\nAn arrow with an hourglass\n--\nhicQtForbidden\nA circle with a diagonal line\n--\nhicQtPointingHand\nA hand with index finger extended\nXC_hand2\nhicQtWhatsThis\nAn arrow with a question mark\n--\nhicQtSizeVer\nA solid vertical arrow pointing up and down\n--\nhicQtSizeHor\nA solid horizontal arrow pointing left and right\n--\nhicQtSizeBDiag\nA solid diagonal arrow pointing down-left and up-right\n--\nhicQtSizeFDiag\nA solid diagonal arrow pointing down-right and up-left\n--\nhicQtSizeAll\nFour connected arrows pointing up/down/left/right\nXC_fleur\nhicQtSplitV\nTwo horizontal lines with up/down arrows\n--\nhicQtSplitH\nTwo vertical lines with left/right arrows\n--\nhicQtOpenHand\nA hand with fingers extended\n--\nhiQtClosedHand\nA hand with fingers curled up\n--\nThe following cursors are not part of the standard cursor set but can still be desirable to depict certain operations, including enterfunctions (see hiSetEFunCursor).\nhicMagnifier\nA magnifying glass that can be used with the Zoom command (the hotspot being the center of the magnifying glass)\n--\nhicMagnifierPlus\nA magnifying glass that can be used with the Zoom-In command (the hotspot being the center of the \"+\")\n--\nhicMagnifierMinus\nA magnifying glass that can be used with the Zoom-Out command (the hotspot being the center of the \"-\")\n--\nhicArrowEllipsis\nAn arrow with three dots for the default enterfunction cursor\n--\nhicArrowMagnifier\nAn arrow with a magnifier for the Zoom command\n--\nhicArrowA\nAn arrow with an \"A\" for a label or other text\n--\nhicArrowT\nAn arrow with a \"T\" for direct text edit\n--\nhicArrowIBeam\nAn arrow with an I-Beam for direct text edit\n--\nhicArrowX\nAn arrow with a X for the Delete command\n--\nhicArrowSlashCircle\nAn arrow with a \"forbidden\" glyph\n--\nhicArrowRotate\nAn arrow with a \"rotation\" glyph\n--\nhicArrowCopy\nAn arrow with a glyph that represents copying.\n--\nhicArrowBox\nAn arrow with a box that represents moving or stretching\n--\nhicArrowWire\nAn arrow with a zig-zag line that represents drawing a wire or a path\n--\nhicArrowPolygon\nAn arrow with a polygon\n--\nhicArrowDot\nAn arrow with a dot that represents a solder dot\n--\nhicArrowTextWire\nAn arrow with a glyph used for \"create wire name\"\n--\nhicArrowText\nAn arrow with a glyph used for \"create label\"\n--\nhicArrowTextBox\nAn arrow with text in a box\n--\nhicArrowInstance\nAn arrow with a glyph for \"create instance\"\n--\nhicArrowPin\nAn arrow with a \"pin\" glyph\n--\nhicArrowArc\nAn arrow with an arc\n--\nhicArrowCircle\nAn arrow with a circle\n--\nhicArrowEllipse\nAn arrow with an ellipse\n--\nhicArrowRectangle\nAn arrow with a rectangle\n--\nhicArrowCircleI\nAn arrow with an \"i\" in a circle\n--\nhicProbe\nA \"probe\" cursor\n--\nhicSpinCircle\nA cursor to indicate that a command is running (the hotspot being the center of the circle)\n--\nhicMove\nA cursor that represents moving.\n--\nhicStretchE\nA cursor that represents stretching East.\n--\nhicStretchN\nA cursor that represents stretching North.\n--\nhicStretchW\nA cursor that represents stretching West.\n--\nhicStretchS\nA cursor that represents stretching South.\n--\nhicStretchNE\nA cursor that represents stretching North-East.\n--\nhicStretchNW\nA cursor that represents stretching North-West.\n--\nhicStretchSE\nA cursor that represents stretching South-East.\n--\nhicStretchSW\nA cursor that represents stretching South-West.\n--"
+  },
+  "returns": {
+   "items": [
+    {
+     "value": "t",
+     "desc": "The cursor was set."
+    },
+    {
+     "value": "nil",
+     "desc": "The cursor was not set."
+    }
+   ],
+   "text": "t\nThe cursor was set.\nnil\nThe cursor was not set."
+  },
+  "reference": {
+   "text": "hiGetCursor",
+   "links": [
+    {
+     "text": "hiGetCursor",
+     "href": "#960164"
+    }
+   ]
+  }
+ },
+ "field_status": {
+  "description": "present",
+  "arguments": "present",
+  "returns": "present",
+  "example": "not_documented",
+  "reference": "present",
+  "related_functions": "not_documented",
+  "prerequisites": "not_documented",
+  "additional_information": "not_documented",
+  "interactive_function": "not_documented",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "not_documented",
+  "overview": "not_documented",
+  "errors": "not_documented",
+  "decl": "present"
+ },
+ "status": "active",
+ "prefix": "hi",
+ "tokens": [
+  "hi",
+  "set",
+  "cursor"
+ ],
+ "name": "hiSetCursor"
+}

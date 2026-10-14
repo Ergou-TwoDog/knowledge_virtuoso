@@ -1,0 +1,42 @@
+<h3><a name="error"></a><a name="1039618">error</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1039621">error( <dd>[ </a><font size="2" face="'Courier New'" color="#000000"><em>S_message1</em></font> <dd>[ <font size="2" face="'Courier New'" color="#000000"><em>S_message2</em></font> ] ... ] <dd>) <dd>=&#62; none</font>
+      </dl>
+      <h4><a name="1039622">Description</a></h4>
+      <p><a name="1039624">Prints error messages and calls </a><font size="2" face="'Courier New'" color="#000000">err</font>.</p>
+      <p><a name="1039625">Prints the </a><font size="2" face="'Courier New'" color="#000000"><em>S_message1</em></font> and <font size="2" face="'Courier New'" color="#000000"><em>S_message2</em></font> error messages if they are given and then calls <font size="2" face="'Courier New'" color="#000000">err</font>, causing an error. The first argument can be a format string, which causes the rest of the arguments to be printed in that format.</p>
+      <h4><a name="1039626">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="180">
+            <p><a name="1073474"><font size="2" face="'Courier New'" color="#000000"><em>S_message1 </em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="468">
+            <p><a name="1073476">Message string or symbol.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1073478"><font size="2" face="'Courier New'" color="#000000"><em>S_message2 </em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1073480">More message strings or symbols. More than two arguments should be given only if the first argument is a format string.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1039629">Value Returned</a></h4>
+      <p><a name="1039630">Prints the </a><font size="2" face="'Courier New'" color="#000000"><em>S_message1</em></font> and <font size="2" face="'Courier New'" color="#000000"><em>S_message2</em></font> error messages if they are given and then calls <font size="2" face="'Courier New'" color="#000000">err</font>, causing an error. <font size="2" face="'Courier New'" color="#000000">error</font> never returns.</p>
+      <h4><a name="1039631">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1039632">error( &#34;myFunc&#34; &#34;Bad List&#34;)</a></font>
+      </p>
+      <p><a name="1039633">Prints </a><font size="2" face="'Courier New'" color="#000000">*Error* myFunc: Bad List</font> </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1039634">error( &#34;bad args &#45; %s %d %L&#34; &#34;name&#34; 100 &#39;(1 2 3) )</a></font>
+      </p>
+      <p><a name="1039635">Prints </a><font size="2" face="'Courier New'" color="#000000">*Error* bad args &#45; name 100 (1 2 3)</font></p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1039636">errset( error( &#34;test&#34; ) t) =&#62; nil</a></font>
+      </p>
+      <p><a name="1039637">Prints out </a><font size="2" face="'Courier New'" color="#000000">*Error* test</font> and returns <font size="2" face="'Courier New'" color="#000000">nil</font>.</p>
+      <p><a name="1039638">&nbsp;</a></p>

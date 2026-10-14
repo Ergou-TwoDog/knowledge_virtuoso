@@ -1,0 +1,1792 @@
+<h3><a name="absAbstract"></a><a name="abstractoptions"></a><a name="1018763">absAbstract</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1023762"><font size="2" face="'Courier New'" color="#000000">absAbstract(<dd>)<dd></font></a>=&#62; 0 &#47; 1</font>
+      </dl>
+      <h4><a name="1023809">Description</a></h4>
+      <p><a name="1023807">Runs the Abstract step for selected cells and creates an abstract view for those cells based on the options set using </a><font size="2" face="'Courier New'" color="#000000">absSetBinOption</font>.</p>
+      <h4><a name="1045362">Arguments</a></h4>
+      <p><a name="1049389">None</a></p>
+      <h4><a name="1049395">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="558">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="108">
+            <p><a name="1049398"><font size="2" face="'Courier New'" color="#000000">0</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="450">
+            <p><a name="1049400">Returns </a><font size="2" face="'Courier New'" color="#000000">0</font> if an error is encountered.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1049402"><font size="2" face="'Courier New'" color="#000000">1</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1049404">Returns </a><font size="2" face="'Courier New'" color="#000000">1</font> if the function executes successfully.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1049391">Associated Options</a></h4>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1030898"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101250" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractAdjustBoundaryPinsSig { true | false }</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1034987"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101259" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractAdjustBoundaryPinsPwr { true | false }</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1041993"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101268" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractAdjustBoundaryPinsSigDist </font></a><a href="#1101268" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>distance</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1041994"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101278" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractAdjustBoundaryPinsPwrDist </font></a><a href="#1101278" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>distance</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1034988"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101288" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractAdjustRingPinsPwr { true | false }</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1034989"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101298" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractAdjustRingPinsDist </font></a><a href="#1101298" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>distance</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1042005"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101308" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractAdjustFollowRingPin { true | false }</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1034990"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101320" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractAdjustPowerGeometryGroups { single | separate | overlap }</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1062097"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101333" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractAdjustPowerGeometryGroupsEastWest { single | separate | overlap | none }</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1034991"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101352" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractAdjustEdgeTowardsCore</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1034992"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101361" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractAdjustClassCoreNets </font></a><a href="#1101361" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>net_name</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1042014"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101371" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractAdjustIncludeAllShapes { true | false }</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1034993"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101381" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractAdjustCopyClassCorePort { true | false }</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1034994"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101390" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractAdjustPinsTouchBoundary { true | false }</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1034995"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101399" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractAdjustPreserveViasPwr { true | false }</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1034996"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101408" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractAdjustPowerRailOp</font></a><a href="#1101408" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em> net_name</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1034997"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101417" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractAdjustPowerRailOpTable </font></a><a href="#1101417" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>net_spec</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1034998"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101432" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractAdjustPowerRailWidth </font></a><a href="#1101432" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>width</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1034999"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101441" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractAdjustAllowPin </font></a><a href="#1101441" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>geom_spec</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1035000"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101450" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractAdjustAvoidPin </font></a><a href="#1101450" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>geom_spec</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1035004"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101459" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractBlockageTable </font></a><a href="#1101459" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>layer_names</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1035005"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101468" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractBlockageDetailedLayers </font></a><a href="#1101468" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>layer_names</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1035006"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101477" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractBlockageCoverLayers </font></a><a href="#1101477" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>layer_names</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1035007"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101486" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractBlockageShrinkWrapLayers </font></a><a href="#1101486" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>layer_names</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1047738"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101495" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractBlockageCutAroundPin</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1047742"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101504" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractBlockageMaxRoutingSpace</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1047746"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101514" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractBlockageCorridorCut</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1035008"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101524" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractBlockagePinCutWindow </font></a><a href="#1101524" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>distance</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1035009"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101533" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractBlockageDownPinCutWindow </font></a><a href="#1101533" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>distance</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1075508"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101543" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractBlockageCutForAboveLayers</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1035010"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101563" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractBlockageShrinkAdjust </font></a><a href="#1101563" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>distance</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1076047"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101573" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractBlockageShrinkTracks </font></a><a href="#1101573" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>number_of_tracks</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1076051"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101584" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractBlockageUserDefinedDistanceForAddBack </font></a><a href="#1101584" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>distance</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1096218"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101594" title="4"><font color="#0000ff"><u>AbstractBlockageUserDefinedWidth </u></font></a><a href="#1101594" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>width</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1076055"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101604" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractBlockageCoverLayersDist </font></a><a href="#1101604" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>distance</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1062264"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101614" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractZeroSpacingBlockage { true | false }</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1044001"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101632" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractDensity { true | false }</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1044002"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101641" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractDensityUseSignalLayers { true | false }</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1044003"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101652" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractDensityUseAntennaLayers { true | false }</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1044004"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101663" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractDensityUsePwrLayers { true | false }</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1044005"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101674" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractDensityLayers </font></a><a href="#1101674" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>layer_name geom_spec</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1044006"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101687" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractDensityWindowWidth </font></a><a href="#1101687" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>layer_name value</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1044007"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101698" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractDensityWindowHeight </font></a><a href="#1101698" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>layer_name value</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1044008"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101709" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractDensityDefaultWindowWidth </font></a><a href="#1101709" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>value</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1044009"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101720" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractDensityDefaultWindowHeight </font></a><a href="#1101720" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>value</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1047008"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101731" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractPinFracture { true | false }</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1047015"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101742" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractBlockageFracture { true | false }</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1047032"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101753" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractAdjustStairStepCover { full | truncate | partial }</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1047027"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101762" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractAdjustStairStepWidth </font></a><a href="#1101762" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>width</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1047012"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101771" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractSiteName </font></a><a href="#1101771" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>site_name</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1035017"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101780" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractSiteNameDefine </font></a><a href="#1101780" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>site_name</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1047086"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101789" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractSiteArrayPattern { true | false }</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1047125"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101798" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractSiteArrayCells </font></a><a href="#1101798" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>sub&#45;cellview site</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1035018"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101807" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractOverlapLayerAction { off | always | as needed }</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1035019"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101819" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractOverlapLayers </font></a><a href="#1101819" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>layers</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1035020"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101829" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractOverlapLayerSize </font></a><a href="#1101829" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>size</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1035021"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101839" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractOverlapLayerSmoothFactor </font></a><a href="#1101839" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>size</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1035022"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101849" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractGridMode { report | calculate | calculate M1 | calculate M2 | off }</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1035023"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101890" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractUpdateTechFile { true | false }</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1035024"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101899" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractMetal1Pitch </font></a><a href="#1101899" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>value</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1035025"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101909" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractMetal1Offset </font></a><a href="#1101909" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>value</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1035026"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101919" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractMetal2Pitch </font></a><a href="#1101919" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>value</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1035027"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101929" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractMetal2Offset </font></a><a href="#1101929" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>value</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1035028"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101939" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractMetal1PitchPercent </font></a><a href="#1101939" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>value</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1035029"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101949" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractMetal2PitchPercent </font></a><a href="#1101949" title="4"><font size="2" face="'Courier New'" color="#0000ff"><em>value</em></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1035033"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101959" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractDiagonalVias { true | false }</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1035034"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101969" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractGridDistanceMetric { maxxy | euclidean }</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1049994"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101980" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractPinStretchOutPrb { true | false }</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1064676"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101989" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractBlockageEXCEPTPGNET</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1064686"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1101999" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractTopLayerCoverBlockage {Routing Layer}</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1065433"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1102010" title="4"><font size="2" face="'Courier New'" color="#0000ff">AbstractBlockageUserDefinedSpacing</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1096011"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1102020" title="4"><font color="#0000ff"><u>BlockageCutVia</u></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1096012"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1102030" title="4"><font color="#0000ff"><u>BlockageLargePurposeList</u></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1096034"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1102040" title="4"><font size="2" face="'Courier New'" color="#0000ff">BlockageLargeShape</font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><u><a name="1096103"><font size="2" face="'Courier New'" color="#0000ff"><u>[</u></font></a><a href="#1102050" title="4"><font color="#0000ff"><u>BlockageLargeShapePct</u></font></a><font size="2" face="'Courier New'" color="#0000ff"><u>]</u></font></u></font>
+      </p>
+      <h4><a name="1101246">Option Descriptions</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="660">
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top" width="660">
+            <p><a name="1101250"><font size="2" face="'Courier New'" color="#000000">AbstractAdjustBoundaryPinsSig { true | false }</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="252">
+            <p><a name="1101254"><font size="2" face="'Courier New'" color="#000000"> </font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="408">
+            <p><a name="1101256">Makes the signal pin shapes created during extraction square.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101259"><font size="2" face="'Courier New'" color="#000000">AbstractAdjustBoundaryPinsPwr { true | false }</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101263"><font size="2" face="'Courier New'" color="#000000"> </font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101265">Makes the power pin shapes created during extraction square.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101268"><font size="2" face="'Courier New'" color="#000000">AbstractAdjustBoundaryPinsSigDist </font></a><font size="2" face="'Courier New'" color="#000000"><em>distance</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101272">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101274">Specifies the distance (in microns) at which the signal net geometries should be from the boundary so that they can be considered as boundary pins. The geometries that are within the specified distance from the boundary are squared.</a></p>
+            <p><a name="1101275">By default, the shape(s) closest to the boundary is squared.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101278"><font size="2" face="'Courier New'" color="#000000">AbstractAdjustBoundaryPinsPwrDist </font></a><font size="2" face="'Courier New'" color="#000000"><em>distance</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101282">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101284">Specifies the distance (in microns) at which the power net geometries should be from the boundary so that they can be considered as boundary pins. The geometries that are within the specified distance from the boundary are squared.</a></p>
+            <p><a name="1101285">By default, the shape(s) closest to the boundary is squared.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101288"><font size="2" face="'Courier New'" color="#000000">AbstractAdjustRingPinsPwr { true | false }</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101292">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101294">Creates ring pins where any shapes in a power net are found to form a ring. </a></p>
+            <p><a name="1101295">This argument is valid only when processing blocks and is mutually exclusive with the </a><font size="2" face="'Courier New'" color="#000000">AbstractAdjustBoundaryPinsPwr</font> argument.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101298"><font size="2" face="'Courier New'" color="#000000">AbstractAdjustRingPinsDist </font></a><font size="2" face="'Courier New'" color="#000000"><em>distance</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101302">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101304">Specifies in microns the maximum distance from the boundary that extracted power net geometry can be in order for it to be considered part of the ring and therefore to be included in the abstract as pin geometry. </a></p>
+            <p><a name="1101305">This argument is valid only if you are processing a block and if </a><font size="2" face="'Courier New'" color="#000000">AbstractAdjustRingPinsPwr</font> is <font size="2" face="'Courier New'" color="#000000">true</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101308"><font size="2" face="'Courier New'" color="#000000">AbstractAdjustFollowRingPin { true | false }</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101312">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101314">Specifies that all pin shapes, including the ones that do not form the ring, are considered as pins in the final abstract.</a></p>
+            <p><a name="1101315">If the option is set to </a><font size="2" face="'Courier New'" color="#000000">true</font> and no value is specified for the <font size="2" face="'Courier New'" color="#000000">AbstractAdjustRingPinsDist</font> option, only the pin shapes whose distance from the boundary is the same or less than the distance of the farthest edge of the ring pin shape are included in the abstract. If the option is set to <font size="2" face="'Courier New'" color="#000000">true</font> and a value is specified for the <font size="2" face="'Courier New'" color="#000000">AbstractAdjustRingPinsDist</font> option, pin shapes are included in the abstract only if their distance from the boundary is within the distance specified for the option.</p>
+            <p><a name="1101316">Specify an arbitrarily large value for the </a><font size="2" face="'Courier New'" color="#000000">AbstractAdjustRingPinsDist</font> option so that no filtering happens based on the distance you specify.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="AbstractAdjustPGG"></a><a name="1101320"><font size="2" face="'Courier New'" color="#000000">AbstractAdjustPowerGeometryGroups { single | separate | overlap }</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101324">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101326">Controls how power shapes are grouped into LEF PORTS.</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101327"><font size="2" face="'Courier New'" color="#000000">single</font></a> creates a single LEF PORT for all the power shapes.</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101328"><font size="2" face="'Courier New'" color="#000000">separate</font></a> creates a separate LEF PORT for each power shape.</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101329"><font size="2" face="'Courier New'" color="#000000">overlap</font></a> forms LEF PORTS from groups of overlapping power pins. This means that the power shapes that overlap go into the same LEF PORT.</td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="AbstractAdjustPGGEW"></a><a name="AbstractAdjustPGGEW"></a><a name="1101333"><font size="2" face="'Courier New'" color="#000000">AbstractAdjustPowerGeometryGroupsEastWest { single | separate | overlap | none }</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101337">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101339">Controls how power shapes touching the east or west edge of a cellview are grouped into LEF PORTS. The remaining shapes that do not touch the east or west side are grouped according to the </a><a href="#1101320" title="4"><font color="#0000ff"><u><em>AbstractAdjustPowerGeometryGroups</em></u></font></a> option.</p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101341"><font size="2" face="'Courier New'" color="#000000">single</font></a> creates a single LEF PORT for all the power shapes touching the east or west edge.</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101342"><font size="2" face="'Courier New'" color="#000000">separate</font></a> creates a separate LEF PORT for each power shape touching the east or west edge.</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101343"><font size="2" face="'Courier New'" color="#000000">overlap</font></a> forms LEF PORTS from groups of overlapping power pins touching the east or west edge. This means that the power shapes that overlap go into the same LEF PORT.</td>
+                </tr>
+              </table>
+            </div>
+            <p><a name="1101344">By default, this option is set to </a><font size="2" face="'Courier New'" color="#000000">None</font> </p>
+            <p><a name="1101345">A power shape touching the east or west edge as well as one of either the north or the south edge is grouped as per the </a><a href="#1101333" title="4"><font color="#0000ff"><u><em>AbstractAdjustPowerGeometryGroupsEastWest</em></u></font></a> option. Even a shape touching the north and south edges in addition to touching either the east or the west edge is grouped as per the <font size="2" face="'Courier New'" color="#000000">AbstractAdjustPowerGeometryGroupsEastWest</font> option.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101352"><font size="2" face="'Courier New'" color="#000000">AbstractAdjustEdgeTowardsCore</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101356">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101358">Specifies the direction of the CORE&#45;facing edge. This argument is available only when a pad cell in the IO bin is being processed. You can specify multiple directions of the CORE&#45;facing edge. The valid values for the </a><font size="2" face="'Courier New'" color="#000000">CORE</font>&#45;facing edge are, <font color="#000000"><em>north</em></font>, <font color="#000000"><em>south</em></font>, <font color="#000000"><em>east</em></font>, <font color="#000000"><em>west, or a combination of any of the four core edges.</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101361"><font size="2" face="'Courier New'" color="#000000">AbstractAdjustClassCoreNets </font></a><font size="2" face="'Courier New'" color="#000000"><em>net_name</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101365">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101367">Specifies which nets should have </a><font size="2" face="'Courier New'" color="#000000">CLASS CORE</font> ports. Accepts a regular expression; for example,</p>
+            <blockquote>
+              <font size="2" face="Courier" color="#000000"></font>
+              <font size="2" face="Courier" color="#000000"><a name="1101368"><font size="2" face="'Courier New'" color="#000000">&#94;((V(DD|CC))|(v(dd|cc)))(!)?$</font></a></font>
+            </blockquote>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101371"><font size="2" face="'Courier New'" color="#000000">AbstractAdjustIncludeAllShapes { true | false }</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101375">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101377">Specifies that multiple ports that are equidistant from the core&#45;facing edge of a pad are considered as </a><font size="2" face="'Courier New'" color="#000000">CLASS CORE</font> ports. Only the geometries with their center lines perpendicular to the core&#45;facing edge are considered. This option is applicable to pad cells that are processed in the IO bin.</p>
+            <p><a name="1101378">This option is set to </a><font size="2" face="'Courier New'" color="#000000">false</font> by default, which means that only the geometry closest to the core&#45;facing edge becomes a <font size="2" face="'Courier New'" color="#000000">CLASS</font> <font size="2" face="'Courier New'" color="#000000">CORE</font> port. When you set the option to <font size="2" face="'Courier New'" color="#000000">true</font>, all the geometries equidistant from the core&#45;facing edge are considered as <font size="2" face="'Courier New'" color="#000000">CLASS CORE</font> ports.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101381"><font size="2" face="'Courier New'" color="#000000">AbstractAdjustCopyClassCorePort { true | false }</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101385">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101387">Duplicates any geometry found to belong to a </a><font size="2" face="'Courier New'" color="#000000">CLASS</font> <font size="2" face="'Courier New'" color="#000000">CORE</font> port on the net (set using the <font size="2" face="'Courier New'" color="#000000">AbstractAdjustClassCoreNets</font> argument) in a non&#45;<font size="2" face="'Courier New'" color="#000000">CLASS CORE</font> port in the exported abstract LEF.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101390"><font size="2" face="'Courier New'" color="#000000">AbstractAdjustPinsTouchBoundary { true | false }</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101394">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101396">Specifies that only pins that touch the boundary of the cell become CLASS CORE ports in LEF.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101399"><font size="2" face="'Courier New'" color="#000000">AbstractAdjustPreserveViasPwr { true | false }</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101403">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101405">Preserves existing layouts rather than removing them when the </a><font size="2" face="'Courier New'" color="#000000">absAbstract</font> function is run.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101408"><font size="2" face="'Courier New'" color="#000000">AbstractAdjustPowerRailOp</font></a><font size="2" face="'Courier New'" color="#000000"><em> net_name</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101412">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101414">Specifies the net name whose power and ground rail characteristics you want to set.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101417"><font size="2" face="'Courier New'" color="#000000">AbstractAdjustPowerRailOpTable </font></a><font size="2" face="'Courier New'" color="#000000"><em>net_spec</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101421">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101423">Specifies the characteristics of the power and ground rails for the current bin.</a></p>
+            <p><a name="1101424">The </a><font size="2" face="'Courier New'" color="#000000"><em>net_spec</em></font> takes the form</p>
+            <blockquote>
+              <font size="2" face="Courier" color="#000000"></font>
+              <font size="2" face="Courier" color="#000000"><a name="1101425"><font size="2" face="'Courier New'" color="#000000"><em>netName</em></font></a><font size="2" face="'Courier New'" color="#000000"> </font><font size="2" face="'Courier New'" color="#000000"><em>shape</em></font><font size="2" face="'Courier New'" color="#000000"> </font><font size="2" face="'Courier New'" color="#000000"><em>width</em></font><font size="2" face="'Courier New'" color="#000000"> </font><font size="2" face="'Courier New'" color="#000000"><em>offset</em></font></font>
+            </blockquote>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101426"><font size="2" face="'Courier New'" color="#000000"><em>netName</em></font></a> is the name of a net.</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101427"><font size="2" face="'Courier New'" color="#000000"><em>shape</em></font></a> can be one of <font size="2" face="'Courier New'" color="#000000">calculate</font>, <font size="2" face="'Courier New'" color="#000000">feedthru</font>, <font size="2" face="'Courier New'" color="#000000">abutment</font> or <font size="2" face="'Courier New'" color="#000000">None</font></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101428"><font size="2" face="'Courier New'" color="#000000"><em>width</em></font></a> is the rail width in microns (must be non&#45;negative float)</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101429"><font size="2" face="'Courier New'" color="#000000"><em>offset</em></font></a> is the rail offset in microns (any float)</td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101432"><font size="2" face="'Courier New'" color="#000000">AbstractAdjustPowerRailWidth </font></a><font size="2" face="'Courier New'" color="#000000"><em>width</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101436">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101438">Sets the rail width value for the net specified by </a><font size="2" face="'Courier New'" color="#000000">AbstractAdjustPowerRailOp</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101441"><font size="2" face="'Courier New'" color="#000000">AbstractAdjustAllowPin </font></a><font size="2" face="'Courier New'" color="#000000"><em>geom_spec</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101445">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101447">Specifies a geometric operation to describe the regions where pins are to be allowed.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101450"><font size="2" face="'Courier New'" color="#000000">AbstractAdjustAvoidPin </font></a><font size="2" face="'Courier New'" color="#000000"><em>geom_spec</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101454">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101456">Specifies a geometric operation to describe the regions where pins are to be avoided.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101459"><font size="2" face="'Courier New'" color="#000000">AbstractBlockageTable </font></a><font size="2" face="'Courier New'" color="#000000"><em>layer_names</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101463">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101465">Specifies the layers on which to create blockages. This controls the final blockage geometry in the abstract.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101468"><font size="2" face="'Courier New'" color="#000000">AbstractBlockageDetailedLayers </font></a><font size="2" face="'Courier New'" color="#000000"><em>layer_names</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101472">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101474">Specifies the layers for which a detailed blockage model is to be created. The detailed blockage model generates blockages only where there are real shapes in the cell on the layer. </a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101477"><font size="2" face="'Courier New'" color="#000000">AbstractBlockageCoverLayers </font></a><font size="2" face="'Courier New'" color="#000000"><em>layer_names</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101481">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101483">Specifies the layers for which a cover blockage model is to be created. A cover blockage blocks the entire area that is not occupied by pin shapes, effectively blocking a layer for routing</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101486"><font size="2" face="'Courier New'" color="#000000">AbstractBlockageShrinkWrapLayers </font></a><font size="2" face="'Courier New'" color="#000000"><em>layer_names</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101490">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101492">Specifies the layers for which a shrink wrap blockage model is to be generated. The shrink wrap blockage model fills in smaller, less useful free spaces and leaves larger spaces in the cell open. This allows over&#45;the&#45;cell routing without modeling each obstruction individually.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101495"><font size="2" face="'Courier New'" color="#000000">AbstractBlockageCutAroundPin</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101499">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101501">Controls whether the blockage around a pin is cut for allowing the router to access the pin. If this option is enabled, the blockage is cut at </a><font size="2" face="'Courier New'" color="#000000">min&#45;spacing</font> distance around pins.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101504"><font size="2" face="'Courier New'" color="#000000">AbstractBlockageMaxRoutingSpace</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101508">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101510">Controls whether blockage is to be created around a block to drive the external routes maximum distance away from the block.</a></p>
+            <p><a name="1101511">This option is valid only if </a><font size="2" face="'Courier New'" color="#000000">AbstractBlockageCutAroundPin</font> has been enabled. When both <font size="2" face="'Courier New'" color="#000000">AbstractBlockageCutAroundPin</font> and <font size="2" face="'Courier New'" color="#000000">AbstractBlockageMaxSpacingRoute</font> are enabled, the <font size="2" face="'Courier New'" color="#000000">AbstractBlockageCorridorCut</font> option is ineffective even if enabled.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101514"><font size="2" face="'Courier New'" color="#000000">AbstractBlockageCorridorCut</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101518">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101520">Controls whether corridors are cut out around pins for allowing routers to access internal pins.</a></p>
+            <p><a name="1101521">This option is valid only if </a><font size="2" face="'Courier New'" color="#000000">AbstractBlockageCutAroundPin</font> has been enabled. This option is ineffective when both <font size="2" face="'Courier New'" color="#000000">AbstractBlockageCutAroundPin</font> and <font size="2" face="'Courier New'" color="#000000">AbstractBlockageMaxSpacingRoute</font> have been enabled.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101524"><font size="2" face="'Courier New'" color="#000000">AbstractBlockagePinCutWindow </font></a><font size="2" face="'Courier New'" color="#000000"><em>distance</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101528">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101530">Specifies the distance to cut around pins on the same layer. If set as </a><font size="2" face="'Courier New'" color="#000000">0</font>, the blockage completely covers the design, including the pin shape, and there is no pin cut out.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101533"><font size="2" face="'Courier New'" color="#000000">AbstractBlockageDownPinCutWindow </font></a><font size="2" face="'Courier New'" color="#000000"><em>distance</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101537">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101539">Specifies the distance to cut around pins on the layer below.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="AbstractBlockageCutForAboveLayers"></a><a name="1101543"><font size="2" face="'Courier New'" color="#000000">AbstractBlockageCutForAboveLayers</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101547">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101549"><font color="#000000">Specifies a valid metal layer that contains pins and the size of the pin cutouts to be created in the blockage layers above this layer. For example, </font></a></p>
+            <p><a name="1101550">absSetBinOption(&#34;Block&#34; &#34;AbstractBlockageCutForAboveLayers&#34; &#34;Metal2 (Metal4 0.2)&#34;)</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="AbstractBlockageRoutingChannelOnLayers"></a><a name="1101553"><font size="2" face="'Courier New'" color="#000000">AbstractBlockageRoutingChannelOnLayers</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101557">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101559"><font color="#000000">Specifies the shape of the routing channel to be created when generating the cover blockage. For example, </font></a></p>
+            <p><a name="1101560"><font size="2" face="'Courier New'" color="#000000">absSetBinOption (&#34;Block&#34; &#34;AbstractBlockageRoutingChannelOnLayers&#34; &#34;(Metal1 (y0 drawing)) (Metal2 (y0 drawing))&#34;)</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101563"><font size="2" face="'Courier New'" color="#000000">AbstractBlockageShrinkAdjust </font></a><font size="2" face="'Courier New'" color="#000000"><em>distance</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101567">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101569">Specifies a minimum distance in microns</a><font face="symbol" color="#000000"> </font>between blockages. Blockages separated by a distance less than or equal to the specified distance are merged.</p>
+            <p><a name="1101570">This option is valid only for layers specified by </a><font size="2" face="'Courier New'" color="#000000">AbstractBlockageShrinkWrapLayers</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101573"><font size="2" face="'Courier New'" color="#000000">AbstractBlockageShrinkTracks </font></a><font size="2" face="'Courier New'" color="#000000"><em>number_of_tracks</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101577">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101579">Specifies the minimum number of tracks between blockages. Blockages separated by a distance less than or equal to the specified number of tracks are merged.</a></p>
+            <p><a name="1101580">This option is valid only for layers specified by </a><font size="2" face="'Courier New'" color="#000000">AbstractBlockageShrinkWrapLayers</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="AbstractBlockageUserDefinedDistanceForAddBack"></a><a name="1101584"><font size="2" face="'Courier New'" color="#000000">AbstractBlockageUserDefinedDistanceForAddBack </font></a><font size="2" face="'Courier New'" color="#000000"><em>distance</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101588">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101590">Specifies the distance within which the geometries need to be added back when Abstract Generator creates a cover blockage with pin cutout.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="AbstractBlockageUserDefinedWidth"></a><a name="1101594"><font color="#000000">AbstractBlockageUserDefinedWidth </font></a><font size="2" face="'Courier New'" color="#000000"><em>width</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101598">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101600">Sets the effective width attribute for layer blockages. This value can be set only if the spacing value is set to zero. The </a><font size="2" face="'Courier New'" color="#000000">AbstractBlockageUserDefinedWidth</font> option takes only positive float values, for example:</p>
+            <p><a name="1101601"><font size="2" face="'Courier New'" color="#000000">absSetBinOption( &#34;Block&#34; &#34;AbstractBlockageUserDefinedWidth&#34; &#34;(Metal1 5.0)  (Metal2 4.0)&#34;)</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101604"><font size="2" face="'Courier New'" color="#000000">AbstractBlockageCoverLayersDist </font></a><font size="2" face="'Courier New'" color="#000000"><em>distance</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101608">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101610">Specifies the minimum distance between a cover blockage and the cell boundary. If you do not specify a distance, the abstract generator uses a distance equal to one half of the minimum layer separation.</a></p>
+            <p><a name="1101611">This option is valid only for layers specified by </a><font size="2" face="'Courier New'" color="#000000">AbstractBlockageCoverLayers.</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101614"><font size="2" face="'Courier New'" color="#000000">AbstractZeroSpacingBlockage { true | false }</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101618">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101620">By default, the option is set to </a><font size="2" face="'Courier New'" color="#000000">false</font>. The working of this option depends on the value set for the option <font size="2" face="'Courier New'" color="#000000">AbstractBlockagePinCutWindow</font>:</p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101621"><font size="2" face="'Courier New'" color="#000000">AbstractBlockagePinCutWindow</font></a> is non&#45;zero or is not specified</td>
+                </tr>
+              </table>
+            </div>
+            <blockquote><a name="1101622">In this case, the following situations are possible:</a></blockquote>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.872">
+                    <div>&nbsp;</div>
+                  </td>
+                  <td width="32.128319999999995">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101623"><font size="2" face="'Courier New'" color="#000000">AbstractZeroSpacingBlockage</font></a> is <font size="2" face="'Courier New'" color="#000000">true</font>: The blockage around the pin is cut out at zero spacing from the pin.</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.872">
+                    <div>&nbsp;</div>
+                  </td>
+                  <td width="32.128319999999995">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101624"><font size="2" face="'Courier New'" color="#000000">AbstractZeroSpacingBlockage</font></a> is <font size="2" face="'Courier New'" color="#000000">false</font>: The blockage around the pin is cut out at default spacing from the pin.</td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101626">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101628"><font size="2" face="'Courier New'" color="#000000">AbstractBlockagePinCutWindow</font></a> is <font size="2" face="'Courier New'" color="#000000">0</font></td>
+                </tr>
+              </table>
+            </div>
+            <blockquote><a name="1101629">If set as </a><font size="2" face="'Courier New'" color="#000000">0</font>, this option overrides any value set for the option <font size="2" face="'Courier New'" color="#000000">AbstractZeroSpacingBlockage</font>. In this scenario, the blockage completely covers the design, including the pin shape, and there is no pin cut out.</blockquote>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101632"><font size="2" face="'Courier New'" color="#000000">AbstractDensity { true | false }</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101636">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101638">Specifies whether the abstract generator is to generate the metal density information. The default value of this option is </a><font size="2" face="'Courier New'" color="#000000">false</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101641"><font size="2" face="'Courier New'" color="#000000">AbstractDensityUseSignalLayers { true | false }</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101645">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101647">Directs the abstract generator to use the same geometry specifications for metal density calculation as are specified for signal extraction using the </a><font size="2" face="'Courier New'" color="#000000">ExtractLayersSig</font> option.</p>
+            <p><a name="1101648">The default value of </a><font size="2" face="'Courier New'" color="#000000">AbstractDensityUseSignalLayers</font> is <font size="2" face="'Courier New'" color="#000000">false</font>.</p>
+            <p><a name="1101649">Setting this option to </a><font size="2" face="'Courier New'" color="#000000">true</font> automatically sets the <font size="2" face="'Courier New'" color="#000000">AbstractDensityUsePwrLayers</font> and <font size="2" face="'Courier New'" color="#000000">AbstractDensityUseAntennaLayers</font><font color="#000000"> </font>options to <font size="2" face="'Courier New'" color="#000000">false</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101652"><font size="2" face="'Courier New'" color="#000000">AbstractDensityUseAntennaLayers { true | false }</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101656">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101658">Directs the abstract generator to use the same geometry specifications for metal density calculation as will be used for process antenna calculation. In other words, to specify the layers and their geometry specifications, use the </a><font size="2" face="'Courier New'" color="#000000">ExtractAntennaLayers</font> option if the <font size="2" face="'Courier New'" color="#000000">ExtractDiffAntennaLayers</font> option is set to <font size="2" face="'Courier New'" color="#000000">true</font>; otherwise use the <font size="2" face="'Courier New'" color="#000000">ExtractLayersSig</font> option.</p>
+            <p><a name="1101659">The default value of </a><font size="2" face="'Courier New'" color="#000000">AbstractDensityUseAntennaLayers</font> is <font size="2" face="'Courier New'" color="#000000">false</font>.</p>
+            <p><a name="1101660">Setting this option to </a><font size="2" face="'Courier New'" color="#000000">true</font> automatically sets the <font size="2" face="'Courier New'" color="#000000">AbstractDensityUseSignalLayers</font> and <font size="2" face="'Courier New'" color="#000000">AbstractDensityUsePwrLayers</font><font color="#000000"> </font>options to <font size="2" face="'Courier New'" color="#000000">false</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101663"><font size="2" face="'Courier New'" color="#000000">AbstractDensityUsePwrLayers { true | false }</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101667">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101669">Directs the abstract generator to use the same geometry specifications for metal density calculation as are specified for power net extraction using the </a><font size="2" face="'Courier New'" color="#000000">ExtractLayersPwr</font> option.</p>
+            <p><a name="1101670">The default value of </a><font size="2" face="'Courier New'" color="#000000">AbstractDensityUsePwrLayers</font> is <font size="2" face="'Courier New'" color="#000000">false</font>.</p>
+            <p><a name="1101671">Setting this option to </a><font size="2" face="'Courier New'" color="#000000">true</font> automatically sets the <font size="2" face="'Courier New'" color="#000000">AbstractDensityUseSignalLayers</font> and <font size="2" face="'Courier New'" color="#000000">AbstractDensityUseAntennaLayers</font><font color="#000000"> </font>options to <font size="2" face="'Courier New'" color="#000000">false</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101674"><font size="2" face="'Courier New'" color="#000000">AbstractDensityLayers </font></a><font size="2" face="'Courier New'" color="#000000"><em>layer_name geom_spec</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101678">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101680">Specifies the exclusive metal layers along with their geometry specifications that are to be considered by the abstract generator for metal density calculation.</a></p>
+            <p><a name="1101681">For example,</a></p>
+            <p><a name="1101682"><font size="2" face="'Courier New'" color="#000000">AbstractDensityLayers &#34;Metal1 Metal2 Metal3 (Metal4 (Metal4 drawing)) Metal5 Metal6&#34;</font></a></p>
+            <p><a name="1101683">The default value for this option is a list of all metal layers:</a></p>
+            <p><a name="1101684"><font size="2" face="'Courier New'" color="#000000">AbstractDensityLayers &#34;Metal1 Metal2 Metal3 Metal4 Metal5 Metal6&#34;</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101687"><font size="2" face="'Courier New'" color="#000000">AbstractDensityWindowWidth </font></a><font size="2" face="'Courier New'" color="#000000"><em>layer_name value</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101691">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101693">Specifies the width of the density window for a particular layer. For example,</a></p>
+            <p><a name="1101694"><font size="2" face="'Courier New'" color="#000000">AbstractDensityWindowWidth &#34;(Metal1 10.0)&#34;</font></a></p>
+            <p><a name="1101695">If you do not specify a value for a layer, the value specified for the </a><font size="2" face="'Courier New'" color="#000000">AbstractDensityDefaultWindowWidth</font> option is taken as the default.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101698"><font size="2" face="'Courier New'" color="#000000">AbstractDensityWindowHeight </font></a><font size="2" face="'Courier New'" color="#000000"><em>layer_name value</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101702">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101704">Specifies the height of the density window for a particular layer. For example,</a></p>
+            <p><a name="1101705"><font size="2" face="'Courier New'" color="#000000">AbstractDensityWindowHeight &#34;(Metal1 10.0)&#34;</font></a></p>
+            <p><a name="1101706">If you do not specify a value for a layer, the value specified for the </a><font size="2" face="'Courier New'" color="#000000">AbstractDensityDefaultWindowHeight</font> option is taken as the default.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101709"><font size="2" face="'Courier New'" color="#000000">AbstractDensityDefaultWindowWidth </font></a><font size="2" face="'Courier New'" color="#000000"><em>value</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101713">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101715">Specifies the default width of the density window when no width value is specified for a particular layer. For example,</a></p>
+            <p><a name="1101716"><font size="2" face="'Courier New'" color="#000000">AbstractDensityDefaultWindowWidth &#34;30.0&#34;</font></a></p>
+            <p><a name="1101717">You can override the default value (</a><font size="2" face="'Courier New'" color="#000000">20.0</font>) for the width of the density window by using this option.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101720"><font size="2" face="'Courier New'" color="#000000">AbstractDensityDefaultWindowHeight </font></a><font size="2" face="'Courier New'" color="#000000"><em>value</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101724">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101726">Specifies the default height of the density window when no height value is specified for a particular layer. For example,</a></p>
+            <p><a name="1101727"><font size="2" face="'Courier New'" color="#000000">AbstractDensityDefaultWindowHeight &#34;40.0&#34;</font></a></p>
+            <p><a name="1101728">You can override the default value (</a><font size="2" face="'Courier New'" color="#000000">20.0</font>) for the height of the density window by using this option.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101731"><font size="2" face="'Courier New'" color="#000000">AbstractPinFracture { true | false }</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101735">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101737">Controls whether the abstract generator creates each pin shape as a set of maximum rectangles or as a polygon. This lets you model 45&#45;degree pins if your design requires it.</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101738">If </a><font size="2" face="'Courier New'" color="#000000">true</font>, the abstract generator creates each pin shape as a set of maximum rectangles. This is recommended if the abstracts are to be routed using Silicon Ensemble or Encounter.</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101739">If </a><font size="2" face="'Courier New'" color="#000000">false</font>, the abstract generator creates each blockage shape as a polygon. This is the default setting and is recommended if the abstracts are to be routed using the IC Shape&#45;Based Router.</td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101742"><font size="2" face="'Courier New'" color="#000000">AbstractBlockageFracture { true | false }</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101746">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101748">Controls whether the abstract generator creates each blockage shape as a set of maximum rectangles or as a polygon.</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101749">If </a><font size="2" face="'Courier New'" color="#000000">true</font>, the abstract generator creates each blockage shape as a set of maximum rectangles. This is recommended if the abstracts are to be routed using Silicon Ensemble or Encounter.</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101750">If </a><font size="2" face="'Courier New'" color="#000000">false</font>, the abstract generator creates each blockage shape as a polygon. This is the default and is recommended if the abstracts are to be routed using the IC Shape&#45;Based Router.</td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101753"><font size="2" face="'Courier New'" color="#000000">AbstractAdjustStairStepCover { full | truncate | partial }</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101757">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101759">Controls the degree to which stair&#45;step blockages cover 45&#45;degree geometry.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101762"><font size="2" face="'Courier New'" color="#000000">AbstractAdjustStairStepWidth </font></a><font size="2" face="'Courier New'" color="#000000"><em>width</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101766">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101768">Specifies the width of the blockage geometry to be created to cover 45&#45;degree shapes.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101771"><font size="2" face="'Courier New'" color="#000000">AbstractSiteName </font></a><font size="2" face="'Courier New'" color="#000000"><em>site_name</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101775">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101777">Specifies a site name to be applied to all cells in the current bin.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101780"><font size="2" face="'Courier New'" color="#000000">AbstractSiteNameDefine </font></a><font size="2" face="'Courier New'" color="#000000"><em>site_name</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101784">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101786">Specify the name of a new site to be used by all cells in the current bin. If the site does not already exist, the abstract generator defines it in the technology file.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101789"><font size="2" face="'Courier New'" color="#000000">AbstractSiteArrayPattern { true | false }</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101793">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101795">Specifies if the abstract generator is to calculate site pattern for the gate&#45;array sub&#45;cellviews specified in the option </a><font size="2" face="'Courier New'" color="#000000">AbstractSiteArrayCells</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101798"><font size="2" face="'Courier New'" color="#000000">AbstractSiteArrayCells </font></a><font size="2" face="'Courier New'" color="#000000"><em>sub&#45;cellview site</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101802">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101804">Specifies the mapping of sub&#45;cellviews to sites for calculating site patterns.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101807"><font size="2" face="'Courier New'" color="#000000">AbstractOverlapLayerAction { off | always | as needed }</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101811">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101813">Specifies whether the abstract generator is to create an overlap boundary.</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101814"><font size="2" face="'Courier New'" color="#000000">always</font></a> means that the abstract generator always creates an overlap boundary. Any existing overlap layer geometry is overwritten.</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101815"><font size="2" face="'Courier New'" color="#000000">as needed</font></a> means that the abstract generator creates an overlap boundary if it is not already present or if it is present and was previously calculated by the abstract generator.</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101816"><font size="2" face="'Courier New'" color="#000000">off</font></a> means that the abstract generator never creates an overlap boundary.</td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101819"><font size="2" face="'Courier New'" color="#000000">AbstractOverlapLayers </font></a><font size="2" face="'Courier New'" color="#000000"><em>layers</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101823">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101825">Specifies the layers to be used in calculating the overlap layer boundary. The boundary is drawn so that it encloses all the geometry found on these layers.</a></p>
+            <p><a name="1101826">The argument is valid only if you set </a><font size="2" face="'Courier New'" color="#000000">AbstractOverlapLayerAction</font> to <font size="2" face="'Courier New'" color="#000000">always</font> or <font size="2" face="'Courier New'" color="#000000">as needed</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101829"><font size="2" face="'Courier New'" color="#000000">AbstractOverlapLayerSize </font></a><font size="2" face="'Courier New'" color="#000000"><em>size</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101833">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101835">Specifies in microns how much an overlap layer is to be grown.</a></p>
+            <p><a name="1101836">Use this option to ensure that the placement of cells with abutting overlap layers does not lead to geometry contained in these cells causing violations.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101839"><font size="2" face="'Courier New'" color="#000000">AbstractOverlapLayerSmoothFactor </font></a><font size="2" face="'Courier New'" color="#000000"><em>size</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101843">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101845">Controls the shape of the overlap layer produced.</a></p>
+            <p><a name="1101846">Use this option to create simpler overlap boundary shapes, typically when processing blocks. The abstract generator takes the computed overlap boundary and removes any cut&#45;outs with a maximum dimension less than the specified distance.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101849"><font size="2" face="'Courier New'" color="#000000">AbstractGridMode { report | calculate | calculate M1 | calculate M2 | off }</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101853">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101855">Specifies the grid analysis mode for standard cell bins.</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101856">In </a><font size="2" face="'Courier New'" color="#000000">report</font> mode, you can specify</td>
+                </tr>
+              </table>
+            </div>
+            <blockquote>
+<blockquote>              <font size="2" face="Courier" color="#000000"><a name="1101857"><font size="2" face="'Courier New'" color="#000000">AbstractMetal1Pitch</font></a></font></blockquote>
+            </blockquote>
+            <blockquote>
+<blockquote>              <font size="2" face="Courier" color="#000000"><a name="1101858"><font size="2" face="'Courier New'" color="#000000">AbstractMetal1Offset</font></a></font></blockquote>
+            </blockquote>
+            <blockquote>
+<blockquote>              <font size="2" face="Courier" color="#000000"><a name="1101859"><font size="2" face="'Courier New'" color="#000000">AbstractMetal2Pitch</font></a></font></blockquote>
+            </blockquote>
+            <blockquote>
+<blockquote>              <font size="2" face="Courier" color="#000000"><a name="1101860"><font size="2" face="'Courier New'" color="#000000">AbstractMetal2Offset</font></a></font></blockquote>
+            </blockquote>
+            <blockquote><a name="1101861">But not </a></blockquote>
+            <blockquote>
+<blockquote>              <font size="2" face="Courier" color="#000000"><a name="1101862"><font size="2" face="'Courier New'" color="#000000">AbstractMetal1PitchPercent</font></a></font></blockquote>
+            </blockquote>
+            <blockquote>
+<blockquote>              <font size="2" face="Courier" color="#000000"><a name="1101863"><font size="2" face="'Courier New'" color="#000000">AbstractMetal2PitchPercent</font></a></font></blockquote>
+            </blockquote>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101864">In </a><font size="2" face="'Courier New'" color="#000000">calculate</font> mode, you can specify</td>
+                </tr>
+              </table>
+            </div>
+            <blockquote>
+<blockquote>              <font size="2" face="Courier" color="#000000"><a name="1101865"><font size="2" face="'Courier New'" color="#000000">AbstractMetal1PitchPercent</font></a></font></blockquote>
+            </blockquote>
+            <blockquote>
+<blockquote>              <font size="2" face="Courier" color="#000000"><a name="1101866"><font size="2" face="'Courier New'" color="#000000">AbstractMetal2PitchPercent</font></a></font></blockquote>
+            </blockquote>
+            <blockquote><a name="1101867">But not</a></blockquote>
+            <blockquote>
+<blockquote>              <font size="2" face="Courier" color="#000000"><a name="1101868"><font size="2" face="'Courier New'" color="#000000">AbstractMetal1Pitch</font></a></font></blockquote>
+            </blockquote>
+            <blockquote>
+<blockquote>              <font size="2" face="Courier" color="#000000"><a name="1101869"><font size="2" face="'Courier New'" color="#000000">AbstractMetal1Offset</font></a></font></blockquote>
+            </blockquote>
+            <blockquote>
+<blockquote>              <font size="2" face="Courier" color="#000000"><a name="1101870"><font size="2" face="'Courier New'" color="#000000">AbstractMetal2Pitch</font></a></font></blockquote>
+            </blockquote>
+            <blockquote>
+<blockquote>              <font size="2" face="Courier" color="#000000"><a name="1101871"><font size="2" face="'Courier New'" color="#000000">AbstractMetal2Offset</font></a></font></blockquote>
+            </blockquote>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101872">In </a><font size="2" face="'Courier New'" color="#000000">calculate_M1</font> mode, you can specify</td>
+                </tr>
+              </table>
+            </div>
+            <blockquote>
+<blockquote>              <font size="2" face="Courier" color="#000000"><a name="1101873"><font size="2" face="'Courier New'" color="#000000">AbstractMetal2Pitch</font></a></font></blockquote>
+            </blockquote>
+            <blockquote>
+<blockquote>              <font size="2" face="Courier" color="#000000"><a name="1101874"><font size="2" face="'Courier New'" color="#000000">AbstractMetal2Offset</font></a></font></blockquote>
+            </blockquote>
+            <blockquote>
+<blockquote>              <font size="2" face="Courier" color="#000000"><a name="1101875"><font size="2" face="'Courier New'" color="#000000">AbstractMetal1PitchPercent</font></a></font></blockquote>
+            </blockquote>
+            <blockquote><a name="1101876">But not</a></blockquote>
+            <blockquote>
+<blockquote>              <font size="2" face="Courier" color="#000000"><a name="1101877"><font size="2" face="'Courier New'" color="#000000">AbsabstractMetal1Pitch</font></a></font></blockquote>
+            </blockquote>
+            <blockquote>
+<blockquote>              <font size="2" face="Courier" color="#000000"><a name="1101878"><font size="2" face="'Courier New'" color="#000000">AbstractMetal1Offset</font></a></font></blockquote>
+            </blockquote>
+            <blockquote>
+<blockquote>              <font size="2" face="Courier" color="#000000"><a name="1101879"><font size="2" face="'Courier New'" color="#000000">AbstractMetal2PitchPercent</font></a></font></blockquote>
+            </blockquote>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101880">In </a><font size="2" face="'Courier New'" color="#000000">calculate_M2</font> mode, you can specify</td>
+                </tr>
+              </table>
+            </div>
+            <blockquote>
+<blockquote>              <font size="2" face="Courier" color="#000000"><a name="1101881"><font size="2" face="'Courier New'" color="#000000">AbstractMetal1Pitch</font></a></font></blockquote>
+            </blockquote>
+            <blockquote>
+<blockquote>              <font size="2" face="Courier" color="#000000"><a name="1101882"><font size="2" face="'Courier New'" color="#000000">AbstractMetal1Offset</font></a></font></blockquote>
+            </blockquote>
+            <blockquote>
+<blockquote>              <font size="2" face="Courier" color="#000000"><a name="1101883"><font size="2" face="'Courier New'" color="#000000">AbstractMetal2PitchPercent</font></a></font></blockquote>
+            </blockquote>
+            <blockquote><a name="1101884">But not</a></blockquote>
+            <blockquote>
+<blockquote>              <font size="2" face="Courier" color="#000000"><a name="1101885"><font size="2" face="'Courier New'" color="#000000">AbstractMetal2Pitch</font></a></font></blockquote>
+            </blockquote>
+            <blockquote>
+<blockquote>              <font size="2" face="Courier" color="#000000"><a name="1101886"><font size="2" face="'Courier New'" color="#000000">AbstractMetal2Offset</font></a></font></blockquote>
+            </blockquote>
+            <blockquote>
+<blockquote>              <font size="2" face="Courier" color="#000000"><a name="1101887"><font size="2" face="'Courier New'" color="#000000">AbstractMetal1PitchPercent</font></a></font></blockquote>
+            </blockquote>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101890"><font size="2" face="'Courier New'" color="#000000">AbstractUpdateTechFile { true | false }</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101894">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101896">Controls whether the technology file is update with the calculated grid.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101899"><font size="2" face="'Courier New'" color="#000000">AbstractMetal1Pitch </font></a><font size="2" face="'Courier New'" color="#000000"><em>value</em></font><font size="2" face="'Courier New'" color="#000000"> </font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101903">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101905">Specifies the </a><font size="2" face="'Courier New'" color="#000000">metal1</font><font size="2" face="'Courier New'" color="#000000"> </font>layer pitch value (for core cells only). </p>
+            <p><a name="1101906">If you run </a><font size="2" face="'Courier New'" color="#000000">AbstractGridMode</font> in <font size="2" face="'Courier New'" color="#000000">report</font> mode, these are the values that are used in the report. If you run grid analysis in <font size="2" face="'Courier New'" color="#000000">calculate</font> mode, these values are overwritten with the new best grid values for the layers being calculated.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101909"><font size="2" face="'Courier New'" color="#000000">AbstractMetal1Offset </font></a><font size="2" face="'Courier New'" color="#000000"><em>value</em></font><font size="2" face="'Courier New'" color="#000000"> </font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101913">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101915">Specifies the </a><font size="2" face="'Courier New'" color="#000000">metal1</font> layer offset value (for core cells only). </p>
+            <p><a name="1101916">If you run </a><font size="2" face="'Courier New'" color="#000000">AbstractGridMode</font> in <font size="2" face="'Courier New'" color="#000000">report</font> mode, these are the values that are used in the report. If you run grid analysis in <font size="2" face="'Courier New'" color="#000000">calculate</font> mode, these values are overwritten with the new best grid values for the layers being calculated.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101919"><font size="2" face="'Courier New'" color="#000000">AbstractMetal2Pitch </font></a><font size="2" face="'Courier New'" color="#000000"><em>value</em></font><font size="2" face="'Courier New'" color="#000000"> </font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101923">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101925">Specifies the </a><font size="2" face="'Courier New'" color="#000000">metal2</font><font size="2" face="'Courier New'" color="#000000"> </font>layer pitch value (for core cells only). </p>
+            <p><a name="1101926">If you run </a><font size="2" face="'Courier New'" color="#000000">AbstractGridMode</font> in <font size="2" face="'Courier New'" color="#000000">report</font> mode, these are the values that are used in the report. If you run grid analysis in <font size="2" face="'Courier New'" color="#000000">calculate</font> mode, these values are overwritten with the new best grid values for the layers being calculated.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101929"><font size="2" face="'Courier New'" color="#000000">AbstractMetal2Offset </font></a><font size="2" face="'Courier New'" color="#000000"><em>value</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101933">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101935">Specifies the </a><font size="2" face="'Courier New'" color="#000000">metal2</font> layer offset value (for core cells only). </p>
+            <p><a name="1101936">If you run </a><font size="2" face="'Courier New'" color="#000000">AbstractGridMode</font> in <font size="2" face="'Courier New'" color="#000000">report</font> mode, these are the values that are used in the report. If you run grid analysis in <font size="2" face="'Courier New'" color="#000000">calculate</font> mode, these values are overwritten with the new best grid values for the layers being calculated.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101939"><font size="2" face="'Courier New'" color="#000000">AbstractMetal1PitchPercent </font></a><font size="2" face="'Courier New'" color="#000000"><em>value</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101943">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101945">Sets the upper limit for pitches considered during pitch calculation for the </a><font size="2" face="'Courier New'" color="#000000">metal1</font> layer.</p>
+            <p><a name="1101946">This argument is valid only if </a><font size="2" face="'Courier New'" color="#000000">AbstractGridMode</font> is using set to use one of the calculation values.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101949"><font size="2" face="'Courier New'" color="#000000">AbstractMetal2PitchPercent </font></a><font size="2" face="'Courier New'" color="#000000"><em>value</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101953">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101955">Sets the upper limit for pitches considered during pitch calculation for </a><font size="2" face="'Courier New'" color="#000000">metal2</font> layer.</p>
+            <p><a name="1101956">This argument is valid only if </a><font size="2" face="'Courier New'" color="#000000">AbstractGridMode</font> is using set to use one of the calculation values.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101959"><font size="2" face="'Courier New'" color="#000000">AbstractDiagonalVias { true | false }</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101963">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101965">Controls whether or not the pitches calculated will let vias be placed diagonally adjacent to each other.</a></p>
+            <p><a name="1101966">When this option is </a><font size="2" face="'Courier New'" color="#000000">true</font>, the calculated pitches are larger than they would otherwise be in order to accommodate diagonal via placement.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101969"><font size="2" face="'Courier New'" color="#000000">AbstractGridDistanceMetric { maxxy | euclidean }</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101973">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101975">Controls how the clearance check between a pin geometry and its neighboring geometries is applied.</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101976"><font size="2" face="'Courier New'" color="#000000">euclidean</font></a> means that the distance between two rectangles is the shortest straight line between them.</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1101977"><font size="2" face="'Courier New'" color="#000000">maxxy</font></a> means that the distance is the greater of the vertical and horizontal distance between the two rectangles.</td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101980"><font size="2" face="'Courier New'" color="#000000">AbstractPinStretchOutPrb { true | false }</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101984">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101986">Allows pins to be stretched outside the PR boundary. By default, this option is off.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101989"><font size="2" face="'Courier New'" color="#000000">AbstractBlockageEXCEPTPGNET</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101993">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1101995">This option is set for blocks that want to block routing on a given layer except for power and ground routing. This is typically true for analog or memory blocks that are sensitive to noise, and do not want to allow signal routing on the layers immediately above the block.</a></p>
+            <p><a name="1101996">When the option is set, then all the blockages generated by Abstract on given metal layers will have the EXCEPTPGNET LEF attribute in the LEF file. </a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1101999"><font size="2" face="'Courier New'" color="#000000">AbstractTopLayerCoverBlockage {Routing Layer}</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1102003">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1102005">Specifies the top metal layer for cover blockage in the layout dual view. This option is added only for Layout dual view and will not cause any conflict with the normal cover blockage option that Abstract Generator has. The already existing cover blockage options in Abstract Generator have different use model and may lead to confusion.</a></p>
+            <p><font color="#000000"><strong>Note: </strong></font><a name="1102006">The </a><font size="2" face="'Courier New'" color="#000000">AbstractTopLayerCoverBlockage </font><font size="2" face="'Courier New'" color="#000000">argument can only be used when the</font><font size="2" face="'Courier New'" color="#000000"> AnnotateLayoutDualView </font><font size="2" face="'Courier New'" color="#000000">option is set to true.</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="AbstractBlockageUserDefinedSpacing"></a><a name="1102010"><font size="2" face="'Courier New'" color="#000000">AbstractBlockageUserDefinedSpacing</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1102014">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1102016">Allows you to specify SPACING on the blockages. The value of SPACING specified by this option will supersede the SPACING specified by the Abstract Generator on the blockage. The default value for this otpion is </a>absSetBinOption(&#34;Core&#34;&#34;AbstractBlockageUserDefinedSpacing&#34; &#34;&#34;). However, the expected value is absSetBinOption(&#34;Core&#34; &#34;AbstractBlockageUserDefinedSpacing&#34; &#34; (M1 1.0) (M2 2.0)&#34;).This will specify the blockages of layer M1 with spacing 1.0 and blockages on layer M2 with spacing 2.0.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="BlockageCutVia"></a><a name="1102020"><font color="#000000">BlockageCutVia</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1102022">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1102024">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1102026">When set to </a><font size="2" face="'Courier New'" color="#000000">true</font>, the abstract generator cuts a window large enough for a via to be dropped to that pin. When set to <font size="2" face="'Courier New'" color="#000000">false</font>, the abstract generator cuts a window around the pin based on the range&#45;based spacing rule for the pin width.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="BlockageLargePurposeList"></a><a name="1102030"><font color="#000000">BlockageLargePurposeList</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1102032">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1102034">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1102036">Specifies the purposes of the big blockages.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="BlockageLargeShape"></a><a name="1102040"><font size="2" face="'Courier New'" color="#000000">BlockageLargeShape</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1102042">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1102044">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1102046">Enables the abstract generator to look for big blockages in the current design abstract.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="BlockageLargeShapePct"></a><a name="1102050"><font color="#000000">BlockageLargeShapePct</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1102052">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1102054">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1102056">Specifies the percentage by which the size of the big blockages needs to be increased.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1102058">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1097677"><font size="2" face="'Courier New'" color="#000000">absSetBinOption &#34;Core&#34; &#34;AbstractAdjustBoundaryPinsPwr&#34; &#34;true&#34;<br>=&#62; t</font></a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1038335"><font size="2" face="'Courier New'" color="#000000">absSetBinOption &#34;Core&#34; &#34;AbstractAdjustPowerGeometryGroups&#34; &#34;single&#34;<br>=&#62; t</font></a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1038336"><font size="2" face="'Courier New'" color="#000000">absAbstract<br>=&#62; 1</font></a></font>
+      </p>
+      <p><a name="1025110">Specifies a number of power net options for cells in the </a><font size="2" face="'Courier New'" color="#000000">Core</font> bin and runs the Abstract step.</p>

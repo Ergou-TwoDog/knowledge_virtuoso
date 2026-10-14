@@ -1,0 +1,85 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "ca|d[ a | d ][ a | d ][ a | d ] r(\nl_list )\n=> g_result",
+   "shared_from": "caar, caaar, caadr, cadr, caddr, cdar, cddr, ..."
+  }
+ ],
+ "where": {
+  "file": "sklangref/list.html",
+  "topic": "caar, caaar, caadr, cadr, caddr, cdar, cddr, ...",
+  "marker_text": "caar, caaar, caadr, cadr, caddr, cdar, cddr, ...",
+  "anchor": "cadr"
+ },
+ "also_at": [],
+ "sections": {
+  "description": {
+   "text": "Performs operations on a list using repeated applications of car and cdr. For example, caaar is equivalent to car( car( car( l_list))). The possible combinations are caaaar, caaadr, caadar, caaddr, caar, caddar, cadddr, cadr, cdaaar, cdaadr, cdaar, cdadar, cdaddr, cdadr, cdar, cddaar, cddadr, cddar, cdddar, cddddr, cdddr, cddr, caaar, caadr, cadar, caddr, cdadr, cadaar, cadadr, caddar, cadddr, cdaaar, cdaadr, cdadar, cdaddr, cddaar, cddadr, cdddar, and cddddr.\nThe cadr(l_list) expression, for example, applies cdr to get the tail of the list and then applies car to get the first element of the tail, in effect extracting the second element from the list. SKILL implements all c...r functions with any combination of a and d up to four characters."
+  },
+  "arguments": {
+   "root": {
+    "title": null,
+    "items": [
+     {
+      "name": "l_list",
+      "desc": "List of elements.",
+      "values": null
+     }
+    ]
+   },
+   "lists": [],
+   "text": "l_list\nList of elements."
+  },
+  "returns": {
+   "items": [
+    {
+     "value": "g_result",
+     "desc": "Returns the value of the specified operation."
+    }
+   ],
+   "text": "g_result\nReturns the value of the specified operation."
+  },
+  "example": {
+   "text": "caaar('(((1 2 3)(4 5 6))(7 8 9))) => 1\ncaaar is equivalent to car( car( car( l_list))).\ncaadr('(((1 2 3)(4 5 6))(7 8 9))) => 7\nEquivalent to car( car( cdr( l_list))).\ncaar('(((1 2 3)(4 5 6))(7 8 9))) => (1 2 3)\nEquivalent to car( car( l_list)).\nz = '(1 2 3) => (1 2 3)\ncadr(z) => 2\nEquivalent to car( cdr( l_list))."
+  },
+  "reference": {
+   "text": "car, cdr",
+   "links": [
+    {
+     "text": "car",
+     "href": "#1038839"
+    },
+    {
+     "text": "cdr",
+     "href": "#1038898"
+    }
+   ]
+  }
+ },
+ "field_status": {
+  "description": "present",
+  "arguments": "present",
+  "returns": "present",
+  "example": "present",
+  "reference": "present",
+  "related_functions": "not_documented",
+  "prerequisites": "not_documented",
+  "additional_information": "not_documented",
+  "interactive_function": "not_documented",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "not_documented",
+  "overview": "not_documented",
+  "errors": "not_documented",
+  "decl": "shared_declaration"
+ },
+ "status": "active",
+ "prefix": "",
+ "tokens": [
+  "caaar"
+ ],
+ "name": "caaar"
+}

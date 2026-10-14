@@ -1,0 +1,122 @@
+<h4><a name="303091">id</a></h4>
+      <p><a name="304302">The database object (cell ID or library ID) to which the </a><font size="2" face="'Courier New'" color="#000000"><em>g_cdfDataId</em></font> is attached. This field is not editable.</p>
+      <h4><a name="566217">type</a></h4>
+      <p><a name="566248">There are seven types of </a><font size="2" face="'Courier New'" color="#000000"><em>g_cdfDataId</em></font>:</p>
+      <table summary="" border="0" cellpadding="4" cellspacing="0" bordercolor="#D3D3D3" width="473">
+        <tr>
+          <td cellpadding="4" valign="top" width="136">
+            <p><a name="566221"><font size="2" face="'Courier New'" color="#000000"><em>baseLibCDF</em></font></a></p>
+          </td>
+          <td cellpadding="4" valign="top" width="336">
+            <p><a name="566223">base&#45;level library CDF</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="566225"><font size="2" face="'Courier New'" color="#000000"><em>userLibCDF</em></font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="566227">user&#45;level library CDF</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="566229"><font size="2" face="'Courier New'" color="#000000"><em>effLibCDF</em></font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="566231">effective&#45;level library CDF</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="566233"><font size="2" face="'Courier New'" color="#000000"><em>baseCellCDF</em></font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="566235">base&#45;level cell CDF</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="566237"><font size="2" face="'Courier New'" color="#000000"><em>userCellCDF</em></font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="566239">user&#45;level cell CDF</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="566241"><font size="2" face="'Courier New'" color="#000000"><em>effCellCDF</em></font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="566243">effective&#45;level cell CDF</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="566245"><font size="2" face="'Courier New'" color="#000000"><em>effInstCDF</em></font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="566247">effective&#45;level instance CDF</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="566249">This field is not editable.</a></p>
+      <h4><a name="303104">parameters</a></h4>
+      <p><a name="304336">List of parameters attached to this </a><font size="2" face="'Courier New'" color="#000000"><em>g_cdfDataId</em></font>. This field is not editable.</p>
+      <h4><a name="303106">doneProc</a></h4>
+      <p><a name="304361">An optional procedure name (a string) that is evaluated after any change to a parameter on a component instance. You can use </a><font size="2" face="'Courier New'" color="#000000">doneProc</font> for post&#45;processing. The procedure must take a single argument: the instance that has been modified. </p>
+      <p><a name="569887">The </a><font size="2" face="'Courier New'" color="#000000">doneProc</font> callback function can be used to modify the <font size="2" face="'Courier New'" color="#000000"><em>cdfgForm</em></font> fields that are editable.</p>
+      <p><a name="303107">The default value is </a><font size="2" face="'Courier New'" color="#000000">nil</font>. This field is editable.</p>
+      <h4><a name="303109">formInitProc</a></h4>
+      <p><a name="304384">An optional procedure name. If specified,</a> the procedure is executed when the contents of the CDF are displayed on a form. The default value is <font color="#000000"><em>nil</em></font>. This field is editable. </p>
+      <p><a name="303110">This procedure runs when you use the </a>Add Instance and Edit Properties commands. You can use the procedure for preprocessing CDF data. This procedure must take a single argument, the <font size="2" face="'Courier New'" color="#000000"><em>g_cdfDataId</em></font> being added to the form.</p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="303111">When you modify a parameter field value using the </a><font size="2" face="'Courier New'" color="#000000">formInitProc</font>, the Edit Properties Object command for the schematic application is not aware of the modification and does not update the changes made with <font size="2" face="'Courier New'" color="#000000">formInitProc</font>. You can avoid this problem by setting the variable c<font size="2" face="'Courier New'" color="#000000">dfgForm&#45;&#62;cdfModified </font>to the value <font size="2" face="'Courier New'" color="#000000">t</font>.</p>
+      <h4><a name="303113">Displaying Parameters</a></h4>
+      <p><a name="304438">The following fields control the display of parameters on a form.</a></p>
+      <table summary="" border="0" cellpadding="4" cellspacing="0" bordercolor="#D3D3D3" width="473">
+        <tr>
+          <td cellpadding="4" valign="top" width="136">
+            <p><a name="315834">fieldWidth</a></p>
+          </td>
+          <td cellpadding="4" valign="top" width="176">
+            <p><a name="315836">Width of a field</a></p>
+          </td>
+          <td cellpadding="4" valign="top" width="160">
+            <p><a name="316467">Default = 350 pixels</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="315840">fieldHeight</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="315842">Height of a field</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="316663">Default = 35 pixels</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="315846">buttonFieldWidth</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="315848">Width of a button field</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="316920">Default = 340 pixels</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="315852">promptWidth</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="315854">Width of a prompt</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="316949">Default = 175 pixels</a></p>
+          </td>
+        </tr>
+      </table>
+<h3>

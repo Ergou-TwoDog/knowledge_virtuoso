@@ -1,0 +1,36 @@
+{
+  "payload": {
+    "classes": {
+      "cdfDataId": {"name": "cdfDataId", "attributes": ["simInfo", "termOrder"]},
+      "cdfParamId": {"name": "cdfParamId", "attributes": ["defaultValue", "simInfo"]}
+    },
+    "attributes": {
+      "defaultValue": {"name": "defaultValue", "rw": "rw", "type": "string", "desc": "默认值", "classes": ["cdfParamId"]},
+      "simInfo": {"name": "simInfo", "rw": "rw", "type": "string", "desc": "仿真信息", "classes": ["cdfDataId", "cdfParamId"]},
+      "termOrder": {"name": "termOrder", "rw": "rw", "type": "integer", "desc": "端口顺序", "classes": ["cdfDataId"]}
+    }
+  },
+  "cases": [
+    {
+      "params": {"className": "cdfParamId"},
+      "expect": [
+        {"name": "defaultValue", "rw": "rw", "type": "string", "desc": "默认值", "classes": ["cdfParamId"]},
+        {"name": "simInfo", "rw": "rw", "type": "string", "desc": "仿真信息", "classes": ["cdfDataId", "cdfParamId"]}
+      ]
+    },
+    {
+      "params": {"className": "cdfParamId", "keyword": "default"},
+      "expect": [
+        {"name": "defaultValue", "rw": "rw", "type": "string", "desc": "默认值", "classes": ["cdfParamId"]}
+      ]
+    },
+    {"params": {"className": "nosuch"}, "expect": []},
+    {
+      "params": {"keyword": "sim"},
+      "expect": [
+        {"name": "simInfo", "rw": "rw", "type": "string", "desc": "仿真信息", "classes": ["cdfDataId", "cdfParamId"]}
+      ]
+    },
+    {"params": {"keyword": "zzz"}, "expect": []}
+  ]
+}

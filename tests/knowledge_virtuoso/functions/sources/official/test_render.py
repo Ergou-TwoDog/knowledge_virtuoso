@@ -23,6 +23,10 @@ from knowledge_virtuoso.functions.sources.official.render import PROFILE  # noqa
 def run(report: Report, update: bool = False) -> None:
     for fixture in sorted((HERE / "fixtures").glob("*.json")):
         record = read_json(fixture)
+        # 文件名就是记录名（`capture_fixtures.py` 按 stem 回索引重录；golden 也按记录名取）。
+        # 两者一旦不一致，"按 stem 找输入/输出"这条规矩就断了——所以在测试里钉住。
+        report.expect(f"fixture 文件名 == 记录名（{fixture.stem}）",
+                      fixture.stem, record.get("name"))
         for detail in render.DETAILS:
             report.check(f"{fixture.stem}.{detail}",
                          render.render_entry(record, detail, profile=PROFILE),

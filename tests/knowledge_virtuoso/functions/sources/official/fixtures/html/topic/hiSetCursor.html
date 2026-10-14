@@ -1,0 +1,1099 @@
+<h3><a name="hiSetCursor"></a><a name="960141">hiSetCursor</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="960146">hiSetCursor(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>w_windowId<dd>x_cursor<dd></em></font>)<dd>=&#62; <font size="2" face="'Courier New'" color="#000000">t &#47; nil</font></font>
+      </dl>
+      <h4><a name="960158">Description</a></h4>
+      <p><a name="960159">Sets the cursor you specify for the window.</a></p>
+      <h4><a name="960160">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1202396"><font size="2" face="'Courier New'" color="#000000"><em>w_windowId</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1202398">The window ID.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1202400"><font size="2" face="'Courier New'" color="#000000"><em>x_cursor</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1202402">The integer ID associated with the cursor you want to set. The following table lists the constants that are legal values for this argument, as well as their equivalent X Windows cursors:</a></p>
+          </td>
+        </tr>
+      </table>
+<ul>      <table summary="" border="1" cellpadding="5" cellspacing="0" bgcolor="#FFFFFF" width="636">
+        <tr>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="top" width="204">
+            <p><a name="1029686"><font color="#000000"><strong>x_cursor Constant</strong></font></a></p>
+          </td>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="top" width="192">
+            <p><a name="1029758"><font color="#000000"><strong>Description</strong></font></a></p>
+          </td>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="top" width="240">
+            <p><a name="1029688"><font color="#000000"><strong>X Windows Equivalent</strong></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1029690"><font size="2" face="'Courier New'" color="#000000">hicArrow</font></a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1029760"><font color="#000000">The default pointer cursor</font></a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1029692"><font size="2" face="'Courier New'" color="#000000">XC_left_ptr</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1195349"><font size="2" face="'Courier New'" color="#000000">hicArrowPadlock</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1195351"><font color="#000000">A pointer with a lock</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1195353">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1195342"><font size="2" face="'Courier New'" color="#000000">hicCreateRuler</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1195344"><font color="#000000">A pointer with a ruler</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1195346"><font size="2" face="'Courier New'" color="#000000">&#45;</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1195336"><font size="2" face="'Courier New'" color="#000000">hicCreateRulerDistance</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1195338"><font color="#000000">A two&#45;sided arrow</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1195340"><font size="2" face="'Courier New'" color="#000000">&#45;</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1195330"><font size="2" face="'Courier New'" color="#000000">hicCreateRulerEdge</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1195332"><font color="#000000">A two&#45;sided arrow between edges</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1195334"><font size="2" face="'Courier New'" color="#000000">&#45;</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029694"><font size="2" face="'Courier New'" color="#000000">hicCross</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029762"><font color="#000000">A multi&#45;lined cross</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029696"><font size="2" face="'Courier New'" color="#000000">XC_cross</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1208737"><font size="2" face="'Courier New'" color="#000000">hicFastEdit</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1208739"><font color="#000000">A pencil with a via pointing to the top&#45;left corner of the window</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1208741">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1208731"><font size="2" face="'Courier New'" color="#000000">hicFastEditPadlock</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1208733"><font color="#000000">A pencil with a lock pointing to the top&#45;left corner of the window</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1208735">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029698"><font size="2" face="'Courier New'" color="#000000">hicHand</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029764"><font color="#000000">A hand with index finger extended</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029700"><font size="2" face="'Courier New'" color="#000000">XC_hand2</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029702"><font size="2" face="'Courier New'" color="#000000">hicHelp</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029766"><font color="#000000">A question mark with an arrow</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029704"><font size="2" face="'Courier New'" color="#000000">XC_question_arrow</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029706"><font size="2" face="'Courier New'" color="#000000">hicIbeam</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029768"><font color="#000000">An &#34;I&#45;beam&#34; text insertion cursor</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029708"><font size="2" face="'Courier New'" color="#000000">XC_xterm</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029710"><font size="2" face="'Courier New'" color="#000000">hicNo</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029770"><font color="#000000">A skull and crossbones</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029712"><font size="2" face="'Courier New'" color="#000000">XC_pirate</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029714"><font size="2" face="'Courier New'" color="#000000">hicSizeAll</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029772"><font color="#000000">Four connected arrows pointing up&#47;down&#47;left&#47;right</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029716"><font size="2" face="'Courier New'" color="#000000">XC_fleur</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029718"><font size="2" face="'Courier New'" color="#000000">hicSizeNESW</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029774"><font color="#000000">Two connected arrows pointing top&#45;right and bottom&#45;left</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029720"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029722"><font size="2" face="'Courier New'" color="#000000">hicSizeNS</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029776"><font color="#000000">Two arrows pointing top and bottom</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029724"><font size="2" face="'Courier New'" color="#000000">XC_sb_v_double_arrow</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029726"><font size="2" face="'Courier New'" color="#000000">hicSizeNWSE</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029778"><font color="#000000">Two connected arrows pointing top&#45;left and bottom&#45;right</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029728"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029730"><font size="2" face="'Courier New'" color="#000000">hicSizeWE</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029780"><font color="#000000">Two arrows pointing left and right</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029732"><font size="2" face="'Courier New'" color="#000000">XC_sb_h_double_arrow</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029734"><font size="2" face="'Courier New'" color="#000000">hicUpArrow</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029782"><font color="#000000">An arrow pointing straight up</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029736"><font size="2" face="'Courier New'" color="#000000">XC_sb_up_arrow</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029738"><font size="2" face="'Courier New'" color="#000000">hicWait</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029784"><font color="#000000">An analog wristwatch</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029740"><font size="2" face="'Courier New'" color="#000000">XC_watch</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029742"><font size="2" face="'Courier New'" color="#000000">hicArrowHourglass</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029786"><font color="#000000">An hourglass shape</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029744"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029746"><font size="2" face="'Courier New'" color="#000000">hicHourglass</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029788"><font color="#000000">As above</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029748"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029750"><font size="2" face="'Courier New'" color="#000000">hicNoCursor</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029790"><font color="#000000">The default cursor for the widget (typically the pointer cursor)</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029752"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029754"><font size="2" face="'Courier New'" color="#000000">hicInvertedArrow</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029792"><font color="#000000">A pointer cursor with white and black inverted</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029756"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029866"><font size="2" face="'Courier New'" color="#000000">hicTumblingDice1</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029868"><font color="#000000">A box with a dot in the upper left corner</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029870"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029887"><font size="2" face="'Courier New'" color="#000000">hicTumblingDice2</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029889"><font color="#000000">A box with a dot in the upper right corner</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029891"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029893"><font size="2" face="'Courier New'" color="#000000">hicTumblingDice3</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029895"><font color="#000000">A box with a dot in the lower left corner</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029897"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029899"><font size="2" face="'Courier New'" color="#000000">hicTumblingDice4</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029901"><font color="#000000">A box with a dot in the lower right corner.</font></a></p>
+            <p><font color="#000000"><strong>Note: </strong></font><a name="1029914"><font color="#000000">The above tumbling dice cursors are used, in turn, to indicate that DFII is busy. They will be displayed when </font></a><font size="2" face="'Courier New'" color="#000000">hiGetUserAbort()</font> or <font size="2" face="'Courier New'" color="#000000">voGetUserAbort()</font> is called during long operations.</p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029903"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029842"><font size="2" face="'Courier New'" color="#000000">hicBusyRead</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029844"><font color="#000000">An open book (used for SKILL context loading)</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029846"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029836"><font size="2" face="'Courier New'" color="#000000">hicHourglass1</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029838"><font color="#000000">An hourglass just turned over</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029840"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029830"><font size="2" face="'Courier New'" color="#000000">hicHourglass2</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029832"><font color="#000000">An hourglass with some sand in the bottom</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029834"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029824"><font size="2" face="'Courier New'" color="#000000">hicHourglass3</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029826"><font color="#000000">An hourglass with more sand in the bottom</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029828"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029818"><font size="2" face="'Courier New'" color="#000000">hicHourglass4</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029820"><font color="#000000">An hourglass with most of the sand in the bottom</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029822"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029812"><font size="2" face="'Courier New'" color="#000000">hicHourglass5</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029814"><font color="#000000">An hourglass with all the sand in the bottom</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029816"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029806"><font size="2" face="'Courier New'" color="#000000">hicHourglass6</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029808"><font color="#000000">An hourglass on its side</font></a></p>
+            <p><font color="#000000"><strong>Note: </strong></font><a name="1030095"><font color="#000000">The numbered hourglass cursors are displayed during SKILL garbage collection.</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1029810"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030113"><font size="2" face="'Courier New'" color="#000000">hicTCross</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030115"><font color="#000000">A single line cross</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030117"><font color="#000000">XC_tcross</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" cellpadding="4" valign="top">
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="13.333333333333332">
+                    <div>&nbsp;</div>
+                  </td>
+                  <td width="133.33333333333331">
+                    <div>
+                      <nobr>
+                        <font size="3"><img src="images/important.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td>
+                    <font size="3"><a name="1030266">The following cursor definitions specifically use Qt defined cursor shapes.</a></font>
+                  </td>
+                </tr>
+              </table></ul>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030227"><font size="2" face="'Courier New'" color="#000000">hicQtArrow</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030229"><font color="#000000">Same as hicArrow</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030231"><font color="#000000">XC_left_ptr</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030221"><font size="2" face="'Courier New'" color="#000000">hicQtUpArrow</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030223"><font color="#000000">An arrow pointing up</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030225"><font color="#000000">XC_center_ptr</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030215"><font size="2" face="'Courier New'" color="#000000">hicQtCross</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030217"><font color="#000000">A single&#45;line crosshair</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030219"><font color="#000000">XC_crosshair</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030209"><font size="2" face="'Courier New'" color="#000000">hicQtIBeam</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030211"><font color="#000000">An I&#45;Beam text cursor</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030213"><font color="#000000">XC_xterm</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030203"><font size="2" face="'Courier New'" color="#000000">hicQtWait</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030205"><font color="#000000">An analog wristwatch</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030207"><font color="#000000">XC_watch</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030197"><font size="2" face="'Courier New'" color="#000000">hicQtBusy</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030199"><font color="#000000">An arrow with an hourglass</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030201"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030191"><font size="2" face="'Courier New'" color="#000000">hicQtForbidden</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030193"><font color="#000000">A circle with a diagonal line</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030195"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030185"><font size="2" face="'Courier New'" color="#000000">hicQtPointingHand</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030187"><font color="#000000">A hand with index finger extended</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030189"><font color="#000000">XC_hand2</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030179"><font size="2" face="'Courier New'" color="#000000">hicQtWhatsThis</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030181"><font color="#000000">An arrow with a question mark</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030183"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030173"><font size="2" face="'Courier New'" color="#000000">hicQtSizeVer</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030175"><font color="#000000">A solid vertical arrow pointing up and down</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030177"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030167"><font size="2" face="'Courier New'" color="#000000">hicQtSizeHor</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030169"><font color="#000000">A solid horizontal arrow pointing left and right</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030171"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030161"><font size="2" face="'Courier New'" color="#000000">hicQtSizeBDiag</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030163"><font color="#000000">A solid diagonal arrow pointing down&#45;left and up&#45;right</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030165"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030155"><font size="2" face="'Courier New'" color="#000000">hicQtSizeFDiag</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030157"><font color="#000000">A solid diagonal arrow pointing down&#45;right and up&#45;left</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030159"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030149"><font size="2" face="'Courier New'" color="#000000">hicQtSizeAll</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030151"><font color="#000000">Four connected arrows pointing up&#47;down&#47;left&#47;right</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030153"><font color="#000000">XC_fleur</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030143"><font size="2" face="'Courier New'" color="#000000">hicQtSplitV</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030145"><font color="#000000">Two horizontal lines with up&#47;down arrows</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030147"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030137"><font size="2" face="'Courier New'" color="#000000">hicQtSplitH</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030139"><font color="#000000">Two vertical lines with left&#47;right arrows</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030141"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030131"><font size="2" face="'Courier New'" color="#000000">hicQtOpenHand</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030133"><font color="#000000">A hand with fingers extended</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030135"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030669"><font size="2" face="'Courier New'" color="#000000">hiQtClosedHand</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030671"><font color="#000000">A hand with fingers curled up</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030673"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" cellpadding="4" valign="top">
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="13.333333333333332">
+                    <div>&nbsp;</div>
+                  </td>
+                  <td width="133.33333333333331">
+                    <div>
+                      <nobr>
+                        <font size="3"><img src="images/important.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td>
+                    <font size="3"><a name="1030508">The following cursors are not part of the standard cursor set but can still be desirable to depict certain operations, including enterfunctions (see </a><a href="#1036995" title="9"><font size="2" face="'Courier New'" color="#0000ff"><u>hiSetEFunCursor</u></font></a>).</font>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030514"><font size="2" face="'Courier New'" color="#000000">hicMagnifier</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030516"><font color="#000000">A magnifying glass that can be used with the Zoom command (the hotspot being the center of the magnifying glass)</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030518"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030520"><font size="2" face="'Courier New'" color="#000000">hicMagnifierPlus</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030522"><font color="#000000">A magnifying glass that can be used with the Zoom&#45;In command (the hotspot being the center of the &#34;+&#34;)</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030524"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030526"><font size="2" face="'Courier New'" color="#000000">hicMagnifierMinus</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030528"><font color="#000000">A magnifying glass that can be used with the Zoom&#45;Out command (the hotspot being the center of the &#34;&#45;&#34;)</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030530"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030532"><font size="2" face="'Courier New'" color="#000000">hicArrowEllipsis</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030534"><font color="#000000">An arrow with three dots for the default enterfunction cursor</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030536"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030538"><font size="2" face="'Courier New'" color="#000000">hicArrowMagnifier</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030540"><font color="#000000">An arrow with a magnifier for the Zoom command</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030542"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030544"><font size="2" face="'Courier New'" color="#000000">hicArrowA</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030546"><font color="#000000">An arrow with an &#34;A&#34; for a label or other text</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030548"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030550"><font size="2" face="'Courier New'" color="#000000">hicArrowT</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030552"><font color="#000000">An arrow with a &#34;T&#34; for direct text edit</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030554"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030556"><font size="2" face="'Courier New'" color="#000000">hicArrowIBeam</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030558"><font color="#000000">An arrow with an I&#45;Beam for direct text edit</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030560"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030562"><font size="2" face="'Courier New'" color="#000000">hicArrowX</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030564"><font color="#000000">An arrow with a X for the Delete command</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030566"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030568"><font size="2" face="'Courier New'" color="#000000">hicArrowSlashCircle</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030570"><font color="#000000">An arrow with a &#34;forbidden&#34; glyph</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030572"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030574"><font size="2" face="'Courier New'" color="#000000">hicArrowRotate</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030576"><font color="#000000">An arrow with a &#34;rotation&#34; glyph</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030578"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030580"><font size="2" face="'Courier New'" color="#000000">hicArrowCopy</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030582"><font color="#000000">An arrow with a glyph that represents copying.</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030584"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030586"><font size="2" face="'Courier New'" color="#000000">hicArrowBox</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030588"><font color="#000000">An arrow with a box that represents moving or stretching</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030590"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030592"><font size="2" face="'Courier New'" color="#000000">hicArrowWire</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030594"><font color="#000000">An arrow with a zig&#45;zag line that represents drawing a wire or a path</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030596"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030598"><font size="2" face="'Courier New'" color="#000000">hicArrowPolygon</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030600"><font color="#000000">An arrow with a polygon</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030602"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030604"><font size="2" face="'Courier New'" color="#000000">hicArrowDot</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030606"><font color="#000000">An arrow with a dot that represents a solder dot</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030608"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030610"><font size="2" face="'Courier New'" color="#000000">hicArrowTextWire</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030612"><font color="#000000">An arrow with a glyph used for &#34;create wire name&#34;</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030614"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030616"><font size="2" face="'Courier New'" color="#000000">hicArrowText</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030618"><font color="#000000">An arrow with a glyph used for &#34;create label&#34;</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030620"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030810"><font size="2" face="'Courier New'" color="#000000">hicArrowTextBox</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030812"><font color="#000000">An arrow with text in a box</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030814"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030762"><font size="2" face="'Courier New'" color="#000000">hicArrowInstance</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030764"><font color="#000000">An arrow with a glyph for &#34;create instance&#34;</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030766"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030768"><font size="2" face="'Courier New'" color="#000000">hicArrowPin</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030770"><font color="#000000">An arrow with a &#34;pin&#34; glyph</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030772"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030774"><font size="2" face="'Courier New'" color="#000000">hicArrowArc</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030776"><font color="#000000">An arrow with an arc</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030778"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030780"><font size="2" face="'Courier New'" color="#000000">hicArrowCircle</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030782"><font color="#000000">An arrow with a circle</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030784"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030786"><font size="2" face="'Courier New'" color="#000000">hicArrowEllipse</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030788"><font color="#000000">An arrow with an ellipse</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030790"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030792"><font size="2" face="'Courier New'" color="#000000">hicArrowRectangle</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030794"><font color="#000000">An arrow with a rectangle</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030796"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030798"><font size="2" face="'Courier New'" color="#000000">hicArrowCircleI</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030800"><font color="#000000">An arrow with an &#34;i&#34; in a circle</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030802"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030804"><font size="2" face="'Courier New'" color="#000000">hicProbe</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030806"><font color="#000000">A &#34;probe&#34; cursor</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030808"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030861"><font size="2" face="'Courier New'" color="#000000">hicSpinCircle</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030863"><font color="#000000">A cursor to indicate that a command is running (the hotspot being the center of the circle)</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1030865"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076259"><font size="2" face="'Courier New'" color="#000000">hicMove</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076261"><font color="#000000">A cursor that represents moving.</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076328"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076253"><font size="2" face="'Courier New'" color="#000000">hicStretchE</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076255"><font color="#000000">A cursor that represents stretching East.</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076342"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076247"><font size="2" face="'Courier New'" color="#000000">hicStretchN</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076249"><font color="#000000">A cursor that represents stretching North.</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076356"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076284"><font size="2" face="'Courier New'" color="#000000">hicStretchW</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076286"><font color="#000000">A cursor that represents stretching West.</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076370"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076278"><font size="2" face="'Courier New'" color="#000000">hicStretchS</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076280"><font color="#000000">A cursor that represents stretching South.</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076384"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076311"><font size="2" face="'Courier New'" color="#000000">hicStretchNE</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076313"><font color="#000000">A cursor that represents stretching North&#45;East.</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076398"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076305"><font size="2" face="'Courier New'" color="#000000">hicStretchNW</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076307"><font color="#000000">A cursor that represents stretching North&#45;West.</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076412"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076299"><font size="2" face="'Courier New'" color="#000000">hicStretchSE</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076301"><font color="#000000">A cursor that represents stretching South&#45;East.</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076426"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1076293"><font size="2" face="'Courier New'" color="#000000">hicStretchSW</font></a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1076295"><font color="#000000">A cursor that represents stretching South&#45;West.</font></a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1076440"><font size="2" face="'Courier New'" color="#000000">--</font></a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="960162">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1202418"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1202420">The cursor was set.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1202422"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1202424">The cursor was not set.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="970155">Reference</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a href="#960164" title="9" name="970156"><font color="#0000ff"><u>hiGetCursor</u></font></a></font>
+      </p>

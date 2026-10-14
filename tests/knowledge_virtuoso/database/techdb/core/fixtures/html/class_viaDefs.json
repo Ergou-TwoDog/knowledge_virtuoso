@@ -1,0 +1,116 @@
+{
+ "source": "sktechfile/appA.html",
+ "kind": "h3",
+ "class": "viaDefs",
+ "names": [
+  "cellName",
+  "implant1",
+  "implant2",
+  "layer1",
+  "layer1Num",
+  "layer2",
+  "layer2Num",
+  "libName",
+  "name",
+  "objType",
+  "params",
+  "resistancePerCut",
+  "tech",
+  "techFile",
+  "viewName",
+  "wellOrSubstrate"
+ ],
+ "rows": {
+  "objType": {
+   "rw": "?",
+   "type": ""
+  },
+  "tech": {
+   "rw": "?",
+   "type": "l_objId"
+  },
+  "techFile": {
+   "rw": "?",
+   "type": "l_objId"
+  },
+  "name": {
+   "rw": "?",
+   "type": "l_string"
+  },
+  "layer1": {
+   "rw": "?",
+   "type": "l_objId"
+  },
+  "layer1Num": {
+   "rw": "?",
+   "type": "l_string"
+  },
+  "layer2": {
+   "rw": "?",
+   "type": "l_objId"
+  },
+  "layer2Num": {
+   "rw": "?",
+   "type": "l_string"
+  },
+  "resistancePerCut": {
+   "rw": "?",
+   "type": ""
+  },
+  "implant1": {
+   "rw": "?",
+   "type": "l_objId"
+  },
+  "implant2": {
+   "rw": "?",
+   "type": "l_objId"
+  },
+  "wellOrSubstrate": {
+   "rw": "?",
+   "type": "l_objId"
+  },
+  "params": {
+   "rw": "?",
+   "type": ""
+  },
+  "libName": {
+   "rw": "?",
+   "type": "string"
+  },
+  "cellName": {
+   "rw": "?",
+   "type": "l_string"
+  },
+  "viewName": {
+   "rw": "?",
+   "type": "l_string"
+  }
+ },
+ "unique": {
+  "resistancePerCut": {
+   "rw": "?",
+   "type": ""
+  },
+  "implant1": {
+   "rw": "?",
+   "type": "l_objId"
+  },
+  "implant2": {
+   "rw": "?",
+   "type": "l_objId"
+  },
+  "wellOrSubstrate": {
+   "rw": "?",
+   "type": "l_objId"
+  },
+  "cellName": {
+   "rw": "?",
+   "type": "l_string"
+  },
+  "viewName": {
+   "rw": "?",
+   "type": "l_string"
+  }
+ },
+ "class_desc": "通孔定义"
+}

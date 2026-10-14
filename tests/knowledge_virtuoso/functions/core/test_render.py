@@ -21,7 +21,8 @@ from knowledge_virtuoso.functions.core import render  # noqa: E402
 
 
 def run(report: Report, update: bool = False) -> None:
-    for fixture in sorted((HERE / "fixtures").glob("*.json")):
+    # 一进一出同目录同 stem：`cases/x.json` 输入、`cases/x.txt` 期望输出（扩展名分角色）。
+    for fixture in sorted((HERE / "cases").glob("*.json")):
         case = read_json(fixture)
         if "page" in case:
             if case["page"]["total"]:
@@ -32,7 +33,7 @@ def run(report: Report, update: bool = False) -> None:
                 got = render.render_search_empty(case["prefix"], case["keywords"], case["hints"])
         else:
             got = render.render_not_found(case["func_name"], case["hints"])
-        report.check(fixture.stem, got, HERE / "golden" / f"{fixture.stem}.txt", update)
+        report.check(fixture.stem, got, HERE / "cases" / f"{fixture.stem}.txt", update)
 
 
 if __name__ == "__main__":

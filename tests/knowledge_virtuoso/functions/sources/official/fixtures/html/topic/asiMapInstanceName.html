@@ -1,0 +1,52 @@
+<h3><a name="asiMapInstanceName"></a><a name="1196664">asiMapInstanceName</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1170459">asiMapInstanceName( <dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_dataDir<dd>l_specifier<dd></em></font>[ <font size="2" face="'Courier New'" color="#000000">?formatflag</font> <font size="2" face="'Courier New'" color="#000000"><em>s_formatflag</em></font> ]<dd>) <dd>=&#62; <font size="2" face="'Courier New'" color="#000000"><em>l_specifier</em></font></font>
+      </dl>
+      <h4><a name="1035732">Description</a></h4>
+      <p><a name="1035734">Maps the hierarchical schematic instance name to the name in the netlist.</a></p>
+      <h4><a name="1035735">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="605">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="221">
+            <p><a name="1196745"><font size="2" face="'Courier New'" color="#000000"><em>t_dataDir</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="384">
+            <p><a name="1196747">Specifies the data directory.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1196749"><font size="2" face="'Courier New'" color="#000000"><em>l_specifier</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1196751">Lists the name of the instance to map.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1199191"><font size="2" face="'Courier New'" color="#000000">?formatflag</font></a> <font size="2" face="'Courier New'" color="#000000"><em>s_formatflag</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1196753">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1196755">Performs name mapping of transient simulation data available in SST2 format.</a></p>
+            <p><a name="1196770">Set the value to </a><font size="2" face="'Courier New'" color="#000000">&#34;t&#34;</font> if this function is used in context of transient simulation data analysis and the transient simulation data is available in SST2 format.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1035738">Value Returned\</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="605">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="221">
+            <p><a name="1199216"><font size="2" face="'Courier New'" color="#000000"><em>l_specifier</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="384">
+            <p><a name="1199218">Returns the list containing the mapped name.</a></p>
+            <p><font color="#000000"><strong>Note: </strong></font><a name="1199242">The list </a><font size="2" face="'Courier New'" color="#000000"><em>l_specifier</em></font> passed as the argument is also destructively modified to contain the mapped name.</p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="1113972">&nbsp;</a></p>

@@ -1,0 +1,81 @@
+<h3><a name="evalstring"></a><a name="1039846">evalstring</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1039849">evalstring( <dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_string</em></font> <dd>[ <font size="2" face="'Courier New'" color="#000000"><em>s_langMode</em></font> ] <dd>) <dd>=&#62; <font size="2" face="'Courier New'" color="#000000"><em>g_value</em></font> &#47; <font size="2" face="'Courier New'" color="#000000">nil</font></font>
+      </dl>
+      <h4><a name="1039850">Description</a></h4>
+      <p><a name="1039852">Reads and evaluates an expression stored in a string.</a></p>
+      <p><a name="1039853">The resulting value is returned. Notice that </a><font size="2" face="'Courier New'" color="#000000">evalstring</font> does not allow the outermost set of parentheses to be omitted from the evaluated expression, as in <font size="2" face="'Courier New'" color="#000000">load</font> or in the top level.</p>
+      <h4><a name="1039854">Arguments</a></h4>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="197.78303999999997">
+              <div>
+                <nobr><font size="2" face="'Courier New'" color="#000000"><em>t_string</em></font></nobr>
+              </div>
+            </td>
+            <td><a name="1039855">String containing the SKILL expression to be evaluated.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="197.78303999999997">
+              <div>
+                <nobr><font size="2" face="'Courier New'" color="#000000"><em>s_langMode</em></font></nobr>
+              </div>
+            </td>
+            <td><a name="1039856">Must be a symbol. Valid values:</a></td>
+          </tr>
+        </table>
+      </div>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="451">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="84">
+            <p><a name="1039859"><font size="2" face="'Courier New'" color="#000000">&#39;ils</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="366">
+            <p><a name="1039861">Evaluates the given string in SKILL++ mode.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1039863"><font size="2" face="'Courier New'" color="#000000">&#39;il</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1039865">Evaluates the given string in SKILL mode. This is the default.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1039866">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="180">
+            <p><a name="1073556"><font size="2" face="'Courier New'" color="#000000"><em>g_value</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="468">
+            <p><a name="1073558">The value of the argument expression after evaluation. </a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1073560"><font size="2" face="'Courier New'" color="#000000">nil</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1073562">No form is read.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1039869">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1039870">evalstring(&#34;1+2&#34;) =&#62; 3</a></font>
+      </p>
+      <p><a name="1039871">The </a><font size="2" face="'Courier New'" color="#000000">1+2</font> infix notation is the same as <font size="2" face="'Courier New'" color="#000000">(plus 1 2)</font>.</p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1039872">evalstring(&#34;cons(&#39;a &#39;(b c))&#34;) =&#62; (a b c)<br>car &#39;(1 2 3)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&#62; 1</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1039873">evalstring(&#34;car &#39;(1 2 3)&#34;)</a></font>
+      </p>
+      <p><a name="1039874">Signals that </a><font size="2" face="'Courier New'" color="#000000">car</font> is an unbound variable.</p>

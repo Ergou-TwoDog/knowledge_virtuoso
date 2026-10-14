@@ -1,0 +1,201 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "gdmstatus({\nG_gdmSpec | q_gdmSpecList }x_information\n)\n=> l_fileStatus / nil",
+   "shared_from": null
+  }
+ ],
+ "where": {
+  "file": "caiskill/gdm.html",
+  "topic": "gdmstatus",
+  "marker_text": "gdmstatus",
+  "anchor": "gdmstatus"
+ },
+ "also_at": [],
+ "sections": {
+  "description": {
+   "text": "Returns the design management status of the library, cell, view, directory, or file that G_gdmSpec represents.\nThis function is the SKILL equivalent of the gdmstatus command. See gdmstatus for more information."
+  },
+  "arguments": {
+   "root": {
+    "title": null,
+    "items": [
+     {
+      "name": "G_gdmSpec",
+      "desc": "The gdmSpec object of the library, cell, view, directory, or file.",
+      "values": null
+     },
+     {
+      "name": "q_gdmSpecList",
+      "desc": "A gdmSpecList object containing gdmSpec objects.",
+      "values": null
+     },
+     {
+      "name": "x_information",
+      "desc": "Specifies the kind of information to return. The following table lists the legal values for this argument.",
+      "values": null
+     },
+     {
+      "name": "Specify ...",
+      "desc": "to get ...",
+      "values": null
+     },
+     {
+      "name": "1",
+      "desc": "The gdmSpec object.",
+      "values": null
+     },
+     {
+      "name": "2",
+      "desc": "The library to which the file belongs.",
+      "values": null
+     },
+     {
+      "name": "3",
+      "desc": "The cell to which the file belongs.",
+      "values": null
+     },
+     {
+      "name": "4",
+      "desc": "The view to which the file belongs.",
+      "values": null
+     },
+     {
+      "name": "5",
+      "desc": "The path to the file, relative to the library to which it belongs or to the current directory.",
+      "values": null
+     },
+     {
+      "name": "6",
+      "desc": "The design management status. Returns one of the following:\ngdmStateNone:",
+      "values": null
+     },
+     {
+      "name": "gdmStateCI:",
+      "desc": "File is managed and not checked out",
+      "values": null
+     },
+     {
+      "name": "gdmStateCO:",
+      "desc": "File is checked out to current workarea",
+      "values": null
+     },
+     {
+      "name": "gdmStateCOE:",
+      "desc": "File is checked out but not to current workarea",
+      "values": null
+     },
+     {
+      "name": "gdmStateDel:",
+      "desc": "File is flagged as deleted",
+      "values": null
+     },
+     {
+      "name": "gdmStateDir:",
+      "desc": "File is a directory",
+      "values": null
+     },
+     {
+      "name": "gdmStateInactive:",
+      "desc": "File is inactive",
+      "values": null
+     },
+     {
+      "name": "gdmStateUnmanageable:",
+      "desc": "DMTYPE is set to NONE. A GDM check in cannot be processed in the current configuration state. For example, a directory, which is unmanageable will not have its content expanded. Therefore, no subdirectory data will be returned for it, even if the GDM_RECURSE option is added. The UNMANAGEABLE state cannot process a GDM check-in within the current configuration state. It means the DMTYPE has been set to NONE by a cdsinfo.tag file.",
+      "values": null
+     },
+     {
+      "name": "7",
+      "desc": "The status of the file in the workarea. Returns one of the following:\ngdmStateNone: File is not in the workarea.\ngdmStateRead: File is in the workarea but is read-only.\ngdmStateWrite: File is checked out to current. workarea.\ngdmStateDir: File is a directory.\ngdmStateErr: File is in an inconsistent state.",
+      "values": null
+     },
+     {
+      "name": "8",
+      "desc": "Check whether the file has been modified in the workarea.",
+      "values": null
+     },
+     {
+      "name": "9",
+      "desc": "The version the file will be when it is checked in, or if it is already checked in, the current version.",
+      "values": null
+     },
+     {
+      "name": "10",
+      "desc": "The version of the file you will get if you check it out, or if it is already checked out, the version that was checked out.",
+      "values": null
+     },
+     {
+      "name": "11",
+      "desc": "The version of the file you will get if you update it.",
+      "values": null
+     },
+     {
+      "name": "12",
+      "desc": "The check-out location of the file.",
+      "values": null
+     },
+     {
+      "name": "13",
+      "desc": "The name of the person who checked out the file.",
+      "values": null
+     },
+     {
+      "name": "14",
+      "desc": "The name of the person who checked in the file.",
+      "values": null
+     },
+     {
+      "name": "15",
+      "desc": "The update needed status of the file. Returns one of the following:\ntrue: Update is required.\nfalse: Update is not required.\nunknown: DM does not support this feature.",
+      "values": null
+     }
+    ]
+   },
+   "lists": [],
+   "text": "G_gdmSpec\nThe gdmSpec object of the library, cell, view, directory, or file.\nq_gdmSpecList\nA gdmSpecList object containing gdmSpec objects.\nx_information\nSpecifies the kind of information to return. The following table lists the legal values for this argument.\nSpecify ...\nto get ...\n1\nThe gdmSpec object.\n2\nThe library to which the file belongs.\n3\nThe cell to which the file belongs.\n4\nThe view to which the file belongs.\n5\nThe path to the file, relative to the library to which it belongs or to the current directory.\n6\nThe design management status. Returns one of the following:\ngdmStateNone:\nDMTYPE is set to a valid DM system. You may request GDM to attempt check in of an unmanaged state data into the named DM. This usually works within a managed library, depending upon correct DM setup and configuration including the cdsinfo.tag file.\ngdmStateCI: File is managed and not checked out\ngdmStateCO: File is checked out to current workarea\ngdmStateCOE: File is checked out but not to current workarea\ngdmStateDel: File is flagged as deleted\ngdmStateDir: File is a directory\ngdmStateInactive: File is inactive\ngdmStateUnmanageable: DMTYPE is set to NONE. A GDM check in cannot be processed in the current configuration state. For example, a directory, which is unmanageable will not have its content expanded. Therefore, no subdirectory data will be returned for it, even if the GDM_RECURSE option is added. The UNMANAGEABLE state cannot process a GDM check-in within the current configuration state. It means the DMTYPE has been set to NONE by a cdsinfo.tag file.\n7\nThe status of the file in the workarea. Returns one of the following:\ngdmStateNone: File is not in the workarea.\ngdmStateRead: File is in the workarea but is read-only.\ngdmStateWrite: File is checked out to current. workarea.\ngdmStateDir: File is a directory.\ngdmStateErr: File is in an inconsistent state.\n8\nCheck whether the file has been modified in the workarea.\n9\nThe version the file will be when it is checked in, or if it is already checked in, the current version.\n10\nThe version of the file you will get if you check it out, or if it is already checked out, the version that was checked out.\n11\nThe version of the file you will get if you update it.\n12\nThe check-out location of the file.\n13\nThe name of the person who checked out the file.\n14\nThe name of the person who checked in the file.\n15\nThe update needed status of the file. Returns one of the following:\ntrue: Update is required.\nfalse: Update is not required.\nunknown: DM does not support this feature."
+  },
+  "returns": {
+   "items": [
+    {
+     "value": "l_fileStatus",
+     "desc": "Returns a list of lists containing the status of each file in the cellview directory."
+    },
+    {
+     "value": "nil",
+     "desc": "An error occurred and the information could not be returned."
+    }
+   ],
+   "text": "l_fileStatus\nReturns a list of lists containing the status of each file in the cellview directory.\nnil\nAn error occurred and the information could not be returned."
+  },
+  "example": {
+   "text": "strlist=gdmStatus(gdmCreateSpec(\"rodTrLib\" \"Design\" \"layout\" master.tag\" \"CDBA\") 15)\n=> ((\"/rodTrLib/Design/layout/master.tag true\"))\nReturns true. The master.tag file needs to be updated in the <rodTrLib | Design | layout> cellview."
+  }
+ },
+ "field_status": {
+  "description": "present",
+  "arguments": "present",
+  "returns": "present",
+  "example": "present",
+  "reference": "not_documented",
+  "related_functions": "not_documented",
+  "prerequisites": "not_documented",
+  "additional_information": "not_documented",
+  "interactive_function": "not_documented",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "not_documented",
+  "overview": "not_documented",
+  "errors": "not_documented",
+  "decl": "present"
+ },
+ "status": "active",
+ "prefix": "",
+ "tokens": [
+  "gdmstatus"
+ ],
+ "name": "gdmstatus"
+}

@@ -1,0 +1,268 @@
+<h4><a name="303133">use</a></h4>
+      <p><a name="304530">Specifies whether to use this parameter. The </a>use attribute is context&#45;specific and is evaluated when necessary. In this field, you can specify parameters that you are not using because of the value of other parameters, or because of the function you are using. The<strong> </strong>use field must be a string. </p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="303135">If the field evaluates to </a>non&#45;nil, the system uses the parameter.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="303136">If a value for the field exists, the system ignores the value.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="303138">If the field evaluates to </a>nil, the system does not use the parameter.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="303139">If you do not specify this field, </a>t is assumed, so the system always uses the field.</td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="303140">The "Global Variables" section describes several global variables for constructing the </a>use expression.</p>
+      <p><a name="303141">This field is editable.</a></p>
+      <h4><a name="303143">paramType</a></h4>
+      <p><a name="304584">Type of the parameter. Valid values for this field are</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="303144"><font size="2" face="'Courier New'" color="#000000">&#34;string&#34;</font></a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="303145">&#34;int&#34;</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="303146">&#34;float&#34;</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="303147">&#34;radio&#34;</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="303148">&#34;cyclic&#34;</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="303149">&#34;boolean&#34;</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="303150">&#34;button&#34;</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="568244">&#34;netSet&#34;</a></font>
+      </dl>
+      <p><a name="303151">The quotation marks are required. CDF checks that the parameter value matches the type specified. You must specify this field.</a></p>
+      <p><a name="303152">This field is not editable.</a></p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="568280">Use the netSet type to store inherited connections in CDF. Inherited connections allow you to selectively override global signals in designs created in Virtuoso Schematic Editor. The override information is communicated through net expressions and netSet properties. For more information on netSet properties refer to</a><font color="#000000"><em> Inherited Connections Flow Guide</em></font> and <a href="../comphelp/comphelpTOC.html" target="external_window"><font color="#0000ff"><u><em>Virtuoso Schematic Editor L User Guide</em></u></font></a>.</p>
+      <h4><a name="303154">defValue</a></h4>
+      <p><a name="304601">Default value of the parameter. You must specify this field. </a></p>
+      <p><a name="303155">This field is editable.</a></p>
+      <h4><a name="303157">value</a></h4>
+      <p><a name="304624">Current value of the parameter.</a></p>
+      <p><a name="303158">This field is editable.</a></p>
+      <h4><a name="303160">prompt</a></h4>
+      <p><a name="304659">Prompt that appears on a form field when an application asks for the value of this parameter. The value for this field must be a string. You must specify this field.</a></p>
+      <p><a name="303161">This field is editable.</a></p>
+      <h4><a name="303163">choices</a></h4>
+      <p><a name="304682">Possible values (a list of strings) of a </a>cyclic or radio type parameter. Do not use this field for other types of parameters.</p>
+      <p><a name="303164">This field is editable.</a></p>
+      <h4><a name="303166">units</a></h4>
+      <p><a name="304725">Unit type of the parameter. You often modify parameters that represent resistance, capacitance, length, time, power, and so forth, and expect to see the parameter value scaled to appropriate units (for example, </a><font color="#000000"><em>pF</em></font>, <font color="#000000"><em>uM</em></font>, <font color="#000000"><em>dBm</em></font>). Valid values for this field include the following strings:</p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="303167">&#34;resistance&#34;</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="303168">&#34;capacitance&#34;</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="303169">&#34;inductance&#34;</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="303170">&#34;conductance&#34;</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="303171">&#34;time&#34;</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="303172">&#34;frequency&#34;</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="303173">&#34;power&#34;</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="303174">&#34;powerDB&#34;</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="303175">&#34;lengthMetric&#34;</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="303176">&#34;lengthEnglish&#34;</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="303177">&#34;angle&#34;</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="303178">&#34;voltage&#34;</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="303179">&#34;current&#34;</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="303180">&#34;temperature&#34;</a></font>
+      </dl>
+      <p><a name="304815">The quotation marks are required. This field determines the unit's suffix and scale factor to use when displaying the parameter value. For example, by setting a parameter's units field to </a>capacitance, the parameter value is displayed as <font color="#000000"><em>5 pF</em></font> instead of <font color="#000000"><em>5e&#45;12</em></font>. </p>
+      <h4><a name="304816">editable</a></h4>
+      <p><a name="304818">Specifies whether a parameter is for display only. If set to </a>nil, the field specifies a displayed parameter that you cannot change. (Other parameters' callbacks can change the parameter.) Use this field only on int, float, and string type fields.</p>
+      <p><a name="303184">The</a><strong> </strong>editable field must be a string. This field is evaluated when necessary.</p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="303185">If the field evaluates to </a>non&#45;nil, the parameter is editable. </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="303186">If the field evaluates to </a>nil, the parameter is grayed out when displayed as a form field.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="303187">If you do not specify the field, </a>t is assumed, meaning that the field is editable.</td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="303189">callback</a></h4>
+      <p><a name="304829">SKILL code to be executed whenever the value of a parameter changes. Using </a>callback, you can cause any parameter's value to affect any other parameter's value. The value of this field must be a string. </p>
+      <p><a name="303190">This field is optional. If you do not use </a>callback, no callback is executed.</p>
+      <p><a name="303191">The "Global Variables" section describes several global variables you can use in the </a>callback field.</p>
+      <h4><a name="parseAsNumber"></a><a name="303193">parseAsNumber</a></h4>
+      <p><a name="304862">String type parameter whose value can evaluate to a floating&#45;point number. These types of parameters often occur for circuit&#45;level simulators that allow component parameters to be either numbers or expressions containing variables. </a></p>
+      <p><a name="303194">If you specify this field, the system parses the value of the parameter to check if the value is a number.</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="303195">If the value is a number, the system converts the string to a floating point number, converts the string to the most efficient notation (taking into account any units field specified), then reconverts the number into a string.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="303196">If the parameter value is not a number, the system does no conversion.</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="303197">For example, if the parameter value is the string </a><font size="2" face="'Courier New'" color="#000000">5.4e&#45;12</font> and the parameter value has a units field of capacitance (that is, the suffix is F), the parameter value is converted to the string <font size="2" face="'Courier New'" color="#000000">5.4p</font> before being displayed. However, if the parameter value is <font size="2" face="'Courier New'" color="#000000">c1</font>, no conversion takes place.   </p>
+      <h4><a name="303350">dontSave</a></h4>
+      <p><a name="303199">Specifies that the parameter cannot be stored in any instance that corresponds to the component. </a></p>
+      <p><a name="303200">The</a><strong> </strong>d<font color="#000000"><em>ontSave</em></font> field must be a string. The system evaluates the field as necessary. If the field evaluates to non&#45;nil, the parameter is not stored. If you do not specify the field, nil is assumed and the parameter value is stored.</p>
+      <h4><a name="303202">parseAsCEL</a></h4>
+      <p><a name="304932">If set to </a>yes, the associated CDF parameter is processed as a CDF Expression Language (CEL) expression. The parameter must be a string. If the expression resolves to a numeric value (the usual case), the <font size="2" face="'Courier New'" color="#000000">parseAsNumber</font> flag should also be set to yes.</p>
+      <h4><a name="303204">storeDefault</a></h4>
+      <p><a name="304978">Specifies whether the parameter default value is saved as a property of the instance. All tools based on the Cadence Analog Design Environment software use the CDF to find default values if no property exists on an instance. </a></p>
+      <p><a name="303205">If set to </a><font color="#000000"><em>no</em></font> (the default) or <font color="#000000"><em>don't use</em></font>, a property is not saved on the instance when the parameter value is the default. Also, if the default value of the parameter changes, all instances that use the default automatically get the new default value. (To see the change in an open window, you must select Window - Redraw from the Cadence menu.)</p>
+      <p><a name="303206">If set to </a><font color="#000000"><em>yes</em></font> and the parameter value is set to the same value as the default, a property is saved on the instance. One disadvantage of this attribute is that if the default value of a parameter changes, the instances that use the default do not automatically change to the new default. If you are a user of the Open Simulation Software (OSS) system, and you used to set this attribute to <font color="#000000"><em>yes</em></font> because you could only netlist using instance properties, you can now set it to <font color="#000000"><em>no</em></font> because OSS users now have the option of using CDF.</p>
+      <h4><a name="303208">display</a></h4>
+      <p><a name="305063">Determines if this parameter is displayed in forms that display CDF parameters, such as the Edit Object Properties form or the Add Instance form. You must enter </a><font size="2" face="'Courier New'" color="#000000">t</font>, <font size="2" face="'Courier New'" color="#000000">nil</font>, or a SKILL expression that evaluates to <font size="2" face="'Courier New'" color="#000000">t</font> or <font size="2" face="'Courier New'" color="#000000">nil</font> in this field to determine if this parameter is to be displayed. If the field evaluates to non&#45;<font size="2" face="'Courier New'" color="#000000">nil</font> (the default), the parameter is displayed. If the field evaluates to <font size="2" face="'Courier New'" color="#000000">nil</font>, the parameter is not displayed.</p>
+      <h4>
+        <em></em>
+        <em><a name="305064">Example</a></em>
+      </h4>
+      <p><a name="305070">You can use the </a><font size="2" face="'Courier New'" color="#000000"><em>g_cdfDataId</em></font> <font color="#000000"><em>baseCell</em></font> from the previous example to examine the parameters in the base&#45;level cell CDF description of the Schottky transistor in the analog library. For example, that cell has a parameter <font color="#000000"><em>m</em></font>. You can access information about <font color="#000000"><em>m</em></font> in the following manner:</p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="303354">baseCell&#45;&#62;m&#45;&#62;prompt</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="303355">&#34;Multiplier&#34;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="303356">baseCell&#45;&#62;m&#45;&#62;editable</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="303357">nil</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="303358">baseCell&#45;&#62;m&#45;&#62;display</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="303359">&#34;artParameterInToolDisplay('m)&#34;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="303360">baseCell&#45;&#62;m&#45;&#62;paramType</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="303361">&#34;string&#34;</a></font>
+      </p>
+<h3>

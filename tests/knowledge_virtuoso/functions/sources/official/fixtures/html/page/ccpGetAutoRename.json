@@ -1,0 +1,72 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "ccpGetAutoRename()=>\nt / nil",
+   "shared_from": null
+  }
+ ],
+ "where": {
+  "file": "caiskill/cdsCopy.html",
+  "topic": "ccpGetAutoRename",
+  "marker_text": "ccpExpandConfig",
+  "anchor": "ccpGetAutoRename"
+ },
+ "also_at": [],
+ "sections": {
+  "description": {
+   "text": "Gets the current status of the auto rename feature. Earlier, the status of this feature was controlled only by a single time evaluation of the CDS_COPY_AUTO_RENAME shell environment variable. This environment variable defines the initial status setting for this feature. Now, the ccpSetAutoRename function allows you to change the status after the startup initialization."
+  },
+  "arguments": {
+   "root": {
+    "title": null,
+    "items": []
+   },
+   "lists": []
+  },
+  "returns": {
+   "items": [
+    {
+     "value": "t",
+     "desc": "The auto rename feature is enabled."
+    },
+    {
+     "value": "nil",
+     "desc": "The auto rename feature is disabled."
+    }
+   ],
+   "text": "t\nThe auto rename feature is enabled.\nnil\nThe auto rename feature is disabled."
+  },
+  "example": {
+   "text": "ccpGetAutoRename()\n=> t\nThe auto rename feature is enabled."
+  }
+ },
+ "field_status": {
+  "description": "present",
+  "arguments": "documented_none",
+  "returns": "present",
+  "example": "present",
+  "reference": "not_documented",
+  "related_functions": "not_documented",
+  "prerequisites": "not_documented",
+  "additional_information": "not_documented",
+  "interactive_function": "not_documented",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "not_documented",
+  "overview": "not_documented",
+  "errors": "not_documented",
+  "decl": "present"
+ },
+ "status": "active",
+ "prefix": "ccp",
+ "tokens": [
+  "ccp",
+  "get",
+  "auto",
+  "rename"
+ ],
+ "name": "ccpGetAutoRename"
+}

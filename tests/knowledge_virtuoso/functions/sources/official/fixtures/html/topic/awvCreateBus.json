@@ -1,0 +1,78 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "awvCreateBus(\nw_busl_wavelist\nr_radix\n)",
+   "shared_from": null
+  }
+ ],
+ "where": {
+  "file": "oceanref/chap10.html",
+  "topic": "awvCreateBus",
+  "marker_text": "awvCreateBus",
+  "anchor": "awvCreateBus"
+ },
+ "also_at": [],
+ "sections": {
+  "arguments": {
+   "root": {
+    "title": null,
+    "items": [
+     {
+      "name": "w_bus",
+      "desc": "Name of the digital waveform representing a bus.",
+      "values": null
+     },
+     {
+      "name": "l_wavelist",
+      "desc": "List of the digital waveforms in the bus.",
+      "values": null
+     },
+     {
+      "name": "r_radix",
+      "desc": "Radix of the bus.",
+      "values": null
+     }
+    ]
+   },
+   "lists": [],
+   "text": "w_bus\nName of the digital waveform representing a bus.\nl_wavelist\nList of the digital waveforms in the bus.\nr_radix\nRadix of the bus."
+  },
+  "returns": {
+   "items": []
+  },
+  "example": {
+   "text": "Following are the examples to create a digital binary bus with name bus.\nawvCreateBus(\"bus\" list( awvAnalog2Digital( v(\"/data<0> \" ?result \"tran-tran\") nil nil 0.5 nil \"centre\")\nawvAnalog2Digital( v(\"/datab<1> \" ?result \"tran-tran\") nil nil 0.5 nil \"centre\")\nawvAnalog2Digital( v(\"/data<1> \" ?result \"tran-tran\") nil nil 0.5 nil \"centre\")\nawvAnalog2Digital( v(\"/datab<0> \" ?result \"tran-tran\") nil nil 0.5 nil \"centre\") ) \"Binary\")"
+  },
+  "definition": {
+   "text": "Creates a bus with the given digital signals and radix."
+  }
+ },
+ "field_status": {
+  "description": "not_documented",
+  "arguments": "present",
+  "returns": "documented_none",
+  "example": "present",
+  "reference": "not_documented",
+  "related_functions": "not_documented",
+  "prerequisites": "not_documented",
+  "additional_information": "not_documented",
+  "interactive_function": "not_documented",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "present",
+  "overview": "not_documented",
+  "errors": "not_documented",
+  "decl": "present"
+ },
+ "status": "active",
+ "prefix": "awv",
+ "tokens": [
+  "awv",
+  "create",
+  "bus"
+ ],
+ "name": "awvCreateBus"
+}

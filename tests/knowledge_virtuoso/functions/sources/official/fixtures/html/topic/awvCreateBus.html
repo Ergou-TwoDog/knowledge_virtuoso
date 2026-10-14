@@ -1,0 +1,41 @@
+<h3><a name="awvCreateBus"></a><a name="1210985">awvCreateBus</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1209747">awvCreateBus(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>w_bus<dd>l_wavelist<dd>r_radix<dd></em></font>)</font>
+      </dl>
+      <h4><a name="1209748">Definition</a></h4>
+      <p><a name="1209749">Creates a bus with the given digital signals and radix.</a></p>
+      <h4><a name="1209750">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="651">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1713576"><font size="2" face="'Courier New'" color="#000000"><em>w_bus</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="458">
+            <p><a name="1713578">Name of the digital waveform representing a bus.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1713580"><font size="2" face="'Courier New'" color="#000000"><em>l_wavelist</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1713582">List of the digital waveforms in the bus.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1713584"><font size="2" face="'Courier New'" color="#000000"><em>r_radix</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1713586">Radix of the bus.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1209754">Value Returned</a></h4>
+      <p><a name="1209755">None.</a></p>
+      <h4><a name="1209756">Example </a></h4>
+      <p><a name="1209757">Following are the examples to create a digital binary bus with name </a><font color="#000000"><em>bus</em></font>.</p>
+      <p><a name="1209758"><font size="2" face="'Courier New'" color="#000000">awvCreateBus(&#34;bus&#34; list( awvAnalog2Digital( v(&#34;&#47;data&#60;0&#62; &#34; ?result &#34;tran&#45;tran&#34;) nil nil 0.5 nil &#34;centre&#34;) </font></a></p>
+      <p><a name="1209759"><font size="2" face="'Courier New'" color="#000000">awvAnalog2Digital( v(&#34;&#47;datab&#60;1&#62; &#34; ?result &#34;tran&#45;tran&#34;)  nil nil 0.5 nil &#34;centre&#34;) </font></a></p>
+      <p><a name="1209760"><font size="2" face="'Courier New'" color="#000000">awvAnalog2Digital( v(&#34;&#47;data&#60;1&#62; &#34; ?result &#34;tran&#45;tran&#34;) nil nil 0.5 nil &#34;centre&#34;) </font></a></p>
+      <p><a name="1209738"><font size="2" face="'Courier New'" color="#000000">awvAnalog2Digital( v(&#34;&#47;datab&#60;0&#62; &#34; ?result &#34;tran&#45;tran&#34;)  nil nil 0.5 nil &#34;centre&#34;) ) &#34;Binary&#34;)</font></a></p>

@@ -1,0 +1,111 @@
+{
+ "source": "skartistref/chap21.html",
+ "kind": "class",
+ "class": "cdfDataId",
+ "names": [
+  "buttonFieldWidth",
+  "doneProc",
+  "fieldHeight",
+  "fieldWidth",
+  "formInitProc",
+  "id",
+  "parameters",
+  "promptWidth",
+  "type"
+ ],
+ "rows": {
+  "id": {
+   "rw": "ro",
+   "type": "objId",
+   "desc": "The database object (cell ID or library ID) to which the g_cdfDataId is attached. This field is not editable."
+  },
+  "type": {
+   "rw": "ro",
+   "type": "string",
+   "desc": "There are seven types of g_cdfDataId : baseLibCDF base-level library CDF userLibCDF user-level library CDF effLibCDF effective-level library CDF baseCellCDF base-level cell CDF userCellCDF user-level cell CDF effCellCDF effective-level cell CDF effIn"
+  },
+  "parameters": {
+   "rw": "ro",
+   "type": "l_objId",
+   "desc": "List of parameters attached to this g_cdfDataId . This field is not editable."
+  },
+  "doneProc": {
+   "rw": "rw",
+   "type": "",
+   "desc": "An optional procedure name (a string) that is evaluated after any change to a parameter on a component instance. You can use doneProc for post-processing. The procedure must take a single argument: the instance that has been modified. The doneProc ca"
+  },
+  "formInitProc": {
+   "rw": "rw",
+   "type": "",
+   "desc": "An optional procedure name. If specified, the procedure is executed when the contents of the CDF are displayed on a form. The default value is nil . This field is editable. This procedure runs when you use the Add Instance and Edit Properties command"
+  },
+  "fieldWidth": {
+   "rw": "rw",
+   "type": "",
+   "desc": "Width of a field Default = 350 pixels"
+  },
+  "fieldHeight": {
+   "rw": "rw",
+   "type": "",
+   "desc": "Height of a field Default = 35 pixels"
+  },
+  "buttonFieldWidth": {
+   "rw": "rw",
+   "type": "",
+   "desc": "Width of a button field Default = 340 pixels"
+  },
+  "promptWidth": {
+   "rw": "rw",
+   "type": "",
+   "desc": "Width of a prompt Default = 175 pixels"
+  }
+ },
+ "unique": {
+  "id": {
+   "rw": "ro",
+   "type": "objId",
+   "desc": "The database object (cell ID or library ID) to which the g_cdfDataId is attached. This field is not editable."
+  },
+  "type": {
+   "rw": "ro",
+   "type": "string",
+   "desc": "There are seven types of g_cdfDataId : baseLibCDF base-level library CDF userLibCDF user-level library CDF effLibCDF effective-level library CDF baseCellCDF base-level cell CDF userCellCDF user-level cell CDF effCellCDF effective-level cell CDF effIn"
+  },
+  "parameters": {
+   "rw": "ro",
+   "type": "l_objId",
+   "desc": "List of parameters attached to this g_cdfDataId . This field is not editable."
+  },
+  "doneProc": {
+   "rw": "rw",
+   "type": "",
+   "desc": "An optional procedure name (a string) that is evaluated after any change to a parameter on a component instance. You can use doneProc for post-processing. The procedure must take a single argument: the instance that has been modified. The doneProc ca"
+  },
+  "formInitProc": {
+   "rw": "rw",
+   "type": "",
+   "desc": "An optional procedure name. If specified, the procedure is executed when the contents of the CDF are displayed on a form. The default value is nil . This field is editable. This procedure runs when you use the Add Instance and Edit Properties command"
+  },
+  "fieldWidth": {
+   "rw": "rw",
+   "type": "",
+   "desc": "Width of a field Default = 350 pixels"
+  },
+  "fieldHeight": {
+   "rw": "rw",
+   "type": "",
+   "desc": "Height of a field Default = 35 pixels"
+  },
+  "buttonFieldWidth": {
+   "rw": "rw",
+   "type": "",
+   "desc": "Width of a button field Default = 340 pixels"
+  },
+  "promptWidth": {
+   "rw": "rw",
+   "type": "",
+   "desc": "Width of a prompt Default = 175 pixels"
+  }
+ },
+ "class_desc": "CDF 描述对象（挂在 cell/library 上，含参数列表）"
+}

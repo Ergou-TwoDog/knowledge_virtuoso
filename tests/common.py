@@ -67,6 +67,8 @@ class Report:
         self.checked = 0          # golden 逐字节比对
         self.asserted = 0         # 断言
         self.updated = 0          # 重录的 golden
+        self.skipped = 0          # 环境不具备、没真跑的检查（不算过也不算错）
+        self.skips: list[str] = []
         self.failures: list[str] = []
 
     # ── golden 比对 ────────────────────────────────────────────────
@@ -97,11 +99,22 @@ class Report:
         if not condition:
             self.failures.append(f"{case}: 断言不成立" + (f"（{detail}）" if detail else ""))
 
+    # ── 跳过 ───────────────────────────────────────────────────────
+    def skip(self, case: str, reason: str) -> None:
+        """这条检查**没能真跑**（环境不具备，如本机没索引）——单独计数并在汇总里露面。
+
+        不写进 `failures`：环境问题不是回归。也不能当作通过记数：那会把"没验到"读成"验过了"。
+        """
+        self.skipped += 1
+        self.skips.append(f"{case}：{reason}")
+
     # ── 汇总 ───────────────────────────────────────────────────────
     def merge(self, other: "Report") -> None:
         self.checked += other.checked
         self.asserted += other.asserted
         self.updated += other.updated
+        self.skipped += other.skipped
+        self.skips += other.skips
         self.failures += other.failures
 
     def summary(self) -> str:
@@ -113,18 +126,77 @@ class Report:
             parts.append(f"{self.checked} 份 golden 一致")
         if self.asserted:
             parts.append(f"{self.asserted} 条断言通过")
+        if self.skipped:
+            parts.append(f"跳过 {self.skipped} 次")
         if not parts:
             parts.append("没有检查项")
         return f"{mark} {self.name}: " + "、".join(parts)
 
 
 def run_attr_cases(here: pathlib.Path, renderer, report: "Report", update: bool = False) -> None:
-    """属性库的公共跑法：fixture = {params, rows}，逐条喂本库的渲染函数。
+    """属性库的公共跑法：用例 = {params, rows}，逐条喂本库的渲染函数。
 
     三个属性库的用例形状相同，差别只在渲染函数与列格式，所以骨架放这里，
     各库的 test_render.py 只报"用哪个渲染函数"。
+
+    **一进一出放在同一个目录、同一个 stem**（`cases/x.json` 是输入、`cases/x.txt` 是期望
+    输出，靠扩展名区分角色）。期望值多于一份的（五档渲染）才退回 `fixtures/` + `golden/`。
     """
-    for fixture in sorted((here / "fixtures").glob("*.json")):
+    for fixture in sorted((here / "cases").glob("*.json")):
         case = read_json(fixture)
         got = renderer(case["rows"], **case["params"])
-        report.check(fixture.stem, got, here / "golden" / f"{fixture.stem}.txt", update)
+        report.check(fixture.stem, got, here / "cases" / f"{fixture.stem}.txt", update)
+
+
+def run_attr_parse_cases(here: pathlib.Path, library: str, catalog, report: "Report") -> None:
+    """属性库解析器的公共跑法：片段 = `fixtures/html/<名>.html`，期望值 = 同名 `.json`。
+
+    入参是**文件路径**（三个 `extract_all` 都收路径），所以片段直接喂进去。比两样：
+    **归属名字集合**（`names`，全部要比）与**只属于本片段**的名字的字段（`unique`）——
+    另一个节/类也列过的名字，线上字段取自首发节，片段单独解析出来自然不同
+    （取法见 `capture_attrs_html.py` 的 `expectation()`）。不读索引、不碰缓存。
+    """
+    for fragment in sorted((here / "fixtures" / "html").glob("*.html")):
+        want = read_json(fragment.with_suffix(".json"))
+        payload = catalog.extract_all(str(fragment))
+        if library == "db":
+            rows = {name: {"rw": info["rw"], "type": info["type"]}
+                    for name, info in payload.items()
+                    if want["runtime"] in info.get("objTypes", [])}
+        else:
+            cid = want["class"]
+            rows = {}
+            for name in payload["classes"][cid]["attributes"]:
+                info = payload["attributes"][name]
+                row = {"rw": info["rw"], "type": info["type"]}
+                if library == "cdfdb":
+                    row["desc"] = info["desc"]
+                rows[name] = row
+        report.expect(f"片段/{fragment.stem} 归属名字集合", sorted(rows), want["names"])
+        report.expect(f"片段/{fragment.stem} 唯一名字的字段",
+                      {name: rows[name] for name in want["unique"] if name in rows},
+                      want["unique"])
+
+
+def run_attr_search_cases(here: pathlib.Path, catalog, fn_name: str, report: "Report") -> None:
+    """属性库检索的公共跑法：fixture = {payload, cases}，逐条断言返回的**行**。
+
+    三个属性库的行选择逻辑（按类/类型取名字集合 → 关键词过滤 → 排序 → 组行）走同一份
+    共用实现，差别只在选哪一节的载荷、列形状如何，所以骨架放这里，各库的 test_catalog.py
+    只报"用哪个查询函数"。
+
+    ``payload`` 是**手写**的索引载荷（不引厂商原文）：检索只认载荷，不碰磁盘、不需要 doc。
+    跑完必须还原——载荷是 `Store` 的进程内缓存，留着会把 fixtures 漏给后面的模块。
+    """
+    search = getattr(catalog, fn_name)
+    for fixture in sorted((here / "fixtures").glob("*.json")):
+        case = read_json(fixture)
+        saved = catalog._STORE._data
+        catalog._STORE._data = case["payload"]
+        try:
+            for item in case["cases"]:
+                got = search(**item["params"])
+                report.expect(f"{fixture.stem}/{sorted(item['params'].items())}",
+                              got, item["expect"])
+        finally:
+            catalog._STORE._data = saved

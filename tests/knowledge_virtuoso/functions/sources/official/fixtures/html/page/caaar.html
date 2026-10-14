@@ -1,0 +1,59 @@
+<!-- [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=caar, caaar, caadr, cadr, caddr, cdar, cddr, ...
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+      <h3><a name="cadr"></a><a name="caar"></a><a name="1061843">caar, caaar, caadr, cadr, caddr, cdar, cddr, ...</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1061845">ca|d[ a | d ][ a | d ][ a | d ] r( <dd></a><font size="2" face="'Courier New'" color="#000000"><em>l_list</em></font> <dd>) <dd>=&#62; <font size="2" face="'Courier New'" color="#000000"><em>g_result</em></font></font>
+      </dl>
+      <h4><a name="1038777">Description</a></h4>
+      <p><a name="1038779">Performs operations on a list using repeated applications of </a><font size="2" face="'Courier New'" color="#000000">car</font> and <font size="2" face="'Courier New'" color="#000000">cdr</font>. For example, <font size="2" face="'Courier New'" color="#000000">caaar</font> is equivalent to <font size="2" face="'Courier New'" color="#000000">car( car( car( </font><font size="2" face="'Courier New'" color="#000000"><em>l_list</em></font><font size="2" face="'Courier New'" color="#000000">)))</font>. The possible combinations are caaaar, caaadr, caadar, caaddr, caar, caddar, cadddr, cadr, cdaaar, cdaadr, cdaar, cdadar, cdaddr, cdadr, cdar, cddaar, cddadr, cddar, cdddar, cddddr, cdddr, cddr, caaar, caadr, cadar, caddr, cdadr, cadaar, cadadr, caddar, cadddr, cdaaar, cdaadr, cdadar, cdaddr, cddaar, cddadr, cdddar, and cddddr.</p>
+      <p><a name="1038780">The </a><font size="2" face="'Courier New'" color="#000000">cadr(</font><font size="2" face="'Courier New'" color="#000000"><em>l_list</em></font><font size="2" face="'Courier New'" color="#000000">)</font> expression, for example, applies <font size="2" face="'Courier New'" color="#000000">cdr</font> to get the tail of the list and then applies <font size="2" face="'Courier New'" color="#000000">car</font> to get the first element of the tail, in effect extracting the second element from the list. SKILL implements all <font size="2" face="'Courier New'" color="#000000">c...r</font><font color="#000000"><em> </em></font>functions with any combination of <font size="2" face="'Courier New'" color="#000000">a</font> and <font size="2" face="'Courier New'" color="#000000">d</font> up to four characters.</p>
+      <h4><a name="1038781">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="180">
+            <p><a name="1064252"><font size="2" face="'Courier New'" color="#000000"><em>l_list</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="468">
+            <p><a name="1064254">List of elements.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1038783">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="180">
+            <p><a name="1064261"><font size="2" face="'Courier New'" color="#000000"><em>g_result</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="468">
+            <p><a name="1064263">Returns the value of the specified operation.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1038785">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1038786">caaar(&#39;(((1 2 3)(4 5 6))(7 8 9))) =&#62; 1</a></font>
+      </p>
+      <p><a name="1038787"><font size="2" face="'Courier New'" color="#000000">caaar</font></a> is equivalent to <font size="2" face="'Courier New'" color="#000000">car( car( car( </font><font size="2" face="'Courier New'" color="#000000"><em>l_list</em></font><font size="2" face="'Courier New'" color="#000000">)))</font>.</p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1038788">caadr(&#39;(((1 2 3)(4 5 6))(7 8 9))) =&#62; 7</a></font>
+      </p>
+      <p><a name="1038789">Equivalent to </a><font size="2" face="'Courier New'" color="#000000">car( car( cdr( </font><font size="2" face="'Courier New'" color="#000000"><em>l_list</em></font><font size="2" face="'Courier New'" color="#000000">)))</font>.</p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1038790">caar(&#39;(((1 2 3)(4 5 6))(7 8 9))) =&#62; (1 2 3)</a></font>
+      </p>
+      <p><a name="1038791">Equivalent to </a><font size="2" face="'Courier New'" color="#000000">car( car( </font><font size="2" face="'Courier New'" color="#000000"><em>l_list</em></font><font size="2" face="'Courier New'" color="#000000">))</font>.</p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1038792">z = &#39;(1 2 3)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&#62; (1 2 3)<br>cadr(z)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&#62; 2</a></font>
+      </p>
+      <p><a name="1038793">Equivalent to </a><font size="2" face="'Courier New'" color="#000000">car( cdr( </font><font size="2" face="'Courier New'" color="#000000"><em>l_list</em></font><font size="2" face="'Courier New'" color="#000000">))</font>.</p>
+      <h4><a name="1038794">Reference</a></h4>
+      <p><a href="#1038839" title="1" name="1038764"><font color="#0000ff"><u>car</u></font></a>, <a href="#1038898" title="1"><font color="#0000ff"><u>cdr</u></font></a></p>
+<!-- [TOPIC_END] -->

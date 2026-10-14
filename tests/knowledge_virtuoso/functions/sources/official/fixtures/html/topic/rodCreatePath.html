@@ -1,0 +1,1532 @@
+<h3><a name="rodCreatePath"></a><a name="1285699">rodCreatePath</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1296413">rodCreatePath(&nbsp;&nbsp;&nbsp;&nbsp;<dd>[ ?name </a><font size="2" face="'Courier New'" color="#000000"><em>S_name</em></font>]<dd>[ ?layer <font size="2" face="'Courier New'" color="#000000"><em>txl_layer</em></font> ]<dd>[ ?width <font size="2" face="'Courier New'" color="#000000"><em>n_width</em></font> ]<dd>[ ?pts <font size="2" face="'Courier New'" color="#000000"><em>l_pts</em></font> ]<dd>[ ?justification <font size="2" face="'Courier New'" color="#000000"><em>S_justification</em></font> ]<dd>[ ?offset<em> </em><font size="2" face="'Courier New'" color="#000000"><em>n_offset</em></font> ]<dd>[ ?endType <font size="2" face="'Courier New'" color="#000000"><em>S_endType</em></font> ]<dd>[ ?beginExt <font size="2" face="'Courier New'" color="#000000"><em>n_beginExt</em></font> ]<dd>[ ?endExt <font size="2" face="'Courier New'" color="#000000"><em>n_endExt</em></font> ]<dd>[ ?choppable <font size="2" face="'Courier New'" color="#000000"><em>g_choppable</em></font> ]<dd>[ ?cvId <font size="2" face="'Courier New'" color="#000000"><em>d_cvId</em></font> ]<dd>[ ?fromObj <font size="2" face="'Courier New'" color="#000000"><em>Rl_fromObj</em></font> ]<dd>[ ?size <font size="2" face="'Courier New'" color="#000000"><em>txf_size</em></font> ]<dd>[ ?startHandle <font size="2" face="'Courier New'" color="#000000"><em>l_startHandle</em></font> ]<dd>[ ?endHandle <font size="2" face="'Courier New'" color="#000000"><em>l_endHandle</em></font> ]<dd>[ ?prop <font size="2" face="'Courier New'" color="#000000"><em>l_prop</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;<dd>[<font size="2" face="'Courier New'" color="#000000"><em>rodConnectivityArgs... </em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;;start <a href="#1214892" title="1"><font color="#0000ff"><u>ROD Connectivity Arguments (rodConnectivityArgs)</u></font></a><font size="2" face="'Courier New'" color="#0000ff"><u><dd></u></font>&nbsp;&nbsp;&nbsp;&nbsp;[ ?netName <font size="2" face="'Courier New'" color="#000000"><em>S_netName</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;[ ?termName <font size="2" face="'Courier New'" color="#000000"><em>S_termName</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;[ ?termIOType <font size="2" face="'Courier New'" color="#000000"><em>S_termIOType</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;[ ?pin <font size="2" face="'Courier New'" color="#000000"><em>g_pin</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;[ ?pinAccessDir <font size="2" face="'Courier New'" color="#000000"><em>tl_pinAccessDir</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;[ ?pinLabel <font size="2" face="'Courier New'" color="#000000"><em>g_pinLabel</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;[ ?pinLabelHeight <font size="2" face="'Courier New'" color="#000000"><em>n_pinLabelHeight</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;[ ?pinLabelLayer <font size="2" face="'Courier New'" color="#000000"><em>txl_pinLabelLayer</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;[ ?pinLabelFont <font size="2" face="'Courier New'" color="#000000"><em>S_pinLabelFont</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;[ ?pinLabelDrafting <font size="2" face="'Courier New'" color="#000000"><em>g_pinLabelDrafting</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;[ ?pinLabelOrient <font size="2" face="'Courier New'" color="#000000"><em>S_pinLabelOrient</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;[ ?pinLabelOffsetPoint <font size="2" face="'Courier New'" color="#000000"><em>l_pinLabelOffsetPoint</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;[ ?pinLabelJust <font size="2" face="'Courier New'" color="#000000"><em>S_pinLabelJust</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;[ ?pinLabelRefHandle <font size="2" face="'Courier New'" color="#000000"><em>S_pinLabelRefHandle</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;;end ROD Connectivity Arguments<dd><dd>[ ?offsetSubPath &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font size="2" face="'Courier New'" color="#000000"><em>l_offsetSubpathArgs</em></font>... ]<dd>;start <a href="#1256547" title="1"><font color="#0000ff"><u>Offset Subpath Arguments (l_offsetSubpathArgs)</u></font></a><font size="2" face="'Courier New'" color="#0000ff"><u><dd></u></font>list(<dd>&nbsp;&nbsp;&nbsp;&nbsp;list(<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?layer <font size="2" face="'Courier New'" color="#000000"><em>txl_layer</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?width <font size="2" face="'Courier New'" color="#000000"><em>n_width</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?sep <font size="2" face="'Courier New'" color="#000000"><em>n_sep</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?justification <font size="2" face="'Courier New'" color="#000000"><em>S_justification</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?beginOffset <font size="2" face="'Courier New'" color="#000000"><em>n_beginOffset</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?endOffset <font size="2" face="'Courier New'" color="#000000"><em>n_endOffset</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?choppable <font size="2" face="'Courier New'" color="#000000"><em>g_choppable</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?prop <font size="2" face="'Courier New'" color="#000000"><em>l_prop</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;repeat ROD Connectivity Arguments here<dd>&nbsp;&nbsp;&nbsp;&nbsp;);end first offset subpath list<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#000000"><strong>...<dd></strong></font>&nbsp;&nbsp;&nbsp;&nbsp;);end offset subpath lists<dd>;end Offset Subpath Arguments<dd><dd>[ ?encSubPath        <font size="2" face="'Courier New'" color="#000000"><em>l_encSubpathArgs</em></font>...  ]<dd>;start <a href="#1052551" title="1"><font color="#0000ff"><u>Enclosure Subpath Arguments (l_encSubpathArgs)</u></font></a><font size="2" face="'Courier New'" color="#0000ff"><u><dd></u></font>list(<dd>&nbsp;&nbsp;&nbsp;&nbsp;list(<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?layer <font size="2" face="'Courier New'" color="#000000"><em>txl_layer</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?enclosure <font size="2" face="'Courier New'" color="#000000"><em>n_enclosure</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?beginOffset <font size="2" face="'Courier New'" color="#000000"><em>n_beginOffset</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?endOffset <font size="2" face="'Courier New'" color="#000000"><em>n_endOffset</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?choppable <font size="2" face="'Courier New'" color="#000000"><em>g_choppable</em></font> ]&nbsp;&nbsp;&nbsp;&nbsp;<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?prop <font size="2" face="'Courier New'" color="#000000"><em>l_prop</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font size="2" face="'Courier New'" color="#000000">;repeat ROD Connectivity Arguments here<dd></font>&nbsp;&nbsp;&nbsp;&nbsp;);end first enclosure subpath list<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#000000"><strong>...<dd></strong></font>&nbsp;&nbsp;&nbsp;&nbsp;;end of enclosure subpath lists<dd>;end Enclosure Subpath Arguments<dd><dd>[ ?subRect <font size="2" face="'Courier New'" color="#000000"><em>l_subrectArgs</em></font>...  ]<dd>;start <a href="#1216799" title="1"><font color="#0000ff"><u>Subrectangle Arguments (l_subrectArgs)</u></font></a><font size="2" face="'Courier New'" color="#0000ff"><u><dd></u></font>list(<dd>&nbsp;&nbsp;&nbsp;&nbsp;list(<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?layer <font size="2" face="'Courier New'" color="#000000"><em>txl_layer</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?width <font size="2" face="'Courier New'" color="#000000"><em>n_width</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?length <font size="2" face="'Courier New'" color="#000000"><em>n_length</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?gap <font size="2" face="'Courier New'" color="#000000"><em>S_gap</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?sep <font size="2" face="'Courier New'" color="#000000"><em>n_sep</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?justification <font size="2" face="'Courier New'" color="#000000"><em>S_justification</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?beginOffset <font size="2" face="'Courier New'" color="#000000"><em>n_beginOffset</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?endOffset <font size="2" face="'Courier New'" color="#000000"><em>n_endOffset</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?beginSegOffset <font size="2" face="'Courier New'" color="#000000"><em>n_beginSegOffset</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?endSegOffset <font size="2" face="'Courier New'" color="#000000"><em>n_endSegOffset</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?space <font size="2" face="'Courier New'" color="#000000"><em>n_space</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?choppable <font size="2" face="'Courier New'" color="#000000"><em>g_choppable</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?prop <font size="2" face="'Courier New'" color="#000000"><em>l_prop</em></font> ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;repeat ROD Connectivity Arguments here<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ?diagonal <font size="2" face="'Courier New'" color="#000000"><em>g_diagonalSubRect</em></font>  ]<dd>&nbsp;&nbsp;&nbsp;&nbsp;);end first subrectangle list<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#000000"><strong>...</strong></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<dd>&nbsp;&nbsp;&nbsp;&nbsp;;end subrectangle lists<dd>&nbsp;&nbsp;);end Subrectangle Arguments<dd>);end rodCreatePath<dd><dd>=&#62;<em> </em><font size="2" face="'Courier New'" color="#000000"><em>R_rodObj</em></font> &#47; <font size="2" face="'Courier New'" color="#000000">nil</font></font>
+      </dl>
+      <h4><a name="vleMultipartPathDescription"></a><a name="1257259">Description</a></h4>
+      <p><a name="1105517">Creates a path consisting of one or more parts at level zero in the hierarchy on the same or on different layers from a list of points or from one or more existing objects. A path consisting of multiple parts is called a </a><font color="#000000"><em>multipart path</em></font>. You can use the <font size="2" face="'Courier New'" color="#000000">rodCreatePath</font> function to create one&#45;part paths, simple multipart paths, or complex multipart paths such as guard rings, transistors, buses, and shielded paths. You can assign one or more property names and values to a multipart path. </p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1327353"><font size="2" face="'Courier New'" color="#000000">rodCreatePath</font></a> is a core database SKILL function that checks only for even multiples of database units to create a path. As a result, the created path can be off grid. To create a path with required constraints and additional level of automation use an end&#45;application SKILL function, such as <a href="../sklayoutref/layout.html#leCreatePath" target="external_window"><font size="2" face="'Courier New'" color="#0000ff"><u>leCreatePath</u></font></a>. </p>
+      <p><a name="1256558">A multipart path consists of a single </a><font color="#000000"><em>master path</em></font> and one or more <font color="#000000"><em>subparts</em></font>. The master path is an ordinary path; however, it is the defining part of a multipart path; all subparts are based on the master path. You can assign a property name and value, or a list of property names and values, to the master path and&#47;or to each subpart. The subparts can be any or all of the following: offset subpaths, enclosure subpaths, and sets of subrectangles.</p>
+      <p><a name="1256559">You can create any number of subparts. All subparts exist in relation to and depend on the master path. A subrectangle in a set of subrectangles is not an individual shape; it is part of that specific set of subrectangles. In the Virtuoso layout editor, you cannot select or edit an individual subrectangle. Subrectangles are created on grid.</a></p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1137596">Although you cannot select an individual subrectangle, it is possible to obtain the database ID for an individual subrectangle. If you use the database ID to change connectivity information (such as terminal name) for one or more individual subrectangles, your change is applied to the individual subrectangles immediately, and propagated to all of the subrectangles in the set of subrectangles when the MPP is modified in any way (such as moved).</a></p>
+      <p><a name="1094455">For a detailed overview of multipart paths, see </a><a href="../roduser/chap1.html#multipartPaths" target="external_window"><font color="#0000ff"><u>"Multipart Paths"</u></font></a>. </p>
+      <p><a name="1113226">You can also create MPPs and save them as templates in your technology file by using the graphical user interface or by editing the ASCII version of your technology file. For information about using the graphical user interface, see </a><a href="../vlehelp/chap8.html" target="external_window"><font color="#0000ff"><u>"Creating and Editing Multipart Paths</u></font></a><a href="../vlehelp/vlehelpTOC.html" target="external_window"><font color="#0000ff"><u>"</u></font></a> in the <font color="#000000"><em>Virtuoso Layout Suite L User Guide</em></font>. For information about editing your technology file, see "<a href="../ascitechfile/chap7.html#multipartPathTemplates" target="external_window"><font size="2" face="'Courier New'" color="#0000ff"><u>multiPartPathtcCreatreTemplates</u></font></a>" in the <font color="#000000"><em>Technology File and Display Resource File ASCII Syntax Reference Manual</em></font>.</p>
+      <p><a name="1113224">The following topics are discussed in this section, following the argument descriptions:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a href="#1180525" title="1" name="1094459"><font color="#0000ff"><u>Creating Self&#45;Intersecting Paths</u></font></a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a href="#1096321" title="1" name="1137007"><font color="#0000ff"><u>Specifying Arguments as nil</u></font></a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a href="#1256531" title="1" name="1094399"><font color="#0000ff"><u>Formatting List&#45;of&#45;Lists Arguments for Subparts</u></font></a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a href="#1094105" title="1" name="1094403"><font color="#0000ff"><u>How the System Follows to Create Subrectangles</u></font></a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a href="#1138173" title="1" name="1258427"><font color="#0000ff"><u>Disconnecting Shapes in a Multipart Path</u></font></a></td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="rodCreatePathArguments"></a><a name="rodCreatePathArguments"></a><a name="rodCreatePathArguments"></a><a name="rodCreatePathArguments"></a><a name="rodCreatePathArguments"></a><a name="1258429">Arguments<br><br>Master Path Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="198">
+            <p><a name="1259516"><font size="2" face="'Courier New'" color="#000000">?name</font></a> <font size="2" face="'Courier New'" color="#000000"><em>S_name</em></font></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="450">
+            <p><a name="1259521">Symbol or character string specifying the name for the master path. Enclose character strings in quotation marks (&#34;&#34;); precede symbols with a single quotation mark (&#39;). ROD converts symbols to character strings.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259523">&nbsp;&nbsp;&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259525">The name must be unique for the cellview. If you do not specify a name, the system assigns a unique name, consisting of the prefix </a><font size="2" face="'Courier New'" color="#000000">path</font>, followed by a number. For example, for the first master path in a cellview for which you do not specify a name, the system assigns the name <font size="2" face="'Courier New'" color="#000000">path0</font>, if unique; for the second, <font size="2" face="'Courier New'" color="#000000">path1</font>, and so on.<br>Default: <font size="2" face="'Courier New'" color="#000000">path</font><font size="2" face="'Courier New'" color="#000000"><em>n</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="txlLayerFormat"></a><a name="1259528"><font size="2" face="'Courier New'" color="#000000">?layer </font></a><font size="2" face="'Courier New'" color="#000000"><em>txl_layer</em></font></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259530">Text string, integer, or list specifying the layer or layer&#45;purpose pair for the master path, such as <br></a><font size="2" face="'Courier New'" color="#000000">?layer &#34;metal1&#34;<br>?layer 45<br>?layer list(&#34;metal1&#34; &#34;drawing&#34;)</font></p>
+            <p><a name="1259531">Enclose string values in quotation marks. Do not use a symbol. For lists, use the following format:<br></a><font size="2" face="'Courier New'" color="#000000">list( </font><font size="2" face="'Courier New'" color="#000000"><em>layer purpose</em></font><font size="2" face="'Courier New'" color="#000000"> )</font></p>
+            <p><a name="1259532">Examples of layer&#45;purpose pairs:<br></a><font size="2" face="'Courier New'" color="#000000">?layer list(&#34;metal1&#34; &#34;drawing&#34;)<br>?layer list(45 252)<br>?layer list(45 &#34;drawing&#34;)<br>?layer list(&#34;metal1&#34; 252)</font></p>
+            <p><a name="1259533">You are required to specify a layer.<br>Default Purpose: </a><font size="2" face="'Courier New'" color="#000000">drawing</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259535"><font size="2" face="'Courier New'" color="#000000">?width </font></a><font size="2" face="'Courier New'" color="#000000"><em>n_width</em></font></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259537">Positive integer or floating&#45;point number specifying the width of the master path. If you do not specify the width, the system uses the </a><font size="2" face="'Courier New'" color="#000000">minWidth</font> rule for the master path layer from the technology file. If the <font size="2" face="'Courier New'" color="#000000">minWidth</font> rule is not defined in the technology file, the <font size="2" face="'Courier New'" color="#000000">rodCreatePath</font> function reports an error.</p>
+            <p><a name="1259538">Default: the </a><font size="2" face="'Courier New'" color="#000000">minWidth</font> rule for the master path layer from the technology file</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259540"><font size="2" face="'Courier New'" color="#000000">?pts </font></a><font size="2" face="'Courier New'" color="#000000"><em>l_pts</em></font></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259542">List of points defining the centerline of the master path. Specify a point for the start and end of the first segment, and specify a point for the end of subsequent segments. You must specify at least two noncoincident points. You cannot create self&#45;intersecting master paths. You are required to specify a list of points. The system discards duplicate and collinear points before creating the path but does not consider them an error. </a></p>
+            <p><a name="1259543">Use one of the following formats:<br></a><font size="2" face="'Courier New'" color="#000000">list( </font><font size="2" face="'Courier New'" color="#000000"><em>x</em></font><font size="2" face="'Courier New'" color="#000000">:</font><font size="2" face="'Courier New'" color="#000000"><em>y</em></font><font size="2" face="'Courier New'" color="#000000"> </font><font size="2" face="'Courier New'" color="#000000"><em>x</em></font><font size="2" face="'Courier New'" color="#000000">:</font><font size="2" face="'Courier New'" color="#000000"><em>y ... </em></font><font size="2" face="'Courier New'" color="#000000">)</font> <br>or <br><font size="2" face="'Courier New'" color="#000000">list( list(</font><font size="2" face="'Courier New'" color="#000000"><em>x</em></font><font size="2" face="'Courier New'" color="#000000"> </font><font size="2" face="'Courier New'" color="#000000"><em>y</em></font><font size="2" face="'Courier New'" color="#000000">) list(</font><font size="2" face="'Courier New'" color="#000000"><em>x</em></font><font size="2" face="'Courier New'" color="#000000"> </font><font size="2" face="'Courier New'" color="#000000"><em>y</em></font><font size="2" face="'Courier New'" color="#000000">) ... )<br><br></font>You must specify either <font size="2" face="'Courier New'" color="#000000"><em>l_pts</em></font> or <font size="2" face="'Courier New'" color="#000000"><em>Rl_fromObj</em></font>. If you specify both, the system ignores the <font size="2" face="'Courier New'" color="#000000"><em>l_pts</em></font> argument.<br>Default: none</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1281493"><font size="2" face="'Courier New'" color="#000000">?justification </font></a><font size="2" face="'Courier New'" color="#000000"><em>S_justification</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259545"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259550">Symbol or character string specifying the part of the master path to offset from the point list: centerline, left edge, or right edge. Justification is relative to the direction of the path.<br>Valid Values: </a><font size="2" face="'Courier New'" color="#000000">center</font>, <font size="2" face="'Courier New'" color="#000000">left</font>, <font size="2" face="'Courier New'" color="#000000">right<br></font>Default: <font size="2" face="'Courier New'" color="#000000">center</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259552"><font size="2" face="'Courier New'" color="#000000">?offset </font></a><font size="2" face="'Courier New'" color="#000000"><em>n_offset</em></font></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259554">Signed integer or floating&#45;point number specifying the distance by which the master path edge or centerline, depending on </a><font size="2" face="'Courier New'" color="#000000"><em>S_justification</em></font>, is offset from the point list specified by the <font size="2" face="'Courier New'" color="#000000"><em>l_pts</em></font> argument. A positive value creates the master path to the left of the point list; a negative value creates the master path to the right of the point list. For a detailed description about offsetting the master path, see <a href="../roduser/chap1.html#offsettingMasterPath" target="external_window"><font color="#0000ff"><u>"Master Paths"</u></font></a> in the <font color="#000000"><em>Virtuoso Relative Object Design User Guide</em></font>.<br>Default: <font size="2" face="'Courier New'" color="#000000">0</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1297151"><font size="2" face="'Courier New'" color="#000000">?endType </font></a><font size="2" face="'Courier New'" color="#000000"><em>S_endType</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259557"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259562">Symbol or character string specifying the type of ends of the master path. <br>Valid Values: </a><font size="2" face="'Courier New'" color="#000000">flush</font>, <font size="2" face="'Courier New'" color="#000000">offset</font>, <font size="2" face="'Courier New'" color="#000000">octagon</font>, <font size="2" face="'Courier New'" color="#000000">variable<br></font>Default: <font size="2" face="'Courier New'" color="#000000">flush</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1281489"><font size="2" face="'Courier New'" color="#000000">?beginnExt </font></a><font size="2" face="'Courier New'" color="#000000"><em>n_beginExt</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259564"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259566">Zero or positive integer or floating&#45;point number specifying the distance by which the starting end of the master path extends beyond its first point. This argument is ignored unless </a><font size="2" face="'Courier New'" color="#000000"><em>S_endType</em></font> is set to <font size="2" face="'Courier New'" color="#000000">variable</font>.<br>Default: <font size="2" face="'Courier New'" color="#000000">0</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259568"><font size="2" face="'Courier New'" color="#000000">?endExt</font></a> <font size="2" face="'Courier New'" color="#000000"><em>n_endExt</em></font></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259570">Zero or positive integer or floating&#45;point number specifying the distance by which the ending end of the master path extends beyond its last point. This argument is ignored unless </a><font size="2" face="'Courier New'" color="#000000"><em>S_endType</em></font> is set to <font size="2" face="'Courier New'" color="#000000">variable</font>.<br>Default: <font size="2" face="'Courier New'" color="#000000">0</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1281485"><font size="2" face="'Courier New'" color="#000000">?choppable </font></a><font size="2" face="'Courier New'" color="#000000"><em>g_choppable</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259572"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259574">Boolean value indicating whether or not a ROD path can be chopped. The value must be </a><font size="2" face="'Courier New'" color="#000000">t</font> or <font size="2" face="'Courier New'" color="#000000">nil</font>. When a path has subparts and the master path is choppable, all subpaths and sets of subrectangles must be choppable also. When a path has subparts and the master path is not choppable, each subpath and&#47;or set of subrectangles can be choppable or not.<br>Default: <font size="2" face="'Courier New'" color="#000000">t</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259576"><font size="2" face="'Courier New'" color="#000000">?cdId </font></a><font size="2" face="'Courier New'" color="#000000"><em>d_cvId</em></font></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259578">Database ID for the cellview in which you are creating a ROD path. If </a><font size="2" face="'Courier New'" color="#000000">rodCreatePath</font> occurs in the body of a <font size="2" face="'Courier New'" color="#000000">pcDefinePCell</font> function or<font size="2" face="'Courier New'" color="#000000"> tcCreateCDSDeviceClass</font> function call, the default value is <font size="2" face="'Courier New'" color="#000000">pcCellView</font> or <font size="2" face="'Courier New'" color="#000000">tcCellView</font>, respectively; otherwise, this argument is required. <br>Default: none</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1297172"><font size="2" face="'Courier New'" color="#000000">?fromObj </font></a><font size="2" face="'Courier New'" color="#000000"><em>Rl_fromObj</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259580"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259582">ROD object ID or list of ROD object IDs identifying a named object or list of named objects that you want to use as a source for creating a new ROD path. The source objects can be instances, rectangles, polygons, paths, lines, dots, labels, and&#47;or text&#45;display objects. You must specify either the </a><font size="2" face="'Courier New'" color="#000000"><em>Rl_fromObj</em></font> argument or the <font size="2" face="'Courier New'" color="#000000"><em>l_pts</em></font> argument. If you specify both, the system ignores the <font size="2" face="'Courier New'" color="#000000"><em>l_pts</em></font> argument.<br>Default: none</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1286343"><font size="2" face="'Courier New'" color="#000000">?size </font></a><font size="2" face="'Courier New'" color="#000000"><em>txf_size</em></font></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1286359">A signed integer, floating&#45;point number, or Cadence SKILL language expression specifying the distance between a bounding box around the source object (</a><font size="2" face="'Courier New'" color="#000000"><em>Rl_fromObj</em></font>) and the centerline of the generated master path. When the source is more than one object, <font size="2" face="'Courier New'" color="#000000"><em>txf_size</em></font> specifies the distance between a bounding box around all of the objects and the centerline of the master path.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259584"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259587">By default, the generated path has four segments and forms a ring. A positive number creates a path that is longer than the circumference of the bounding box; a negative number creates a path that is shorter than the circumference of the bounding box. </a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259589">&nbsp;&nbsp;&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259591">When you specify a SKILL expression, it must evaluate to a positive or negative integer or floating&#45;point number. SKILL expressions are evaluated only when the new path is created.</a></p>
+            <p><a name="1259592">If you specify a source object (</a><font size="2" face="'Courier New'" color="#000000"><em>Rl_fromObj</em></font>) but do not specify <font size="2" face="'Courier New'" color="#000000"><em>txf_size</em></font>, then <font size="2" face="'Courier New'" color="#000000"><em>txf_size</em></font> defaults to <font size="2" face="'Courier New'" color="#000000">0.0</font>. If you specify <font size="2" face="'Courier New'" color="#000000"><em>txf_size</em></font>, you must also specify <font size="2" face="'Courier New'" color="#000000"><em>Rl_fromObj</em></font>, or the system reports an error.<br>Default: <font size="2" face="'Courier New'" color="#000000">0.0</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1281481"><font size="2" face="'Courier New'" color="#000000">?startHandle </font></a><font size="2" face="'Courier New'" color="#000000"><em>S_startHandle</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259598"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259603">Symbol or character string specifying the starting point for the generated path, such as </a><font size="2" face="'Courier New'" color="#000000">start</font><font size="2" face="'Courier New'" color="#000000"><em>n</em></font>, where <font size="2" face="'Courier New'" color="#000000"><em>n</em></font> is the <a href="../roduser/chap1.html#segments" target="external_window"><font color="#0000ff"><u>segment number</u></font></a>.<br>Valid Values: <font size="2" face="'Courier New'" color="#000000">start</font><font size="2" face="'Courier New'" color="#000000"><em>n</em></font>, <font size="2" face="'Courier New'" color="#000000">mid</font><font size="2" face="'Courier New'" color="#000000"><em>n</em></font>, <font size="2" face="'Courier New'" color="#000000">end</font><font size="2" face="'Courier New'" color="#000000"><em>n</em></font>, <font size="2" face="'Courier New'" color="#000000">startLast</font>, <font size="2" face="'Courier New'" color="#000000">midLast</font>, <font size="2" face="'Courier New'" color="#000000">endLast<br></font>Default: <font size="2" face="'Courier New'" color="#000000">start0</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1281622"><font size="2" face="'Courier New'" color="#000000">?endHandle </font></a><font size="2" face="'Courier New'" color="#000000"><em>S_endHandle</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259606"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259611">Symbol or character string specifying the ending point for the generated path, such as </a><font size="2" face="'Courier New'" color="#000000">start</font><font size="2" face="'Courier New'" color="#000000"><em>n</em></font>, where <font size="2" face="'Courier New'" color="#000000"><em>n</em></font> is the <a href="../roduser/chap1.html#segments" target="external_window"><font color="#0000ff"><u>segment number</u></font></a></p>
+            <p><a name="1259613">Valid Values: </a><font size="2" face="'Courier New'" color="#000000">start</font><font size="2" face="'Courier New'" color="#000000"><em>n</em></font>, <font size="2" face="'Courier New'" color="#000000">mid</font><font size="2" face="'Courier New'" color="#000000"><em>n</em></font>, <font size="2" face="'Courier New'" color="#000000">end</font><font size="2" face="'Courier New'" color="#000000"><em>n</em></font>, <font size="2" face="'Courier New'" color="#000000">startLast</font>, <font size="2" face="'Courier New'" color="#000000">midLast</font>, <font size="2" face="'Courier New'" color="#000000">endLast<br></font>Default: <font size="2" face="'Courier New'" color="#000000">start0</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259615"><font size="2" face="'Courier New'" color="#000000">?prop </font></a><font size="2" face="'Courier New'" color="#000000"><em>l_prop</em></font></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259617">A list or lists of lists, where each list contains the name of a property and its value. When the property name is a string, enclose it in quotes. For a description of the valid data types, see the "</a><a href="../vlehelp/appA.html#addProperty" target="external_window"><font color="#0000ff"><u>About the Add Property Form</u></font></a>" in the <font color="#000000"><em>Virtuoso Layout Suite L User Guide</em></font>. For Boolean properties, the value must be <font size="2" face="'Courier New'" color="#000000">t</font> or <font size="2" face="'Courier New'" color="#000000">nil</font>. For example, you would specify a single Boolean property as follows:</p>
+            <p><a name="1259619"><font size="2" face="'Courier New'" color="#000000">?prop list(&#34;myProp&#34; t)</font></a></p>
+            <p><a name="1259620">and a list of properties as follows:</a></p>
+            <p><a name="1259621"><font size="2" face="'Courier New'" color="#000000">?prop list(<br>   list(&#34;myProp1&#34; propValue1)<br>   list(&#34;myProp2&#34; propValue2)<br>   ...<br>   list(&#34;myPropN&#34; propValueN)<br>)</font></a></p>
+            <p><a name="1259622">For a more detailed description about specifying lists of lists, see </a><a href="#1256531" title="1"><font color="#0000ff"><u>Formatting List&#45;of&#45;Lists Arguments for Subparts</u></font></a>.<br>Default: <font size="2" face="'Courier New'" color="#000000">nil</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1259627"><font size="2" face="'Courier New'" color="#000000"><em>rodConnectivityArgs...</em></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259631"><font size="2" face="'Courier New'" color="#000000"><em>&nbsp;&nbsp;&nbsp;&nbsp;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259633">A list containing rod connectivity arguments. For more details on these arguments, see </a><a href="#1214892" title="1"><font color="#0000ff"><u>ROD Connectivity Arguments (rodConnectivityArgs)</u></font></a>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1259638"><font size="2" face="'Courier New'" color="#000000"><em>l_offsetSubpathArgs...</em></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259642"><font size="2" face="'Courier New'" color="#000000"><em>&nbsp;&nbsp;&nbsp;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259644">A list containing one or more lists, each of which specifies the arguments for one offset subpath. The subpath is created in relationship to the master path. For information about how to specify lists of lists, see </a><a href="#1256531" title="1"><font color="#0000ff"><u>Formatting List&#45;of&#45;Lists Arguments for Subparts</u></font></a>.</p>
+            <p><a name="1259648">For more information on </a><font size="2" face="'Courier New'" color="#000000"><em>l_encSubPathArgs</em></font> arguments, see <a href="#1052551" title="1"><font color="#0000ff"><u>Enclosure Subpath Arguments (l_encSubpathArgs)</u></font></a>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1259675"><font size="2" face="'Courier New'" color="#000000"><em>l_encSubPathArgs...</em></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1286326"><font size="2" face="'Courier New'" color="#000000"><em>&nbsp;&nbsp;&nbsp;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1286328">A list containing one or more lists, each of which specifies the arguments for one enclosure subpath. The enclosure subpath is created in relationship to the centerline of the master path. For information about how to specify lists of lists, see </a><a href="#1256531" title="1"><font color="#0000ff"><u>Formatting List&#45;of&#45;Lists Arguments for Subparts</u></font></a>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259653"><font size="2" face="'Courier New'" color="#000000"><em>&nbsp;&nbsp;&nbsp;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259659">For more information on </a><font size="2" face="'Courier New'" color="#000000"><em>l_offsetSubpathArgs</em></font>, see <a href="#1052551" title="1"><font color="#0000ff"><u>Enclosure Subpath Arguments (l_encSubpathArgs)</u></font></a>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259664"><font size="2" face="'Courier New'" color="#000000"><em>l_subRectArgs...</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1259666">A list containing one or more lists, each of which specifies the arguments for one set of unnamed subrectangles. The set of subrectangles is created in relationship to the centerline of the master path. For information about how to specify lists of lists, see </a><a href="#1256531" title="1"><font color="#0000ff"><u>Formatting List&#45;of&#45;Lists Arguments for Subparts</u></font></a>.</p>
+            <p><a name="1259672">For more information on </a><font size="2" face="'Courier New'" color="#000000"><em>l_subRectArgs</em></font>, see <a href="#1216799" title="1"><font color="#0000ff"><u>Subrectangle Arguments (l_subrectArgs)</u></font></a>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4>
+        <em></em>
+        <em><a name="rodConnectivityArguments"></a><a name="1214892">ROD Connectivity Arguments (rodConnectivityArgs)</a></em>
+      </h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top" width="648">
+            <p><a name="1297193"><font size="2" face="'Courier New'" color="#000000">?netname </font></a><font size="2" face="'Courier New'" color="#000000"><em>S_netName</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="198">
+            <p><a name="1282247"><font size="2" face="'Courier New'" color="#000000"><em>&nbsp;&nbsp;&nbsp;&nbsp;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="450">
+            <p><a name="1282252">Symbol or character string specifying the name of the net with which you want to associate the shape. Enclose character strings in quotation marks (&#34;&#34;); precede symbols with a single quotation mark (&#39;). <br>ROD converts symbols to character strings. If the net does not exist, the system creates it, using the name specified by </a><font size="2" face="'Courier New'" color="#000000"><em>S_netName</em></font>. To associate the shape with a net, this argument is required. If you do not want to specify this argument, omit it or specify its value as <font size="2" face="'Courier New'" color="#000000">nil</font>.<br>Default: <font size="2" face="'Courier New'" color="#000000">nil</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1282423"><font size="2" face="'Courier New'" color="#000000">?termName </font></a><font size="2" face="'Courier New'" color="#000000"><em>S_termName</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282433"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282438">Symbol or character string specifying the name of the terminal and net with which you want to associate the shape. Enclose character strings in quotation marks (&#34;&#34;); precede symbols with a single quotation mark (&#39;). <br>ROD converts symbols to character strings. If the terminal and&#47;or net does not exist, the system creates it, using the name specified by </a><font size="2" face="'Courier New'" color="#000000"><em>S_termName</em></font>. </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282254"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282260">If you specify both </a><font size="2" face="'Courier New'" color="#000000"><em>S_termName</em></font> and <font size="2" face="'Courier New'" color="#000000"><em>S_netName</em></font>, their values must be the same. If a terminal with the specified name already exists, the net it belongs to must have the same name. If the net name does not match the terminal name, the function reports an error. <br>To associate the shape with a terminal and net, this argument is required. If you do not want to specify this argument, omit it or specify its value as <font size="2" face="'Courier New'" color="#000000">nil.<br></font>Default: <font size="2" face="'Courier New'" color="#000000">nil</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1282451"><font size="2" face="'Courier New'" color="#000000">?termIOType </font></a><font size="2" face="'Courier New'" color="#000000"><em>S_termIOType</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1286368"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1286373">Symbol or character string specifying the direction type (I&#47;O type) for the terminal. If </a><font size="2" face="'Courier New'" color="#000000"><em>S_termName</em></font> is not specified, the <font size="2" face="'Courier New'" color="#000000"><em>S_termIOType</em></font> argument is ignored. If a terminal with the name specified by <font size="2" face="'Courier New'" color="#000000"><em>S_termName</em></font> already exists, it must have the same direction type as specified by <font size="2" face="'Courier New'" color="#000000"><em>S_termIOType</em></font>; if the direction type is not the same, the function reports an error.<br>Valid Values: <font size="2" face="'Courier New'" color="#000000">input</font>, <font size="2" face="'Courier New'" color="#000000">output</font>, <font size="2" face="'Courier New'" color="#000000">inputOutput</font>, <font size="2" face="'Courier New'" color="#000000">switch</font>, <font size="2" face="'Courier New'" color="#000000">jumper<br></font>Default: <font size="2" face="'Courier New'" color="#000000">inputOutput</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282262"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282267">Symbol or character string specifying the direction type (I&#47;O type) for the terminal. If </a><font size="2" face="'Courier New'" color="#000000"><em>S_termName</em></font> is not specified, the <font size="2" face="'Courier New'" color="#000000"><em>S_termIOType</em></font> argument is ignored. If a terminal with the name specified by <font size="2" face="'Courier New'" color="#000000"><em>S_termName</em></font> already exists, it must have the same direction type as specified by <font size="2" face="'Courier New'" color="#000000"><em>S_termIOType</em></font>; if the direction type is not the same, the function reports an error.<br>Valid Values: <font size="2" face="'Courier New'" color="#000000">input</font>, <font size="2" face="'Courier New'" color="#000000">output</font>, <font size="2" face="'Courier New'" color="#000000">inputOutput</font>, <font size="2" face="'Courier New'" color="#000000">switch</font>, <font size="2" face="'Courier New'" color="#000000">jumper<br></font>Default: <font size="2" face="'Courier New'" color="#000000">inputOutput</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1297222"><font size="2" face="'Courier New'" color="#000000">?pin </font></a><font size="2" face="'Courier New'" color="#000000"><em>g_pin</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282269"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282271">Boolean value indicating whether or not to make the shape into a pin. The value must be </a><font size="2" face="'Courier New'" color="#000000">t</font> or <font size="2" face="'Courier New'" color="#000000">nil</font>. When you specify <font size="2" face="'Courier New'" color="#000000"><em>g_pin</em></font>, you must also specify a value other than <font size="2" face="'Courier New'" color="#000000">nil</font> for <font size="2" face="'Courier New'" color="#000000"><em>S_netName</em></font> and&#47;or <font size="2" face="'Courier New'" color="#000000"><em>S_termName</em></font>; if you do not, all connectivity arguments are ignored but no error is reported. If you do not want to specify this argument, omit it or specify its value as <font size="2" face="'Courier New'" color="#000000">nil</font>. When the value is <font size="2" face="'Courier New'" color="#000000">nil</font>, the shape created is not a pin and all other arguments containing the word <font size="2" face="'Courier New'" color="#000000">pin</font> are ignored. <br>Valid Values: <font size="2" face="'Courier New'" color="#000000">t</font>, <font size="2" face="'Courier New'" color="#000000">nil<br></font>Default: <font size="2" face="'Courier New'" color="#000000">nil</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1282460"><font size="2" face="'Courier New'" color="#000000">?pinAccessDir </font></a><font size="2" face="'Courier New'" color="#000000"><em>tl_pinAccessDir</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282273"><font size="2" face="'Courier New'" color="#000000"><em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282275">Text string or list specifying the access direction(s) for the pin. Enclose string values in quotation marks. Do not use a symbol. An example of a list is <br></a><font size="2" face="'Courier New'" color="#000000">list( &#34;top&#34; &#34;bottom&#34; )<br></font>Valid Values: <font size="2" face="'Courier New'" color="#000000">top</font>, <font size="2" face="'Courier New'" color="#000000">bottom</font>, <font size="2" face="'Courier New'" color="#000000">left,</font> <font size="2" face="'Courier New'" color="#000000">right</font>, <font size="2" face="'Courier New'" color="#000000">any</font>, <font size="2" face="'Courier New'" color="#000000">none</font>, or a list containing any of these values<br>Default: <font size="2" face="'Courier New'" color="#000000">any</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1282464"><font size="2" face="'Courier New'" color="#000000">?pinLabel </font></a><font size="2" face="'Courier New'" color="#000000"><em>g_pinLabel</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282277"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282279">Boolean value indicating whether or not to add a text display object for the pin, where the text is the contents of the </a><font size="2" face="'Courier New'" color="#000000"><em>S_termName</em></font> argument. The value must be <font size="2" face="'Courier New'" color="#000000">t</font> or <font size="2" face="'Courier New'" color="#000000">nil</font>. When the value is <font size="2" face="'Courier New'" color="#000000">t</font>, the system creates a text display object as a ROD object and aligns it to the pin using the values you specify for the other pin label arguments. When the value is <font size="2" face="'Courier New'" color="#000000">nil</font>, no label is created and all other arguments containing the characters <font size="2" face="'Courier New'" color="#000000">pinLabel</font> are ignored.<br>Valid Values: <font size="2" face="'Courier New'" color="#000000">t</font>, <font size="2" face="'Courier New'" color="#000000">nil<br></font>Default: <font size="2" face="'Courier New'" color="#000000">nil</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1282468"><font size="2" face="'Courier New'" color="#000000">?pinLabelHeight </font></a><font size="2" face="'Courier New'" color="#000000"><em>n_pinLabelHeight</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282281"><font size="2" face="'Courier New'" color="#000000"><em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282283">Positive integer or floating&#45;point number specifying the vertical height of the pin text&#45;display label in user units. <br>Default: </a><font size="2" face="'Courier New'" color="#000000">1</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1282472"><font size="2" face="'Courier New'" color="#000000">?pinLabelLayer </font></a><font size="2" face="'Courier New'" color="#000000"><em>txl_pinLabelLayer</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282285"><font size="2" face="'Courier New'" color="#000000"><em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282287">Text string, integer, or list specifying the layer or layer&#45;purpose pair for the pin text&#45;display label, such as <br></a><font size="2" face="'Courier New'" color="#000000">?pinLabelLayer &#34;metal1&#34;<br>?pinLabelLayer 45<br>?pinLabelLayer list(&#34;metal1&#34; &#34;drawing&#34;)</font></p>
+            <p><a name="1282288">Enclose string values in quotation marks. Do not use a symbol. For lists, use the following format:<br></a><font size="2" face="'Courier New'" color="#000000">list(</font><font size="2" face="'Courier New'" color="#000000"><em>layer purpose</em></font><font size="2" face="'Courier New'" color="#000000">)</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282290"><font size="2" face="'Courier New'" color="#000000"><em>&nbsp;&nbsp;&nbsp;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282292">Examples of layer&#45;purpose pairs:<br></a><font size="2" face="'Courier New'" color="#000000">?pinLabelLayer list(&#34;metal1&#34; &#34;drawing&#34;)<br>?pinLabelLayer list(45 252)<br>?pinLabelLayer list(45 &#34;drawing&#34;)<br>?pinLabelLayer list(&#34;metal1&#34; 252)</font></p>
+            <p><a name="1282293">When you specify only the layer, the purpose defaults to the purpose defined by </a><font size="2" face="'Courier New'" color="#000000"><em>l_layer</em></font>. <font size="2" face="'Courier New'" color="#000000">	</font> When you specify neither layer nor purpose, both layer and purpose default to the values defined by <font size="2" face="'Courier New'" color="#000000"><em>l_layer</em></font>. <br>Default: layer specified by <font size="2" face="'Courier New'" color="#000000"><em>l_layer</em></font>; purpose specified by <font size="2" face="'Courier New'" color="#000000"><em>l_layer</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1282476"><font size="2" face="'Courier New'" color="#000000">?pinLabelFont </font></a><font size="2" face="'Courier New'" color="#000000"><em>S_pinLabelFont</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1286418"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1286423">Symbol or character string specifying the name of the font for the pin text&#45;display label. </a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282295"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282300">Valid Values: </a><font size="2" face="'Courier New'" color="#000000">euroStyle</font>, <font size="2" face="'Courier New'" color="#000000">gothic</font>, <font size="2" face="'Courier New'" color="#000000">math</font>, <font size="2" face="'Courier New'" color="#000000">roman</font>, <font size="2" face="'Courier New'" color="#000000">script</font>, <font size="2" face="'Courier New'" color="#000000">stick</font>, <font size="2" face="'Courier New'" color="#000000">swedish<br></font>Default: <font size="2" face="'Courier New'" color="#000000">stick</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1282502"><font size="2" face="'Courier New'" color="#000000">?pinLabelDrafting </font></a><font size="2" face="'Courier New'" color="#000000"><em>g_pinLabelDrafting</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282302"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282304">Boolean value indicating whether or not to allow rotation of the pin text&#45;display label by more than 90 degrees. The value must be </a><font size="2" face="'Courier New'" color="#000000">t</font> or <font size="2" face="'Courier New'" color="#000000">nil</font>. You can set or change label rotation with the <font size="2" face="'Courier New'" color="#000000"><em>S_pinLabelOrient</em></font> argument or in the layout editor. When the value is <font size="2" face="'Courier New'" color="#000000">t</font>, the label can rotate less than or equal to 90 degrees. When the value is <font size="2" face="'Courier New'" color="#000000">nil</font>, the label can rotate more than 90 degrees. <br>Valid Values: <font size="2" face="'Courier New'" color="#000000">t</font>, <font size="2" face="'Courier New'" color="#000000">nil<br></font>Default: <font size="2" face="'Courier New'" color="#000000">t</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1282498"><font size="2" face="'Courier New'" color="#000000">?pinLabelpinLabelOrient </font></a><font size="2" face="'Courier New'" color="#000000"><em>S_pinLabelOrient</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282306"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282311">Symbol or character string specifying the orientation of the pin text&#45;display label. </a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282313"><font size="2" face="'Courier New'" color="#000000"><em>&nbsp;&nbsp;&nbsp;&nbsp;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282315">Valid Values:</a></p>
+            <p><a name="1282316">0</a><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font>R0</p>
+            <p><a name="1282317">90</a><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font>R90</p>
+            <p><a name="1282318">180	</a><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font>R180</p>
+            <p><a name="1282319">270</a><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font>R270</p>
+            <p><a name="1282320">MY</a><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font>sideways</p>
+            <p><a name="1282321">MYR90</a><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font>sideways &amp; 90</p>
+            <p><a name="1282322">MX	</a><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font>upsideDown</p>
+            <p><a name="1282323">MXR90....</a><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font>sideways &amp; 270</p>
+            <p><a name="1282324">Default: </a><font size="2" face="'Courier New'" color="#000000">R0</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1282326"><font size="2" face="'Courier New'" color="#000000">?pinLabelOffsetPoint </font></a><font size="2" face="'Courier New'" color="#000000"><em>l_pinLabelOffsetPoint</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282330">&nbsp;&nbsp;&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282332">Lists one set of coordinates specifying the X and Y offset of the origin of the pin text&#45;display label from a point handle on the shape. The label origin is specified by </a><font size="2" face="'Courier New'" color="#000000"><em>S_pinLabelJust</em></font>, and the shape point handle is specified by <font size="2" face="'Courier New'" color="#000000"><em>S_pinLabelRefHandle</em></font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1282380"><img src="images/chap1.4.1.19.png" width="495" height="318" alt=""><br></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282384">&nbsp;&nbsp;&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282386">Use one of the following formats:<br></a><font size="2" face="'Courier New'" color="#000000"><em>x</em></font><font size="2" face="'Courier New'" color="#000000">:</font><font size="2" face="'Courier New'" color="#000000"><em>y</em></font> <br>or <br><font size="2" face="'Courier New'" color="#000000">list(</font><font size="2" face="'Courier New'" color="#000000"><em>x</em></font><font size="2" face="'Courier New'" color="#000000"> </font><font size="2" face="'Courier New'" color="#000000"><em>y</em></font><font size="2" face="'Courier New'" color="#000000">)</font> <br>or any expression that evaluates to a list of two numbers. <br>Default: <font size="2" face="'Courier New'" color="#000000">0:0</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1282480"><font size="2" face="'Courier New'" color="#000000">?pinLabelJust </font></a><font size="2" face="'Courier New'" color="#000000"><em>S_pinLabelJust</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282388"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282393">Symbol or character string specifying the origin point for the text&#45;display label.<br>Valid Values:<br></a><font size="2" face="'Courier New'" color="#000000">upperLeft&nbsp;&nbsp;&nbsp;&nbsp;</font>or<font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;uL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lowerLeft&nbsp;&nbsp;&nbsp;&nbsp;</font>or<font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;lL<br>upperCenter&nbsp;&nbsp;</font>or<font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;uC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lowerCenter&nbsp;&nbsp;</font>or<font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;lC<br>upperRight&nbsp;&nbsp;&nbsp;</font>or<font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;uR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lowerRight&nbsp;&nbsp;&nbsp;</font>or<font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;lR<br>centerLeft&nbsp;&nbsp;&nbsp;</font>or<font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;cL<br>centerCenter&nbsp;</font>or<font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;cC<br>centerRight&nbsp;&nbsp;</font>or<font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;cR<br></font>Default: <font size="2" face="'Courier New'" color="#000000">centerCenter</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1282395"><font size="2" face="'Courier New'" color="#000000">?pinLabelRefHandle </font></a><font size="2" face="'Courier New'" color="#000000"><em>S_pinLabelRefHandle</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282399"><font size="2" face="'Courier New'" color="#000000"><em>&nbsp;&nbsp;&nbsp;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282404">Symbol or character string specifying the point handle on the shape from which you want to offset the origin point of the text&#45;display label. You can specify the name of any bounding box or segment point handle. </a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282406"><font size="2" face="'Courier New'" color="#000000"><em>&nbsp;&nbsp;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282408">For a detailed description of system&#45;defined point handles, see </a><a href="../roduser/chap1.html#1044791" target="external_window"><font color="#0000ff"><u>"System&#45;Defined Handles"</u></font></a> in <font color="#000000"><em>Virtuoso Relative Object Design User Guide</em></font>.	</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282411"> &nbsp;&nbsp;&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282413">Valid Values for bounding box point handles:<br></a><font size="2" face="'Courier New'" color="#000000">upperLeft&nbsp;&nbsp;&nbsp;&nbsp;</font>or<font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;uL&nbsp;&nbsp;&nbsp;lowerLeft&nbsp;&nbsp;&nbsp;</font>or<font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;lL<br>upperCenter&nbsp;&nbsp;</font>or<font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;uC&nbsp;&nbsp;&nbsp;lowerCenter&nbsp;</font>or<font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;lC<br>upperRight&nbsp;&nbsp;&nbsp;</font>or<font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;uR&nbsp;&nbsp;&nbsp;lowerRight&nbsp;&nbsp;</font>or<font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;lR<br>centerLeft&nbsp;&nbsp;&nbsp;</font>or<font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;cL<br>centerCenter&nbsp;</font>or<font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;cC<br>centerRight&nbsp;&nbsp;</font>or<font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;cR</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282415">&nbsp;&nbsp;&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282417">Valid Values for segment point handles for all ROD shapes: <br></a><font size="2" face="'Courier New'" color="#000000">start0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mid0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end0<br>startLast&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;midLast&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;endLast<br>start</font><font size="2" face="'Courier New'" color="#000000"><em>n</em></font><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mid</font><font size="2" face="'Courier New'" color="#000000"><em>n</em></font><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end</font><font size="2" face="'Courier New'" color="#000000"><em>n</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282419">&nbsp;&nbsp;&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1282421">Valid Values for segment point handles for ROD paths:<br></a><font size="2" face="'Courier New'" color="#000000">start0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mid0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end0<br>startLast&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;midLast&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;endLast<br>start</font><font size="2" face="'Courier New'" color="#000000"><em>n</em></font><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mid</font><font size="2" face="'Courier New'" color="#000000"><em>n</em></font><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end</font><font size="2" face="'Courier New'" color="#000000"><em>n<br></em></font><font size="2" face="'Courier New'" color="#000000">startLeft0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;midLeft0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;endLeft0<br>startLeftLast&nbsp;&nbsp;&nbsp;&nbsp;midLeftLast&nbsp;&nbsp;&nbsp;endLeftLast<br>startLeft</font><font size="2" face="'Courier New'" color="#000000"><em>n</em></font><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;midLeft</font><font size="2" face="'Courier New'" color="#000000"><em>n</em></font><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;endLeft</font><font size="2" face="'Courier New'" color="#000000"><em>n<br></em></font><font size="2" face="'Courier New'" color="#000000">startRight0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;midRight0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;endRight0<br>startRightLast&nbsp;&nbsp;&nbsp;midRightLast&nbsp;&nbsp;endRightLast<br>startRight</font><font size="2" face="'Courier New'" color="#000000"><em>n</em></font><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;midRight</font><font size="2" face="'Courier New'" color="#000000"><em>n</em></font><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;endRight</font><font size="2" face="'Courier New'" color="#000000"><em>n<br></em></font><br>Default: the bounding box point handle <font size="2" face="'Courier New'" color="#000000">centerCenter</font></p>
+          </td>
+        </tr>
+      </table>
+      <h4>
+        <em></em>
+        <em><a name="offsetSubpathArguments"></a><a name="1256547">Offset Subpath Arguments (l_offsetSubpathArgs)</a></em>
+      </h4>
+      <p><a name="1256549">For a detailed description of offset subpaths, see </a><a href="../roduser/chap1.html#offsetSubpath" target="external_window"><font color="#0000ff"><u>&#34;Offset Subpaths&#34;</u></font></a> in <font color="#000000"><em>Virtuoso Relative Object Design User Guide</em></font>.</p>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top" width="648">
+            <p><a name="1297240"><font size="2" face="'Courier New'" color="#000000">?layer </font></a><font size="2" face="'Courier New'" color="#000000"><em>txl_layer</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="198">
+            <p><a name="1201557"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="450">
+            <p><a name="1201634">Text string, integer, or list specifying the layer or layer&#45;purpose pair for the subpath, such as: </a></p>
+            <p><a name="1208389"><font size="2" face="'Courier New'" color="#000000">?layer &#34;metal1&#34;<br>?layer 45<br>?layer list(&#34;metal1&#34; &#34;drawing&#34;)</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1201612">   </a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1201651">Enclose string values in quotation marks.</a><font size="2" face="'Courier New'" color="#000000"> </font>Do not use a symbol. Use the one of the formats defined for the master path argument <a href="#1259528" title="1"><font face="'Courier New'" color="#0000ff"><u><em>txl _layer</em></u></font></a>. You are required to specify a layer.</p>
+            <p><a name="1299068">Default Purpose: </a><font size="2" face="'Courier New'" color="#000000">drawing</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1297244"><font size="2" face="'Courier New'" color="#000000">?width</font></a> <font size="2" face="'Courier New'" color="#000000"><em>n_width</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1201608"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1201610">Positive integer or floating&#45;point number specifying the width of the offset subpath. </a></p>
+            <p><a name="1299091">If you do not specify the width, the system uses the </a><font size="2" face="'Courier New'" color="#000000">minWidth</font> rule for the offset subpath layer from the technology file. If the <font size="2" face="'Courier New'" color="#000000">minWidth</font> rule is not defined in the technology file, <font size="2" face="'Courier New'" color="#000000">rodCreatePath</font> reports an error.</p>
+            <p><a name="1299084">Default: </a><font size="2" face="'Courier New'" color="#000000">minWidth</font> for the offset subpath layer from the technology file</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1299040"><font size="2" face="'Courier New'" color="#000000">?sep </font></a><font size="2" face="'Courier New'" color="#000000"><em>n_sep</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1201604">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1201606">Signed integer or floating&#45;point number specifying the separation between the centerline or an edge of the subpath and the centerline or an edge of the master path, depending on the value of </a><font size="2" face="'Courier New'" color="#000000"><em>S_justification</em></font>. <br>Default: <font size="2" face="'Courier New'" color="#000000">0</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1282729"><font size="2" face="'Courier New'" color="#000000">?justification </font></a><font size="2" face="'Courier New'" color="#000000"><em>S_justification</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1201600"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1201753">Symbol or character string specifying from which part of the master path to separate the subpath, in relation to the direction of the master path. Enclose character strings in quotation marks (&#34;&#34;); precede symbols with a single quotation mark (&#39;). ROD converts symbols to character strings.</a></p>
+            <p><a name="1201602">	When </a><font size="2" face="'Courier New'" color="#000000">left</font>, the right edge of the subpath is separated from the left edge of the master path. When <font size="2" face="'Courier New'" color="#000000">right</font>, the left edge of the subpath is separated from the right edge of the master path. When <font size="2" face="'Courier New'" color="#000000">center</font>, the centerline of the subpath is separated from the centerline of the master path. <br>Valid Values: <font size="2" face="'Courier New'" color="#000000">center</font>, <font size="2" face="'Courier New'" color="#000000">left</font>, <font size="2" face="'Courier New'" color="#000000">right<br></font>Default: <font size="2" face="'Courier New'" color="#000000">center</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1282733"><font size="2" face="'Courier New'" color="#000000">?beginOffset</font></a><font size="2" face="'Courier New'" color="#000000"><em> n_beginOffset</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1201596"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1201598">Signed integer or floating&#45;point number specifying the starting edge of the subpath in relation to the starting edge of the master path. A positive number extends the end of the subpath beyond the end of the master path; a negative number retracts the end of the subpath from the end of the master path.<br>Default: </a><font size="2" face="'Courier New'" color="#000000"><em>n_endOffset</em></font> if specified; otherwise <font size="2" face="'Courier New'" color="#000000">0</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1282737"><font size="2" face="'Courier New'" color="#000000"><em>?endOffset n_endOffset</em></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1201808"><font size="2" face="'Courier New'" color="#000000"><em>&nbsp;&nbsp;&nbsp;&nbsp;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1201810">Signed integer or floating&#45;point number specifying the ending edge of the subpath in relation to the ending edge of the master path. A positive number extends the end of the subpath beyond the end of the master path; a negative number retracts the end of the subpath from the end of the master path.<br>Default: </a><font size="2" face="'Courier New'" color="#000000"><em>n_beginOffset</em></font> if specified; otherwise <font size="2" face="'Courier New'" color="#000000">0</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1282741"><font size="2" face="'Courier New'" color="#000000">?choppable </font></a><font size="2" face="'Courier New'" color="#000000"><em>g_choppable</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1201804"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1201806">Boolean value indicating whether or not the subpath can be chopped. The value must be </a><font size="2" face="'Courier New'" color="#000000">t</font> or <font size="2" face="'Courier New'" color="#000000">nil</font>. When the master path is choppable, all subpaths must be choppable. When the master path is not choppable, each subpath can be choppable or not.<br>Default: <font size="2" face="'Courier New'" color="#000000">t</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1297248"><font size="2" face="'Courier New'" color="#000000">?prop </font></a><font size="2" face="'Courier New'" color="#000000"><em>l_prop</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1201800"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1201888">A list or lists of lists, where each list contains the name of a property and its value. When the property name is a string, enclose it in quotes. For a description of the valid data types, see the "</a><a href="../vlehelp/appA.html#addProperty" target="external_window"><font color="#0000ff"><u>About the Add Property Form</u></font></a>" in the <font color="#000000"><em>Virtuoso Layout Suite L User Guide</em></font>. For Boolean properties, the value must be <font size="2" face="'Courier New'" color="#000000">t</font> or <font size="2" face="'Courier New'" color="#000000">nil</font>. For example, you would specify a single Boolean property as follows:</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1216489"><font size="2" face="'Courier New'" color="#000000"><em>&nbsp;&nbsp;&nbsp;&nbsp;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1216508"><font size="2" face="'Courier New'" color="#000000">?prop list(&#34;myProp&#34; t)</font></a></p>
+            <p><a name="1216494">and a list of properties as follows:</a></p>
+            <p><a name="1216495"><font size="2" face="'Courier New'" color="#000000">?prop list(<br>   list(&#34;myProp1&#34; propValue1)<br>   list(&#34;myProp2&#34; propValue2)<br>   ...<br>   list(&#34;myPropN&#34; propValueN)<br>)</font></a></p>
+            <p><a name="1216496">For a more detailed description about specifying lists of lists, see </a><a href="#1256531" title="1"><font color="#0000ff"><u>Formatting List&#45;of&#45;Lists Arguments for Subparts</u></font></a>.<br>Default: <font size="2" face="'Courier New'" color="#000000">nil</font></p>
+          </td>
+        </tr>
+      </table>
+      <h4>
+        <em></em>
+        <em><a name="enclosureSubpathArguments"></a><a name="1052551">Enclosure Subpath Arguments (l_encSubpathArgs)</a></em>
+      </h4>
+      <p><a name="1060154">For a detailed description of enclosure subpaths, see </a><a href="../roduser/chap1.html#enclosureSubpath" target="external_window"><font color="#0000ff"><u>"Enclosure Subpaths"</u></font></a>.</p>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top" width="648">
+            <p><a name="1297379"><font size="2" face="'Courier New'" color="#000000">?layer </font></a><font size="2" face="'Courier New'" color="#000000"><em>txl_layer</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="198">
+            <p><a name="1216756"><font size="2" face="'Courier New'" color="#000000"><em>&nbsp;&nbsp;&nbsp;&nbsp;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="450">
+            <p><a name="1216758">Text string, integer, or list specifying the layer or layer&#45;purpose pair for the subpath, such as <br></a><font size="2" face="'Courier New'" color="#000000">?layer &#34;metal1&#34;<br>?layer 45<br>?layer list(&#34;metal1&#34; &#34;drawing&#34;)</font></p>
+            <p><a name="1216759">Enclose string values in quotation marks. Do not use a symbol. Use the one of the formats defined for the master path argument </a><a href="#1259528" title="1"><font face="'Courier New'" color="#0000ff"><u><em>txl_layer</em></u></font></a>. You are required to specify a layer.<br>Default Purpose: <font size="2" face="'Courier New'" color="#000000">drawing</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1282749"><font size="2" face="'Courier New'" color="#000000">?enclosure </font></a><font size="2" face="'Courier New'" color="#000000"><em>n_enclosure</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1216762"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1216764">Signed integer or floating&#45;point number specifying the enclosure of the subpath in relation to the master path. The system computes the width of an enclosure subpath as follows:</a></p>
+            <p><a name="1216765">width = (</a><font size="2" face="'Courier New'" color="#000000"><em>n_width</em></font> of master path) <font size="2" face="'Courier New'" color="#000000">&#45;</font> (2 * <font size="2" face="'Courier New'" color="#000000"><em>n_enclosure</em></font>)</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1216767"><font size="2" face="'Courier New'" color="#000000"><em>     </em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1216769">If you do not specify this argument, the system uses the </a><font size="2" face="'Courier New'" color="#000000">minEnclosure</font> rule from the technology file for master path layer to subpath layer; if the <font size="2" face="'Courier New'" color="#000000">minEnclosure</font> rule is not defined in the technology file, <font size="2" face="'Courier New'" color="#000000">rodCreatePath</font> reports an error.<br>Default: <font size="2" face="'Courier New'" color="#000000">minEnclosure</font> rule from the technology file for master path layer to subpath layer</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1282753"><font size="2" face="'Courier New'" color="#000000">?beginOffset </font></a><font size="2" face="'Courier New'" color="#000000"><em>n_beginOffset</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1216771"><font size="2" face="'Courier New'" color="#000000"><em>&nbsp;&nbsp;&nbsp;&nbsp;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1216773">Signed integer or floating&#45;point number specifying the starting edge of the subpath in relation to the starting edge of the master path. A positive number extends the end of the subpath beyond the end of the master path; a negative number retracts the end of the subpath from the end of the master path.<br>Default: </a><font size="2" face="'Courier New'" color="#000000"><em>n_endOffset</em></font> if specified; otherwise the negative of <font size="2" face="'Courier New'" color="#000000"><em>n_enclosure</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1282757"><font size="2" face="'Courier New'" color="#000000">?endOffset </font></a><font size="2" face="'Courier New'" color="#000000"><em>n_endOffset</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1286429"><font size="2" face="'Courier New'" color="#000000"><em>&nbsp;&nbsp;&nbsp;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1286431">Signed integer or floating&#45;point number specifying the ending edge of the subpath in relation to the ending edge of the master path. </a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1216775"><font size="2" face="'Courier New'" color="#000000"><em>&nbsp;&nbsp;&nbsp;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1216777">A positive number extends the end of the subpath beyond the end of the master path; a negative number retracts the end of the subpath from the end of the master path.<br>Default: </a><font size="2" face="'Courier New'" color="#000000"><em>n_beginOffset</em></font> if specified; otherwise the negative of <font size="2" face="'Courier New'" color="#000000"><em>n_enclosure</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1282761"><font size="2" face="'Courier New'" color="#000000">?choppable </font></a><font size="2" face="'Courier New'" color="#000000"><em>g_choppable</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1216779"><font size="2" face="'Courier New'" color="#000000"><em>&nbsp;&nbsp;&nbsp;&nbsp;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1216781">Boolean value indicating whether or not the subpath can be chopped. The value must be </a><font size="2" face="'Courier New'" color="#000000">t</font> or <font size="2" face="'Courier New'" color="#000000">nil</font>. When the master path is choppable, all subpaths must be choppable. When the master path is not choppable, each subpath can be choppable or not.<br>Default: <font size="2" face="'Courier New'" color="#000000">t</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1297256"><font size="2" face="'Courier New'" color="#000000">?prop </font></a><font size="2" face="'Courier New'" color="#000000"><em>l_prop</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1216783"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1216785">A list or lists of lists, where each list contains the name of a property and its value. When the property name is a string, enclose it in quotes. For a description of the valid data types, see the "</a><a href="../vlehelp/appA.html#addProperty" target="external_window"><font color="#0000ff"><u>About the Add Property Form</u></font></a>" in the <font color="#000000"><em>Virtuoso Layout Suite L User Guide</em></font>. For Boolean properties, the value must be <font size="2" face="'Courier New'" color="#000000">t</font> or <font size="2" face="'Courier New'" color="#000000">nil</font>. For example, you would specify a single Boolean property as follows:</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1216788"><font size="2" face="'Courier New'" color="#000000"><em>  </em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1216790"><font size="2" face="'Courier New'" color="#000000">?prop list(&#34;myProp&#34; t)</font></a></p>
+            <p><a name="1216791">and a list of properties as follows:</a></p>
+            <p><a name="1216792"><font size="2" face="'Courier New'" color="#000000">?prop list(<br>   list(&#34;myProp1&#34; propValue1)<br>   list(&#34;myProp2&#34; propValue2)<br>   ...<br>   list(&#34;myPropN&#34; propValueN)<br>)</font></a></p>
+            <p><a name="1216793">For a more detailed description about specifying lists of lists, see </a><a href="#1256531" title="1"><font color="#0000ff"><u>Formatting List&#45;of&#45;Lists Arguments for Subparts</u></font></a>.<br>Default: <font size="2" face="'Courier New'" color="#000000">nil</font></p>
+          </td>
+        </tr>
+      </table>
+      <h4>
+        <em></em>
+        <em><a name="subrectArguments"></a><a name="1216799">Subrectangle Arguments (l_subrectArgs)</a></em>
+      </h4>
+      <p><a name="1216801">For a detailed description of sets of subrectangles for </a><font size="2" face="'Courier New'" color="#000000">rodCreatePath</font>, see  <a href="../roduser/chap1.html#subrectangle" target="external_window"><font color="#0000ff"><u>&#34;Sets of Subrectangles&#34;</u></font></a>.</p>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top" width="648">
+            <p><a name="1297260"><font size="2" face="'Courier New'" color="#000000">?layer </font></a><font size="2" face="'Courier New'" color="#000000"><em>txl_layer</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="198">
+            <p><a name="1287062"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="450">
+            <p><a name="1287064">Text string, integer, or list specifying the layer or layer&#45;purpose pair for the subrectangle(s), such as <br></a><font size="2" face="'Courier New'" color="#000000">?layer &#34;metal1&#34;</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287066">  </a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287068"><font size="2" face="'Courier New'" color="#000000">?layer 45<br>?layer list(&#34;metal1&#34; &#34;drawing&#34;)</font></a></p>
+            <p><a name="1287069">Enclose string values in quotation marks. Do not use a symbol. Use the one of the formats defined for the master path argument </a><a href="#1259528" title="1"><font face="'Courier New'" color="#0000ff"><u><em>txl_layer</em></u></font></a>. You are required to specify a layer.<br>Default Purpose: <font size="2" face="'Courier New'" color="#000000">drawing</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1297264"><font size="2" face="'Courier New'" color="#000000">?width </font></a><font size="2" face="'Courier New'" color="#000000"><em>n_width</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287072"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287074">Positive integer or floating&#45;point number specifying the width of the rectangle(s), where the width is parallel to the width of the master path.</a></p>
+            <p><a name="1287075">If not specified, the system uses </a><font size="2" face="'Courier New'" color="#000000"><em>n_length</em></font>; if neither is specified, the system uses the <font size="2" face="'Courier New'" color="#000000">minWidth</font> rule for the subrectangle layer from the technology file. If the <font size="2" face="'Courier New'" color="#000000">minWidth</font> rule is not defined in the technology file, <font size="2" face="'Courier New'" color="#000000">rodCreatePath</font> returns <font size="2" face="'Courier New'" color="#000000">nil</font> to indicate an error.<br>Default: <font size="2" face="'Courier New'" color="#000000"><em>n_length</em></font> if specified; otherwise <font size="2" face="'Courier New'" color="#000000">minWidth</font> for the subrectangle layer from the technology file</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1287096"><img src="images/chap1.4.1.20.png" width="554" height="229" alt=""><br></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1297335"><font size="2" face="'Courier New'" color="#000000">?length </font></a><font size="2" face="'Courier New'" color="#000000"><em>n_length</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287100"><font size="2" face="'Courier New'" color="#000000"><em>&nbsp;&nbsp;&nbsp;&nbsp;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287102">Positive integer or floating&#45;point number specifying the length of the subrectangle(s), where the length is parallel to the master path centerline.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1287123"><img src="images/chap1.4.1.21.png" width="553" height="221" alt=""><br></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287127">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287129">If not specified, the system uses </a><font size="2" face="'Courier New'" color="#000000"><em>n_width</em></font>; if neither is specified, the system uses the <font size="2" face="'Courier New'" color="#000000">minWidth</font> rule for the subrectangle layer from the technology file. If the <font size="2" face="'Courier New'" color="#000000">minWidth</font> rule is not defined in the technology file, <font size="2" face="'Courier New'" color="#000000">rodCreatePath</font> returns <font size="2" face="'Courier New'" color="#000000">nil</font> to indicate an error.<br>Default: <font size="2" face="'Courier New'" color="#000000"><em>n_width</em></font> if specified; otherwise, <font size="2" face="'Courier New'" color="#000000">minWidth</font> for the subrectangle layer from the technology file</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1297272"><font size="2" face="'Courier New'" color="#000000">?gap</font></a><font size="2" face="'Courier New'" color="#000000"><em> S_gap</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287131"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287136">Symbol or character string specifying the method the system uses to place subrectangles within each segment. Enclose character strings in quotation marks (&#34;&#34;); precede symbols with a single quotation mark (&#39;). ROD converts symbols to character strings.</a></p>
+            <p><a name="1287137">The system always uses the value of </a><font size="2" face="'Courier New'" color="#000000"><em>n_space</em></font> for minimum space between subrectangles and calculates the maximum number of rectangles that fit in the segment, allowing for the space needed by <font size="2" face="'Courier New'" color="#000000"><em>n_beginOffset</em></font> and <font size="2" face="'Courier New'" color="#000000"><em>n_endOffset</em></font>. When the value of <font size="2" face="'Courier New'" color="#000000"><em>S_gap</em></font> is <font size="2" face="'Courier New'" color="#000000">distribute</font>, the system distributes the space around subrectangles as evenly as possible, in multiples of the grid space specified by <font size="2" face="'Courier New'" color="#000000">mfgGridResolution</font>. Any remaining space is left after the last subrectangle in the segment.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1287146"><img src="images/chap1.4.1.22.png" width="675" height="278" alt=""><br></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287150">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287152">When the value of </a><font size="2" face="'Courier New'" color="#000000"><em>S_gap</em></font> is <font size="2" face="'Courier New'" color="#000000">distribute</font> and there is only one subrectangle, the value of the <font size="2" face="'Courier New'" color="#000000">distributeSingleSubRect</font> environment variable determines where the single subrectangle is placed. When <font size="2" face="'Courier New'" color="#000000">nil</font>, which is the default, the subrectangle is offset as specified by <font size="2" face="'Courier New'" color="#000000"><em>n_beginOffset</em></font> and <font size="2" face="'Courier New'" color="#000000"><em>n_endOffset</em></font>. When <font size="2" face="'Courier New'" color="#000000">t</font>, the subrectangle is centered (but placed on grid), and <font size="2" face="'Courier New'" color="#000000"><em>n_beginOffset</em></font> and <font size="2" face="'Courier New'" color="#000000"><em>n_endOffset</em></font> are ignored.</p>
+            <p><a name="1287153">When the value of </a><font size="2" face="'Courier New'" color="#000000"><em>S_gap</em></font> is <font size="2" face="'Courier New'" color="#000000">minimum</font>, the system places subrectangles <font size="2" face="'Courier New'" color="#000000"><em>n_space</em></font> apart until there is no space for another rectangle, then leaves the excess space after the last subrectangle in the segment.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1287165"><img src="images/chap1.4.1.23.png" width="675" height="257" alt=""><br></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287169">   </a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287171">Valid Values: </a><font size="2" face="'Courier New'" color="#000000">distribute</font>, <font size="2" face="'Courier New'" color="#000000">minimum<br></font>Default: <font size="2" face="'Courier New'" color="#000000">distribute</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1297319"><font size="2" face="'Courier New'" color="#000000">?sep </font></a><font size="2" face="'Courier New'" color="#000000"><em>n_sep</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287173"><font size="2" face="'Courier New'" color="#000000"><em>&nbsp;&nbsp;&nbsp;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287175">Signed integer or floating&#45;point number specifying the separation between the centerline or an edge of the subrectangles and the centerline or an edge of the master path, depending on the value of </a><font size="2" face="'Courier New'" color="#000000"><em>S_justification</em></font>. The system places subrectangles on grid, as close to the specified separation as possible.<br>Default: <font size="2" face="'Courier New'" color="#000000">0</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1287177"><font size="2" face="'Courier New'" color="#000000">?justification </font></a><font size="2" face="'Courier New'" color="#000000"><em>S_justification</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287181"><font size="2" face="'Courier New'" color="#000000"><em>&nbsp;&nbsp;&nbsp;&nbsp;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287186">Symbol or character string specifying from which part of the master path to separate the subrectangles, in relation to the direction of the master path. When </a><font size="2" face="'Courier New'" color="#000000">left</font>, the right edge of the subrectangles is separated from the left edge of the master path. When <font size="2" face="'Courier New'" color="#000000">right</font>, the left edge of the subrectangles is separated from the right edge of the master path. When <font size="2" face="'Courier New'" color="#000000">center</font>, the centerline of the subrectangles is separated from the centerline of the master path. <br>Valid Values: <font size="2" face="'Courier New'" color="#000000">center</font>, <font size="2" face="'Courier New'" color="#000000">left</font>, <font size="2" face="'Courier New'" color="#000000">right<br></font>Default: <font size="2" face="'Courier New'" color="#000000">center</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1287188"><font size="2" face="'Courier New'" color="#000000">?beginOffset </font></a><font size="2" face="'Courier New'" color="#000000"><em>n_beginOffset</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287192"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287194">Signed integer or floating&#45;point number specifying the offset of the edge of the first subrectangle from the starting edge of the master path. A positive number extends the beginning of the subrectangles beyond the beginning of the master path; a negative number retracts the beginning of the subrectangles from the beginning of the master path.<br>Default: </a><font size="2" face="'Courier New'" color="#000000"><em>n_endOffset</em></font> if specified; otherwise <font size="2" face="'Courier New'" color="#000000">0</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1287196"><font size="2" face="'Courier New'" color="#000000">?endOffset </font></a><font size="2" face="'Courier New'" color="#000000"><em>n_endOffset</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287200"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287202">Signed integer or floating&#45;point number specifying the offset of the edge of the last subrectangle from the ending edge of the master path. A positive number extends the end of the subrectangles beyond the end of the master path; a negative number retracts the end of the subrectangles from the end of the master path.<br>Default: </a><font size="2" face="'Courier New'" color="#000000"><em>n_beginOffset</em></font> if specified; otherwise <font size="2" face="'Courier New'" color="#000000">0</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1287204"><font size="2" face="'Courier New'" color="#000000">?beginSegOffset </font></a><font size="2" face="'Courier New'" color="#000000"><em>n_beginSegOffset</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287208"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287210">Positive, signed integer or floating&#45;point number that, together with the other offset arguments, lets you control whether there is a subrectangle in the corner of a segment. Specifies the offset of the first subrectangle in a segment measured from the edge of the master path. Does not apply to the first segment; the position of the first subrectangle in the first segment is determined by the value of the </a><font size="2" face="'Courier New'" color="#000000"><em>n_beginOffset</em></font> argument.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1287244"><img src="images/chap1.4.1.24.png" width="652" height="219" alt=""><br></a></p>
+            <p><a name="1326176">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1326941"><img src="images/chap1.4.1.25.png" width="652" height="254" alt=""><br></a></p>
+            <p><a name="1327002">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287248">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287250">If the segment begins before the full distance specified by </a><font size="2" face="'Courier New'" color="#000000"><em>n_beginSegOffset</em></font>, then <font size="2" face="'Courier New'" color="#000000"><em>n_beginSegOffset</em></font> is not applied, and a subrectangle could be placed at the corner of the subrectangle path. When applying offset specifications, the system will not create a spacing error; if the first subrectangle in a segment would be too close to the last subrectangle in the previous segment, the system discards the last subrectangle in the previous segment. This could result in more space at the corner than desired. Default: <font size="2" face="'Courier New'" color="#000000">0.0</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1287252"><font size="2" face="'Courier New'" color="#000000">?endSegOffset </font></a><font size="2" face="'Courier New'" color="#000000"><em>n_endSegOffset</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287256"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287258">Positive, signed integer or floating&#45;point number that, together with the other offset arguments, lets you control whether there is a subrectangle in the corner of a segment. Specifies the offset of the last subrectangle in a segment from the edge of the master path. Does not apply to the last segment; the position of the last subrectangle in the last segment is determined by the value of the </a><font size="2" face="'Courier New'" color="#000000"><em>n_endOffset</em></font> argument.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1287292"><img src="images/chap1.4.1.26.png" width="652" height="219" alt=""><br></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287296"><font size="2" face="'Courier New'" color="#000000"><em>  </em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287298">If the segment ends before the full distance specified by </a><font size="2" face="'Courier New'" color="#000000"><em>n_endSegOffset</em></font>, then <font size="2" face="'Courier New'" color="#000000"><em>n_endSegOffset</em></font> is not applied, and a subrectangle could be placed at the corner of the subrectangle path. <br>Default: <font size="2" face="'Courier New'" color="#000000">0.0</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1297307"><font size="2" face="'Courier New'" color="#000000">?space </font></a><font size="2" face="'Courier New'" color="#000000"><em>n_space</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287300"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287302">Positive integer or floating&#45;point number specifying the distance between the edges of adjoining rectangles. If not specified, the system uses the </a><font size="2" face="'Courier New'" color="#000000">minSpacing</font> rule for the subrectangle layer from the technology file. If the <font size="2" face="'Courier New'" color="#000000">minSpacing</font> rule is not defined in the technology file, <font size="2" face="'Courier New'" color="#000000">rodCreatePath</font> returns <font size="2" face="'Courier New'" color="#000000">nil</font> to indicate an error.<br>Default: <font size="2" face="'Courier New'" color="#000000">minSpacing</font> for the subrectangle layer from the technology file</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1287304"><font size="2" face="'Courier New'" color="#000000">?choppable </font></a><font size="2" face="'Courier New'" color="#000000"><em>g_choppable</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287308"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287310">Boolean value indicating whether or not the subrectangle(s) can be chopped. The value must be </a><font size="2" face="'Courier New'" color="#000000">t</font> or <font size="2" face="'Courier New'" color="#000000">nil</font>. When the master path is choppable, all subrectangles must be choppable. When the master path is not choppable, each set of subrectangles can be choppable or not.<br>Default: <font size="2" face="'Courier New'" color="#000000">t</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1297284"><font size="2" face="'Courier New'" color="#000000">?prop </font></a><font size="2" face="'Courier New'" color="#000000"><em>l_prop</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287312"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287314">A list or lists of lists, where each list contains the name of a property and its value. When the property name is a string, enclose it in quotes. For a description of the valid data types, see the "</a><a href="../vlehelp/appA.html#addProperty" target="external_window"><font color="#0000ff"><u>About the Add Property Form</u></font></a>" in the <font color="#000000"><em>Virtuoso Layout Suite L User Guide</em></font>. For Boolean properties, the value must be <font size="2" face="'Courier New'" color="#000000">t</font> or <font size="2" face="'Courier New'" color="#000000">nil</font>. For example, you would specify a single Boolean property as follows:</p>
+            <p><a name="1287316"><font size="2" face="'Courier New'" color="#000000">?prop list(&#34;myProp&#34; t)</font></a></p>
+            <p><a name="1287317">and a list of properties as follows:</a></p>
+            <p><a name="1287318"><font size="2" face="'Courier New'" color="#000000">?prop list(<br>   list(&#34;myProp1&#34; propValue1)<br>   list(&#34;myProp2&#34; propValue2)<br>   ...<br>   list(&#34;myPropN&#34; propValueN)<br>)</font></a></p>
+            <p><a name="1287319">For a more detailed description about specifying lists of lists, see </a><a href="#1256531" title="1"><font color="#0000ff"><u>Formatting List&#45;of&#45;Lists Arguments for Subparts</u></font></a>.<br>Default: <font size="2" face="'Courier New'" color="#000000">nil</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1287324"><font size="2" face="'Courier New'" color="#000000">?diagonal</font></a><font size="2" face="'Courier New'" color="#000000"><em> g_diagonalSubRect</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287328">&nbsp;&nbsp;&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287330">Optional keyword&#45;value pair argument specifying whether to create subrectangles on diagonal portions of the path. </a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287332">&nbsp;&nbsp;&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1287334">When defined, this argument must appear at the end of the subrectangle argument list, after any list specifying connectivity, immediately prior to the closing parentheses. Setting this argument to </a><font size="2" face="'Courier New'" color="#000000">t</font> works only when diagonal path segments are 45 degrees and all subrectangles on the path are square. When specified, you must type the keyword, followed by <font size="2" face="'Courier New'" color="#000000">t</font> or <font size="2" face="'Courier New'" color="#000000">nil</font>. For example, type:  <font size="2" face="'Courier New'" color="#000000">?diagonal t<br></font>Default: <font size="2" face="'Courier New'" color="#000000">nil</font></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1207562">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="198">
+            <p><a name="1207565"><font size="2" face="'Courier New'" color="#000000"><em>R_rodObj</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="450">
+            <p><a name="1207567">The ROD object ID for the single layer or multipart ROD path that was created.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1207569"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1207571">No path was created due to an error. </a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1180550">Additional Information</a></h4>
+      <h4>
+        <em></em>
+        <em><a name="1180525">Creating Self&#45;Intersecting Paths</a></em>
+      </h4>
+      <p><a name="1136988">You cannot create self&#45;intersecting paths using </a><font size="2" face="'Courier New'" color="#000000">rodCreatePath</font>. If you specify the function arguments so that the master path and&#47;or one or more subpaths would self&#45;intersect, the system will not create the path.</p>
+      <p><a name="1137044"> For example, if you create a guard ring with abutted ends, and the ends of a subpath have a positive offset, the subpath will extend beyond the master path, which could cause intersection.</a></p>
+      <p><a name="1137047">If your code tries to create a self&#45;intersecting path, the path is not created, and the system displays a warning in the CIW.</a></p>
+      <h4>
+        <em></em>
+        <em><a name="1096321">Specifying Arguments as nil</a></em>
+      </h4>
+      <p><a name="1112886">For the </a><font size="2" face="'Courier New'" color="#000000">rodCreatePath</font> function, a value of <font size="2" face="'Courier New'" color="#000000">nil</font> means the following, depending on the type of argument:</p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1112887">For Boolean arguments, </a><font size="2" face="'Courier New'" color="#000000">nil</font> is a valid value, and the system uses it. The <font size="2" face="'Courier New'" color="#000000">rodCreatePath</font> Boolean arguments are: </td>
+          </tr>
+        </table>
+      </div>
+      <blockquote><a name="1112856"><font size="2" face="'Courier New'" color="#000000"><em>g_choppable&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g_pin<br>g_pinLabel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g_pinLabelDrafting</em></font></a></blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1096348">For non&#45;Boolean arguments, specifying </a><font size="2" face="'Courier New'" color="#000000">nil</font> causes the system to use the default as it is defined in this document for that argument. Specifying <font size="2" face="'Courier New'" color="#000000">nil</font> is equivalent to not specifying a value for the argument. </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1124139">For the following Connectivity arguments, the default value is </a><font size="2" face="'Courier New'" color="#000000">nil</font>:</td>
+          </tr>
+        </table>
+      </div>
+      <blockquote><a name="1124140"><font size="2" face="'Courier New'" color="#000000"><em>S_netName    S_termName     g_pin</em></font></a></blockquote>
+      <blockquote><a name="1124141">When you specify any of the arguments listed above as </a><font size="2" face="'Courier New'" color="#000000">nil</font>, it is equivalent to not specifying a value for the argument.</blockquote>
+      <h4>
+        <em></em>
+        <em><a name="1111606">Specifying Pins</a></em>
+      </h4>
+      <p><a name="1111607">When you specify the </a><font size="2" face="'Courier New'" color="#000000"><em>g_pin</em></font> argument, you must also specify the <font size="2" face="'Courier New'" color="#000000"><em>S_netName</em></font> and&#47;or <font size="2" face="'Courier New'" color="#000000"><em>S_termName</em></font> argument with a value other than <font size="2" face="'Courier New'" color="#000000">nil</font>. If you specify <font size="2" face="'Courier New'" color="#000000"><em>g_pin</em></font> but do not specify <font size="2" face="'Courier New'" color="#000000"><em>S_netName</em></font> and&#47;or <font size="2" face="'Courier New'" color="#000000"><em>S_termName</em></font> with a value other than <font size="2" face="'Courier New'" color="#000000">nil</font>, the system ignores all connectivity arguments but does not report an error.</p>
+      <h4>
+        <em></em>
+        <em><a name="1256531">Formatting List&#45;of&#45;Lists Arguments for Subparts</a></em>
+      </h4>
+      <p><a name="1256534">You must use a </a><font color="#000000"><strong>list of lists</strong></font> to specify arguments for an offset subpath, enclosure subpath, or set of subrectangles. The top&#45;level list contains one or more sublists. Each sublist defines a unique subpath or set of subrectangles. </p>
+      <p><a name="1221892">Each sublist consists of one or more keyword&#45;value pairs, where the keyword identifies the argument. To specify the value as a character string, enclose it in quotation marks (&#34;&#34;); to specify the value as a symbol, precede it with a single quotation mark (&#39;). </a></p>
+      <p><a name="1221894">For any keyword that returns either a string or symbol, you can specify a Cadence SKILL language expression (constant, variable, or function call) as the value.</a></p>
+      <p><a name="1085787">As an example, the syntax format for specifying an enclosure subpath as part of a </a><font size="2" face="'Courier New'" color="#000000">rodCreatePath</font> function is shown on the following page.</p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1118199">?encSubPath&nbsp;&nbsp;list(&nbsp;list(&nbsp;?layer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a><font size="2" face="'Courier New'" color="#000000"><em>txl_layer<br></em></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?enclosure&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font size="2" face="'Courier New'" color="#000000"><em>n_enclosure<br></em></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?beginOffset&nbsp;&nbsp;&nbsp;<font size="2" face="'Courier New'" color="#000000"><em>n_beginOffset<br></em></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?endOffset&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font size="2" face="'Courier New'" color="#000000"><em>n_endOffset<br></em></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?choppable&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font size="2" face="'Courier New'" color="#000000"><em>g_choppable<br></em></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) ;End of first enclosure subpath<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list(&nbsp;?layer&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<font size="2" face="'Courier New'" color="#000000"><em>txl_layer<br></em></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?enclosure&nbsp;&nbsp; &nbsp; <font size="2" face="'Courier New'" color="#000000"><em>n_enclosure<br></em></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?beginOffset&nbsp;&nbsp; <font size="2" face="'Courier New'" color="#000000"><em>n_beginOffset<br></em></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?endOffset&nbsp; &nbsp;&nbsp; <font size="2" face="'Courier New'" color="#000000"><em>n_endOffset<br></em></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?choppable&nbsp; &nbsp; &nbsp;<font size="2" face="'Courier New'" color="#000000"><em>g_choppable<br></em></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);End of second enclosure subpath<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) ;End of encSubPath list</font>
+      </p>
+      <p><a name="1118196">An example showing values for an enclosure subpath within a </a><font size="2" face="'Courier New'" color="#000000">rodCreatePath</font> function specification might look like this:</p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1085790">poly1EndOffset = &#45;0.4<br>tfId = = techGetTechFile( pcCellView )</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1118422">?encSubPath list(&nbsp;&nbsp;&nbsp;&nbsp;list(&nbsp;?layer&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&#34;metal2&#34;<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;?enclosure&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;techGetParam( tfId &#34;m1m2enc&#34; )<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;?beginOffset &nbsp;&nbsp;&#45;.4<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;?choppable &nbsp;&nbsp;&nbsp;&nbsp;nil<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) ; end of 1st enclosure subpath<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list(&nbsp;?layer &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#34;poly1&#34;<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;?enclosure &nbsp;&nbsp;&nbsp;&nbsp;.1<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;?beginOffset&nbsp;&nbsp;&nbsp;0<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;?endOffset &nbsp;&nbsp;&nbsp;&nbsp;poly1EndOffset<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;?choppable &nbsp;&nbsp;&nbsp;&nbsp;nil<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) ; end 2nd enclosure subpath<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) ; end of 2nd enclosure subpath</a></font>
+      </p>
+      <p><a name="1085781">where </a><font size="2" face="'Courier New'" color="#000000">poly1EndOffset</font> is a variable and <font size="2" face="'Courier New'" color="#000000">techGetParam( tfId &#34;m1m2enc&#34; )</font> is a function call.</p>
+      <h4>
+        <em></em>
+        <em><a name="HowTheSystemFollowsToCreateSubrectangles"></a><a name="1094105">How the System Follows to Create Subrectangles</a></em>
+      </h4>
+      <p><a name="1094106">The system follows these steps to create subrectangles:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	1.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="1094107">Creates all subrectangles on the specified layer, with the subrectangle centerline separated from the master path centerline by </a><font size="2" face="'Courier New'" color="#000000"><em>n_sep</em></font>. </td>
+          </tr>
+        </table>
+      </div>
+      <blockquote><a name="1286456">When </a><font size="2" face="'Courier New'" color="#000000"><em>n_sep</em></font> is zero, the master path centerline bisects the width of the subrectangles. When <font size="2" face="'Courier New'" color="#000000"><em>n_sep</em></font> is less than or greater than zero, the subrectangles are offset from the master path centerline.<br><img src="images/chap1.4.1.27.png" width="675" height="173" alt=""><br></blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	2.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="1094140">For the first path segment, offsets the edge of the first subrectangle from the starting edge of the master path by the distance specified in </a><font size="2" face="'Courier New'" color="#000000"><em>n_beginOffset</em></font>.<br><img src="images/chap1.4.1.28.png" width="675" height="181" alt=""><br></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	3.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="1094161">Uses the value of </a><font size="2" face="'Courier New'" color="#000000"><em>n_space</em></font> to compute the maximum number of subrectangles that fit on grid in the segment, and the value of <font size="2" face="'Courier New'" color="#000000"><em>S_gap</em></font> to determine what to do with excess space, as follows:</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1094162">When </a><font size="2" face="'Courier New'" color="#000000"><em>S_gap</em></font> equals <font size="2" face="'Courier New'" color="#000000">distribute</font> (the default), distributes the space as evenly as possible, in multiples of the grid space specified by <font size="2" face="'Courier New'" color="#000000">mfgGridResolution</font>.<br><img src="images/chap1.4.1.29.png" width="675" height="271" alt=""><br></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1094170">When </a><font size="2" face="'Courier New'" color="#000000"><em>S_gap</em></font> equals <font size="2" face="'Courier New'" color="#000000">minimum</font>, places subrectangles <font size="2" face="'Courier New'" color="#000000"><em>n_space</em></font> apart until there is no space for another rectangle, then leaves the excess space after the last subrectangle in the segment.<br><img src="images/chap1.4.1.30.png" width="675" height="252" alt=""><br></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	4.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="1094180">For each subsequent path segment, the system</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1094181">Positions the first subrectangle on the vertex of the subrectangle centerline with half its width towards the beginning of the segment.<br><img src="images/chap1.4.1.31.png" width="675" height="235" alt=""><br></a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1094219">Repeats step 3.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	5.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="1094220">For the last path segment, the system offsets the edge of the last subrectangle from the ending edge of the master path by the distance specified in </a><font size="2" face="'Courier New'" color="#000000"><em>n_endOffset</em></font>. For the remaining subrectangles in the last segment, the system repeats step 3.<br><img src="images/chap1.4.1.32.png" width="675" height="184" alt=""><br></td>
+          </tr>
+        </table>
+      </div>
+      <h4>
+        <em></em>
+        <em><a name="SubrectanglesInTheCornersOfSegments"></a><a name="1138175">Subrectangles in the Corners of Segments</a></em>
+      </h4>
+      <p><a name="1138176">By default, the system creates a subrectangle in the corner formed by each segment of a subrectangle subpath, and then fills in the rest of the segment with subrectangles, following the spacing you specify with the </a><font size="2" face="'Courier New'" color="#000000">rodCreatePath</font> function.<br><img src="images/chap1.4.1.33.png" width="314" height="212" alt=""><br></p>
+      <p><a name="1138205">There are several reasons that you might want to keep subrectangles out of the corners of your subrectangle subpaths. For example, when you specify multiple subrectangle subpaths, placing rectangles in the corners of segments might cause individual subrectangles to be out of alignment vertically or horizontally with the subrectangles in the other subrectangle subpaths.</a></p>
+      <p><a name="1138206">If you do not want subrectangles in the corners of segments, you can keep them out by specifying the </a><font size="2" face="'Courier New'" color="#000000"><em>n_beginSegOffset</em></font> and <font size="2" face="'Courier New'" color="#000000"><em>n_endSegOffset</em></font> arguments. The system measures the <font size="2" face="'Courier New'" color="#000000"><em>n_beginSegOffset</em></font> and <font size="2" face="'Courier New'" color="#000000"><em>n_endSegOffset</em></font> values from the edge of the master path, as shown below.<br><img src="images/chap1.4.1.34.png" width="675" height="262" alt=""><br></p>
+      <p><a name="1138286">When specifying the segment offset arguments, keep in mind:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1138287">The </a><font size="2" face="'Courier New'" color="#000000"><em>n_beginSegOffset</em></font> value does not apply to the first segment; the position of the first subrectangle in the first segment is determined by the value of the <font size="2" face="'Courier New'" color="#000000"><em>n_beginOffset</em></font> argument. </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1138288">The </a><font size="2" face="'Courier New'" color="#000000"><em>n_endSegOffset</em></font> value does not apply to the last segment; the position of the last subrectangle in the last segment is determined by the value of the <font size="2" face="'Courier New'" color="#000000"><em>n_endOffset</em></font> argument.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1138318">The segment offset arguments work in combination with the </a><font size="2" face="'Courier New'" color="#000000"><em>n_beginOffset</em></font> and <font size="2" face="'Courier New'" color="#000000"><em>n_endOffset</em></font> arguments. </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1138290">If the segment begins before the full distance specified by the </a><font size="2" face="'Courier New'" color="#000000"><em>n_beginSegOffset</em></font> argument, then <font size="2" face="'Courier New'" color="#000000"><em>n_beginSegOffset</em></font> is not applied, and a subrectangle could be placed at the corner of the subrectangle subpath.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1138291">If the segment ends before the full distance specified by the </a><font size="2" face="'Courier New'" color="#000000"><em>n_endOffset</em></font> argument, then <font size="2" face="'Courier New'" color="#000000"><em>n_endOffset</em></font> is not applied, and a subrectangle could be placed at the corner of the subrectangle subpath.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1138292">When applying the offset options, the system will not create a spacing error. If the first subrectangle in a subrectangle subpath segment would be too close to the last subrectangle in the previous segment, the system discards the last subrectangle in the previous segment. </a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="1138293">When you specify the offset options, you need to check the results to make sure the corners are as desired. If they are not, you should change the values of the offset arguments and try again.</a></p>
+      <h4>
+        <em></em>
+        <em><a name="1138173">Disconnecting Shapes in a Multipart Path</a></em>
+      </h4>
+      <p><a name="1094348">You can change a multipart path into separate, unrelated shapes by removing the name of the multipart path. Once you do this, all relationships between the shapes are removed.</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/arrwrite.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1094349">To change all of the shapes in a multipart path into separate, unrelated shapes, remove the name of the multipart path using the </a><font size="2" face="'Courier New'" color="#000000">rodUnNameShape</font> function.</td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="1094350">Now the master path is a separate, unnamed path; each subpath is a separate, unnamed path; and each rectangle is a separate, unnamed shape. None of them is a ROD object, and there is no relationship between them.</a></p>
+      <h4>
+        <em></em>
+        <em><a name="1096388">Making a Former MPP Part into a ROD Object</a></em>
+      </h4>
+      <p><a name="1094351">You can make any shape that was formerly part of a multipart path (the master path, any subpath, or any individual subrectangle) into a ROD object by assigning it a unique name.</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/arrwrite.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1094352">To make a shape into a ROD object, assign a unique name to the shape using the </a><font size="2" face="'Courier New'" color="#000000">rodNameShape</font> function.</td>
+          </tr>
+        </table>
+      </div>
+      <blockquote><a name="1164803">Each shape to which you assign a name is now a separate, unique ROD object.</a></blockquote>

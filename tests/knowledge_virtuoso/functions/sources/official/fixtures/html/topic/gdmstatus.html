@@ -1,0 +1,421 @@
+<h3><a name="gdmstatus"></a><a name="970246">gdmstatus</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="970248">gdmstatus(<dd>{</a><font size="2" face="'Courier New'" color="#000000"><em> G_gdmSpec </em></font>| <font size="2" face="'Courier New'" color="#000000"><em>q_gdmSpecList </em></font>}<dd><font size="2" face="'Courier New'" color="#000000"><em>x_information<dd></em></font>)<dd>=&#62; <font size="2" face="'Courier New'" color="#000000"><em>l_fileStatus</em></font> &#47; <font size="2" face="'Courier New'" color="#000000">nil</font></font>
+      </dl>
+      <h4><a name="970249">Description</a></h4>
+      <p><a name="970807">Returns the design management status of the library, cell, view, directory, or file that </a><font size="2" face="'Courier New'" color="#000000"><em>G_gdmSpec</em></font> represents.</p>
+      <p><a name="970808">This function is the SKILL equivalent of the </a><font size="2" face="'Courier New'" color="#000000">gdmstatus</font> command. See <a href="../caiuser/chap8.html#gdmstatusnew" target="external_window"><font size="2" face="'Courier New'" color="#0000ff"><u>gdmstatus</u></font></a> for more information.</p>
+      <h4><a name="970809">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="976207"><font size="2" face="'Courier New'" color="#000000"><em>G_gdmSpec</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="976209">The </a><font size="2" face="'Courier New'" color="#000000">gdmSpec</font> object of the library, cell, view, directory, or file.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="976211"><font size="2" face="'Courier New'" color="#000000"><em>q_gdmSpecList</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="976213">A </a><font size="2" face="'Courier New'" color="#000000">gdmSpecList</font> object containing <font size="2" face="'Courier New'" color="#000000">gdmSpec</font> objects.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="976215"><font size="2" face="'Courier New'" color="#000000"><em>x_information</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="976217">Specifies the kind of information to return. The following table lists the legal values for this argument.</a></p>
+          </td>
+        </tr>
+      </table>
+      <p align="left"><a name="970323">&nbsp;</a></p>
+<ul>      <table summary="" border="1" cellpadding="5" cellspacing="0" bgcolor="#FFFFFF" width="456">
+        <tr>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="106">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="970262">Specify ...</a></strong></font>
+            </p>
+          </td>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="350">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="970264">to get ...</a></strong></font>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="970266"><font size="2" face="'Courier New'" color="#000000">1</font></a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="970268">The </a><font size="2" face="'Courier New'" color="#000000">gdmSpec</font> object.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="970270"><font size="2" face="'Courier New'" color="#000000">2</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="970272">The library to which the file belongs.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="970274"><font size="2" face="'Courier New'" color="#000000">3</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="970276">The cell to which the file belongs.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="970278"><font size="2" face="'Courier New'" color="#000000">4</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="970280">The view to which the file belongs.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="970282"><font size="2" face="'Courier New'" color="#000000">5</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="970284">The path to the file, relative to the library to which it belongs or to the current directory.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="970286"><font size="2" face="'Courier New'" color="#000000">6</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="970288">The design management status. Returns one of the following:</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="971736"><font size="2" face="'Courier New'" color="#000000">gdmStateNone:</font></a></td>
+                </tr>
+              </table></ul>
+            </div>
+            <p><a name="974316">DMTYPE is set to a valid DM system. You may request GDM to attempt check in of an unmanaged state data into the named DM. This usually works within a managed library, depending upon correct DM setup and configuration including the cdsinfo.tag file.</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="974417"><font size="2" face="'Courier New'" color="#000000">gdmStateCI: </font></a>File is managed and not checked out </td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="974332"><font size="2" face="'Courier New'" color="#000000">gdmStateCO</font></a>: File is checked out to current workarea</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="974339"><font size="2" face="'Courier New'" color="#000000">gdmStateCOE</font></a>: File is checked out but not to current workarea</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="974355"><font size="2" face="'Courier New'" color="#000000">gdmStateDel: </font></a>File is flagged as deleted</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="974362"><font size="2" face="'Courier New'" color="#000000">gdmStateDir: </font></a>File is a directory</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="974369"><font size="2" face="'Courier New'" color="#000000">gdmStateInactive: </font></a>File is inactive</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="974376"><font size="2" face="'Courier New'" color="#000000">gdmStateUnmanageable: </font></a>DMTYPE is set to NONE. A GDM check in cannot be processed in the current configuration state. For example, a directory, which is unmanageable will not have its content expanded. Therefore, no subdirectory data will be returned for it, even if the GDM_RECURSE option is added. The UNMANAGEABLE state cannot process a GDM check&#45;in within the current configuration state. It means the DMTYPE has been set to NONE by a cdsinfo.tag file.</td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="970291"><font size="2" face="'Courier New'" color="#000000">7</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="970293">The status of the file in the workarea. Returns one of the following:</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="970294"><font size="2" face="'Courier New'" color="#000000">gdmStateNone</font></a>: File is not in the workarea.</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="974456"><font size="2" face="'Courier New'" color="#000000">gdmStateRead</font></a>: File is in the workarea but is read&#45;only.</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="974465"><font size="2" face="'Courier New'" color="#000000">gdmStateWrite</font></a>: File is checked out to current. workarea.</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="974472"><font size="2" face="'Courier New'" color="#000000">gdmStateDir</font></a>: File is a directory.</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="974479"><font size="2" face="'Courier New'" color="#000000">gdmStateErr</font></a>: File is in an inconsistent state.</td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="970296"><font size="2" face="'Courier New'" color="#000000">8</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="970298">Check whether the file has been modified in the workarea.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="970300"><font size="2" face="'Courier New'" color="#000000">9</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="970302">The version the file will be when it is checked in, or if it is already checked in, the current version.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="970304"><font size="2" face="'Courier New'" color="#000000">10</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="970306">The version of the file you will get if you check it out, or if it is already checked out, the version that was checked out.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="970308"><font size="2" face="'Courier New'" color="#000000">11</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="970310">The version of the file you will get if you update it.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="970312"><font size="2" face="'Courier New'" color="#000000">12</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="970314">The check&#45;out location of the file.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="970316"><font size="2" face="'Courier New'" color="#000000">13</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="970318">The name of the person who checked out the file.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="973966"><font size="2" face="'Courier New'" color="#000000">14</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="973968">The name of the person who checked in the file.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="970320"><font size="2" face="'Courier New'" color="#000000">15</font></a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="970322">The update needed status of the file. Returns one of the following:</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="974069"><font size="2" face="'Courier New'" color="#000000">true</font></a>: Update is required.</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="974070"><font size="2" face="'Courier New'" color="#000000">false</font></a>: Update is not required.</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="973978"><font size="2" face="'Courier New'" color="#000000">unknown</font></a>: DM does not support this feature.</td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="970324">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="976224"><font size="2" face="'Courier New'" color="#000000"><em>l_fileStatus</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="976226">Returns a list of lists containing the status of each file in the cellview directory.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="976228"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="976230">An error occurred and the information could not be returned.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="974100">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="974121">strlist=gdmStatus(gdmCreateSpec(&#34;rodTrLib&#34; &#34;Design&#34; &#34;layout&#34; master.tag&#34; &#34;CDBA&#34;) 15)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="974107">=&#62; ((&#34;&#47;rodTrLib&#47;Design&#47;layout&#47;master.tag true&#34;))</a></font>
+      </p>
+      <p><a name="974133">Returns </a><font size="2" face="'Courier New'" color="#000000">true</font>. The <font size="2" face="'Courier New'" color="#000000">master.tag</font> file needs to be updated in the &#60;<font size="2" face="'Courier New'" color="#000000">rodTrLib | Design | layout</font>&#62; cellview.</p>

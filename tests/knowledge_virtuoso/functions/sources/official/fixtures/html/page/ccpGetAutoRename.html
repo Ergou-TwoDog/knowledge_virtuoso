@@ -1,0 +1,246 @@
+<!-- [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=ccpExpandConfig
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+      <h3><a name="ccpExpandConfig"></a><a name="985226">ccpExpandConfig</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="985228">ccpExpandConfig(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>G_src<dd>s_expFlag<dd></em></font>[ <font size="2" face="'Courier New'" color="#000000"><em>q_expandSkipLibList </em></font>]<dd>[ <font size="2" face="'Courier New'" color="#000000"><em>l_expandViewTypeList </em></font>]<dd>[ <font size="2" face="'Courier New'" color="#000000"><em>l_expandViewNameList </em></font>]<dd>[ <font size="2" face="'Courier New'" color="#000000"><em>t_vNameSimExp</em></font> ]<dd>[ <font size="2" face="'Courier New'" color="#000000"><em>t_vNameSpace </em></font>]<dd>[ <font size="2" face="'Courier New'" color="#000000"><em>g_addProp</em></font> ]<dd>[ <font size="2" face="'Courier New'" color="#000000"><em>g_existenceCheck</em></font> ]<dd>[ <font size="2" face="'Courier New'" color="#000000"><em>g_reReferenceCustomVias</em></font> ]<dd>)<dd>=&#62; <font size="2" face="'Courier New'" color="#000000"><em>q_expSpecList</em></font> &#47; <font size="2" face="'Courier New'" color="#000000">nil</font></font>
+      </dl>
+      <h4><a name="985229">Description</a></h4>
+      <p><a name="985231">Expands a configuration, based on configuration rules specified in the </a><font size="2" face="'Courier New'" color="#000000">expand.cfg</font> file in the source configuration view.</p>
+      <p><a name="985232">A configuration is a set of rules that defines which cellviews under a top&#45;level cell are to be considered part of the design for a given purpose such as netlisting or simulation. For more information about configurations, see the </a><font color="#000000"><em>Hierarchy Editor User Guide</em></font>.</p>
+      <h4><a name="985233">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="995947"><font size="2" face="'Courier New'" color="#000000"><em>G_src</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="995949">Source gdmSpec object which represents a cell or a configuration view.</a></p>
+            <p><a name="996102">For information about creating gdmSpec and gdmSpecList objects, see </a><a href="gdm.html#962695" title="1"><font color="#0000ff"><u>Generic Design Management (GDM) Functions</u></font></a>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="995955"><font size="2" face="'Courier New'" color="#000000"><em>s_expFlag</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="995957">Expand option. Can be one of the following predefined symbols:</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="996127"><font size="2" face="'Courier New'" color="#000000">CCP_EXPAND_COMANAGED</font></a>: Expands a directory and includes only the <font size="2" face="'Courier New'" color="#000000">coManaged</font> and <font size="2" face="'Courier New'" color="#000000">alsoManaged</font> files, which are defined in the <font size="2" face="'Courier New'" color="#000000">dataReg</font>.</td>
+                </tr>
+              </table>
+            </div>
+            <blockquote><font color="#000000"><strong>Note: </strong></font><a name="996142">Some applications have co&#45;managed files stored at different directory levels. These co&#45;managed files will also be included for copy.</a></blockquote>
+            <blockquote><font color="#000000"><strong>Note: </strong></font><a name="996157">The </a><font size="2" face="'Courier New'" color="#000000">prop.xx</font> file, which is invalid in OpenAccess libraries, is no longer automatically included in co&#45;managed sets. </blockquote>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="996172"><font size="2" face="'Courier New'" color="#000000">CCP_EXPAND_ALL</font></a>: Expands everything in a directory.</td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="995975"><font size="2" face="'Courier New'" color="#000000"><em>q_expandSkipLibList</em></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="996512"><font size="2" face="'Courier New'" color="#000000"><em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="996514">gdmSpecList object containing the libraries to exclude while copying. </a><font size="2" face="'Courier New'" color="#000000"><em>q_expandSkipLibList</em></font> is a stop list--design objects in the libraries are not traversed.</p>
+            <p><a name="996515">For information about creating gdmSpec and gdmSpecList objects, see </a><a href="gdm.html#962695" title="1"><font color="#0000ff"><u>Generic Design Management (GDM) Functions</u></font></a>.</p>
+            <p><a name="996519">This argument is optional; its default value is </a><font size="2" face="'Courier New'" color="#000000">nil</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="995991"><font size="2" face="'Courier New'" color="#000000"><em>l_expandViewTypeList</em></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="996502"><font size="2" face="'Courier New'" color="#000000"><em>&nbsp;&nbsp;&nbsp;&nbsp;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="996504">List of strings specifying the view types to be expanded. If the list is empty, includes all view types in the hierarchy.</a></p>
+            <p><a name="996505">This argument is optional; its default value is </a><font size="2" face="'Courier New'" color="#000000">nil</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="996003"><font size="2" face="'Courier New'" color="#000000"><em>l_expandViewNameList</em></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="996492"><font size="2" face="'Courier New'" color="#000000"><em>&nbsp;&nbsp;&nbsp;&nbsp;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="996494">List of view names to be expanded. If the list is empty, includesall view names in the hierarchy.</a></p>
+            <p><a name="996495">This argument is optional; its default value is </a><font size="2" face="'Courier New'" color="#000000">nil</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="996015"><font size="2" face="'Courier New'" color="#000000"><em>t_vNameSimExp</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="996017">Regular expression specifying the views to expand.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="996019"><font size="2" face="'Courier New'" color="#000000"><em>t_vNameSpace</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="996021">The name space in which the arguments </a><font size="2" face="'Courier New'" color="#000000"><em>t_vNameSimExp</em></font> and <font size="2" face="'Courier New'" color="#000000"><em>l_expandViewNameList</em></font> are provided. Can be one of the following strings: <font size="2" face="'Courier New'" color="#000000">VHDL</font>, <font size="2" face="'Courier New'" color="#000000">Verilog</font>, <font size="2" face="'Courier New'" color="#000000">Verilog&#45;A</font>, <font size="2" face="'Courier New'" color="#000000">CDBA</font>, <font size="2" face="'Courier New'" color="#000000">Concept</font>, <font size="2" face="'Courier New'" color="#000000">Library</font>, <font size="2" face="'Courier New'" color="#000000">LibraryUnix</font>, or <font size="2" face="'Courier New'" color="#000000">LibraryNT</font>..</p>
+            <p><a name="996318">For a list of Cadence name spaces, see </a><a href="../caiuser/chap7.html#namespacedatatypes" target="external_window"><font color="#0000ff"><u>Name Spaces for Different Data Types</u></font></a>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="996031"><font size="2" face="'Courier New'" color="#000000"><em>g_addProp</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="996033"><font size="2" face="'Courier New'" color="#000000">t</font></a> or <font size="2" face="'Courier New'" color="#000000">nil</font>; default is <font size="2" face="'Courier New'" color="#000000">nil</font>. If you specify <font size="2" face="'Courier New'" color="#000000">t</font>, library and cell property files are also copied. It is recommended that you use <font size="2" face="'Courier New'" color="#000000">nil</font> for this argument because of potential conflicts between property files. Properties are usually added by the copy updaters. </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="996035"><font size="2" face="'Courier New'" color="#000000"><em>g_existenceCheck</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="996037"><font size="2" face="'Courier New'" color="#000000">t</font></a> or <font size="2" face="'Courier New'" color="#000000">nil</font>. Sets a flag for the Virtuoso post&#45;copy updater to validate the existence of layers, purposes, viaDefs, and siteDefs in the technology database of the destination library after the copy command is completed. </p>
+            <p><a name="996340">This argument is optional; its default value is </a><font size="2" face="'Courier New'" color="#000000">nil</font>.</p>
+            <p><a name="996355"><font color="#000000"><strong>Note:</strong></font></a> This argument is typically used with copy functions and is not needed for expansion functions.</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="996047"><font size="2" face="'Courier New'" color="#000000"><em>g_reReferenceCustomVias</em></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="996475"><font size="2" face="'Courier New'" color="#000000"><em>&nbsp;&nbsp;&nbsp;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="996477"><font size="2" face="'Courier New'" color="#000000">t</font></a> or <font size="2" face="'Courier New'" color="#000000">nil</font>. Sets a flag for the Virtuoso post&#45;copy updater to update custom via definitions to point to cellviews in the destination library.</p>
+            <p><a name="996478">This argument is optional; its default value is </a><font size="2" face="'Courier New'" color="#000000">nil</font>.</p>
+            <p><a name="996479"><font color="#000000"><strong>Note:</strong></font></a> This argument is typically used with copy functions and is not needed for expansion functions.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="985267">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="649">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="996530"><font size="2" face="'Courier New'" color="#000000"><em>q_expSpecList</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="996532">A gdmSpecList object containing gdmSpec objects for the files in the expansion list.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="996534"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="996536">The configuration could not be expanded.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h3><a name="ccpGetAutoRename"></a><a name="999709">ccpGetAutoRename</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="999711">ccpGetAutoRename()<dd>=&#62; </a><font size="2" face="'Courier New'" color="#000000">t &#47; nil</font></font>
+      </dl>
+      <h4><a name="999712">Description</a></h4>
+      <p><a name="999932">Gets the current status of the auto rename feature. Earlier, the status of this feature was controlled only by a single time evaluation of the </a><font size="2" face="'Courier New'" color="#000000">CDS_COPY_AUTO_RENAME </font>shell environment variable. This environment variable defines the initial status setting for this feature. Now, the <a href="#999886" title="3"><font color="#0000ff"><u>ccpSetAutoRename</u></font></a> function allows you to change the status after the startup initialization.</p>
+      <h4><a name="1000328">Arguments</a></h4>
+      <p><a name="1000397">None.</a></p>
+      <h4><a name="1000338">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="649">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1000331"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1000333">The auto rename feature is enabled. </a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1000335"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1000532">The auto rename feature is disabled. </a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1000246">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1000578">ccpGetAutoRename()<br>=&#62; t</a></font>
+      </p>
+      <p><a name="1001113">The auto rename feature is enabled.</a></p>
+      <h3><a name="ccpSetAutoRename"></a><a name="999886">ccpSetAutoRename</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="999888">ccpSetAutoRename(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>g_general<dd></em></font>)<dd>=&#62; <font size="2" face="'Courier New'" color="#000000">t</font></font>
+      </dl>
+      <h4><a name="999889">Description</a></h4>
+      <p><a name="1000662">Sets the status of the auto rename feature to on or off. Earlier, the status of this feature was controlled only by a single time evaluation of the </a><font size="2" face="'Courier New'" color="#000000">CDS_COPY_AUTO_RENAME </font>shell environment variable. This environment variable defines the initial status setting for this feature. Now, this function allows you to change the status after the startup initialization.</p>
+      <h4><a name="1000376">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1000369"><font size="2" face="'Courier New'" color="#000000"><em>g_general</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1000371"><font size="2" face="'Courier New'" color="#000000">t</font></a> or <font size="2" face="'Courier New'" color="#000000">nil</font>; If <font size="2" face="'Courier New'" color="#000000">t</font> is specified, the auto rename feature is enabled and the <font size="2" face="'Courier New'" color="#000000">CDS_COPY_AUTO_RENAME </font>environment variable is set to <font size="2" face="'Courier New'" color="#000000">YES</font>.</p>
+            <p><a name="1000785">If </a><font size="2" face="'Courier New'" color="#000000">nil</font> is specified, the auto rename feature is disabled and the <font size="2" face="'Courier New'" color="#000000">CDS_COPY_AUTO_RENAME </font>environment variable is set to <font size="2" face="'Courier New'" color="#000000">NO</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1000386">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="649">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1000383"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1000385">Sets the current status of the auto rename feature to on or off.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1000880">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1000881">; Calling ccpCopy with autorename mode switched to on.<br>&nbsp;&nbsp;&nbsp;&nbsp;autoRenameWasOn = ccpGetAutoRename()<br>&nbsp;&nbsp;&nbsp;&nbsp;if( !autoRenameWasOn  ccpSetAutoRename(t) )<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;ok = ccpCopy( sourceGdmList destinationGdmList overwriteBoolean )<br>; Optional restoring autorename back to off for this example<br>&nbsp;&nbsp;&nbsp;&nbsp;if( !autoRenameWasOn  ccpSetAutoRename(nil) )</a></font>
+      </p>
+      <p><a name="1001154">If the </a><font size="2" face="'Courier New'" color="#000000">ccpSetAutoRename</font> function is set to <font size="2" face="'Courier New'" color="#000000">t</font>, the auto rename feature gets enabled. However, when the <font size="2" face="'Courier New'" color="#000000">ccpSetAutoRename</font> function is set to <font size="2" face="'Courier New'" color="#000000">nil</font>, the auto rename feature gets disabled.</p>
+<!-- [TOPIC_END] -->

@@ -11,7 +11,7 @@
 "记录契约变了"或"要新增用例"时跑；跑完记得 `run_tests.py --update` 重录 golden 并核对差异。
 
 手写的那几份**不在这里重录**（它们不是从索引来的，改了要自己动手）：
-`functions/sources/custom/fixtures/synthetic.json`（手写信封）与
+`functions/sources/custom/fixtures/syntheticUniqueFunc.json`（手写信封）与
 `database/techdb/fixtures/rw_shown.json`（手写行，文件里标了 `"synthetic": true`）。
 """
 
@@ -21,8 +21,9 @@ import json
 import pathlib
 import sys
 
-HERE = pathlib.Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE))
+HERE = pathlib.Path(__file__).resolve().parent      # tests/tools
+TESTS = HERE.parent                                  # tests/
+sys.path.insert(0, str(TESTS))
 
 from common import MIRROR, read_json, write_text  # noqa: E402
 
@@ -55,9 +56,9 @@ def capture_functions() -> None:
 
 def capture_attrs(library: str) -> None:
     module, func_name = ATTR_LIBS[library]
-    fixtures = MIRROR / "database" / library / "fixtures"
+    cases = MIRROR / "database" / library / "cases"      # 一进一出同目录同 stem
     count = 0
-    for fixture in sorted(fixtures.glob("*.json")):
+    for fixture in sorted(cases.glob("*.json")):
         case = read_json(fixture)
         if case.get("synthetic"):
             continue                      # 手写行：官方索引里没有这种数据

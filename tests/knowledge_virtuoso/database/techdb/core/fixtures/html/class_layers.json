@@ -1,0 +1,74 @@
+{
+ "source": "sktechfile/appA.html",
+ "kind": "h3",
+ "class": "layers",
+ "names": [
+  "abbrev",
+  "allowSetToValid",
+  "allowSetToValidInSession",
+  "backside",
+  "incompatibleLayerNames",
+  "lps",
+  "material",
+  "name",
+  "number",
+  "valid"
+ ],
+ "rows": {
+  "number": {
+   "rw": "?",
+   "type": "l_string"
+  },
+  "name": {
+   "rw": "?",
+   "type": "l_string"
+  },
+  "abbrev": {
+   "rw": "?",
+   "type": "l_string"
+  },
+  "lps": {
+   "rw": "?",
+   "type": "l_objId"
+  },
+  "incompatibleLayerNames": {
+   "rw": "?",
+   "type": "l_string"
+  },
+  "backside": {
+   "rw": "?",
+   "type": "boolean"
+  },
+  "material": {
+   "rw": "?",
+   "type": ""
+  },
+  "valid": {
+   "rw": "?",
+   "type": "boolean"
+  },
+  "allowSetToValid": {
+   "rw": "?",
+   "type": "boolean"
+  },
+  "allowSetToValidInSession": {
+   "rw": "?",
+   "type": "boolean"
+  }
+ },
+ "unique": {
+  "incompatibleLayerNames": {
+   "rw": "?",
+   "type": "l_string"
+  },
+  "backside": {
+   "rw": "?",
+   "type": "boolean"
+  },
+  "material": {
+   "rw": "?",
+   "type": ""
+  }
+ },
+ "class_desc": "层"
+}

@@ -1,0 +1,82 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "asiMapInstanceName(\nt_dataDirl_specifier\n[ ?formatflag s_formatflag ])\n=> l_specifier",
+   "shared_from": null
+  }
+ ],
+ "where": {
+  "file": "skartistref/chap16.html",
+  "topic": "asiMapInstanceName",
+  "marker_text": "asiMapInstanceName",
+  "anchor": "asiMapInstanceName"
+ },
+ "also_at": [],
+ "sections": {
+  "description": {
+   "text": "Maps the hierarchical schematic instance name to the name in the netlist."
+  },
+  "arguments": {
+   "root": {
+    "title": null,
+    "items": [
+     {
+      "name": "t_dataDir",
+      "desc": "Specifies the data directory.",
+      "values": null
+     },
+     {
+      "name": "l_specifier",
+      "desc": "Lists the name of the instance to map.",
+      "values": null
+     },
+     {
+      "name": "?formatflag s_formatflag",
+      "desc": "Performs name mapping of transient simulation data available in SST2 format.\nSet the value to \"t\" if this function is used in context of transient simulation data analysis and the transient simulation data is available in SST2 format.",
+      "values": null
+     }
+    ]
+   },
+   "lists": [],
+   "text": "t_dataDir\nSpecifies the data directory.\nl_specifier\nLists the name of the instance to map.\n?formatflag s_formatflag\nPerforms name mapping of transient simulation data available in SST2 format.\nSet the value to \"t\" if this function is used in context of transient simulation data analysis and the transient simulation data is available in SST2 format."
+  },
+  "returns": {
+   "items": [
+    {
+     "value": "l_specifier",
+     "desc": "Returns the list containing the mapped name.\nNote: The list l_specifier passed as the argument is also destructively modified to contain the mapped name."
+    }
+   ],
+   "text": "l_specifier\nReturns the list containing the mapped name.\nNote: The list l_specifier passed as the argument is also destructively modified to contain the mapped name."
+  }
+ },
+ "field_status": {
+  "description": "present",
+  "arguments": "present",
+  "returns": "present",
+  "example": "not_documented",
+  "reference": "not_documented",
+  "related_functions": "not_documented",
+  "prerequisites": "not_documented",
+  "additional_information": "not_documented",
+  "interactive_function": "not_documented",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "not_documented",
+  "overview": "not_documented",
+  "errors": "not_documented",
+  "decl": "present"
+ },
+ "status": "active",
+ "prefix": "asi",
+ "tokens": [
+  "asi",
+  "map",
+  "instance",
+  "name"
+ ],
+ "name": "asiMapInstanceName"
+}

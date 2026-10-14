@@ -1,0 +1,38 @@
+{
+  "payload": {
+    "classes": {
+      "viaDefs": {"name": "viaDefs", "attributes": ["drawingName", "viaHeader"]},
+      "lps": {"name": "lps", "attributes": []}
+    },
+    "attributes": {
+      "drawingName": {"name": "drawingName", "rw": "?", "type": "string", "desc": "层名", "classes": ["viaDefs"]},
+      "purpose": {"name": "purpose", "rw": "rw", "type": "string", "desc": "layer purpose"},
+      "viaHeader": {"name": "viaHeader", "rw": "ro", "type": "objId", "desc": "通孔头", "classes": ["viaDefs", "lps"]}
+    }
+  },
+  "cases": [
+    {
+      "params": {"className": "viaDefs"},
+      "expect": [
+        {"name": "drawingName", "rw": "?", "type": "string", "desc": "层名", "classes": ["viaDefs"]},
+        {"name": "viaHeader", "rw": "ro", "type": "objId", "desc": "通孔头", "classes": ["viaDefs", "lps"]}
+      ]
+    },
+    {"params": {"className": "lps"}, "expect": []},
+    {"params": {"className": "nosuch"}, "expect": []},
+    {
+      "params": {"className": "viaDefs", "keyword": "HEADER"},
+      "expect": [
+        {"name": "viaHeader", "rw": "ro", "type": "objId", "desc": "通孔头", "classes": ["viaDefs", "lps"]}
+      ]
+    },
+    {
+      "params": {},
+      "expect": [
+        {"name": "drawingName", "rw": "?", "type": "string", "desc": "层名", "classes": ["viaDefs"]},
+        {"name": "purpose", "rw": "rw", "type": "string", "desc": "layer purpose", "classes": []},
+        {"name": "viaHeader", "rw": "ro", "type": "objId", "desc": "通孔头", "classes": ["viaDefs", "lps"]}
+      ]
+    }
+  ]
+}

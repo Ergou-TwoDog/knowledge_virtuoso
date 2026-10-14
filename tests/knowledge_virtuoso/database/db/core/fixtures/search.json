@@ -1,0 +1,47 @@
+{
+  "payload": {
+    "objTypes": {"Rect": {"name": "rect", "desc": "矩形"}},
+    "inheritance": {},
+    "genericLayers": {},
+    "attributes": {
+      "bBox": {"name": "bBox", "rw": "ro", "type": "bBox", "desc": "包围盒"},
+      "bare": {"name": "bare"},
+      "layerName": {"name": "layerName", "rw": "rw", "type": "string", "desc": "层名"},
+      "purpose": {"name": "purpose", "rw": "rw", "type": "string", "desc": "layer purpose"}
+    },
+    "expanded": {"rect": ["bBox", "layerName", "purpose", "notStored"]}
+  },
+  "cases": [
+    {
+      "params": {},
+      "expect": [
+        {"name": "bBox", "rw": "ro", "type": "bBox", "desc": "包围盒"},
+        {"name": "bare", "rw": "?", "type": "?", "desc": ""},
+        {"name": "layerName", "rw": "rw", "type": "string", "desc": "层名"},
+        {"name": "purpose", "rw": "rw", "type": "string", "desc": "layer purpose"}
+      ]
+    },
+    {
+      "params": {"objType": "rect"},
+      "expect": [
+        {"name": "bBox", "rw": "ro", "type": "bBox", "desc": "包围盒"},
+        {"name": "layerName", "rw": "rw", "type": "string", "desc": "层名"},
+        {"name": "purpose", "rw": "rw", "type": "string", "desc": "layer purpose"}
+      ]
+    },
+    {
+      "params": {"objType": "rect", "keyword": "layer"},
+      "expect": [
+        {"name": "layerName", "rw": "rw", "type": "string", "desc": "层名"}
+      ]
+    },
+    {
+      "params": {"keyword": "PURPOSE"},
+      "expect": [
+        {"name": "purpose", "rw": "rw", "type": "string", "desc": "layer purpose"}
+      ]
+    },
+    {"params": {"objType": "nosuch"}, "expect": []},
+    {"params": {"keyword": "zzz"}, "expect": []}
+  ]
+}

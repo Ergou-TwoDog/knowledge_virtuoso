@@ -1,0 +1,73 @@
+{
+ "type": "function",
+ "decl": [
+  {
+   "text": "error( [\nS_message1 [ S_message2 ] ... ]\n)\n=> none",
+   "shared_from": null
+  }
+ ],
+ "where": {
+  "file": "sklangref/funcprog.html",
+  "topic": "error",
+  "marker_text": "error",
+  "anchor": "error"
+ },
+ "also_at": [],
+ "sections": {
+  "description": {
+   "text": "Prints error messages and calls err.\nPrints the S_message1 and S_message2 error messages if they are given and then calls err, causing an error. The first argument can be a format string, which causes the rest of the arguments to be printed in that format."
+  },
+  "arguments": {
+   "root": {
+    "title": null,
+    "items": [
+     {
+      "name": "S_message1",
+      "desc": "Message string or symbol.",
+      "values": null
+     },
+     {
+      "name": "S_message2",
+      "desc": "More message strings or symbols. More than two arguments should be given only if the first argument is a format string.",
+      "values": null
+     }
+    ]
+   },
+   "lists": [],
+   "text": "S_message1\nMessage string or symbol.\nS_message2\nMore message strings or symbols. More than two arguments should be given only if the first argument is a format string."
+  },
+  "returns": {
+   "items": [],
+   "text": "Prints the S_message1 and S_message2 error messages if they are given and then calls err, causing an error. error never returns."
+  },
+  "example": {
+   "text": "error( \"myFunc\" \"Bad List\")\nPrints *Error* myFunc: Bad List\nerror( \"bad args - %s %d %L\" \"name\" 100 '(1 2 3) )\nPrints *Error* bad args - name 100 (1 2 3)\nerrset( error( \"test\" ) t) => nil\nPrints out *Error* test and returns nil."
+  },
+  "errors": {}
+ },
+ "field_status": {
+  "description": "present",
+  "arguments": "present",
+  "returns": "text_fallback",
+  "example": "present",
+  "reference": "not_documented",
+  "related_functions": "not_documented",
+  "prerequisites": "not_documented",
+  "additional_information": "not_documented",
+  "interactive_function": "not_documented",
+  "associated_options": "not_documented",
+  "option_descriptions": "not_documented",
+  "purpose": "not_documented",
+  "format": "not_documented",
+  "definition": "not_documented",
+  "overview": "not_documented",
+  "errors": "present",
+  "decl": "present"
+ },
+ "status": "active",
+ "prefix": "",
+ "tokens": [
+  "error"
+ ],
+ "name": "error"
+}

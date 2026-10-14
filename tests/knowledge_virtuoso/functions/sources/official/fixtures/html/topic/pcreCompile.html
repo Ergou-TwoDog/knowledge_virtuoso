@@ -1,0 +1,236 @@
+<h3><a name="pcreCompile"></a><a name="1039002">pcreCompile</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1039005">pcreCompile( <dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_pattern</em></font> <dd>[ <font size="2" face="'Courier New'" color="#000000"><em>x_options</em></font> ] <dd>) <dd>=&#62; <font size="2" face="'Courier New'" color="#000000"><em>o_comPatObj</em></font> &#47; <font size="2" face="'Courier New'" color="#000000">nil</font></font>
+      </dl>
+      <h4><a name="1039006">Description</a></h4>
+      <p><a name="1039008">Compiles a regular expression string pattern (</a><font size="2" face="'Courier New'" color="#000000"><em>t_pattern</em></font>) into an internal representation that you can use in a <a href="../sklangref/stringfunc.html#pcreExecute" target="external_window"><font size="2" face="'Courier New'" color="#0000ff"><u>pcreExecute</u></font></a> function call. The compilation method is PCRE&#47;Perl&#45;compatible. You can use a second (optional) argument to specify independent option bits for controlling pattern compilation. You can set and unset the <a href="../sklangref/stringfunc.html#PCRE_CASELESS" target="external_window"><font size="2" face="'Courier New'" color="#0000ff"><u>PCRE_CASELESS</u></font></a>, <a href="../sklangref/stringfunc.html#PCRE_MULTILINE" target="external_window"><font size="2" face="'Courier New'" color="#0000ff"><u>PCRE_MULTILINE</u></font></a>, <a href="../sklangref/stringfunc.html#PCRE_DOTALL" target="external_window"><font size="2" face="'Courier New'" color="#0000ff"><u>PCRE_DOTALL</u></font></a>, and <a href="../sklangref/stringfunc.html#PCRE_EXTENDED" target="external_window"><font size="2" face="'Courier New'" color="#0000ff"><u>PCRE_EXTENDED</u></font></a> independent option bits from within the pattern. The content of the options argument specifies the initial setting at the start of compilation. You can set the <a href="../sklangref/stringfunc.html#PCRE_ANCHORED" target="external_window"><font size="2" face="'Courier New'" color="#0000ff"><u>PCRE_ANCHORED</u></font></a> option at matching time and at compile time.</p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1039015">PCRE stands for </a><font color="#000000"><em>Perl Compatible Regular Expressions</em></font>. The PCRE library contains functions that implement Perl&#45;compatible regular expression pattern matching. You can visit <a href="http://www.pcre.org" target="external_window"><font size="2" face="'Courier New'" color="#0000ff"><u>http:&#47;&#47;www.pcre.org</u></font></a> for more information.</p>
+      <h4><a name="1039017">Arguments</a></h4>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="197.78303999999997">
+              <div>
+                <nobr><font size="2" face="'Courier New'" color="#000000"><em>t_pattern</em></font></nobr>
+              </div>
+            </td>
+            <td><a name="1039018">String containing regular expression string to be compiled.</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="1038994"><font size="2" face="'Courier New'" color="#000000"><em>x_options</em></font></a>	(Optional) Independent option bits that affect the compilation. You can specify zero or more of these options symbolically using the <a href="#1039401" title="5"><font size="2" face="'Courier New'" color="#0000ff"><u>pcreGenCompileOptBits</u></font></a> SKILL function.<br>Valid values:</p>
+      <table summary="" border="1" cellpadding="5" cellspacing="0" width="648">
+        <tr>
+          <td cellpadding="0" valign="middle" width="192">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1039053">&nbsp;</a></strong></font>
+            </p>
+          </td>
+          <td colspan="2" cellpadding="0" valign="top" width="456">
+            <p><a name="PCRE_CASELESS"></a><a name="1039056">PCRE_CASELESS &#47; 0x00000001</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="0" valign="top" width="192">
+            <p><a name="1039060">&nbsp;</a></p>
+          </td>
+          <td cellpadding="0" valign="top" width="132">
+            <p><a name="1039062">&nbsp;</a></p>
+          </td>
+          <td cellpadding="0" valign="top" width="324">
+            <p><a name="1039067">Equivalent to setting </a><font size="2" face="'Courier New'" color="#000000">?caseLess t</font> using the <a href="#1039401" title="5"><font color="#0000ff"><u>pcreGenCompileOptBits</u></font></a> SKILL function.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039072">&nbsp;</a></p>
+          </td>
+          <td colspan="2" cellpadding="0" valign="top">
+            <p><a name="PCRE_MULTILINE"></a><a name="1039075">PCRE_MULTILINE &#47; 0x00000002</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039079">&nbsp;</a></p>
+          </td>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039081">&nbsp;</a></p>
+          </td>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039086">Equivalent to setting </a><font size="2" face="'Courier New'" color="#000000">?multiLine t</font> using the <a href="#1039401" title="5"><font color="#0000ff"><u>pcreGenCompileOptBits</u></font></a> SKILL function.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039091">&nbsp;</a></p>
+          </td>
+          <td colspan="2" cellpadding="0" valign="top">
+            <p><a name="PCRE_DOTALL"></a><a name="1039094">PCRE_DOTALL &#47; 0x00000004</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039098">&nbsp;</a></p>
+          </td>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039100">&nbsp;</a></p>
+          </td>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039105">Equivalent to setting </a><font size="2" face="'Courier New'" color="#000000">?dotAll t</font> using the <a href="#1039401" title="5"><font color="#0000ff"><u>pcreGenCompileOptBits</u></font></a> SKILL function.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039110">&nbsp;</a></p>
+          </td>
+          <td colspan="2" cellpadding="0" valign="top">
+            <p><a name="PCRE_EXTENDED"></a><a name="1039113">PCRE_EXTENDED &#47; 0x00000008</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039117">&nbsp;</a></p>
+          </td>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039119">&nbsp;</a></p>
+          </td>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039124">Equivalent to setting </a><font size="2" face="'Courier New'" color="#000000">?extended t</font> using the <a href="#1039401" title="5"><font color="#0000ff"><u>pcreGenCompileOptBits</u></font></a> SKILL function.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039129">&nbsp;</a></p>
+          </td>
+          <td colspan="2" cellpadding="0" valign="top">
+            <p><a name="PCRE_ANCHORED"></a><a name="1039132">PCRE_ANCHORED &#47; 0x00000010</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039136">&nbsp;</a></p>
+          </td>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039138">&nbsp;</a></p>
+          </td>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039143">Equivalent to setting </a><font size="2" face="'Courier New'" color="#000000">?anchored t</font> using the <a href="#1039401" title="5"><font color="#0000ff"><u>pcreGenCompileOptBits</u></font></a> SKILL function.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039148">&nbsp;</a></p>
+          </td>
+          <td colspan="2" cellpadding="0" valign="top">
+            <p><a name="PCRE_DOLLAR_ENDONLY"></a><a name="1039151">PCRE_DOLLAR_ENDONLY &#47; 0x00000020</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039155">&nbsp;</a></p>
+          </td>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039157">&nbsp;</a></p>
+          </td>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039162">Equivalent to setting </a><font size="2" face="'Courier New'" color="#000000">?dollar_endonly t</font> using the <a href="#1039401" title="5"><font color="#0000ff"><u>pcreGenCompileOptBits</u></font></a> SKILL function.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039167">&nbsp;</a></p>
+          </td>
+          <td colspan="2" cellpadding="0" valign="top">
+            <p><a name="PCRE_UNGREEDY"></a><a name="1039170">PCRE_UNGREEDY &#47; 0x00000200</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039174">&nbsp;</a></p>
+          </td>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039176">&nbsp;</a></p>
+          </td>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039181">Equivalent to setting </a><font size="2" face="'Courier New'" color="#000000">?ungreedy t</font> using the <a href="#1039401" title="5"><font color="#0000ff"><u>pcreGenCompileOptBits</u></font></a> SKILL function.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039186">&nbsp;</a></p>
+          </td>
+          <td colspan="2" cellpadding="0" valign="top">
+            <p><a name="1039189">PCRE_NO_AUTO_CAPTURE &#47; 0x00001000</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039193">&nbsp;</a></p>
+          </td>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039195">&nbsp;</a></p>
+          </td>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039197">Equivalent to setting <br></a><font size="2" face="'Courier New'" color="#000000">?no_auto_capture t</font> using the <a href="#1039401" title="5"><font color="#0000ff"><u>pcreGenCompileOptBits</u></font></a> SKILL function.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039205">&nbsp;</a></p>
+          </td>
+          <td colspan="2" cellpadding="0" valign="top">
+            <p><a name="1039208">PCRE_FIRSTLINE &#47; 0x00040000</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039212">&nbsp;</a></p>
+          </td>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039214">&nbsp;</a></p>
+          </td>
+          <td cellpadding="0" valign="top">
+            <p><a name="1039219">Equivalent to setting </a><font size="2" face="'Courier New'" color="#000000">?firstline t</font> using the <a href="#1039401" title="5"><font color="#0000ff"><u>pcreGenCompileOptBits</u></font></a> SKILL function.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1039256">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="180">
+            <p><a name="1076062"><font size="2" face="'Courier New'" color="#000000"><em>o_comPatObj</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="468">
+            <p><a name="1076064">Data object containing the compiled pattern.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076066"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076068">Pattern compilation failed. An error message indicating the cause of the failure appears.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1039259">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1039260">comPat1 = pcreCompile( &#34;\\Qabc\\$xyz\\E&#34; ) =&#62; pcreobj@0x27d0fc<br>pcreExecute( comPat1 &#34;abc\\$xyz&#34; )         =&#62; t</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1039261">comPat2 = pcreCompile( &#34;sam | Bill | jack | alan | bob&#34; ) =&#62; pcreobj@0x27d108<br>pcreExecute( comPat2 &#34;alan&#34; )&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    =&#62; t</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1039262">comPat3 = pcreCompile( &#34;z{1,5}&#34; ) =&#62; pcreobj@0x27d120<br>pcreExecute( comPat3 &#34;zzzzz&#34; ) =&#62; t</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1039263">comPat4 = pcreCompile( &#34;&#47;\\*.*?\\*&#47;&#34; ) =&#62; pcreobj@0x27d12c<br>pcreExecute( comPat4 &#34;&#47;* first command *&#47; not comment &#47;* second comment *&#47;&#34; ) =&#62; t</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1039264">comPat5 = pcreCompile( &#34;&#94;[a&#45;z][0&#45;9a&#45;z]*&#34; pcreGenCompileOptBits(?caseLess t) ) <br>=&#62; pcreobj@0x27d138<br>pcreExecute( &#34;AB12cd&#34; ) =&#62; t</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1039265">comPat6 = pcreCompile( &#34;[a&#45;z&#34; ) =&#62; *Error* pcreCompile: compilation failed at offset 4: missing terminating ] for character class<br>nil</a></font>
+      </p>
+      <h4><a name="1039266">Reference</a></h4>
+      <p><a href="#1039322" title="5" name="1039042"><font color="#0000ff"><u>pcreExecute</u></font></a>, <a href="#1039401" title="5"><font color="#0000ff"><u>pcreGenCompileOptBits</u></font></a></p>
