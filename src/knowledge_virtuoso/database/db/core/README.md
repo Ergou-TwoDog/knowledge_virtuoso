@@ -1,8 +1,21 @@
 # database/db/core：设计库对象属性
 
 本模块把一个对象的属性表从官方 doc 解析出来、落成索引，并按**对象**回答
-"它有哪些属性"。索引存取（读 JSON / 坏了从 doc 重建 / 缓存 / 锁）在
-`database/core/store.py`，行形状与文本在 `database/db/render.py`。
+"它有哪些属性"。**按三层切，各占一个文件**：
+
+`core/` 只放"**doc → 载荷**"这件事，各占一个文件；**装配不在这一层**，在库根的
+`../index.py`（与函数库那边的 `index.py` 同名同义）：
+
+| 文件 | 层 | 管什么 |
+|---|---|---|
+| `parse.py` | ① 如实 | attrib.html 的**文档结构**：有哪些标题、某标题后是哪张表、表里有哪些格子。**不解释格子** |
+| `decorate.py` | ② 归一 | 把结构读成**统一载荷**（对象层七键 + 记录层 `ATTR_KEYS`）：认 `Note: include` 父指针（表内／表前两种位置）、认 `<br>` 的两义、认 `objType` 自报的运行时名，并把原文的 Modify 列收成两值的 `rw` |
+| `../index.py` | ③ 声明 | **`LIB = Library(...)` 一行**：库名、载荷版本、来源文档、①② 两层、别名表（`aliases`）、跨对象口径（`cross`）、`_summary` 那两行 CLI 统计。装配（构建期校验 + 版本号 + 索引存取 + CLI）由 `core/assembly.py` 出；查询入口由 `core/query.py` 的 `Query` 按它现绑 |
+
+**查询机制不在这儿、也不在库根**：它四库共用，收在 `database/core/query.py`
+（选择器 → 记录池 → 行）。渲染声明（列与提示语）在库接口
+`database/db/__init__.py` 的 `RenderSpec`，渲染机制在 `database/core/render.py`，
+索引存取在 `database/core/store.py`。
 
 唯一来源：`$VIRTUOSO_DOC_DIR/skdfref/attrib.html`
 （*Virtuoso Design Environment SKILL Reference* IC6.1.8，第 18 章
@@ -30,14 +43,23 @@
 
 ```
 对象 = {
-  id:       "Marker"             # 表标题去掉 " Attributes"；**内部主键，父指针指向它**
-  运行时名: "marker" | 未知       # 只是**选择器词汇**（第四节：52 个里只有 12 个有文档依据）
-  父:       "Generic Object" | None     # id；**绝不能是运行时名**
-  自身属性: [ { 名, 类型, 读写, 描述, 定义处 } ]
+  id:      "Marker"              # 表标题去掉 " Attributes"；**内部主键，父指针指向它**
+  title:   "Marker Attributes"   # 原文对这个对象的称呼（表标题原样）
+  runtime: "marker" | null       # 只是**选择器词汇**（第四节：52 个里只有 12 个有文档依据）
+  section: "Basic Object Attributes"   # 原文自己的分组（这张表在哪个 h3 下）
+  desc:    null                  # 原文没有对象级说明（techdb 才有）
+  parent:  "Generic Object" | null     # id；**绝不能是运行时名**
+  attrs:   [ { name, modify, type, desc } ]   # 全是原文格子的内容
 }
 
 attrs(x) = 自身属性(x) ∪ attrs(父(x))      # 父为空即止
 ```
+
+这七个键是四库**固定**的公共键（见 `database/core/objects.py` 的 `OBJECT_KEYS`，构建期校验），
+顺序即落盘顺序；每条记录同样按 `ATTR_KEYS` 写全。原文没给的写 `null`，**我们推出来的与原文
+给的并列写在同一条记录里**（db 的记录里既有原文的 `modify`，也有由它收成两值的 `rw`）——
+两类分得开。`definedIn`（合并时给）不落盘，那是查询算的（见 `database/core/query.py`）。
+代价：**改了 `_rw_from_modify` 就要抬版本号重建**（推法冻结在盘上）。
 
 **父指针只能用 id（表标题），不能用运行时名**：链条由 `Note: include <表标题>` 定义，
 69 条边一条不缺；而运行时名有 40 个对象文档根本没写，**7 个抽象族更是一个都没有**
@@ -204,14 +226,23 @@ Bus Net Definition / Bus Terminal Definition / Vector Instance Definition，
 
 ## 七、载荷与版本
 
-索引载荷 = `{"version": 2, "objects": {id: {…}}}`（见 `_PAYLOAD_VERSION`）。
-**v2 起，这套容器与 `database/core/objects.py` 的共用对象模型对齐**——校验、选择器解析、
-继承合并都在那份共享件里，本模块只剩解析器、别名表与行工厂。
+索引载荷 = `{"version": 5, "lib": "db", "objects": {id: <对象层七个键>}}`（见 `index.py` 的 `LIB`），
+记录按 `ATTR_KEYS` 写全。**v3 起四库共用同一套容器**（`database/core/objects.py`）——两层
+键集、校验、记录构造、选择器解析、继承合并、查询机制（`core/query.py`）都在那层共享件里；
+本模块只剩 ① 解析（`parse`，如实）、② 归一（`decorate`）、别名表与跨对象口径。
 
-**这是一次不兼容变更**：旧载荷是"全局按名去重 + `expanded` 展开表"。用户机器上留着旧
-索引时，读出来只是个形状不对的 dict，后面的代码会在某个 `KeyError` 上莫名其妙地炸——
-所以 `store.Store` 加了 `version`：**版本不符即当作损坏**，有 `VIRTUOSO_DOC_DIR` 就自动重建，
-没有就明确报"索引不可用"。
+版本沿革与不兼容点：
+
+| | 载荷 | 为什么不兼容 |
+|---|---|---|
+| v1 | 全局按名去重 + `expanded` 展开表 | 同名属性在别的对象里是别的东西（实测 39 个），按名去重会静默丢 |
+| v2 | `{version, objects: {id: {…}}}` | 并入共用对象模型，`classes` → `objects` |
+| v3 | 对象字典固定七键、索引只存原文事实（`rw` 查询时现算） | 多库混用同一套键集与校验 |
+| v4 | 记录层也定键集（`ATTR_KEYS`），② 算出的 `rw` 入库 | 查询那侧不再认识"哪家有什么"，所以各家在 ② 把话说全；**改推法必须重建** |
+| **v5** | **顶层多一个 `lib`**（类型区分字段），装配与查询入口收进 `core/` | 索引自己说得出"我是哪个库的"，装载时与目录名核对——**放错目录当场炸** |
+
+**版本或 `lib` 不符即当作损坏**（`store.Store` 的 `_mismatch`）：有 `VIRTUOSO_DOC_DIR` 就
+自动重建，没有就明确报"索引不可用"（报错里带上实际值与所需值）。不用手动删索引。
 
 ## 八、还没定的
 
@@ -230,6 +261,17 @@ Bus Net Definition / Bus Terminal Definition / Vector Instance Definition，
 
 ---
 
-**测试**：`tests/knowledge_virtuoso/database/db/`——检索用 `core/fixtures/search.json`
-（手写的对象载荷与期望），解析用 `core/fixtures/html/` 的官方 doc 片段（该目录自带 README
-说明片段出处），另有一组自造 HTML 钉住规则 2/6/7/8 那几处脆技巧。
+**测试**：`tests/knowledge_virtuoso/database/db/`——**与这边的树同名同层**：
+
+| 测试 | 对着 src 的 | 用什么 |
+|---|---|---|
+| `core/test_parse.py` | `core/parse.py` ① | `core/fixtures/raw/` 的自造小片段（钉"解析器看到的结构"本身） |
+| `core/test_decorate.py` | `core/decorate.py` ② | `core/fixtures/html/` 的 4 份官方 doc 片段（**逐条比** `parent` + 自身属性记录）＋自造 HTML 钉住规则 2/6/7/8 那几处脆技巧 |
+| `test_index.py` | `db/index.py` ③ | `fixtures/search.json`（手写的对象载荷与期望） |
+| `test_render.py` | `db/__init__.py` 的 `RenderSpec` | `cases/`（一进一出） |
+
+看一眼文件名就知道改哪测哪。这些都**不读真索引、不需要 doc**（载荷手写、片段随仓库），
+所以另有两条只能手工跑的：重建产物与在用索引逐字节比对（见 `tests/README.md`）。
+
+**4 份片段只覆盖 76 个对象里的 4 个**，长尾靠"重建产物与在用索引逐字节比对"兜（手工跑
+`knowledge-virtuoso-build db --output ./_check.json`，见 `tests/README.md`）。

@@ -33,12 +33,22 @@ tests/
     │       │              fixtures/html/{topic,page}/            # 官方 doc 的 HTML 片段
     │       └── custom/    test_catalog.py   test_render.py   fixtures/ golden/
     └── database/
-        ├── core/          test_store.py · test_registry.py · test_objects.py · test_render.py   # 共享件
-        ├── db/            test_render.py   cases/
-        │   └── core/      test_catalog.py  fixtures/html/          # 官方 doc 的 HTML 片段
-        │   （techdb / cdfdb / dd 同 db）
+        ├── test_index.py                    # 顶层联合（database/index.py）
+        ├── core/          test_objects.py · test_assembly.py · test_query.py
+        │                  test_render.py · test_store.py · test_registry.py   # 共享件
+        ├── db/            test_index.py  test_render.py  cases/  fixtures/search.json
+        │   └── core/      test_parse.py  test_decorate.py
+        │                  # test_parse    ↔ core/parse.py     fixtures/raw/   自造小片段
+        │                  # test_decorate ↔ core/decorate.py  fixtures/html/  官方 doc 片段
         └── cdfdb/         同 db（techdb / dd 同）
 ```
+
+**测试树与 src 树一一对应**（四个属性库都这样）：`tests/.../database/<库>/` 与
+`src/.../database/<库>/` **同名同层**——`core/test_parse.py` 测 `core/parse.py`、
+`core/test_decorate.py` 测 `core/decorate.py`、`test_index.py` 测 `index.py`、
+`test_render.py` 测 `__init__.py` 里的 `RenderSpec`。看一眼文件名就知道"改哪测哪"。
+这条不只是习惯：`test_registry` 有一条断言钉着**落点**（①② 必须在自己的 `core/` 下、
+声明必须在库根的 `index.py`、查询入口必须来自共用件），揉回一个文件就会红。
 
 `cases/` = **一进一出同目录同 stem**（`x.json` 输入、`x.txt` 期望输出，靠扩展名分角色）；
 `fixtures/` + `golden/` = 一个输入对应**多份**期望输出（五档渲染）或期望值不是文本（断言）。
@@ -73,7 +83,7 @@ tests/
 
 | 镜像路径 | 类型 | 锁什么 |
 |---|---|---|
-| `test_server.py` | 断言 3（可能跳过） | `server.py` 的接线：真起子进程走 MCP 协议、**六个工具**齐全、各属性库工具的**参数名**与自己的选择器一致、七种调用都不报错；没索引时查询记 SKIP |
+| `test_server.py` | 断言 10（后四条可能跳过） | `server.py` 的接线：真起子进程走 MCP 协议、**恰好三个工具**（两个函数库 + 一个属性）、`search_attr` 的参数恰好是 `lib`/`object`/`keyword`、八种调用都不报错、**首行是对象头或跨库节首**（`lib="db" object="rect"` → `对象 Rectangle`；`lib="dd" object="cellFile"` → `对象 cellFile`；不给 `lib` → `── db ──`；渲染用例是直接把对象喂进去的，接线忘了传照样全绿，只有真调用能验）；没索引时查询记 SKIP |
 | `functions/core/test_contract.py` | 断言 28 | 记录的接受/拒绝（**拒绝消息按完整字符串断言**）、分词、派生键被重算 |
 | `functions/core/test_envelope.py` | 断言 13 | 信封往返、gzip 与明文、版本/形态拒绝、写入可复现、路径规范化 |
 | `functions/core/test_render.py` | golden 8 | 未命中、搜索零命中（有无相近建议）、搜索页正文 |
@@ -85,13 +95,24 @@ tests/
 | `functions/sources/custom/test_render.py` | golden 5 + 断言 1 | `（自定义）` 标记 + `load()` 前提行——"只因来源不同"的那几行 |
 | `functions/sources/custom/test_catalog.py` | 断言 15 | `VIRTUOSO_CUSTOM_INDEX` 解析（多项/目录/去重/不存在的路径照收）、相对路径出声、进程内缓存、`owns` |
 | `database/db｜techdb｜cdfdb｜dd/test_render.py` | golden 4/5/4/4 | 四个属性库的表格渲染（列宽、截断、`rw` 列两支、`cardinality` 列一支） |
-| `database/core/test_store.py` | 断言 19 | 属性库共用的索引存取：读盘/进程内缓存、坏索引从 doc 重建并原子写回、缺 doc 与缺文档分别报什么错、载荷包装、关键词过滤与排序 |
-| `database/core/test_objects.py` | 断言 15 | 属性库共用的对象模型：构建期不变量（含「空属性表合法」「对象 id 可带空格」）、选择器解析次序、继承合并（**含无父塌缩成自身**）、名字→声明它的对象 |
-| `database/core/test_render.py` | 断言 10 | 属性库共用的表格渲染：整列占位值就不占列、截断（最后一列分隔线用该列自己的 `sep`）、列表拼接、提示文案与标题的 `subject`/`note` |
-| `database/core/test_registry.py` | 断言 28 | 属性库发现：四个库都在、顺序稳定、接口齐全、**各库的选择器名真的出现在自己 `search`/`render` 的签名里**（工具的参数名就是按它生成的，写错会静默坏掉）、坏树被判据挡下 |
-| `database/db｜techdb｜cdfdb｜dd/core/test_catalog.py` | 断言 25/25/22/17 | **db（对象模型）**：选择器解析（表标题／运行时名／忽略大小写空格／兼容别名）、继承合并（子覆盖父 + `definedIn`）、构建期校验（父认不出、成环都要抛），外加自造 HTML 钉住 `include` 的三种拼法与笔误、`<br>` 的两种含义、大写开头的名字、曾被噪声词吃掉的 `name`/`value`。**解析**：`fixtures/html/` 的片段回放（db 比"片段 ⇒ 对象"与"整份文件 ⇒ 同一个对象"是否一致；其余三库**逐条比全部属性记录**——逐对象存储后每类各存各的，不再只比「唯一名字」）。**techdb/cdfdb 的检索**：取哪一节的名字集合、行长什么样（**跨类查询每个类各出一行**）。**dd**：转置表怎么读（靠表头签名在四张表里挑对两张）、对象全集从「枚举得最全的关系行」取、基数校验 |
+| `database/core/test_store.py` | 断言 20 | 属性库共用的索引存取：读盘/进程内缓存、坏索引从 doc 重建并原子写回、**索引是别人家的（`lib` 对不上）也不当好的用**、缺 doc 与缺文档分别报什么错、载荷包装、关键词过滤与排序 |
+| `database/core/test_objects.py` | 断言 27 | 属性库共用的**载荷模型**：三层键集（顶层三键、对象层七键、记录层 `ATTR_KEYS`）与构建期不变量（含「空属性表合法」「对象 id 可带空格」「记录里多一个没定义的键」「`lib` 与它所在的库不符」）、**记录构造**（没写的补 `null`、写错键名当场炸）、选择器解析次序（**含空格与下划线一视同仁**）、继承合并（**含无父塌缩成自身**）、名字→声明它的对象 |
+| `database/core/test_assembly.py` | 断言 10 | 属性库共用的**装配**（`core/assembly.py` 的 `Library`）：载荷打上 `version`/`lib` 且**校验覆盖最终形状**（顶层与库名对不上时，在本库的校验之前就炸）、本库的 `check` 会被调用、**不提供查询入口**（入口归查询那一层）、CLI 打"落点 + lib/版本 + 对象数 + 记录数"外加 `summary` |
+| `database/core/test_query.py` | 断言 20 | 属性库共用的**查询**（`core/query.py`）：机制——行 = 记录 + `definedIn`/`classes`（后两个不进索引）、给了选择器就只查那一个对象（含继承链、子覆盖父）／认不出给空表、**两种跨对象口径各钉一遍**（`POOL` 按名收一遍先到先占 / `EACH` 每对象一行 + 按（名字，所属对象）排序）、口径写错当场炸；入口——`Query(source)` 绑出 `search(object, keyword)`/`describe(object)`，来自共用件、别名与口径取 `source` 那两份、载荷只取 `objects` |
+| `database/core/test_render.py` | 断言 17 | 属性库共用的表格渲染：整列都是 `None` 就不占列（**键缺失与 `None` 同等看待**）、截断（最后一列分隔线用该列自己的 `sep`）、列表拼接、提示文案与标题的 `subject`/`note`；**对象头**（没给对象就不印、给了就只加一行、原文没给的项整项略去、超长截到 80 字、解析到了但筛完没匹配**也印**） |
+| `database/core/test_registry.py` | 断言 34 | 属性库发现：四个库都在、顺序稳定、接口齐全（**含 `parse`/`decorate`——"每个库必须切成三层"是个契约**）、**落点**（①② 在自己的 `core/` 下、**声明在库根的 `index.py`**、**查询入口来自共用件**）、**四个库的入口是同一个函数对象**、`DOC` 讲的是共用参数名 `object`、各库 `render` 前四参 `rows/object/keyword/obj`、坏树被判据挡下 |
+| `database/test_index.py` | 断言 11 | **顶层联合**（`database/index.py`）：单库输出与各库自己的 `render` **逐字相同**、跨库只印有结果的库且节首 `── <库名> ──`、都没结果时的合并提示、库名不认识要抛错并列出可选值、工具描述里拼进了各库的 `DOC` |
+| `database/db/core/test_parse.py` | 断言 2 | **① 如实层**（`core/parse.py`）：`fixtures/raw/` 的自造片段 → `parse()` 的**整体输出**（标题、h3 归属、表前正文、格子、`<br>` 分段） |
+| `database/db/core/test_decorate.py` | 断言 17 | **② 归一**（`core/decorate.py`）：`fixtures/html/` 4 份官方片段回放（逐条比 `parent` + 自身属性记录 `name/modify/type/desc`；切片边界、表内/表前两种父写法都在这露头）+ 自造 HTML 钉住 `include` 三种拼法与笔误、`<br>` 的两义、大写开头的名字、曾被噪声词吃掉的 `name`/`value` + **记录按 `ATTR_KEYS` 建、原文的 `modify` 与推出来的 `rw` 并存、`_rw_from_modify` 的三态** + 构建期校验（键集不齐、父认不出、成环都要抛） |
+| `database/db/test_index.py` | 断言 15 | **③ 声明**（`index.py` 的 `LIB`）：选择器解析（表标题／运行时名／忽略大小写空格／兼容别名／认不出）、继承合并（子覆盖父 + `definedIn`、纯转发 0 条→7 条）、本库的别名表非空、跨对象口径 `POOL` |
+| `database/techdb｜cdfdb｜dd/core/test_parse.py` | 断言 2/2/2 | **① 如实层**（`core/parse.py`）：`fixtures/raw/` 的自造片段 → `parse()` 的**整体输出**（techdb 是每个 h3 小节 + Description + Attributes 格子；cdfdb 是每个 h4 小节的正文与表格；dd 是该小节里有哪几张表、每张表的格子） |
+| `database/techdb｜cdfdb｜dd/core/test_decorate.py` | 断言 16/16/13 | **② 归一**（`core/decorate.py`）：`fixtures/html/` 的片段回放——**同形、逐条比该对象的全部属性记录**（techdb 比 `name/desc`，cdfdb 另比 `source`，dd 比"六个对象各自的记录名"）+ 各库的自造 HTML 脆技巧（techdb 的类段语法与续行、cdfdb 的手写白名单与空首锚点 h4 与实参补录、dd 的表头签名挑表、对象全集取自最全的关系行、**物化**——每条记录落到它适用的每个对象下、以及"适用对象不在全集里要炸"）。**② 把话说全**：各有一条断言钉"记录按 `ATTR_KEYS` 建、推出来的与原文的并存"，并把**推法逐档钉住**（techdb 的 `_type_from_desc`、cdfdb 的 `_type_from_name_desc`/`_rw_from_desc`、dd 的 `cardinality` 只有关系才有） |
+| `database/techdb｜cdfdb｜dd/test_index.py` | 断言 18/15/16 | **③ 声明**（`index.py` 的 `LIB`）：检索（选择器／别名／跨类各出一行／**跨对象按名去重**）、本库自己那两句（`aliases`、`cross`）、构建期校验（**顶层三键 / `lib` 与库名 / 两层键集** / 空类 / 重名 / 类名不是标识符 / 基数不像 `1:n` / 同名既是属性又是关系） |
 
-合计 **165 份 golden + 404 条断言**。
+合计 **165 份 golden + 517 条断言**（四个属性库的索引都在时是 **522**——多出来的 5 条是
+`test_server` 里那些需要真索引才跑的回显断言）。其中 **`test_server` 的几条是环境相关的**：它真起服务走
+stdio，属性库索引不可用时那几次调用记 SKIP、对应的回显断言也跟着跳过，所以计数随本机有没有
+索引而变（上面这个数取自"四个属性库索引都不可用"的情形）。
 
 另有 `tests/knowledge_virtuoso/test_server.py`（镜像 `server.py`）：把服务当**子进程**起起来、
 走真实 MCP 协议、列工具并逐个调用。它补的正是渲染回归测不到的那一段——`server.py` 的接线。
@@ -103,6 +124,12 @@ tests/
 
 - 四个属性库的 `database/<库>/core/fixtures/html/`：**官方 doc 的 HTML 片段**（属性解析器的
   输入）+ 同名 `.json`（期望值 = 线上索引里对应的那部分），由 `tests/tools/capture_attrs_html.py` 切出。
+- **四个属性库的 `database/<库>/core/fixtures/raw/`（② 之前那半）**：**自造**的小片段
+  （几百字节）+ 同名 `.json`（期望值 = `core/parse.py` 的 `parse()` 输出，**录下来的**）。
+  这一层**没有线上对照**——索引里只有 ② 归一后的形状——所以它比别处更像"变更探测器"：
+  改动解析器时它只说"raw 变了"，对不对得人来判。因此**只用自造片段**、不拿 44 KB 的官方片段
+  再存一份；官方片段那半由 `fixtures/html/` 覆盖（它比的是 `extract_all`，即 ① 之后接 ②）。
+  `dd` 也有这一层（它现在同样有 ①／② 之分）。
 - `functions/sources/official/fixtures/html/`：**官方 doc 的 HTML 片段**（解析器的输入）+
   同名 `.json`（期望值 = 线上索引里的记录），由 `tests/tools/capture_official_html.py` 切出。
 - `functions/sources/official/fixtures/`：从本机索引录的**真实记录**（`index.query_function`）。
@@ -131,7 +158,7 @@ git show <旧版本>:src/knowledge_virtuoso/server.py > /tmp/server_head.py
 
 - **`server.py` 的接线**（哪个工具调哪个渲染函数、参数怎么传）：由 `test_server.py` 真起一次
   子进程来验——它**在**测试网里（改名进镜像就是为这个），改了服务入口或 MCP 接口就会被它
-  挡一下。它验的是"起得来、六个工具都在、七种调用都不报错"，**不比对输出内容**（那是 golden
+  挡一下。它验的是"起得来、三个工具都在、八种调用都不报错"，**不比对输出内容**（那是 golden
   的事）。
 - **`sources/official/catalog.py` 的解析器**（936 行 HTML 解析）：由
   `sources/official/test_catalog.py` 用**官方 doc 的最小片段**覆盖（族的清单见下）。每份
@@ -150,12 +177,13 @@ git show <旧版本>:src/knowledge_virtuoso/server.py > /tmp/server_head.py
   （索引还在），只有真跑一次重建才看得见。片段夹具能挡住这一类（它对每份片段都真的跑
   `build_entries`/`_extract_full_from_topic`），但挡不住"只在别的排版族里出错"——那只有
   逐字节比对能查出来。
-- **四个属性库的解析器**（`extract_all`：attrib.html / appA.html / chap21.html）：由三库的
-  `core/test_catalog.py` 用**官方 doc 的片段**覆盖（每库 2–4 份，各自 `fixtures/html/`；
-  片段 = 解析器会看成一段的那块 HTML，期望值取自线上索引）。db 现在是**按标题**解析
-  （h4 = 一个对象），所以片段要从 `<h4` 起切。**长尾仍罩不住**：db 的 76 个对象只取了 4 份、
-  techdb 11 个类只取了 2 个（白名单过滤这一支真文件里走不到，只能自造 HTML 钉）。
-  改了解析器仍要跑一次全量比对：`knowledge-virtuoso-build <db|techdb|cdfdb>
+- **四个属性库的解析器**（`extract_all = decorate ∘ parse`：attrib.html / appA.html /
+  chap21.html / chap3.html）：由四库的 `core/test_decorate.py` 用**官方 doc 的片段**覆盖
+  （每库 1–4 份，各自 `fixtures/html/`；片段 = 解析器会看成一段的那块 HTML，期望值取自线上
+  索引），另用 `fixtures/raw/` 的自造片段单独钉 **① 如实层**（`parse()` 的输出形状）。db 现在
+  是**按标题**解析（h4 = 一个对象），所以片段要从 `<h4` 起切。**长尾仍罩不住**：db 的 76 个
+  对象只取了 4 份、techdb 11 个类只取了 2 个（白名单过滤这一支真文件里走不到，只能自造 HTML 钉）。
+  改了解析器仍要跑一次全量比对：`knowledge-virtuoso-build <库名>
   --output ./_check.json`，与平台数据目录里那份逐字节比，比完删掉。
 - `tests/tools/` 三个采集脚本只在需要重采夹具时手动跑，不在 `run_tests.py` 里。
 

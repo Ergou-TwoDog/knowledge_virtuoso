@@ -1,0 +1,29 @@
+{
+  "sections": [
+    {
+      "heading": "Introduction",
+      "description": "",
+      "rows": []
+    },
+    {
+      "heading": "techID~>layers (see note)",
+      "description": "Layers defined in the technology file. A list of layer names and purposes.",
+      "rows": [
+        [
+          "number",
+          "The number of layers."
+        ],
+        [
+          "layer"
+        ],
+        [
+          "Continuation of the row above."
+        ],
+        [
+          "*scalar",
+          "A leading star is stripped."
+        ]
+      ]
+    }
+  ]
+}

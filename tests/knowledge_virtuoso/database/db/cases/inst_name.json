@@ -1,7 +1,14 @@
 {
  "params": {
-  "objType": "inst",
+  "object": "inst",
   "keyword": "name"
+ },
+ "object": {
+  "id": "Instance",
+  "title": "Instance Attributes",
+  "runtime": null,
+  "section": "Attributes of Instances, Instance Headers, and Mosaics",
+  "desc": null
  },
  "rows": [
   {

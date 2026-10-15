@@ -1,12 +1,12 @@
 {
  "params": {
-  "className": "",
+  "object": "",
   "keyword": "objType"
  },
  "rows": [
   {
    "name": "objType",
-   "rw": "?",
+   "rw": null,
    "type": "",
    "desc": "A list of via definition types, stdViaDef or customViaDef .",
    "classes": [
@@ -17,7 +17,7 @@
   },
   {
    "name": "objType",
-   "rw": "?",
+   "rw": null,
    "type": "",
    "desc": "A list of object types, stdViaVariant or customViaVariant .",
    "classes": [
@@ -28,7 +28,7 @@
   },
   {
    "name": "objType",
-   "rw": "?",
+   "rw": null,
    "type": "",
    "desc": "A list of the types of site definitions, scalarSiteDefs or arraySiteDefs .",
    "classes": [

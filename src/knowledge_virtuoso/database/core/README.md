@@ -2,10 +2,12 @@
 
 这一层放**跨库共用**的东西，以及"四个属性库各是什么形状"的一张对照表。
 
-> **加一个属性库 = 在 `database/` 下加一棵树**。库自己的三样东西写在
-> `database/<库>/__init__.py`（接口：`NAME`/`SELECTOR`/`DOC` + `build`/`search`/`render`），
-> `registry.py` 扫 `database/` **自动发现**；上层（`server.py` 的工具、`cli.py` 的子命令）
-> 一行不用改。`knowledge-virtuoso-build libs` 可核对发现结果。
+> **加一个属性库 = 在 `database/` 下加一棵树**。库自己的东西只有三份，都写在
+> `database/<库>/`：接口（`REQUIRED_ATTRS`）声明在 `__init__.py`，**一份库声明**
+> （`LIB = Library(...)`：库名、载荷版本、来源文档、①② 两层、别名表、跨对象口径、本库的
+> 构建期校验）在 `index.py`，①② 两棵树在它的 `core/`。装配、查询、渲染的机制与入口都在
+> `core/`。`registry.py` 扫 `database/` **自动发现**；上层（`server.py` 的工具、`cli.py`
+> 的子命令）一行不用改。`knowledge-virtuoso-build libs` 可核对发现结果。
 
 ---
 
@@ -13,63 +15,160 @@
 
 | 文件 | 管什么 |
 |---|---|
-| `registry.py` | **发现**属性库（`pkgutil` 扫 `database/`），校验接口与选择器名，供上层生成工具与子命令 |
-| `objects.py` | **对象模型**：构建期校验、选择器解析、继承合并、"名字 → 声明它的对象" |
-| `render.py` | **表格渲染**：四份渲染器同构（标题 + 定宽列 + 可选截断 + 整列占位就藏列），所以收成一份；各库只**声明自己的列** |
+| `registry.py` | **发现**属性库（`pkgutil` 扫 `database/`），校验接口与"查询入口来自共用件"，供上层装配工具与子命令 |
+| `objects.py` | **载荷模型**：三层键集（`PAYLOAD_KEYS`/`OBJECT_KEYS`/`ATTR_KEYS`）与构建期校验、记录构造、选择器解析、继承合并、"名字 → 声明它的对象" |
+| `assembly.py` | **装配**：一份库声明 → 载荷包装（打 `version`/`lib` + 校验）、索引存取、库里自带的小 CLI |
+| `query.py` | **查询**：机制（选择器 + 关键词 → 行；一个对象含继承链 / 跨对象按 `POOL`·`EACH` 两种口径；行 = 记录 + `definedIn`/`classes`）**加入口**（`Query(source)` → `search`/`describe`） |
+| `render.py` | **表格渲染**：唯一入口 `render_attrs(rows, spec, selector, keyword, obj)`（对象头 + 标题 + 定宽列 + 可选截断 + 整列无值就藏列）；各库只**声明一份 `RenderSpec`** |
 | `store.py` | **索引存取**：读 JSON / 坏了从官方 doc 重建 / 进程内缓存与锁；`query_rows` 做关键词过滤与排序 |
 
-`objects.py` 与 `store.py` 合起来覆盖了"拿到索引之后的所有公共步骤"；各库剩下的只有
-**解析器 + 别名表 + 行工厂 + 一份列声明**。
+**这一层之上还有一个 `database/index.py`**（不在 `core/` 里，与 `functions/index.py` 同位置
+同角色）：它把四个库装成**一次回答**——`search_attr(lib, object, keyword)`，`lib` 选库、
+**留空跨四库**（四库对象名两两不重，所以跨库搜没有歧义）。**磁盘上仍是四份索引**：各自
+版本、各自惰性重建、一个坏了不牵连另一个；联合只发生在进程内。给了 `lib` 时输出与各库
+自己的 `render()` **逐字相同**，跨库时才另立格式（每库一节、节首 `── <库名> ──`、只印有
+结果的库）。工具描述也由它现场拼（总说明 + 各库 `DOC`），所以加库仍然只加一棵树。
+
+这几个文件合起来覆盖了"与具体是哪个库无关的所有步骤"；各库剩下的只有
+**①② 两棵树 + 库根一份声明（`LIB`）+ 一份渲染声明（`RenderSpec`）**。
+
+## 一之二、三层：每个库怎么切
+
+四个库是一条流水线，**每一层都能单独说清**：
+
+| 层 | 在哪 | 管什么 | 换一个库要不要重写 |
+|---|---|---|---|
+| ① `parse(doc)` | 各库自己的 `core/parse.py` | **如实**还原原文结构：有哪些标题/小节、每节后面是哪张表、表里有哪些格子。**不解释格子** | **要**——四份原文记法完全不同 |
+| ② `decorate(raw)` | 各库自己的 `core/decorate.py` | **归一**成统一载荷（三层键集）+ **本库的推法**：认父指针、认属性名、套手写白名单、补手写记录 | **要**——"哪些格子算一条记录"是各库自己的解读 |
+| ③ `LIB = Library(...)` | **库根**的 `index.py` | **声明**：库名、载荷版本、来源文档、①② 两层、别名表、跨对象口径、本库的构建期校验。装配由 `core/assembly.py` 照它装出来 | **不用**——只填一行声明 |
+| （查询）`Query(LIB)` | 库包的 `__init__.py`，机制与入口在 `core/query.py` | 把"载荷从哪儿来 + 别名 + 口径"绑成 `search`/`describe` 两个入口；**四个库共用同一个函数对象** | **不用**——一行绑定 |
+| （渲染）`RenderSpec` | 各库的 `__init__.py` 声明，`core/render.py` 执行 | 声明（列 / 标题 / 提示语 / **对象头印哪几项**）与机制分开；渲染**不读索引**，对象由调用方经 `describe()` 递进来 | **不用**——只换一份声明 |
+
+`LIB.extract_all(doc) = decorate(parse(doc))` 是 ①+② 的整体入口（测试与调试用，**能吃半份
+文档**）；`Store(parse=parse, payload=payload)` 里两步分开调，`payload = 校验 ∘ decorate`——
+**顺序不能反**：校验（含版本与 `lib`）必须覆盖最终形状。
+
+**每个库都照这张图拆，而且这不是习惯而是契约**：`parse`/`decorate` 列在库接口
+（`REQUIRED_ATTRS`）里，`test_registry` 另有一条断言钉着落点——①② 必须在**自己的 `core/`**
+下、**声明必须在库根的 `index.py`**、**查询入口必须来自共用件**。忘了切、或者把三层揉回
+一个文件、或者自己写了一个 `search`，发现时就会被警告并跳过。
+
+**声明与机制分家**：库根的 `index.py` 只剩一句 `LIB = Library(...)`——库名、载荷版本、
+来源文档、①② 两层、别名表、跨对象口径、本库自己的构建期校验；库包的 `__init__.py` 再伸手
+把它交给查询那一层（`search, describe = Query(LIB).search, Query(LIB).describe`）。
+装配（`core/assembly.py`）、查询（`core/query.py`，机制与入口都在那儿）、渲染机制
+（`core/render.py`）、索引存取（`core/store.py`）都在 `core/` 里，**四库共用的入口各自只有一个**：
+四个库的 `search.__func__` 是同一个对象。
+
+**② 允许算，算完就落盘。** 记录里带"呈现"性质的几个键（db 的 `rw`、techdb/cdfdb 的
+`type`、cdfdb 的 `rw`）由各库 ② 按固定规则算好写进记录——**查询那一侧要不认识"哪家有什么"，
+各家就得在 ② 把话说全**。原文那一侧照旧原样留着（db 的 `modify`、cdfdb 的 `source`、
+dd 的 `objectTypes`），两类并列而不互相顶替。
+
+代价是**改推法必须重建索引**：推法冻结在盘上，不像"查询时现算"那样下次就能变。改各库
+`core/decorate.py` 里的规则（或改 `ATTR_KEYS` 本身）都要抬载荷版本号并重建，
+否则盘上留着旧规则算出的值，看着却是新的。各库的推法由 `core/test_decorate.py` 逐档钉住。
 
 ## 二、四库载荷对照
 
-db / techdb / cdfdb **共用同一套容器**（`objects.py` 的模型）：
+四个库**共用同一套容器**（`objects.py` 的模型）：**顶层三键、对象层七键、记录层九键，
+缺则 `null`**。
 
 ```
-{version, objects: {<id>: {id, title, parent, attrs: [...]}}}
+{version, lib, objects: {<id>: {id, title, runtime, section, desc, parent, attrs: [...]}}}
+ └ PAYLOAD_KEYS ┘              └──── OBJECT_KEYS ────┘        └─ 记录：ATTR_KEYS ─┘
 ```
+
+顶层的 `lib` 是**类型区分字段**：索引自己说得出"我是哪个库的"，装载时与库名/目录名核对，
+对不上就当损坏（见 `store.py` 的 `_mismatch`）。
+
+记录层九键 = `name · kind · type · rw · desc · modify · source · cardinality · objectTypes`。
+**查询只筛 `name`**，其余字段原样交给各库的渲染声明。
 
 | | db | techdb | cdfdb | **dd** |
 |---|---|---|---|---|
-| 顶层键 | `objects` | `objects` | `objects` | **`objectTypes` + `attributes` + `relations`** |
-| 一条属性记录属于 | 一个对象 | 一个对象 | 一个对象 | **N 个对象**（原文转置：一条只说一遍，后面列适用对象） |
-| **继承** | ✅ `parent` 有 69 条边、7 个根 | ❌ `parent` 恒 `null`（全是根） | ❌ 同左 | ❌ 无此概念 |
-| 记录的字段 | `name · modify · type · desc` | `name · type · desc` | `name · rw · type · desc · source` | `name · kind · cardinality · objectTypes` |
-| 对象级附加字段 | `section · runtime` | `desc` | `title`(`g_cdfDataId`) · `section` | —— |
+| 顶层键 | `objects` | `objects` | `objects` | **`objects`**（物化后同形） |
+| 一条属性记录属于 | 一个对象 | 一个对象 | 一个对象 | 一个对象（**原文是转置的**，② 把它摊到每个适用对象下） |
+| **对象字典** | 七键 | 七键 | 七键 | 七键 |
+| **继承** | ✅ `parent` 有 69 条边、7 个根 | ❌ `parent` 恒 `null`（全是根） | ❌ 同左 | ❌ 同左 |
+| 记录里**原文那一侧** | `modify · type · desc` | `desc` | `desc · source` | `kind · cardinality · objectTypes` |
+| 记录里**② 算的**（算完落盘） | `rw`（由 `modify` 收两值） | `type`（由该类说明推） | `rw`（由散文推）· `type`（名字+说明） | ——（本库没有可推的） |
+| 其余的键 | 一律 `null`（本库没有这个概念） | | | |
+| 对象级字段里**有值的** | `title · runtime · section` | `title · desc` | `title`(`g_cdfDataId`) · `section` | **只有 `id`**（原文只给了这六个名字） |
 | 原文给的 | 四列（含 Modify） | 两列（名字\|说明） | 散文里说可编辑性 | **只有名字 + 适用对象**（无类型、无说明） |
-| 选择器 | `objType` | `className` | `className` | `object` |
+| 额外认的写法（`LIB.aliases`） | 9 条（`rect`/`inst`/…） | 8 条（`stdViaDef`/…） | ——（类名就是选择器） | ——（对象名就是选择器） |
 | 渲染列 | `name rw type desc` | `name [rw] type 所属类` | `name rw type desc` | `name kind [card] 适用对象` |
+| 跨对象（不给选择器） | 按名去重 | 每对象一行 | 每对象一行 | **按名去重**（它的表有「适用对象」列，分行只会重复） |
 
-三条要点：
+四条要点：
 
-1. **"有没有继承"不用旗子标。** 没有继承的库 `parent` 全是 `null`，`merged()` 走一遍就
+1. **三层键集都是固定的**（`PAYLOAD_KEYS` / `OBJECT_KEYS` / `ATTR_KEYS`，构建期各校验一遍）：顶层
+   `version · lib · objects`；对象层
+   `id · title · runtime · section · desc · parent · attrs`，记录层见上。定键的判据是
+   "**能完整保留下、且能加深 LLM 理解与区分每条数据**"的字段，**不是"今天的代码读不读它"**
+   ——`title`/`section`/`desc` 现在都还没有查询侧的消费者，但它们正是让 LLM 看出"这个对象
+   在原文里叫什么、属于哪一节"的东西。
+2. **"有没有继承"不用旗子标。** 没有继承的库 `parent` 全是 `null`，`merged()` 走一遍就
    返回自身——退化情形本身就是如实的表示（"该库全是根节点"）。校验同理：没有父就没有环可查。
-2. **属性记录不统一，因为它们不是一回事**：只有设计库的原文有 Modify 列（所以 db 存的
-   是原文的 `modify`）；CDF 的可编辑性写在散文里（所以 cdfdb 存的是推出来的 `rw`）、
-   还有两条属性来自 `cdfCreateParam` 的实参（所以有 `source` 标出处）；技术库两列都没有。
-   强行统一成一套字段，就得用空值去表示"这库没有这个概念"——那正是"缺失状态"要分开写的地方。
-3. **dd 站在容器之外**，因为它的原文是**转置**的：一条记录只说一遍、后面列出适用对象。
-   塞进"每个对象一张表"的容器要**物化 3.4×**（22 条记录 → 74 条副本），而那恰恰是原文的
-   反面。所以它自带一套载荷（`objectTypes`/`attributes`/`relations`），只共用 `store.py`
-   与 `registry.py`。**这个边界是"每个对象一张表"这一族，不是"所有属性库"。**
+3. **记录层也统一了，靠的是"两套说法并存"**：原文那一侧照旧原样留着（db 的 `modify` 是
+   原文真有的列、cdfdb 的 `source` 标出处、dd 的 `kind`/`cardinality`/`objectTypes` 来自
+   它那两张表），"我们怎么呈现"的那一侧（`rw`/`type`）由各库 ② 按固定规则算出**并列**写在
+   同一条记录里。于是没有哪一库需要为另一库的概念编一个值：本库没有的一律 `null`。
+   **`null` 因此有两种含义**——"原文没给"（dd 的 `type`/`desc`、techdb 的 `rw`）与"本库
+   没有这个概念"（三库的 `cardinality`）；两种都由上表与各库 `core/decorate.py` 的说明定死。
+   代价见上一节：**推法改了要重建**。
+4. **dd 的原文是转置的，但载荷照样摊进这个容器**：一条记录只说一遍、后面列出适用对象，
+   所以它的**解析**（①②）与另三库很不一样；但 ② 的**收尾把每条记录放到它适用的每个对象
+   下**，于是载荷与另三库同形。代价是**副本**（22 条 → 6 个对象共 74 条，3.36×），换来的是
+   上层**不必为一个库开特例**——联合查询、渲染的对象头、`validate_objects` 一视同仁。
+   取舍的经过记在 `dd/core/README.md` 第三节（它一度是"站在容器之外"的）。
 
-**渲染器也是共用的**（`core/render.py`）：四份渲染器的差别**全在列上**——列宽、描述截断
-（db 60 / cdfdb 55）、整列都是占位值就藏列（techdb 的 `rw="?"`、dd 的空基数）、列表值拼接。
-没有一处是结构差异，所以按同一条判据（换个库要不要重写）该抽；**解析器那边答案相反**，
-四份文档记法各不相同，换个库得重写，所以三库的 `core/catalog.py` 仍然各写各的。
+**渲染器也是共用的**（`core/render.py` 的 `RenderSpec` + `render_attrs`）：四个库的差别
+**全在声明里**——列宽、描述截断（db 60 / cdfdb 55）、整列都是 `None` 就藏列（techdb 的 `rw`、
+dd 的基数）、列表值拼接、标题与提示语。没有一处是结构差异，所以按同一条判据（换个库要不要
+重写）该抽；**解析器那边答案相反**，四份文档记法各不相同，换个库得重写，所以四库的
+`core/parse.py` 与 `core/decorate.py` 仍然各写各的。
+
+**对象头**（`RenderSpec.header_fields`）是同一判据下的一处补充：选择器解析到了就在最前面
+印一行"这次问的是谁"，把那七键里的 `title`/`runtime`/`section`/`desc` **中原文给过的**
+几项回显出来（没给的整项略去）。它填的是两个真实的空：
+
+* 问 `objType="rect"`（别名）或 `"cellview"`（运行时名）时，输出**看不出解析成了
+  `Rectangle`**——调用方只能看到"匹配 25 个属性"；
+* techdb 的类说明（`desc`）**存进索引却从没有任何地方显示**。
+
+对象由**调用方**给（`server.py` 调 `lib.describe(选择器)`），渲染层自己不读索引——
+这条边界不破，才谈得上"渲染只做行 → 文本"。
 
 ## 三、跨对象（不给选择器）时的口径
 
-| | 行为 | 为什么 |
-|---|---|---|
-| db | 按名去重（先到先占），`definedIn` 记归属 | 它的表**没有"所属对象"列**，分对象分行只会印出一堆看着重复、又分不出归属的行 |
-| techdb / cdfdb | 每个对象各一行 | 它们的表**有"所属类"列**，分行才读得出归属 |
+这一段四家共用同一份实现（`core/query.py`），差别只在一句**声明**（各库 `LIB.cross`）：
 
-**口径跟着各自的表走**，不是随手定的。
+| | `LIB.cross` | 行为 | 为什么 |
+|---|---|---|---|
+| db / dd | `POOL` | 按名收一遍（先到先占），`definedIn` 记归属 | db 的表**没有"所属对象"列**，分对象分行只会印出一堆看着重复、又分不出归属的行；dd 的同一条记录本来就摊在多个对象下，分行就是 N 行重复 |
+| techdb / cdfdb | `EACH` | 每个对象各一行 | 它们的表**有"所属类"列**，同名在不同类里可以是不同的东西，分行才读得出归属 |
+
+**口径跟着各自的表走**，不是随手定的——所以它是库的一句声明（`LIB.cross`），而不是 core
+里的推断（第 5 个库若口径又不同，只需在自己的 `index.py` 里声明，core 一行不用改）。
 
 ## 四、版本
 
-索引 JSON 顶层带 `version`（各库自己的 `_PAYLOAD_VERSION`）：**版本不符即当作损坏**——
-有 `VIRTUOSO_DOC_DIR` 就自动重建，没有就明确报"索引不可用"。db/techdb/cdfdb 自并入本层的
-对象模型起为 **v2**（techdb/cdfdb 的 `classes` 键也随之改名 `objects`），dd 为 **v2**
-（`objects` → `objectTypes`，"全集"与"某条记录的适用子集"同名太绕）。
+索引 JSON 顶层带 `version` 与 `lib`（各库 `LIB` 里那两个）：**任何一个对不上都当作损坏**
+——有 `VIRTUOSO_DOC_DIR` 就自动重建，没有就明确报"索引不可用"（报错里带实际值与所需值）。
+`lib` 让"索引放错目录"这类错**当场炸**，而不是拿别人的索引当好的用。
+
+| | db / techdb / cdfdb | dd |
+|---|---|---|
+| v1 | db：每个对象 = 自身属性 + 父指针；techdb/cdfdb：每个类各存自己的属性 | 建库 |
+| v2 | 并入共用对象模型（techdb/cdfdb 的 `classes` → `objects`） | `objects` → `objectTypes`（那时它站在容器之外，"对象全集"与"某条记录的适用子集"同名太绕） |
+| v3 | 对象字典固定七键、索引只存原文事实（`type`/`rw` 查询时现算） | **摊进同一个七键容器**（转置的记法在 ② 里摊平，`objectTypes` 退回记录里的一个字段） |
+| v4 | **记录层也定键集**（`ATTR_KEYS`），② 算出的呈现值（`rw`/`type`）**入库**；查询因此收进 `core/query.py` | 同上（记录补齐九键） |
+| **v5** | **顶层多一个 `lib`**（类型区分字段）；装配收进 `core/assembly.py`、查询入口收进 `core/query.py`，库根只剩一份声明 | 同上 |
+
+**四库现在都是 v5、同形**。四份 `index.json` 仍各带自己的版本号——它们各自惰性重建、
+一个坏了不牵连另一个，所以版本号各走各的这件事本身是设计的一部分（只是现在恰好齐了）。
+
+**v4 是"改推法就要重建"的起点**：`type`/`rw` 从"查询时现算"变成"② 算好落盘"，所以
+改各库 `core/decorate.py` 里的规则而忘了抬版本号，盘上会留着旧规则算出的值。v3 及更早的
+索引读得出这个号、会重建，不需要手动删。

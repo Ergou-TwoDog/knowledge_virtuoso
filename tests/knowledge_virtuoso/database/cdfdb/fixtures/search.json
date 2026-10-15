@@ -1,54 +1,80 @@
 {
  "payload": {
+  "version": 5,
+  "lib": "cdfdb",
   "objects": {
    "cdfDataId": {
     "id": "cdfDataId",
     "title": "g_cdfDataId",
+    "runtime": null,
     "section": "Data Objects",
+    "desc": null,
     "parent": null,
     "attrs": [
      {
       "name": "id",
-      "rw": "rw",
+      "kind": "attr",
       "type": "objId",
+      "rw": "rw",
       "desc": "The database object to which this CDF is attached.",
-      "source": "field"
+      "modify": null,
+      "source": "field",
+      "cardinality": null,
+      "objectTypes": null
      },
      {
       "name": "fieldWidth",
+      "kind": "attr",
+      "type": null,
       "rw": "rw",
-      "type": "",
       "desc": "Width of a field.",
-      "source": "field"
+      "modify": null,
+      "source": "field",
+      "cardinality": null,
+      "objectTypes": null
      }
     ]
    },
    "cdfParamId": {
     "id": "cdfParamId",
     "title": "g_cdfParamId",
+    "runtime": null,
     "section": "Parameters",
+    "desc": null,
     "parent": null,
     "attrs": [
      {
       "name": "editable",
+      "kind": "attr",
+      "type": null,
       "rw": "ro",
-      "type": "",
       "desc": "This field is not editable.",
-      "source": "field"
+      "modify": null,
+      "source": "field",
+      "cardinality": null,
+      "objectTypes": null
      },
      {
       "name": "name",
-      "rw": "rw",
+      "kind": "attr",
       "type": "string",
+      "rw": "rw",
       "desc": "The name of the parameter.",
-      "source": "arg"
+      "modify": null,
+      "source": "arg",
+      "cardinality": null,
+      "objectTypes": null
      },
      {
       "name": "value",
+      "kind": "attr",
+      "type": null,
       "rw": "rw",
-      "type": "",
       "desc": "Current value of the parameter.",
-      "source": "field"
+      "modify": null,
+      "source": "field",
+      "cardinality": null,
+      "objectTypes": null
      }
     ]
    }
@@ -57,35 +83,50 @@
  "cases": [
   {
    "params": {
-    "className": "cdfParamId"
+    "object": "cdfParamId"
    },
    "expect": [
     {
      "name": "editable",
+     "kind": "attr",
+     "type": null,
      "rw": "ro",
-     "type": "",
      "desc": "This field is not editable.",
+     "modify": null,
      "source": "field",
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "cdfParamId",
      "classes": [
       "cdfParamId"
      ]
     },
     {
      "name": "name",
-     "rw": "rw",
+     "kind": "attr",
      "type": "string",
+     "rw": "rw",
      "desc": "The name of the parameter.",
+     "modify": null,
      "source": "arg",
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "cdfParamId",
      "classes": [
       "cdfParamId"
      ]
     },
     {
      "name": "value",
+     "kind": "attr",
+     "type": null,
      "rw": "rw",
-     "type": "",
      "desc": "Current value of the parameter.",
+     "modify": null,
      "source": "field",
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "cdfParamId",
      "classes": [
       "cdfParamId"
      ]
@@ -94,16 +135,21 @@
   },
   {
    "params": {
-    "className": "cdfParamId",
+    "object": "cdfParamId",
     "keyword": "name"
    },
    "expect": [
     {
      "name": "name",
-     "rw": "rw",
+     "kind": "attr",
      "type": "string",
+     "rw": "rw",
      "desc": "The name of the parameter.",
+     "modify": null,
      "source": "arg",
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "cdfParamId",
      "classes": [
       "cdfParamId"
      ]
@@ -115,50 +161,75 @@
    "expect": [
     {
      "name": "editable",
+     "kind": "attr",
+     "type": null,
      "rw": "ro",
-     "type": "",
      "desc": "This field is not editable.",
+     "modify": null,
      "source": "field",
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "cdfParamId",
      "classes": [
       "cdfParamId"
      ]
     },
     {
      "name": "fieldWidth",
+     "kind": "attr",
+     "type": null,
      "rw": "rw",
-     "type": "",
      "desc": "Width of a field.",
+     "modify": null,
      "source": "field",
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "cdfDataId",
      "classes": [
       "cdfDataId"
      ]
     },
     {
      "name": "id",
-     "rw": "rw",
+     "kind": "attr",
      "type": "objId",
+     "rw": "rw",
      "desc": "The database object to which this CDF is attached.",
+     "modify": null,
      "source": "field",
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "cdfDataId",
      "classes": [
       "cdfDataId"
      ]
     },
     {
      "name": "name",
-     "rw": "rw",
+     "kind": "attr",
      "type": "string",
+     "rw": "rw",
      "desc": "The name of the parameter.",
+     "modify": null,
      "source": "arg",
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "cdfParamId",
      "classes": [
       "cdfParamId"
      ]
     },
     {
      "name": "value",
+     "kind": "attr",
+     "type": null,
      "rw": "rw",
-     "type": "",
      "desc": "Current value of the parameter.",
+     "modify": null,
      "source": "field",
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "cdfParamId",
      "classes": [
       "cdfParamId"
      ]
@@ -172,10 +243,15 @@
    "expect": [
     {
      "name": "fieldWidth",
+     "kind": "attr",
+     "type": null,
      "rw": "rw",
-     "type": "",
      "desc": "Width of a field.",
+     "modify": null,
      "source": "field",
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "cdfDataId",
      "classes": [
       "cdfDataId"
      ]
@@ -184,7 +260,7 @@
   },
   {
    "params": {
-    "className": "没有这个类"
+    "object": "没有这个类"
    },
    "expect": []
   }

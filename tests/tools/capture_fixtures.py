@@ -28,17 +28,10 @@ sys.path.insert(0, str(TESTS))
 from common import MIRROR, read_json, write_text  # noqa: E402
 
 from knowledge_virtuoso.functions import index as skill_language  # noqa: E402
-from knowledge_virtuoso.database.db.core import catalog as db_cat  # noqa: E402
-from knowledge_virtuoso.database.techdb.core import catalog as tech_cat  # noqa: E402
-from knowledge_virtuoso.database.cdfdb.core import catalog as cdf_cat  # noqa: E402
-from knowledge_virtuoso.database.dd.core import catalog as dd_cat  # noqa: E402
+from knowledge_virtuoso.database import cdfdb, db, dd, techdb  # noqa: E402
 
-ATTR_LIBS = {
-    "db": (db_cat, "search_attr"),
-    "techdb": (tech_cat, "search_tech_attr"),
-    "cdfdb": (cdf_cat, "search_cdf_attr"),
-    "dd": (dd_cat, "search_dd_attr"),
-}
+# 库名 → 库模块（走它的公开接口 `search`，与 MCP 工具同一道门）
+ATTR_LIBS = {"db": db, "techdb": techdb, "cdfdb": cdfdb, "dd": dd}
 
 
 def write_json(path, obj) -> None:
@@ -57,14 +50,14 @@ def capture_functions() -> None:
 
 
 def capture_attrs(library: str) -> None:
-    module, func_name = ATTR_LIBS[library]
+    lib = ATTR_LIBS[library]          # 库模块：`lib.search` 就是共用入口
     cases = MIRROR / "database" / library / "cases"      # 一进一出同目录同 stem
     count = 0
     for fixture in sorted(cases.glob("*.json")):
         case = read_json(fixture)
         if case.get("synthetic"):
             continue                      # 手写行：官方索引里没有这种数据
-        case["rows"] = getattr(module, func_name)(**case["params"])
+        case["rows"] = lib.search(**case["params"])
         write_json(fixture, case)
         count += 1
     print(f"database/{library}: {count} 个用例")

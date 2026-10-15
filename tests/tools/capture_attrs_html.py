@@ -5,10 +5,10 @@
 VIRTUOSO_DOC_DIR=<IC618 doc 根> uv run python -B tests/capture_attrs_html.py
 ```
 
-三个属性库的解析器（`database/<库>/core/catalog.py` 的 `extract_all`）各按自己的方式在整份
-HTML 里**扫**：db 按标题走（h4 = 一个对象，紧随的第一张表 = 它的属性表）、techdb 靠
-`techID~>` 的 `<h3>` 段、cdfdb 靠按字段名找 `<h4>`。所以片段就是"该解析器会看成一段"的
-那块 HTML：
+四个属性库的解析器（`database/<库>/core/parse.py`）各按自己的方式在整份 HTML 里**扫**：
+db 按标题走（h4 = 一个对象，紧随的第一张表 = 它的属性表）、techdb 靠 `techID~>` 的 `<h3>` 段、
+cdfdb 靠按字段名找 `<h4>`、dd 按表头签名在那一节的四张表里挑。所以片段就是"该解析器会看成
+一段"的那块 HTML：
 
   database/<库>/core/fixtures/html/<片段>.html   片段
   database/<库>/core/fixtures/html/<片段>.json   期望值（**取自线上索引**，非解析器跑出来的）
@@ -39,10 +39,13 @@ sys.path.insert(0, str(TESTS))
 
 from common import write_text  # noqa: E402
 
-from knowledge_virtuoso.database.cdfdb.core import catalog as cdf_cat  # noqa: E402
-from knowledge_virtuoso.database.dd.core import catalog as dd_cat  # noqa: E402
-from knowledge_virtuoso.database.db.core import catalog as db_cat  # noqa: E402
-from knowledge_virtuoso.database.techdb.core import catalog as tech_cat  # noqa: E402
+from knowledge_virtuoso.database.cdfdb import index as cdf_cat  # noqa: E402
+from knowledge_virtuoso.database.dd import index as dd_cat  # noqa: E402
+from knowledge_virtuoso.database.db import index as db_cat  # noqa: E402
+from knowledge_virtuoso.database.techdb import index as tech_cat  # noqa: E402
+# 切片的辅助只跟文本解码有关，那是各库 ① 的 `core/parse.py` 里的事（不在 index 上）。
+from knowledge_virtuoso.database.dd.core.parse import _strip as dd_strip  # noqa: E402
+from knowledge_virtuoso.database.techdb.core.parse import _strip as tech_strip  # noqa: E402
 
 FIXTURES = TESTS / "knowledge_virtuoso" / "database"
 
@@ -80,7 +83,7 @@ def live(library: str) -> dict:
     """线上索引载荷（进程内只读一次）。"""
     if library not in _LIVE:
         module = {"db": db_cat, "techdb": tech_cat, "cdfdb": cdf_cat, "dd": dd_cat}[library]
-        _LIVE[library] = module._STORE.load()
+        _LIVE[library] = module.LIB.store.load()
     return _LIVE[library]
 
 
@@ -127,7 +130,7 @@ def slice_techdb(text: str, spec: dict) -> str:
     """techdb 的一个类：该 ``<h3><a>techID~>X</a></h3>`` 到下个 h3。"""
     heads = list(re.finditer(r'<h3[^>]*>\s*<a[^>]*>(.*?)</a>\s*</h3>', text, re.DOTALL))
     for i, match in enumerate(heads):
-        heading = tech_cat._strip(match.group(1))
+        heading = tech_strip(match.group(1))
         if not heading.startswith("techID~>"):
             continue
         cid = re.sub(r"\s*\(.*?\)\s*$", "", heading.replace("techID~>", "").rstrip("~> ").strip()).strip()
@@ -176,7 +179,7 @@ def slice_cdfdb(text: str, spec: dict) -> str:
 def slice_dd(text: str, spec: dict) -> str:
     """dd 的整节：该 ``<h2>`` 文字到下个 ``<h2``（本节里没有 h3/h4）。"""
     for m in re.finditer(r'<h2[^>]*>(.*?)</h2>', text, re.DOTALL | re.IGNORECASE):
-        if dd_cat._strip(m.group(1)) == spec["heading"]:
+        if dd_strip(m.group(1)) == spec["heading"]:
             nxt = re.search(r'<h2', text[m.end():], re.IGNORECASE)
             end = m.end() + nxt.start() if nxt else len(text)
             return text[m.start():end], m.start()
@@ -206,23 +209,33 @@ def with_boundary(text: str, region: str, start: int) -> str:
 def expectation(library: str, spec: dict, payload: dict) -> dict:
     """这段 HTML 在线上索引里对应的那部分。
 
-    期望值 = "那段 HTML 在整份文件里对应谁"：`db` 取该对象的父与自身属性名；其余库取该类的
-    **全部属性记录**（名字/类型/说明）。比的是"片段 ⇒ 对象"与"整份文件 ⇒ 同一个对象"一致
-    （切片边界、表头/前导两种父写法、类的字段区边界都在这露头）。
+    期望值 = "那段 HTML 在整份文件里对应谁"：`db` 取该对象的父与**自身属性记录**；其余库取
+    该类的**全部属性记录**（名字/说明，cdfdb 另比来源）。比的是"片段 ⇒ 对象"与"整份文件 ⇒
+    同一个对象"一致（切片边界、表头/前导两种父写法、类的字段区边界都在这露头）。
+
+    **另三库同形、逐条比**（早先 db 只记属性名，是"全局按名去重"时代的遗留——那时逐字段比会
+    假红；逐对象存储之后那条限制没了，db 当初漏在升级之外）。
+
+    **比的是"原文那一侧"的字段**：`db` 比 `type` 是因为**原文真有那列**（attrib.html 的属性表
+    有 Type 列），它是事实；techdb/cdfdb 的 `type`/`rw` 是各库 ② 按固定规则算出来的，属
+    "我们怎么呈现的"，归各库 `core/test_decorate.py` 的推法断言管，不在这儿比。
     """
     if library == "dd":
-        # 期望值 = 这一节在整份文件里解析出来的三样：对象全集 / 属性 / 关系
-        return {"objectTypes": payload["objectTypes"], "attributes": payload["attributes"],
-                "relations": payload["relations"]}
+        # 期望值 = 这一节摊平之后，**每个对象各自有哪些记录**（物化正是这一步要保证的）
+        return {"objects": {oid: sorted(r["name"] for r in obj["attrs"])
+                            for oid, obj in payload["objects"].items()}}
     if library == "db":
         obj = payload["objects"][spec["object"]]
+        fields = ("name", "modify", "type", "desc")
         return {"object": obj["id"], "parent": obj["parent"],
-                "own": sorted(a["name"] for a in obj["attrs"])}
+                "attrs": sorted(({k: a[k] for k in fields} for a in obj["attrs"]),
+                                key=lambda r: r["name"])}
 
     # 逐类存储之后不必再退而求其次只比"唯一名字"——同名属性出现在别的类里也不影响本类。
     cls = payload["objects"][spec["class"]]
-    attrs = sorted(({"name": a["name"], "type": a["type"], "desc": a["desc"]}
-                    for a in cls["attrs"]), key=lambda r: r["name"])
+    fields = ("name", "desc", "source") if library == "cdfdb" else ("name", "desc")
+    attrs = sorted(({k: a[k] for k in fields} for a in cls["attrs"]),
+                   key=lambda r: r["name"])
     return {"class": cls["id"], "attrs": attrs}
 
 
@@ -251,10 +264,8 @@ def main() -> None:
         rows.setdefault(library, []).append(
             f"| `{name}.html` | {size / 1024:.1f} KB | `{rel}` | "
             f"{spec.get('phrase') or spec.get('heading') or spec['class']} |")
-        if library == "db":
-            count = len(want["own"])
-        elif library == "dd":
-            count = len(want["attributes"]) + len(want["relations"])
+        if library == "dd":
+            count = sum(len(v) for v in want["objects"].values())    # 六个对象各自的记录名
         else:
             count = len(want["attrs"])
         print(f"{library}/{name}: {size} 字节  ← {rel}  期望 {count} 条属性")

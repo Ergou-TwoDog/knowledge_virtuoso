@@ -1,0 +1,25 @@
+{
+  "fields": {
+    "id": {
+      "name": "id",
+      "text": "The database identifier of the object. This field is not editable.",
+      "section": "CDF Data",
+      "rows": []
+    },
+    "Displaying Parameters": {
+      "name": "Displaying Parameters",
+      "text": "fieldWidth Width of the field. not a field name Dropped by the name shape.",
+      "section": "CDF Data",
+      "rows": [
+        [
+          "fieldWidth",
+          "Width of the field."
+        ],
+        [
+          "not a field name",
+          "Dropped by the name shape."
+        ]
+      ]
+    }
+  }
+}

@@ -43,16 +43,31 @@ CALLS = (
     ("skill_language_search_doc", {"func_name": "dbCreateRect", "detail": "brief"}),
     ("skill_language_search_doc", {"func_name": "rodCreatePath", "detail": "skel"}),
     ("skill_language_search_components", {"prefix": "tech", "keywords": "find via def"}),
-    ("db_search_attr", {"objType": "rect", "keyword": "bBox"}),
-    ("techdb_search_attr", {"className": "viaDefs"}),
-    ("cdfdb_search_attr", {"className": "cdfParamId", "keyword": "value"}),
-    ("dd_search_attr", {"object": "cellFile"}),
+    # 属性查询是**一个工具**：四个库各走一次（`lib` 选库），再一次不给 `lib` 走跨库。
+    ("search_attr", {"lib": "db", "object": "rect", "keyword": "bBox"}),
+    ("search_attr", {"lib": "techdb", "object": "viaDefs"}),
+    ("search_attr", {"lib": "cdfdb", "object": "cdfParamId", "keyword": "value"}),
+    ("search_attr", {"lib": "dd", "object": "cellFile"}),
+    ("search_attr", {"object": "rect"}),
 )
 
-# 每个属性库工具的第一个参数名必须与它自己的选择器一致——**这是会静默坏掉的一道缝**：
-# 参数名注册错了，工具照样出现在列表里（名字对），但每次调用都会因为 schema 不符而失败。
-SELECTORS = {"db_search_attr": "objType", "techdb_search_attr": "className",
-             "cdfdb_search_attr": "className", "dd_search_attr": "object"}
+# 属性工具的参数名——**这是会静默坏掉的一道缝**：名字注册错了，工具照样出现在列表里，
+# 但每次调用都会因为 schema 不符而失败。合并成一个工具后，四库共用的选择器参数叫 `object`
+# （各库不再有自己的参数名；额外认哪些写法见各库 `DOC` 与 `LIB.aliases`）。
+ATTR_TOOL = "search_attr"
+ATTR_PARAMS = {"lib", "object", "keyword"}
+
+# 这几次 `search_attr` 调用的**第一行**应该是什么：
+#   * 单库命中 → 对象头（回显解析到的对象；给的还是别名 `rect`）；
+#   * 跨库      → 节首 `── <库名> ──`（`rect` 只有 db 认得，所以只出一节）。
+# dd 那次也有——它的对象记录里除 `id` 全是空的，所以对象头只有 `对象 cellFile`。
+ECHOES = (
+    ({"lib": "db", "object": "rect", "keyword": "bBox"}, "对象 Rectangle"),
+    ({"lib": "techdb", "object": "viaDefs"}, "对象 viaDefs"),
+    ({"lib": "cdfdb", "object": "cdfParamId", "keyword": "value"}, "对象 cdfParamId"),
+    ({"object": "rect"}, "── db ──"),
+    ({"lib": "dd", "object": "cellFile"}, "对象 cellFile"),
+)
 
 # 索引缺失时服务会报这些字样——那是环境问题（没索引也没 doc），不是服务坏了。
 INDEX_HINTS = ("索引不可用", "IndexLoadError", "请重建索引", "重建索引", "index JSON unavailable")
@@ -90,6 +105,8 @@ async def _smoke(verbose: bool) -> dict:
                             "failures": [], "verified": 0, "skipped": 0}
 
                 failures: list[str] = []
+                # 同一个工具可能被调多次（属性查询就是），所以按**调用**记而不是按工具名记。
+                results: list[tuple[str, dict, str]] = []
                 skipped = verified = 0
                 for name, args in CALLS:
                     result = await session.call_tool(name, args)
@@ -103,13 +120,14 @@ async def _smoke(verbose: bool) -> dict:
                         say(f"  [FAIL] {name}({args})  ← {head[:70]}")
                     else:
                         verified += 1
+                        results.append((name, args, head))
                         say(f"  [ok  ] {name}  {len(text)} 字  ← {head[:50]}")
     finally:
         if sink is not None:
             sink.close()
 
     return {"tools": tools, "toolParams": tool_params, "missing": missing, "failures": failures,
-            "verified": verified, "skipped": skipped}
+            "verified": verified, "skipped": skipped, "results": results}
 
 
 async def main() -> int:
@@ -135,16 +153,28 @@ def run(report: Report, update: bool = False) -> None:
     索引不可用时查询全部 SKIP——记 `report.skip()`，不算过也不算错，但汇总里会写"跳过 1 次"。
     """
     outcome = asyncio.run(_smoke(verbose=False))
-    report.expect("stdio/工具列表齐全（六个工具都在）", outcome["missing"], [])
-    report.expect("stdio/各属性库工具的**参数名**与自己的选择器一致",
-                  {name: set(outcome["toolParams"].get(name) or []) for name in SELECTORS},
-                  {name: {sel, "keyword"} for name, sel in SELECTORS.items()})
+    report.expect("stdio/工具列表齐全（CALLS 里点到的工具都在）", outcome["missing"], [])
+    report.expect("stdio/工具列表恰好三个（两个函数库 + 一个属性）",
+                  sorted(outcome["tools"]),
+                  ["search_attr", "skill_language_search_components",
+                   "skill_language_search_doc"])
+    report.expect(f"stdio/{ATTR_TOOL} 的参数恰好是 lib / object / keyword",
+                  sorted(outcome["toolParams"].get(ATTR_TOOL) or []), sorted(ATTR_PARAMS))
     report.expect("stdio/没有调用报错", outcome["failures"], [])
     if outcome["skipped"] == len(CALLS):
         report.skip("stdio/查询真验过", "本机索引不可用（设 VIRTUOSO_DOC_DIR 或跑构建）")
     else:
         report.expect("stdio/真验过的调用数 = 总数 − 跳过数",
                       outcome["verified"], len(CALLS) - outcome["skipped"])
+    # 这两道缝**只有真调用能验**：渲染用例是直接把 obj 喂进去的，接线忘了传照样全绿。
+    # 库名与描述由 registry 现场拼，也一并看一眼。
+    heads = {(name, repr(sorted(args.items()))): head for name, args, head in outcome["results"]}
+    for args, want in ECHOES:
+        key = (ATTR_TOOL, repr(sorted(args.items())))
+        if key not in heads:
+            continue          # 索引不可用被跳过了；上面那条 skip 会说明
+        report.truthy(f"stdio/{ATTR_TOOL}({args}) 首行是 {want!r}",
+                      heads[key].startswith(want), heads[key][:80])
 
 
 if __name__ == "__main__":

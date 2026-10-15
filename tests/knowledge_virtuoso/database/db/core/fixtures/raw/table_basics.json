@@ -1,0 +1,100 @@
+{
+  "sections": [
+    {
+      "title": "Generic Shape Attributes",
+      "section": "Shape Attributes",
+      "preamble": "",
+      "table": [
+        [
+          [
+            "Name"
+          ],
+          [
+            "Modify"
+          ],
+          [
+            "Type"
+          ],
+          [
+            "Description"
+          ]
+        ],
+        [
+          [
+            "objType"
+          ],
+          [
+            "no"
+          ],
+          [
+            "string"
+          ],
+          [
+            "Type of the object, in this case \"shape\"."
+          ]
+        ]
+      ]
+    },
+    {
+      "title": "Rectangle Attributes",
+      "section": "Shape Attributes",
+      "preamble": "Note: include Generic Shape Attributes.",
+      "table": [
+        [
+          [
+            "Name"
+          ],
+          [
+            "Modify"
+          ],
+          [
+            "Type"
+          ],
+          [
+            "Description"
+          ]
+        ],
+        [
+          [
+            "bBox"
+          ],
+          [
+            "no"
+          ],
+          [
+            "list"
+          ],
+          [
+            "The bounding box."
+          ]
+        ],
+        [
+          [
+            "startConn",
+            "endConn"
+          ],
+          [
+            "no"
+          ],
+          [
+            "xCoord"
+          ],
+          [
+            "Connections, two names in one cell."
+          ]
+        ],
+        [
+          [
+            " "
+          ],
+          [
+            " "
+          ],
+          [
+            "and so on …"
+          ]
+        ]
+      ]
+    }
+  ]
+}

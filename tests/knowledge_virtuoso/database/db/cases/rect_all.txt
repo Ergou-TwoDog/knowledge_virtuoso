@@ -1,3 +1,4 @@
+对象 Rectangle  title=Rectangle Attributes  section=Attributes of Shapes
 匹配 25 个属性:
   name                      rw   type            desc
   ------------------------- ---- --------------- ------------------------------

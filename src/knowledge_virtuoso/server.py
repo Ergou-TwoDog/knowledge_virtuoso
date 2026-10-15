@@ -8,15 +8,12 @@ knowledge_virtuoso.server — MCP Server: SKILL 函数与对象属性知识库�
   skill_language_search_doc         — 查询函数签名（detail=signature/brief/full 控制粒度）
   skill_language_search_components  — 按前缀+关键词组合搜索函数名（推荐）
 
- 对象属性查询——**每个属性库一个工具，由 `database/core/registry.py` 按发现的库生成**：
-  db_search_attr        选择器 objType     — 设计库对象属性
-  techdb_search_attr    选择器 className   — 技术库对象属性
-  cdfdb_search_attr     选择器 className   — CDF 对象属性
-  dd_search_attr        选择器 object      — 数据管理对象属性
+ 对象属性查询:
+  search_attr                       — 按库 + 对象 + 关键词查属性（`lib` 选库，留空搜全部四个）
 
- **加一个属性库 = 在 `database/` 下加一棵树**，本文件一行不用改。各库的选择器不是同一个
- 概念（运行时对象类型／技术库类名／CDF 类名／数据管理对象），所以**不压成一个词**：
-  registry 生成工具时按各库自己的 `SELECTOR` 造参数名。
+ **加一个属性库 = 在 `database/` 下加一棵树**，本文件一行不用改：属性工具只有一个，
+ 它的 `lib` 取值与描述都由 `database/index.py` 按 `database/core/registry.py` 发现的库
+ 现场拼出来（新库的 `DOC` 自动进描述）。
 
 启动方式:
   knowledge-virtuoso          （console script）
@@ -24,20 +21,20 @@ knowledge_virtuoso.server — MCP Server: SKILL 函数与对象属性知识库�
   由 Claude Code 通过 .mcp.json 配置自动启动，stdin/stdout 通信。
 
 本文件只做 MCP 接线：校验参数 → 查 catalog → 交给该分类的渲染层 → 返回字符串。
-输出长什么样由 functions/core/render.py 与 database/<库>/render.py 决定（各来源的差异见
-functions/sources/<来源>/render.py），接线约定见 tests/README.md，
-因此改渲染策略不需要动这里，改工具契约（名字、参数、docstring）也不需要动渲染层。
+输出长什么样由 `functions/core/render.py`（各来源的差异见 `functions/sources/<来源>/render.py`）
+与 `database/core/render.py` 决定（**属性库只声明一份 `RenderSpec`**，渲染机制共用那一份），
+接线约定见 tests/README.md，因此改渲染策略不需要动这里，改工具契约（名字、参数、docstring）
+也不需要动渲染层。
 """
 
 import asyncio
-import inspect
 
 from mcp.server.fastmcp import FastMCP
 
 from knowledge_virtuoso.functions import index as skill_language
 from knowledge_virtuoso.functions import registry
 from knowledge_virtuoso.functions.core import render as skill_render
-from knowledge_virtuoso.database.core import registry as attr_registry
+from knowledge_virtuoso.database import index as attr_index
 
 mcp = FastMCP("virtuoso")
 
@@ -102,36 +99,13 @@ async def skill_language_search_components(prefix: str = "", keywords: str = "",
         profile_for=registry.profile_for)
 
 
-# ─── 属性查询：每个属性库一个工具，由注册表生成 ────────────────
+# ─── 属性查询：一个工具，四个库 ────────────────────────────────
 #
-# 工具名 = `<库名>_search_attr`，第一个参数名用该库自己的 `SELECTOR`（objType /
-# className / object）——那是四个不同的概念，压成一个词会让调用方以为它们通用。
-#
-# FastMCP 从 `inspect.signature` 建输入 schema，而 `inspect.signature` 认手工赋的
-# `__signature__`：于是同一个实现能按库生成各自契约的工具，不必为每个库抄一遍函数。
+# `search_attr` 是**真函数、真签名**（`lib`/`object`/`keyword`），所以 FastMCP 自己就能
+# 建输入 schema——不必再像"每库一个工具"那样手工拼 `inspect.Signature` 赋给 `__signature__`。
+# 描述也由 `database/index.py` 现场拼（总说明 + 各库自己的 `DOC`），新库自动进描述。
 
-def _attr_tool(lib):
-    """库 → 一个 MCP 工具函数（参数名 = 该库的 SELECTOR + keyword）。"""
-    selector = lib.SELECTOR
-
-    def fn(**kwargs):                       # 真调用时 FastMCP 按 schema 传关键字
-        value = kwargs.get(selector, "")
-        keyword = kwargs.get("keyword", "")
-        return lib.render(lib.search(value, keyword), value, keyword)
-
-    fn.__name__ = attr_registry.tool_name(lib)
-    fn.__doc__ = lib.DOC
-    fn.__signature__ = inspect.Signature(
-        [inspect.Parameter(selector, inspect.Parameter.POSITIONAL_OR_KEYWORD,
-                           default="", annotation=str),
-         inspect.Parameter("keyword", inspect.Parameter.POSITIONAL_OR_KEYWORD,
-                           default="", annotation=str)],
-        return_annotation=str)
-    return fn
-
-
-for _lib in attr_registry.LIBS:
-    mcp.add_tool(_attr_tool(_lib), name=attr_registry.tool_name(_lib), description=_lib.DOC)
+mcp.add_tool(attr_index.search_attr, name="search_attr", description=attr_index.doc())
 
 
 def main() -> None:

@@ -1,12 +1,12 @@
 {
  "params": {
-  "className": "viaDefs",
+  "object": "viaDefs",
   "keyword": ""
  },
  "rows": [
   {
    "name": "cellName",
-   "rw": "?",
+   "rw": null,
    "type": "l_string",
    "desc": "( customViaDefs ) A list of cell names for the custom vias.",
    "classes": [
@@ -15,7 +15,7 @@
   },
   {
    "name": "implant1",
-   "rw": "?",
+   "rw": null,
    "type": "l_objId",
    "desc": "( stdViaDefs ) A list of database identifiers identifying the first implant layer of the vias.",
    "classes": [
@@ -24,7 +24,7 @@
   },
   {
    "name": "implant2",
-   "rw": "?",
+   "rw": null,
    "type": "l_objId",
    "desc": "( stdViaDefs ) A list of database identifiers identifying the second implant layer of the vias.",
    "classes": [
@@ -33,7 +33,7 @@
   },
   {
    "name": "layer1",
-   "rw": "?",
+   "rw": null,
    "type": "l_objId",
    "desc": "A list of database identifiers identifying the first layer in each via.",
    "classes": [
@@ -44,7 +44,7 @@
   },
   {
    "name": "layer1Num",
-   "rw": "?",
+   "rw": null,
    "type": "",
    "desc": "A list of layer numbers identifying the first layer in each via.",
    "classes": [
@@ -55,7 +55,7 @@
   },
   {
    "name": "layer2",
-   "rw": "?",
+   "rw": null,
    "type": "l_objId",
    "desc": "A list of database identifiers identifying the second layer in each via.",
    "classes": [
@@ -66,7 +66,7 @@
   },
   {
    "name": "layer2Num",
-   "rw": "?",
+   "rw": null,
    "type": "",
    "desc": "A list of layer numbers identifying the second layer in each via.",
    "classes": [
@@ -77,7 +77,7 @@
   },
   {
    "name": "libName",
-   "rw": "?",
+   "rw": null,
    "type": "",
    "desc": "( customViaDefs ) A list of design libraries that contain the custom via cellviews.",
    "classes": [
@@ -87,7 +87,7 @@
   },
   {
    "name": "name",
-   "rw": "?",
+   "rw": null,
    "type": "l_string",
    "desc": "A list of via names.",
    "classes": [
@@ -104,7 +104,7 @@
   },
   {
    "name": "objType",
-   "rw": "?",
+   "rw": null,
    "type": "",
    "desc": "A list of via definition types, stdViaDef or customViaDef .",
    "classes": [
@@ -115,7 +115,7 @@
   },
   {
    "name": "params",
-   "rw": "?",
+   "rw": null,
    "type": "",
    "desc": "( stdViaDefs ) A list of values defining the geometry of the vias.",
    "classes": [
@@ -126,7 +126,7 @@
   },
   {
    "name": "resistancePerCut",
-   "rw": "?",
+   "rw": null,
    "type": "",
    "desc": "A list of resistance values assigned per cut.",
    "classes": [
@@ -135,7 +135,7 @@
   },
   {
    "name": "tech",
-   "rw": "?",
+   "rw": null,
    "type": "l_objId",
    "desc": "A list of database identifiers identifying the technology databases in which the vias are defined.",
    "classes": [
@@ -148,7 +148,7 @@
   },
   {
    "name": "techFile",
-   "rw": "?",
+   "rw": null,
    "type": "l_objId",
    "desc": "A list of database identifiers identifying the technology databases in which the vias are defined.",
    "classes": [
@@ -160,7 +160,7 @@
   },
   {
    "name": "viewName",
-   "rw": "?",
+   "rw": null,
    "type": "l_string",
    "desc": "( customViaDefs ) A list of view names for the custom vias.",
    "classes": [
@@ -169,7 +169,7 @@
   },
   {
    "name": "wellOrSubstrate",
-   "rw": "?",
+   "rw": null,
    "type": "l_objId",
    "desc": "( stdViaDefs ) A list of database identifiers identifying the well and substrate layers of the vias.",
    "classes": [

@@ -3,6 +3,9 @@
   "object": "lib",
   "keyword": ""
  },
+ "object": {
+  "id": "lib"
+ },
  "rows": [
   {
    "name": "cells",
@@ -15,7 +18,7 @@
   {
    "name": "name",
    "kind": "attr",
-   "cardinality": "",
+   "cardinality": null,
    "objectTypes": [
     "lib",
     "cell",
@@ -41,7 +44,7 @@
   {
    "name": "prop",
    "kind": "attr",
-   "cardinality": "",
+   "cardinality": null,
    "objectTypes": [
     "lib",
     "cell",
@@ -51,7 +54,7 @@
   {
    "name": "techfile",
    "kind": "attr",
-   "cardinality": "",
+   "cardinality": null,
    "objectTypes": [
     "lib",
     "cell",

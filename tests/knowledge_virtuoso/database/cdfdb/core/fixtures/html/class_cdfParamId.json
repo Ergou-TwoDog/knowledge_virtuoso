@@ -5,83 +5,83 @@
  "attrs": [
   {
    "name": "callback",
-   "type": "string",
-   "desc": "SKILL code to be executed whenever the value of a parameter changes. Using callback, you can cause any parameter's value to affect any other parameter's value. The value of this field must be a string. This field is optional. If you do not use callba"
+   "desc": "SKILL code to be executed whenever the value of a parameter changes. Using callback, you can cause any parameter's value to affect any other parameter's value. The value of this field must be a string. This field is optional. If you do not use callback, no callback is executed. The \"Global Variables\" section describes several global variables you can use in the callback field.",
+   "source": "field"
   },
   {
    "name": "choices",
-   "type": "l_string",
-   "desc": "Possible values (a list of strings) of a cyclic or radio type parameter. Do not use this field for other types of parameters. This field is editable."
+   "desc": "Possible values (a list of strings) of a cyclic or radio type parameter. Do not use this field for other types of parameters. This field is editable.",
+   "source": "field"
   },
   {
    "name": "defValue",
-   "type": "",
-   "desc": "Default value of the parameter. You must specify this field. This field is editable."
+   "desc": "Default value of the parameter. You must specify this field. This field is editable.",
+   "source": "field"
   },
   {
    "name": "description",
-   "type": "",
-   "desc": ""
+   "desc": null,
+   "source": "arg"
   },
   {
    "name": "display",
-   "type": "",
-   "desc": "Determines if this parameter is displayed in forms that display CDF parameters, such as the Edit Object Properties form or the Add Instance form. You must enter t , nil , or a SKILL expression that evaluates to t or nil in this field to determine if "
+   "desc": "Determines if this parameter is displayed in forms that display CDF parameters, such as the Edit Object Properties form or the Add Instance form. You must enter t , nil , or a SKILL expression that evaluates to t or nil in this field to determine if this parameter is to be displayed. If the field evaluates to non- nil (the default), the parameter is displayed. If the field evaluates to nil , the parameter is not displayed.",
+   "source": "field"
   },
   {
    "name": "dontSave",
-   "type": "",
-   "desc": "Specifies that the parameter cannot be stored in any instance that corresponds to the component. The d ontSave field must be a string. The system evaluates the field as necessary. If the field evaluates to non-nil, the parameter is not stored. If you"
+   "desc": "Specifies that the parameter cannot be stored in any instance that corresponds to the component. The d ontSave field must be a string. The system evaluates the field as necessary. If the field evaluates to non-nil, the parameter is not stored. If you do not specify the field, nil is assumed and the parameter value is stored.",
+   "source": "field"
   },
   {
    "name": "editable",
-   "type": "",
-   "desc": "Specifies whether a parameter is for display only. If set to nil, the field specifies a displayed parameter that you cannot change. (Other parameters' callbacks can change the parameter.) Use this field only on int, float, and string type fields. The"
+   "desc": "Specifies whether a parameter is for display only. If set to nil, the field specifies a displayed parameter that you cannot change. (Other parameters' callbacks can change the parameter.) Use this field only on int, float, and string type fields. The editable field must be a string. This field is evaluated when necessary. If the field evaluates to non-nil, the parameter is editable. If the field evaluates to nil, the parameter is grayed out when displayed as a form field. If you do not specify the field, t is assumed, meaning that the field is editable.",
+   "source": "field"
   },
   {
    "name": "name",
-   "type": "string",
-   "desc": "The name of the parameter."
+   "desc": "The name of the parameter.",
+   "source": "arg"
   },
   {
    "name": "paramType",
-   "type": "string",
-   "desc": "Type of the parameter. Valid values for this field are \"string\" \"int\" \"float\" \"radio\" \"cyclic\" \"boolean\" \"button\" \"netSet\" The quotation marks are required. CDF checks that the parameter value matches the type specified. You must specify this field. "
+   "desc": "Type of the parameter. Valid values for this field are \"string\" \"int\" \"float\" \"radio\" \"cyclic\" \"boolean\" \"button\" \"netSet\" The quotation marks are required. CDF checks that the parameter value matches the type specified. You must specify this field. This field is not editable. Note: Use the netSet type to store inherited connections in CDF. Inherited connections allow you to selectively override global signals in designs created in Virtuoso Schematic Editor. The override information is communicated through net expressions and netSet properties. For more information on netSet properties refer to Inherited Connections Flow Guide and Virtuoso Schematic Editor L User Guide .",
+   "source": "field"
   },
   {
    "name": "parseAsCEL",
-   "type": "",
-   "desc": "If set to yes, the associated CDF parameter is processed as a CDF Expression Language (CEL) expression. The parameter must be a string. If the expression resolves to a numeric value (the usual case), the parseAsNumber flag should also be set to yes."
+   "desc": "If set to yes, the associated CDF parameter is processed as a CDF Expression Language (CEL) expression. The parameter must be a string. If the expression resolves to a numeric value (the usual case), the parseAsNumber flag should also be set to yes.",
+   "source": "field"
   },
   {
    "name": "parseAsNumber",
-   "type": "",
-   "desc": "String type parameter whose value can evaluate to a floating-point number. These types of parameters often occur for circuit-level simulators that allow component parameters to be either numbers or expressions containing variables. If you specify thi"
+   "desc": "String type parameter whose value can evaluate to a floating-point number. These types of parameters often occur for circuit-level simulators that allow component parameters to be either numbers or expressions containing variables. If you specify this field, the system parses the value of the parameter to check if the value is a number. If the value is a number, the system converts the string to a floating point number, converts the string to the most efficient notation (taking into account any units field specified), then reconverts the number into a string. If the parameter value is not a number, the system does no conversion. For example, if the parameter value is the string 5.4e-12 and the parameter value has a units field of capacitance (that is, the suffix is F), the parameter value is converted to the string 5.4p before being displayed. However, if the parameter value is c1 , no conversion takes place.",
+   "source": "field"
   },
   {
    "name": "prompt",
-   "type": "string",
-   "desc": "Prompt that appears on a form field when an application asks for the value of this parameter. The value for this field must be a string. You must specify this field. This field is editable."
+   "desc": "Prompt that appears on a form field when an application asks for the value of this parameter. The value for this field must be a string. You must specify this field. This field is editable.",
+   "source": "field"
   },
   {
    "name": "storeDefault",
-   "type": "",
-   "desc": "Specifies whether the parameter default value is saved as a property of the instance. All tools based on the Cadence Analog Design Environment software use the CDF to find default values if no property exists on an instance. If set to no (the default"
+   "desc": "Specifies whether the parameter default value is saved as a property of the instance. All tools based on the Cadence Analog Design Environment software use the CDF to find default values if no property exists on an instance. If set to no (the default) or don't use , a property is not saved on the instance when the parameter value is the default. Also, if the default value of the parameter changes, all instances that use the default automatically get the new default value. (To see the change in an open window, you must select Window - Redraw from the Cadence menu.) If set to yes and the parameter value is set to the same value as the default, a property is saved on the instance. One disadvantage of this attribute is that if the default value of a parameter changes, the instances that use the default do not automatically change to the new default. If you are a user of the Open Simulation Software (OSS) system, and you used to set this attribute to yes because you could only netlist using instance properties, you can now set it to no because OSS users now have the option of using CDF.",
+   "source": "field"
   },
   {
    "name": "units",
-   "type": "string",
-   "desc": "Unit type of the parameter. You often modify parameters that represent resistance, capacitance, length, time, power, and so forth, and expect to see the parameter value scaled to appropriate units (for example, pF , uM , dBm ). Valid values for this "
+   "desc": "Unit type of the parameter. You often modify parameters that represent resistance, capacitance, length, time, power, and so forth, and expect to see the parameter value scaled to appropriate units (for example, pF , uM , dBm ). Valid values for this field include the following strings: \"resistance\" \"capacitance\" \"inductance\" \"conductance\" \"time\" \"frequency\" \"power\" \"powerDB\" \"lengthMetric\" \"lengthEnglish\" \"angle\" \"voltage\" \"current\" \"temperature\" The quotation marks are required. This field determines the unit's suffix and scale factor to use when displaying the parameter value. For example, by setting a parameter's units field to capacitance, the parameter value is displayed as 5 pF instead of 5e-12 .",
+   "source": "field"
   },
   {
    "name": "use",
-   "type": "",
-   "desc": "Specifies whether to use this parameter. The use attribute is context-specific and is evaluated when necessary. In this field, you can specify parameters that you are not using because of the value of other parameters, or because of the function you "
+   "desc": "Specifies whether to use this parameter. The use attribute is context-specific and is evaluated when necessary. In this field, you can specify parameters that you are not using because of the value of other parameters, or because of the function you are using. The use field must be a string. If the field evaluates to non-nil, the system uses the parameter. If a value for the field exists, the system ignores the value. If the field evaluates to nil, the system does not use the parameter. If you do not specify this field, t is assumed, so the system always uses the field. The \"Global Variables\" section describes several global variables for constructing the use expression. This field is editable.",
+   "source": "field"
   },
   {
    "name": "value",
-   "type": "",
-   "desc": "Current value of the parameter. This field is editable."
+   "desc": "Current value of the parameter. This field is editable.",
+   "source": "field"
   }
  ]
 }

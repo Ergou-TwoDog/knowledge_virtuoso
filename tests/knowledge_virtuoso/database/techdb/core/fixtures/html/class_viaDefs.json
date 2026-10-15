@@ -5,82 +5,66 @@
  "attrs": [
   {
    "name": "cellName",
-   "type": "l_string",
    "desc": "( customViaDefs ) A list of cell names for the custom vias."
   },
   {
    "name": "implant1",
-   "type": "l_objId",
    "desc": "( stdViaDefs ) A list of database identifiers identifying the first implant layer of the vias."
   },
   {
    "name": "implant2",
-   "type": "l_objId",
    "desc": "( stdViaDefs ) A list of database identifiers identifying the second implant layer of the vias."
   },
   {
    "name": "layer1",
-   "type": "l_objId",
    "desc": "A list of database identifiers identifying the first layer in each via."
   },
   {
    "name": "layer1Num",
-   "type": "",
    "desc": "A list of layer numbers identifying the first layer in each via."
   },
   {
    "name": "layer2",
-   "type": "l_objId",
    "desc": "A list of database identifiers identifying the second layer in each via."
   },
   {
    "name": "layer2Num",
-   "type": "",
    "desc": "A list of layer numbers identifying the second layer in each via."
   },
   {
    "name": "libName",
-   "type": "",
    "desc": "( customViaDefs ) A list of design libraries that contain the custom via cellviews."
   },
   {
    "name": "name",
-   "type": "l_string",
    "desc": "A list of via names."
   },
   {
    "name": "objType",
-   "type": "",
    "desc": "A list of via definition types, stdViaDef or customViaDef ."
   },
   {
    "name": "params",
-   "type": "",
    "desc": "( stdViaDefs ) A list of values defining the geometry of the vias."
   },
   {
    "name": "resistancePerCut",
-   "type": "",
    "desc": "A list of resistance values assigned per cut."
   },
   {
    "name": "tech",
-   "type": "l_objId",
    "desc": "A list of database identifiers identifying the technology databases in which the vias are defined."
   },
   {
    "name": "techFile",
-   "type": "l_objId",
    "desc": "A list of database identifiers identifying the technology databases in which the vias are defined."
   },
   {
    "name": "viewName",
-   "type": "l_string",
    "desc": "( customViaDefs ) A list of view names for the custom vias."
   },
   {
    "name": "wellOrSubstrate",
-   "type": "l_objId",
    "desc": "( stdViaDefs ) A list of database identifiers identifying the well and substrate layers of the vias."
   }
  ]

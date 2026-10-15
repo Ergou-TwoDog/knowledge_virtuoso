@@ -1,1 +1,1 @@
-未找到匹配 对象='没有这个' 的 data management 属性/关系。
+未找到匹配 object='没有这个' 的 data management 属性/关系。

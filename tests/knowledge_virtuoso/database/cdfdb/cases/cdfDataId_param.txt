@@ -1,3 +1,4 @@
+对象 cdfDataId  title=g_cdfDataId  section=Data Objects
 匹配 1 个 CDF 属性:
   name                      rw   type       desc
   ------------------------- ---- ---------- ----------------------------------------

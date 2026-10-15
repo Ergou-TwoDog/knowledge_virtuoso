@@ -1,12 +1,19 @@
 {
  "params": {
-  "className": "lps",
+  "object": "lps",
   "keyword": "valid"
+ },
+ "object": {
+  "id": "lps",
+  "title": "techID~>lps",
+  "runtime": null,
+  "section": null,
+  "desc": "Retrieves layer-purpose pair information from the technology database identified by techID ."
  },
  "rows": [
   {
    "name": "allowSetToValid",
-   "rw": "?",
+   "rw": null,
    "type": "boolean",
    "desc": "A flag corresponding to each layer-purpose pair. t if the layer-purpose pair can be set as valid; nil if the layer-purpose pair cannot be set as valid.",
    "classes": [
@@ -17,7 +24,7 @@
   },
   {
    "name": "allowSetToValidInSession",
-   "rw": "?",
+   "rw": null,
    "type": "boolean",
    "desc": "A flag corresponding to each layer-purpose pair. t if the layer-purpose pair can be set as valid during a session; nil if the layer-purpose pair cannot be set as valid during a session.",
    "classes": [
@@ -28,7 +35,7 @@
   },
   {
    "name": "valid",
-   "rw": "?",
+   "rw": null,
    "type": "boolean",
    "desc": "A flag corresponding to each layer-purpose pair. t if the layer-purpose pair is valid; nil if the layer-purpose pair is invalid.",
    "classes": [

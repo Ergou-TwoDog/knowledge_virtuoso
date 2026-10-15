@@ -2,11 +2,14 @@
  "params": {
   "object": "cellFile"
  },
+ "object": {
+  "id": "cellFile"
+ },
  "rows": [
   {
    "name": "group",
    "kind": "attr",
-   "cardinality": "",
+   "cardinality": null,
    "objectTypes": [
     "libFile",
     "cellFile",
@@ -16,7 +19,7 @@
   {
    "name": "groupAccess",
    "kind": "attr",
-   "cardinality": "",
+   "cardinality": null,
    "objectTypes": [
     "libFile",
     "cellFile",
@@ -26,7 +29,7 @@
   {
    "name": "isReadable",
    "kind": "attr",
-   "cardinality": "",
+   "cardinality": null,
    "objectTypes": [
     "libFile",
     "cellFile",

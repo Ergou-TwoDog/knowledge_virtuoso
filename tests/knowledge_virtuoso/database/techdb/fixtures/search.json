@@ -1,0 +1,306 @@
+{
+ "payload": {
+  "version": 5,
+  "lib": "techdb",
+  "objects": {
+   "alpha": {
+    "id": "alpha",
+    "title": "techID~>alpha",
+    "runtime": null,
+    "section": null,
+    "desc": "Retrieves alpha information.",
+    "parent": null,
+    "attrs": [
+     {
+      "name": "size",
+      "kind": "attr",
+      "type": null,
+      "rw": null,
+      "desc": "A list of sizes.",
+      "modify": null,
+      "source": null,
+      "cardinality": null,
+      "objectTypes": null
+     },
+     {
+      "name": "valid",
+      "kind": "attr",
+      "type": "boolean",
+      "rw": null,
+      "desc": "t or nil, whether the class declares the layer.",
+      "modify": null,
+      "source": null,
+      "cardinality": null,
+      "objectTypes": null
+     }
+    ]
+   },
+   "beta": {
+    "id": "beta",
+    "title": "techID~>beta",
+    "runtime": null,
+    "section": null,
+    "desc": "",
+    "parent": null,
+    "attrs": [
+     {
+      "name": "valid",
+      "kind": "attr",
+      "type": "l_string",
+      "rw": null,
+      "desc": "A list of valid names.",
+      "modify": null,
+      "source": null,
+      "cardinality": null,
+      "objectTypes": null
+     },
+     {
+      "name": "layer",
+      "kind": "attr",
+      "type": "l_objId",
+      "rw": null,
+      "desc": "A list of database identifiers identifying the layers.",
+      "modify": null,
+      "source": null,
+      "cardinality": null,
+      "objectTypes": null
+     }
+    ]
+   },
+   "viaDefs": {
+    "id": "viaDefs",
+    "title": "techID~>viaDefs",
+    "runtime": null,
+    "section": null,
+    "desc": "Retrieves via definitions.",
+    "parent": null,
+    "attrs": [
+     {
+      "name": "name",
+      "kind": "attr",
+      "type": "l_string",
+      "rw": null,
+      "desc": "A list of via names.",
+      "modify": null,
+      "source": null,
+      "cardinality": null,
+      "objectTypes": null
+     }
+    ]
+   }
+  }
+ },
+ "cases": [
+  {
+   "params": {
+    "object": "alpha"
+   },
+   "expect": [
+    {
+     "name": "size",
+     "kind": "attr",
+     "type": null,
+     "rw": null,
+     "desc": "A list of sizes.",
+     "modify": null,
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "alpha",
+     "classes": [
+      "alpha"
+     ]
+    },
+    {
+     "name": "valid",
+     "kind": "attr",
+     "type": "boolean",
+     "rw": null,
+     "desc": "t or nil, whether the class declares the layer.",
+     "modify": null,
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "alpha",
+     "classes": [
+      "alpha",
+      "beta"
+     ]
+    }
+   ]
+  },
+  {
+   "params": {
+    "object": "alpha",
+    "keyword": "val"
+   },
+   "expect": [
+    {
+     "name": "valid",
+     "kind": "attr",
+     "type": "boolean",
+     "rw": null,
+     "desc": "t or nil, whether the class declares the layer.",
+     "modify": null,
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "alpha",
+     "classes": [
+      "alpha",
+      "beta"
+     ]
+    }
+   ]
+  },
+  {
+   "params": {},
+   "expect": [
+    {
+     "name": "layer",
+     "kind": "attr",
+     "type": "l_objId",
+     "rw": null,
+     "desc": "A list of database identifiers identifying the layers.",
+     "modify": null,
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "beta",
+     "classes": [
+      "beta"
+     ]
+    },
+    {
+     "name": "name",
+     "kind": "attr",
+     "type": "l_string",
+     "rw": null,
+     "desc": "A list of via names.",
+     "modify": null,
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "viaDefs",
+     "classes": [
+      "viaDefs"
+     ]
+    },
+    {
+     "name": "size",
+     "kind": "attr",
+     "type": null,
+     "rw": null,
+     "desc": "A list of sizes.",
+     "modify": null,
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "alpha",
+     "classes": [
+      "alpha"
+     ]
+    },
+    {
+     "name": "valid",
+     "kind": "attr",
+     "type": "boolean",
+     "rw": null,
+     "desc": "t or nil, whether the class declares the layer.",
+     "modify": null,
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "alpha",
+     "classes": [
+      "alpha",
+      "beta"
+     ]
+    },
+    {
+     "name": "valid",
+     "kind": "attr",
+     "type": "l_string",
+     "rw": null,
+     "desc": "A list of valid names.",
+     "modify": null,
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "beta",
+     "classes": [
+      "alpha",
+      "beta"
+     ]
+    }
+   ]
+  },
+  {
+   "params": {
+    "keyword": "valid"
+   },
+   "expect": [
+    {
+     "name": "valid",
+     "kind": "attr",
+     "type": "boolean",
+     "rw": null,
+     "desc": "t or nil, whether the class declares the layer.",
+     "modify": null,
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "alpha",
+     "classes": [
+      "alpha",
+      "beta"
+     ]
+    },
+    {
+     "name": "valid",
+     "kind": "attr",
+     "type": "l_string",
+     "rw": null,
+     "desc": "A list of valid names.",
+     "modify": null,
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "beta",
+     "classes": [
+      "alpha",
+      "beta"
+     ]
+    }
+   ]
+  },
+  {
+   "params": {
+    "object": "stdViaDef"
+   },
+   "expect": [
+    {
+     "name": "name",
+     "kind": "attr",
+     "type": "l_string",
+     "rw": null,
+     "desc": "A list of via names.",
+     "modify": null,
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "viaDefs",
+     "classes": [
+      "viaDefs"
+     ]
+    }
+   ]
+  },
+  {
+   "params": {
+    "object": "没有这个类"
+   },
+   "expect": []
+  }
+ ]
+}

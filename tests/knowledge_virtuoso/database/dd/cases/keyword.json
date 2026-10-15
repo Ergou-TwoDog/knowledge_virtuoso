@@ -7,7 +7,7 @@
   {
    "name": "allowSetToValid",
    "kind": "attr",
-   "cardinality": "",
+   "cardinality": null,
    "objectTypes": [
     "layers",
     "purposeDefs",

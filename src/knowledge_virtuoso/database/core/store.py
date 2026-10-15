@@ -8,8 +8,9 @@
 **这不是"来源"抽象**：每个属性库都是单一来源，这里只把
 "读 JSON → 坏了从官方 doc 重建 → 原子写回 + 进程内缓存 + 锁"这一件事收敛成一份。
 
-行形状（`query_rows` 收的 `row` 工厂）**不抽**：db 查的列与 techdb/cdfdb 不同（没有
-`classes` 列），那是各库自己的表示。
+`query_rows` 是**共用的一段**：它只按 `name` 筛与排序，然后把整条记录（`ATTR_KEYS`）
+交给 `row`。行 = 记录 + `definedIn`/`classes` 两个上下文字段（`query.py` 的 `_row_of`），
+四家同形；**哪几列印出来**由各库自己的 `RenderSpec` 决定，与这里无关。
 """
 
 from __future__ import annotations
@@ -50,10 +51,13 @@ class Store:
         self._lock = RLock()
 
     def load(self) -> dict:
-        """进程内缓存 → 索引 JSON；缺失、损坏或**格式版本不符**时从官方 doc 重建、原子写回再返回。
+        """进程内缓存 → 索引 JSON；缺失、损坏、**版本不符或不是我这个库的**时从官方 doc
+        重建、原子写回再返回。
 
-        版本校验是给"载荷形状变了"用的：旧索引留在用户机器上时，读出来只会是个形状不对的
-        dict，后面的代码会在某个 `KeyError` 上莫名其妙地炸——那是最难查的一类故障。
+        这两条自证（`version` 与 `lib`，见 `objects.PAYLOAD_KEYS`）都得在**装载**时查：
+        旧索引留在用户机器上时形状不对、或某份索引被拷到了别的库的目录下，读出来照样是个
+        dict，后面的代码会在某个 `KeyError` 或一条看着正常的错答案上翻车——那是最难查的
+        一类故障。
         与 `_paths.data_dir` 同语义：索引位置在进程内首次读取时定下，改环境后需重启进程。
         """
         if self._data is None:
@@ -65,12 +69,21 @@ class Store:
                     except (OSError, json.JSONDecodeError) as primary:
                         self._data = self._rebuild(primary)
                     else:
-                        if self.version is not None and data.get("version") != self.version:
-                            self._data = self._rebuild(ValueError(
-                                f"索引格式版本 {data.get('version')!r}，本代码要 {self.version}"))
-                        else:
-                            self._data = data
+                        why = self._mismatch(data)
+                        self._data = self._rebuild(ValueError(why)) if why else data
         return self._data
+
+    def _mismatch(self, data: dict) -> str | None:
+        """这份 JSON 是不是"我这个库的、我这个版本的"？不是就说清为什么（拿去重建）。
+
+        `lib` 那条**无条件查**：索引不属于这个库，版本对不对都没意义。
+        """
+        if self.version is not None and data.get("version") != self.version:
+            return f"索引格式版本 {data.get('version')!r}，本代码要 {self.version}"
+        if data.get("lib") != self.lib:
+            return (f"索引里的 lib={data.get('lib')!r} 与它所在的库 {self.lib!r} 不符"
+                    "（放错目录了？）")
+        return None
 
     def build(self, doc_path: str | None = None) -> dict:
         """从来源 HTML 构建载荷；不给路径时取 VIRTUOSO_DOC_DIR 下的默认文档。"""

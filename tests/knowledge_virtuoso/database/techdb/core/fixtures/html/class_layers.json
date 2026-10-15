@@ -5,52 +5,42 @@
  "attrs": [
   {
    "name": "abbrev",
-   "type": "l_string",
    "desc": "A list of abbreviated names assigned to layers."
   },
   {
    "name": "allowSetToValid",
-   "type": "boolean",
    "desc": "A flag corresponding to each layer. t if the layer can be set as valid; nil if the layer cannot be set as valid."
   },
   {
    "name": "allowSetToValidInSession",
-   "type": "boolean",
    "desc": "A flag corresponding to each layer. t if the layer can be set as valid during a session; nil if the layer cannot be set as valid during a session."
   },
   {
    "name": "backside",
-   "type": "boolean",
    "desc": "A flag corresponding to each layer, t or nil ."
   },
   {
    "name": "incompatibleLayerNames",
-   "type": "l_string",
    "desc": "A list of names of all incompatible layers."
   },
   {
    "name": "lps",
-   "type": "l_objId",
    "desc": "A list of database identifiers for layer-purpose pairs."
   },
   {
    "name": "material",
-   "type": "",
    "desc": "A list of layer functions, such as metal , cut , poly , nwell , and pwell ."
   },
   {
    "name": "name",
-   "type": "l_string",
    "desc": "A list of layer names."
   },
   {
    "name": "number",
-   "type": "l_string",
    "desc": "A list of numbers assigned to layers."
   },
   {
    "name": "valid",
-   "type": "boolean",
    "desc": "A flag corresponding to each layer. t if the layer is valid; nil if the layer is invalid."
   }
  ]

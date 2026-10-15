@@ -1,0 +1,30 @@
+{
+  "tables": [
+    [
+      [
+        "(~>)",
+        "To access any attribute or property of an object"
+      ],
+      [
+        "(~>?)",
+        "To see names of all attributes"
+      ]
+    ],
+    [
+      [
+        "Attribute Names",
+        "Object Types Attribute is Valid For"
+      ],
+      [
+        "group",
+        "libFile"
+      ],
+      [
+        "name",
+        "lib",
+        "cell",
+        "libFile"
+      ]
+    ]
+  ]
+}

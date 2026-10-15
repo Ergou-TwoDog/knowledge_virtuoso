@@ -4,16 +4,66 @@
  "phrase": "Attributes of Instances, Instance Headers, and Mosaics",
  "object": "Instance",
  "parent": "Generic anyInst",
- "own": [
-  "blockages",
-  "clusters",
-  "conns",
-  "mag",
-  "orient",
-  "physOnly",
-  "source",
-  "status",
-  "transform",
-  "xy"
+ "attrs": [
+  {
+   "name": "blockages",
+   "modify": "no",
+   "type": "l_objId",
+   "desc": "List all blockages that exist in the instance."
+  },
+  {
+   "name": "clusters",
+   "modify": "yes",
+   "type": "l_objId",
+   "desc": "List of all clusters that exist in the instance."
+  },
+  {
+   "name": "conns",
+   "modify": "no",
+   "type": "l_objId",
+   "desc": "List of all connected instance terminals for this instance (applicable only if the instance is not a mosaic)."
+  },
+  {
+   "name": "mag",
+   "modify": "yes",
+   "type": "float",
+   "desc": "Magnification for the instance. Always = 1.0. Magnification of instances is not supported."
+  },
+  {
+   "name": "orient",
+   "modify": "yes",
+   "type": "string",
+   "desc": "Orientation string for this instance:"
+  },
+  {
+   "name": "physOnly",
+   "modify": "no",
+   "type": "boolean",
+   "desc": "When t, the instance data is physical rather than physical and logical. When a cellview is written from SoCE, the cellview contains EMH data and is physical and logical. Instances inherit this physOnly status from the cellview."
+  },
+  {
+   "name": "source",
+   "modify": "yes",
+   "type": "string",
+   "desc": "The different sources you can assign to an instance. Valid Values: netlist timing dist test user"
+  },
+  {
+   "name": "status",
+   "modify": "yes",
+   "type": "string",
+   "desc": "Status of this instance for placement"
+  },
+  {
+   "name": "transform",
+   "modify": "yes",
+   "type": "l_points",
+   "desc": "List of values describing the instance's transformation with respect to the master. The list contains the following information in this order:"
+  },
+  {
+   "name": "xy",
+   "modify": "yes",
+   "type": "point",
+   "desc": "xy location of the instance (in user units)."
+  }
  ]
 }

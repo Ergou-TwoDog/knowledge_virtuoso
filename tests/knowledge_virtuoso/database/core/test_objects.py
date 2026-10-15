@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """属性库共用的对象模型：`database/core/objects.py`。
 
-db / techdb / cdfdb 的载荷是同一套（`{version, objects: {id: {id, title, parent, attrs}}}`），
-"谁与谁共享什么"由这个模块承担，所以它自己的行为要单独钉住——三库各自的 `test_catalog.py`
-只覆盖"我这一库能不能正确用上它"。
+四个库的载荷是同一套（对象层 `OBJECT_KEYS` + 记录层 `ATTR_KEYS`），"谁与谁共享什么"由
+这个模块承担，所以它自己的行为要单独钉住——四库各自的 `test_index.py` 只覆盖"我这一库
+能不能正确用上它"，查询机制本身在 `test_query.py`。
 
-这里锁四件：**校验的不变量**、**选择器的解析次序**、**继承合并（含"无父即自身"的塌缩）**、
-**名字→声明它的对象**。不读索引、不需要 doc。
+这里锁五件：**校验的不变量**、**记录的构造**（键集全给、空缺补 `null`、写错键名当场炸）、
+**选择器的解析次序**、**继承合并（含"无父即自身"的塌缩）**、**名字→声明它的对象**。
+不读索引、不需要 doc。
 """
 
 from __future__ import annotations
@@ -20,17 +21,54 @@ sys.path.insert(0, str(next(p for p in HERE.parents if (p / "common.py").exists(
 from common import Report  # noqa: E402
 
 from knowledge_virtuoso.database.core import objects as objects_mod  # noqa: E402
+from knowledge_virtuoso.database.core.objects import ATTR_KEYS, record  # noqa: E402
 
 
 def _attr(name: str, **kw) -> dict:
-    return {"name": name, **kw}
+    """一条**记录**：键集全给（`ATTR_KEYS`），没写的一律 `null`——校验只认这个形状。"""
+    return record(name, kind="attr", **kw)
 
 
 def _obj(oid: str, attrs, parent=None, **kw) -> dict:
-    return {"id": oid, "title": oid, "parent": parent, "attrs": attrs, **kw}
+    """七键对象：`validate_objects` 管键集，构造器必须给全（缺一个键就该炸）。"""
+    return {"id": oid, "title": oid, "runtime": None, "section": None, "desc": None,
+            "parent": parent, "attrs": attrs, **kw}
 
 
 def run(report: Report, update: bool = False) -> None:
+    # ── 记录的构造：键集、顺序、补 null ──
+    report.expect("构造/没写的键补 null，且照 ATTR_KEYS 的顺序落（顺序即落盘字节）",
+                  tuple(record("x")), ATTR_KEYS)
+    report.expect("构造/写了的键原样留着（原文那一侧与推的那一侧并存）",
+                  {k: v for k, v in record("x", kind="relation", cardinality="1:n",
+                                           modify="no").items()
+                   if v is not None},
+                  {"name": "x", "kind": "relation", "cardinality": "1:n", "modify": "no"})
+    try:
+        record("x", 拼错了="v")
+        report.truthy("构造/写错键名 → 抛错", False, "没有抛错")
+    except ValueError as exc:
+        report.truthy("构造/写错键名 → 抛错（不许静默多出一个没人读的字段）",
+                      "拼错了" in str(exc), str(exc))
+
+    # ── 顶层：三键，且 `lib` 必须与它所在的库一致（类型区分字段）──
+    def _pbad(payload: dict, lib: str) -> bool:
+        try:
+            objects_mod.validate_payload(payload, lib)
+            return False
+        except ValueError:
+            return True
+
+    report.expect("顶层/键集固定（顺序即落盘顺序）",
+                  objects_mod.PAYLOAD_KEYS, ("version", "lib", "objects"))
+    good = {"version": 5, "lib": "db", "objects": {"a": _obj("a", [_attr("x")])}}
+    report.expect("顶层/干净的一份通过", _pbad(good, "db"), False)
+    report.expect("顶层/少一个键要抛错",
+                  _pbad({"lib": "db", "objects": good["objects"]}, "db"), True)
+    report.expect("顶层/多一个键要抛错", _pbad({**good, "多出来的": 1}, "db"), True)
+    report.expect("顶层/lib 与它所在的库不符要抛错（索引放错目录了？）",
+                  _pbad({**good, "lib": "dd"}, "db"), True)
+
     # ── 构建期不变量 ──
     def _bad(objects: dict) -> bool:
         try:
@@ -56,6 +94,14 @@ def run(report: Report, update: bool = False) -> None:
                         "b": _obj("b", [_attr("y")], parent="a")}), True)
     report.expect("校验/**空的属性表是合法的**（db 的纯转发对象自身就是 0 条）",
                   _bad({"Rectangle": _obj("Rectangle", [])}), False)
+    # 两层键集各一条：这是**唯一同时看见四库载荷**的地方，缺项必须在这儿炸
+    report.expect("校验/对象键集不全要抛错",
+                  _bad({"a": {"id": "a", "title": "a", "attrs": [_attr("x")]}}), True)
+    report.expect("校验/记录键集不全要抛错",
+                  _bad({"a": _obj("a", [{k: v for k, v in _attr("x").items() if k != "rw"}])}),
+                  True)
+    report.expect("校验/记录里多出一个没定义的键也要抛错",
+                  _bad({"a": _obj("a", [{**_attr("x"), "拼错了": 1}])}), True)
 
     # ── 选择器解析：精确 → 运行时名 → 忽略大小写与空格 → 别名 ──
     objs = {"Generic Shape": _obj("Generic Shape", [_attr("layerName")], runtime="shape"),
@@ -67,9 +113,13 @@ def run(report: Report, update: bool = False) -> None:
                    objects_mod.resolve(objs, "mark", {"mark": "Marker"}),  # 别名
                    objects_mod.resolve(objs, "没有这个")],
                   ["Marker", "Generic Shape", "Generic Shape", "Marker", None])
+    report.expect("解析/空格与下划线一视同仁（dd 用上共用件后因此多认一种写法）",
+                  [objects_mod.resolve(objs, "generic_shape"),
+                   objects_mod.resolve({"libFile": _obj("libFile", [])}, "lib file")],
+                  ["Generic Shape", "libFile"])
     report.expect("解析/空选择器返回 None（「没给」与「认不出」分开）",
                   objects_mod.resolve(objs, ""), None)
-    report.expect("解析/没有 runtime 字段的库跳过这一步（techdb/cdfdb 就是）",
+    report.expect("解析/没有 runtime 字段的库跳过这一步（techdb/cdfdb/dd 就是）",
                   objects_mod.runtime_matches({"layers": _obj("layers", [])}, "layers"), None)
 
     # ── 继承合并：子覆盖父、记 definedIn、无父塌缩成自身 ──

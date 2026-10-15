@@ -4,5 +4,5 @@
  "heading": "Rectangle Attributes",
  "object": "Rectangle",
  "parent": "Generic Shape",
- "own": []
+ "attrs": []
 }

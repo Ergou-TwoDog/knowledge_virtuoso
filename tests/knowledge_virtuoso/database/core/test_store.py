@@ -65,14 +65,30 @@ def run(report: Report, update: bool = False) -> None:
         index = root / "lib" / "index.json"
 
         # ── 读：有索引就照读，且进程内只读一次 ──
-        write_text(index, json.dumps({"attributes": {"a": {"name": "a"}}, "classes": {}}))
+        write_text(index, json.dumps({"lib": "lib", "attributes": {"a": {"name": "a"}},
+                                      "classes": {}}))
         instance, calls = make_store(root)
         first = instance.load()
         report.expect("读/直接读 JSON", first["attributes"]["a"]["name"], "a")
         report.expect("读/没走重建", calls, [])
-        write_text(index, json.dumps({"attributes": {"b": {"name": "b"}}, "classes": {}}))
+        write_text(index, json.dumps({"lib": "lib", "attributes": {"b": {"name": "b"}},
+                                      "classes": {}}))
         report.expect("读/第二次命中的是进程内缓存（不再读盘）",
                       instance.load()["attributes"]["a"]["name"], "a")
+
+        # ── 是**别人的**索引：版本对也不算数（`lib` 是类型区分字段）──
+        write_text(index, json.dumps({"lib": "别人", "attributes": {"c": {"name": "c"}},
+                                      "classes": {}}))
+        instance, _calls = make_store(root)
+        with env(VIRTUOSO_DOC_DIR=None):
+            try:
+                instance.load()
+            except RuntimeError as exc:
+                message = str(exc)
+            else:
+                message = "(没拿它当好的用)"
+        report.truthy("读/lib 与库名不符 → 不当好的用（报错里点出两边各是谁）",
+                      "lib='别人'" in message and "'lib'" in message, message[:160])
 
         # ── 坏索引 + 有 doc：从 doc 重建、原子写回、警告出声 ──
         doc = root / "sub" / "doc.html"

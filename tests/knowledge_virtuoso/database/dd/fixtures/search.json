@@ -1,0 +1,770 @@
+{
+ "payload": {
+  "version": 5,
+  "lib": "dd",
+  "objects": {
+   "lib": {
+    "id": "lib",
+    "title": null,
+    "runtime": null,
+    "section": null,
+    "desc": null,
+    "parent": null,
+    "attrs": [
+     {
+      "name": "name",
+      "kind": "attr",
+      "type": null,
+      "rw": null,
+      "desc": null,
+      "modify": null,
+      "source": null,
+      "cardinality": null,
+      "objectTypes": [
+       "lib",
+       "cell",
+       "view",
+       "libFile",
+       "cellFile",
+       "viewFile"
+      ]
+     },
+     {
+      "name": "prop",
+      "kind": "attr",
+      "type": null,
+      "rw": null,
+      "desc": null,
+      "modify": null,
+      "source": null,
+      "cardinality": null,
+      "objectTypes": [
+       "lib",
+       "cell",
+       "view"
+      ]
+     },
+     {
+      "name": "cells",
+      "kind": "relation",
+      "type": null,
+      "rw": null,
+      "desc": null,
+      "modify": null,
+      "source": null,
+      "cardinality": "1:n",
+      "objectTypes": [
+       "lib"
+      ]
+     },
+     {
+      "name": "parent",
+      "kind": "relation",
+      "type": null,
+      "rw": null,
+      "desc": null,
+      "modify": null,
+      "source": null,
+      "cardinality": "1:1",
+      "objectTypes": [
+       "lib",
+       "cell",
+       "view",
+       "libFile",
+       "cellFile",
+       "viewFile"
+      ]
+     }
+    ]
+   },
+   "cell": {
+    "id": "cell",
+    "title": null,
+    "runtime": null,
+    "section": null,
+    "desc": null,
+    "parent": null,
+    "attrs": [
+     {
+      "name": "name",
+      "kind": "attr",
+      "type": null,
+      "rw": null,
+      "desc": null,
+      "modify": null,
+      "source": null,
+      "cardinality": null,
+      "objectTypes": [
+       "lib",
+       "cell",
+       "view",
+       "libFile",
+       "cellFile",
+       "viewFile"
+      ]
+     },
+     {
+      "name": "prop",
+      "kind": "attr",
+      "type": null,
+      "rw": null,
+      "desc": null,
+      "modify": null,
+      "source": null,
+      "cardinality": null,
+      "objectTypes": [
+       "lib",
+       "cell",
+       "view"
+      ]
+     },
+     {
+      "name": "parent",
+      "kind": "relation",
+      "type": null,
+      "rw": null,
+      "desc": null,
+      "modify": null,
+      "source": null,
+      "cardinality": "1:1",
+      "objectTypes": [
+       "lib",
+       "cell",
+       "view",
+       "libFile",
+       "cellFile",
+       "viewFile"
+      ]
+     }
+    ]
+   },
+   "view": {
+    "id": "view",
+    "title": null,
+    "runtime": null,
+    "section": null,
+    "desc": null,
+    "parent": null,
+    "attrs": [
+     {
+      "name": "name",
+      "kind": "attr",
+      "type": null,
+      "rw": null,
+      "desc": null,
+      "modify": null,
+      "source": null,
+      "cardinality": null,
+      "objectTypes": [
+       "lib",
+       "cell",
+       "view",
+       "libFile",
+       "cellFile",
+       "viewFile"
+      ]
+     },
+     {
+      "name": "prop",
+      "kind": "attr",
+      "type": null,
+      "rw": null,
+      "desc": null,
+      "modify": null,
+      "source": null,
+      "cardinality": null,
+      "objectTypes": [
+       "lib",
+       "cell",
+       "view"
+      ]
+     },
+     {
+      "name": "parent",
+      "kind": "relation",
+      "type": null,
+      "rw": null,
+      "desc": null,
+      "modify": null,
+      "source": null,
+      "cardinality": "1:1",
+      "objectTypes": [
+       "lib",
+       "cell",
+       "view",
+       "libFile",
+       "cellFile",
+       "viewFile"
+      ]
+     }
+    ]
+   },
+   "libFile": {
+    "id": "libFile",
+    "title": null,
+    "runtime": null,
+    "section": null,
+    "desc": null,
+    "parent": null,
+    "attrs": [
+     {
+      "name": "group",
+      "kind": "attr",
+      "type": null,
+      "rw": null,
+      "desc": null,
+      "modify": null,
+      "source": null,
+      "cardinality": null,
+      "objectTypes": [
+       "libFile",
+       "cellFile",
+       "viewFile"
+      ]
+     },
+     {
+      "name": "name",
+      "kind": "attr",
+      "type": null,
+      "rw": null,
+      "desc": null,
+      "modify": null,
+      "source": null,
+      "cardinality": null,
+      "objectTypes": [
+       "lib",
+       "cell",
+       "view",
+       "libFile",
+       "cellFile",
+       "viewFile"
+      ]
+     },
+     {
+      "name": "parent",
+      "kind": "relation",
+      "type": null,
+      "rw": null,
+      "desc": null,
+      "modify": null,
+      "source": null,
+      "cardinality": "1:1",
+      "objectTypes": [
+       "lib",
+       "cell",
+       "view",
+       "libFile",
+       "cellFile",
+       "viewFile"
+      ]
+     }
+    ]
+   },
+   "cellFile": {
+    "id": "cellFile",
+    "title": null,
+    "runtime": null,
+    "section": null,
+    "desc": null,
+    "parent": null,
+    "attrs": [
+     {
+      "name": "group",
+      "kind": "attr",
+      "type": null,
+      "rw": null,
+      "desc": null,
+      "modify": null,
+      "source": null,
+      "cardinality": null,
+      "objectTypes": [
+       "libFile",
+       "cellFile",
+       "viewFile"
+      ]
+     },
+     {
+      "name": "name",
+      "kind": "attr",
+      "type": null,
+      "rw": null,
+      "desc": null,
+      "modify": null,
+      "source": null,
+      "cardinality": null,
+      "objectTypes": [
+       "lib",
+       "cell",
+       "view",
+       "libFile",
+       "cellFile",
+       "viewFile"
+      ]
+     },
+     {
+      "name": "parent",
+      "kind": "relation",
+      "type": null,
+      "rw": null,
+      "desc": null,
+      "modify": null,
+      "source": null,
+      "cardinality": "1:1",
+      "objectTypes": [
+       "lib",
+       "cell",
+       "view",
+       "libFile",
+       "cellFile",
+       "viewFile"
+      ]
+     }
+    ]
+   },
+   "viewFile": {
+    "id": "viewFile",
+    "title": null,
+    "runtime": null,
+    "section": null,
+    "desc": null,
+    "parent": null,
+    "attrs": [
+     {
+      "name": "group",
+      "kind": "attr",
+      "type": null,
+      "rw": null,
+      "desc": null,
+      "modify": null,
+      "source": null,
+      "cardinality": null,
+      "objectTypes": [
+       "libFile",
+       "cellFile",
+       "viewFile"
+      ]
+     },
+     {
+      "name": "name",
+      "kind": "attr",
+      "type": null,
+      "rw": null,
+      "desc": null,
+      "modify": null,
+      "source": null,
+      "cardinality": null,
+      "objectTypes": [
+       "lib",
+       "cell",
+       "view",
+       "libFile",
+       "cellFile",
+       "viewFile"
+      ]
+     },
+     {
+      "name": "parent",
+      "kind": "relation",
+      "type": null,
+      "rw": null,
+      "desc": null,
+      "modify": null,
+      "source": null,
+      "cardinality": "1:1",
+      "objectTypes": [
+       "lib",
+       "cell",
+       "view",
+       "libFile",
+       "cellFile",
+       "viewFile"
+      ]
+     },
+     {
+      "name": "view",
+      "kind": "relation",
+      "type": null,
+      "rw": null,
+      "desc": null,
+      "modify": null,
+      "source": null,
+      "cardinality": "1:1",
+      "objectTypes": [
+       "viewFile"
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "cases": [
+  {
+   "params": {
+    "object": "lib"
+   },
+   "expect": [
+    {
+     "name": "cells",
+     "kind": "relation",
+     "type": null,
+     "rw": null,
+     "desc": null,
+     "modify": null,
+     "source": null,
+     "cardinality": "1:n",
+     "objectTypes": [
+      "lib"
+     ],
+     "definedIn": "lib",
+     "classes": [
+      "lib"
+     ]
+    },
+    {
+     "name": "name",
+     "kind": "attr",
+     "type": null,
+     "rw": null,
+     "desc": null,
+     "modify": null,
+     "source": null,
+     "cardinality": null,
+     "objectTypes": [
+      "lib",
+      "cell",
+      "view",
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ],
+     "definedIn": "lib",
+     "classes": [
+      "lib",
+      "cell",
+      "view",
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ]
+    },
+    {
+     "name": "parent",
+     "kind": "relation",
+     "type": null,
+     "rw": null,
+     "desc": null,
+     "modify": null,
+     "source": null,
+     "cardinality": "1:1",
+     "objectTypes": [
+      "lib",
+      "cell",
+      "view",
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ],
+     "definedIn": "lib",
+     "classes": [
+      "lib",
+      "cell",
+      "view",
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ]
+    },
+    {
+     "name": "prop",
+     "kind": "attr",
+     "type": null,
+     "rw": null,
+     "desc": null,
+     "modify": null,
+     "source": null,
+     "cardinality": null,
+     "objectTypes": [
+      "lib",
+      "cell",
+      "view"
+     ],
+     "definedIn": "lib",
+     "classes": [
+      "lib",
+      "cell",
+      "view"
+     ]
+    }
+   ]
+  },
+  {
+   "params": {
+    "object": "viewFile"
+   },
+   "expect": [
+    {
+     "name": "group",
+     "kind": "attr",
+     "type": null,
+     "rw": null,
+     "desc": null,
+     "modify": null,
+     "source": null,
+     "cardinality": null,
+     "objectTypes": [
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ],
+     "definedIn": "viewFile",
+     "classes": [
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ]
+    },
+    {
+     "name": "name",
+     "kind": "attr",
+     "type": null,
+     "rw": null,
+     "desc": null,
+     "modify": null,
+     "source": null,
+     "cardinality": null,
+     "objectTypes": [
+      "lib",
+      "cell",
+      "view",
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ],
+     "definedIn": "viewFile",
+     "classes": [
+      "lib",
+      "cell",
+      "view",
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ]
+    },
+    {
+     "name": "parent",
+     "kind": "relation",
+     "type": null,
+     "rw": null,
+     "desc": null,
+     "modify": null,
+     "source": null,
+     "cardinality": "1:1",
+     "objectTypes": [
+      "lib",
+      "cell",
+      "view",
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ],
+     "definedIn": "viewFile",
+     "classes": [
+      "lib",
+      "cell",
+      "view",
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ]
+    },
+    {
+     "name": "view",
+     "kind": "relation",
+     "type": null,
+     "rw": null,
+     "desc": null,
+     "modify": null,
+     "source": null,
+     "cardinality": "1:1",
+     "objectTypes": [
+      "viewFile"
+     ],
+     "definedIn": "viewFile",
+     "classes": [
+      "viewFile"
+     ]
+    }
+   ]
+  },
+  {
+   "params": {
+    "object": "viewFile",
+    "keyword": "group"
+   },
+   "expect": [
+    {
+     "name": "group",
+     "kind": "attr",
+     "type": null,
+     "rw": null,
+     "desc": null,
+     "modify": null,
+     "source": null,
+     "cardinality": null,
+     "objectTypes": [
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ],
+     "definedIn": "viewFile",
+     "classes": [
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ]
+    }
+   ]
+  },
+  {
+   "params": {},
+   "expect": [
+    {
+     "name": "cells",
+     "kind": "relation",
+     "type": null,
+     "rw": null,
+     "desc": null,
+     "modify": null,
+     "source": null,
+     "cardinality": "1:n",
+     "objectTypes": [
+      "lib"
+     ],
+     "definedIn": "lib",
+     "classes": [
+      "lib"
+     ]
+    },
+    {
+     "name": "group",
+     "kind": "attr",
+     "type": null,
+     "rw": null,
+     "desc": null,
+     "modify": null,
+     "source": null,
+     "cardinality": null,
+     "objectTypes": [
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ],
+     "definedIn": "libFile",
+     "classes": [
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ]
+    },
+    {
+     "name": "name",
+     "kind": "attr",
+     "type": null,
+     "rw": null,
+     "desc": null,
+     "modify": null,
+     "source": null,
+     "cardinality": null,
+     "objectTypes": [
+      "lib",
+      "cell",
+      "view",
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ],
+     "definedIn": "lib",
+     "classes": [
+      "lib",
+      "cell",
+      "view",
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ]
+    },
+    {
+     "name": "parent",
+     "kind": "relation",
+     "type": null,
+     "rw": null,
+     "desc": null,
+     "modify": null,
+     "source": null,
+     "cardinality": "1:1",
+     "objectTypes": [
+      "lib",
+      "cell",
+      "view",
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ],
+     "definedIn": "lib",
+     "classes": [
+      "lib",
+      "cell",
+      "view",
+      "libFile",
+      "cellFile",
+      "viewFile"
+     ]
+    },
+    {
+     "name": "prop",
+     "kind": "attr",
+     "type": null,
+     "rw": null,
+     "desc": null,
+     "modify": null,
+     "source": null,
+     "cardinality": null,
+     "objectTypes": [
+      "lib",
+      "cell",
+      "view"
+     ],
+     "definedIn": "lib",
+     "classes": [
+      "lib",
+      "cell",
+      "view"
+     ]
+    },
+    {
+     "name": "view",
+     "kind": "relation",
+     "type": null,
+     "rw": null,
+     "desc": null,
+     "modify": null,
+     "source": null,
+     "cardinality": "1:1",
+     "objectTypes": [
+      "viewFile"
+     ],
+     "definedIn": "viewFile",
+     "classes": [
+      "viewFile"
+     ]
+    }
+   ]
+  },
+  {
+   "params": {
+    "object": "没有这个对象"
+   },
+   "expect": []
+  }
+ ]
+}

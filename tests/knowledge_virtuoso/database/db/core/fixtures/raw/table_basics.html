@@ -1,0 +1,19 @@
+<!-- 自造片段（**不是官方原文**）：钉 ① 解析器看到的结构——标题、h3 归属、表前正文、
+     表里的格子（含 `<br>` 分段与空格的枚举续行）。解读这些格子是 ② 的事。 -->
+<html><body>
+<h3>Shape Attributes</h3>
+<h4><a name="ga"></a>Generic Shape Attributes</h4>
+<table summary="" border="1">
+  <tr><td>Name</td><td>Modify</td><td>Type</td><td>Description</td></tr>
+  <tr><td>objType</td><td>no</td><td>string</td><td>Type of the object, in this case "shape".</td></tr>
+</table>
+
+<h4><a name="ra"></a>Rectangle Attributes</h4>
+<p><strong>Note: </strong><a href="#ga">include</a> Generic Shape Attributes.</p>
+<table summary="" border="1">
+  <tr><td>Name</td><td>Modify</td><td>Type</td><td>Description</td></tr>
+  <tr><td>bBox</td><td>no</td><td>list</td><td>The bounding box.</td></tr>
+  <tr><td>startConn<br>endConn</td><td>no</td><td>xCoord</td><td>Connections, two names in one cell.</td></tr>
+  <tr><td>&nbsp;</td><td>&nbsp;</td><td colspan="2">and so on &hellip;</td></tr>
+</table>
+</body></html>

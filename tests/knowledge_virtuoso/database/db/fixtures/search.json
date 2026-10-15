@@ -1,0 +1,925 @@
+{
+ "payload": {
+  "version": 5,
+  "lib": "db",
+  "objects": {
+   "Generic Object": {
+    "id": "Generic Object",
+    "title": "Generic Object Attributes",
+    "section": "Generic Attributes",
+    "runtime": null,
+    "desc": null,
+    "parent": null,
+    "attrs": [
+     {
+      "name": "cellView",
+      "kind": "attr",
+      "type": "objId",
+      "rw": "ro",
+      "desc": "The cellview that contains this object.",
+      "modify": "no",
+      "source": null,
+      "cardinality": null,
+      "objectTypes": null
+     },
+     {
+      "name": "objType",
+      "kind": "attr",
+      "type": "string",
+      "rw": "ro",
+      "desc": "The name of the object's type.",
+      "modify": "no",
+      "source": null,
+      "cardinality": null,
+      "objectTypes": null
+     },
+     {
+      "name": "prop",
+      "kind": "attr",
+      "type": "l_objId",
+      "rw": "ro",
+      "desc": "List of properties on this object.",
+      "modify": "no",
+      "source": null,
+      "cardinality": null,
+      "objectTypes": null
+     }
+    ]
+   },
+   "Generic Figure": {
+    "id": "Generic Figure",
+    "title": "Generic Figure Attributes",
+    "section": "Generic Attributes",
+    "runtime": null,
+    "desc": null,
+    "parent": "Generic Object",
+    "attrs": [
+     {
+      "name": "bBox",
+      "kind": "attr",
+      "type": "bBox",
+      "rw": "ro",
+      "desc": "The figure's bounding box.",
+      "modify": "no",
+      "source": null,
+      "cardinality": null,
+      "objectTypes": null
+     },
+     {
+      "name": "purpose",
+      "kind": "attr",
+      "type": "string",
+      "rw": "rw",
+      "desc": "layer purpose",
+      "modify": "yes",
+      "source": null,
+      "cardinality": null,
+      "objectTypes": null
+     }
+    ]
+   },
+   "Generic Shape": {
+    "id": "Generic Shape",
+    "title": "Generic Shape Attributes",
+    "section": "Generic Attributes",
+    "runtime": null,
+    "desc": null,
+    "parent": "Generic Figure",
+    "attrs": [
+     {
+      "name": "layerName",
+      "kind": "attr",
+      "type": "string",
+      "rw": "rw",
+      "desc": "Layer name.",
+      "modify": "yes",
+      "source": null,
+      "cardinality": null,
+      "objectTypes": null
+     },
+     {
+      "name": "layerNum",
+      "kind": "attr",
+      "type": "integer",
+      "rw": "rw",
+      "desc": "Layer number.",
+      "modify": "yes",
+      "source": null,
+      "cardinality": null,
+      "objectTypes": null
+     }
+    ]
+   },
+   "Rectangle": {
+    "id": "Rectangle",
+    "title": "Rectangle Attributes",
+    "section": "Attributes of Shapes",
+    "runtime": null,
+    "desc": null,
+    "parent": "Generic Shape",
+    "attrs": []
+   },
+   "Cellview": {
+    "id": "Cellview",
+    "title": "Cellview Attributes",
+    "section": "Attributes of Cellviews",
+    "runtime": "cellview",
+    "desc": null,
+    "parent": "Generic Object",
+    "attrs": [
+     {
+      "name": "objType",
+      "kind": "attr",
+      "type": "string",
+      "rw": "ro",
+      "desc": "Type of the object, in this case \"cellview\".",
+      "modify": "no",
+      "source": null,
+      "cardinality": null,
+      "objectTypes": null
+     },
+     {
+      "name": "cellName",
+      "kind": "attr",
+      "type": "string",
+      "rw": "ro",
+      "desc": "Name of the cell.",
+      "modify": "no",
+      "source": null,
+      "cardinality": null,
+      "objectTypes": null
+     },
+     {
+      "name": "height",
+      "kind": "attr",
+      "type": "float",
+      "rw": "rw",
+      "desc": "Cell height.",
+      "modify": "yes",
+      "source": null,
+      "cardinality": null,
+      "objectTypes": null
+     }
+    ]
+   },
+   "Label": {
+    "id": "Label",
+    "title": "Label Attributes",
+    "section": "Attributes of Shapes",
+    "runtime": "label",
+    "desc": null,
+    "parent": "Generic Shape",
+    "attrs": [
+     {
+      "name": "height",
+      "kind": "attr",
+      "type": "integer",
+      "rw": "rw",
+      "desc": "Label height.",
+      "modify": "yes",
+      "source": null,
+      "cardinality": null,
+      "objectTypes": null
+     },
+     {
+      "name": "theLabel",
+      "kind": "attr",
+      "type": "string",
+      "rw": "rw",
+      "desc": "Label text.",
+      "modify": "yes",
+      "source": null,
+      "cardinality": null,
+      "objectTypes": null
+     }
+    ]
+   }
+  }
+ },
+ "cases": [
+  {
+   "params": {},
+   "expect": [
+    {
+     "name": "bBox",
+     "kind": "attr",
+     "type": "bBox",
+     "rw": "ro",
+     "desc": "The figure's bounding box.",
+     "modify": "no",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Figure",
+     "classes": [
+      "Generic Figure"
+     ]
+    },
+    {
+     "name": "cellName",
+     "kind": "attr",
+     "type": "string",
+     "rw": "ro",
+     "desc": "Name of the cell.",
+     "modify": "no",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Cellview",
+     "classes": [
+      "Cellview"
+     ]
+    },
+    {
+     "name": "cellView",
+     "kind": "attr",
+     "type": "objId",
+     "rw": "ro",
+     "desc": "The cellview that contains this object.",
+     "modify": "no",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Object",
+     "classes": [
+      "Generic Object"
+     ]
+    },
+    {
+     "name": "height",
+     "kind": "attr",
+     "type": "float",
+     "rw": "rw",
+     "desc": "Cell height.",
+     "modify": "yes",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Cellview",
+     "classes": [
+      "Cellview",
+      "Label"
+     ]
+    },
+    {
+     "name": "layerName",
+     "kind": "attr",
+     "type": "string",
+     "rw": "rw",
+     "desc": "Layer name.",
+     "modify": "yes",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Shape",
+     "classes": [
+      "Generic Shape"
+     ]
+    },
+    {
+     "name": "layerNum",
+     "kind": "attr",
+     "type": "integer",
+     "rw": "rw",
+     "desc": "Layer number.",
+     "modify": "yes",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Shape",
+     "classes": [
+      "Generic Shape"
+     ]
+    },
+    {
+     "name": "objType",
+     "kind": "attr",
+     "type": "string",
+     "rw": "ro",
+     "desc": "The name of the object's type.",
+     "modify": "no",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Object",
+     "classes": [
+      "Generic Object",
+      "Cellview"
+     ]
+    },
+    {
+     "name": "prop",
+     "kind": "attr",
+     "type": "l_objId",
+     "rw": "ro",
+     "desc": "List of properties on this object.",
+     "modify": "no",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Object",
+     "classes": [
+      "Generic Object"
+     ]
+    },
+    {
+     "name": "purpose",
+     "kind": "attr",
+     "type": "string",
+     "rw": "rw",
+     "desc": "layer purpose",
+     "modify": "yes",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Figure",
+     "classes": [
+      "Generic Figure"
+     ]
+    },
+    {
+     "name": "theLabel",
+     "kind": "attr",
+     "type": "string",
+     "rw": "rw",
+     "desc": "Label text.",
+     "modify": "yes",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Label",
+     "classes": [
+      "Label"
+     ]
+    }
+   ]
+  },
+  {
+   "params": {
+    "object": "Rectangle"
+   },
+   "expect": [
+    {
+     "name": "bBox",
+     "kind": "attr",
+     "type": "bBox",
+     "rw": "ro",
+     "desc": "The figure's bounding box.",
+     "modify": "no",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Figure",
+     "classes": [
+      "Generic Figure"
+     ]
+    },
+    {
+     "name": "cellView",
+     "kind": "attr",
+     "type": "objId",
+     "rw": "ro",
+     "desc": "The cellview that contains this object.",
+     "modify": "no",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Object",
+     "classes": [
+      "Generic Object"
+     ]
+    },
+    {
+     "name": "layerName",
+     "kind": "attr",
+     "type": "string",
+     "rw": "rw",
+     "desc": "Layer name.",
+     "modify": "yes",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Shape",
+     "classes": [
+      "Generic Shape"
+     ]
+    },
+    {
+     "name": "layerNum",
+     "kind": "attr",
+     "type": "integer",
+     "rw": "rw",
+     "desc": "Layer number.",
+     "modify": "yes",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Shape",
+     "classes": [
+      "Generic Shape"
+     ]
+    },
+    {
+     "name": "objType",
+     "kind": "attr",
+     "type": "string",
+     "rw": "ro",
+     "desc": "The name of the object's type.",
+     "modify": "no",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Object",
+     "classes": [
+      "Generic Object",
+      "Cellview"
+     ]
+    },
+    {
+     "name": "prop",
+     "kind": "attr",
+     "type": "l_objId",
+     "rw": "ro",
+     "desc": "List of properties on this object.",
+     "modify": "no",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Object",
+     "classes": [
+      "Generic Object"
+     ]
+    },
+    {
+     "name": "purpose",
+     "kind": "attr",
+     "type": "string",
+     "rw": "rw",
+     "desc": "layer purpose",
+     "modify": "yes",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Figure",
+     "classes": [
+      "Generic Figure"
+     ]
+    }
+   ]
+  },
+  {
+   "params": {
+    "object": "Cellview"
+   },
+   "expect": [
+    {
+     "name": "cellName",
+     "kind": "attr",
+     "type": "string",
+     "rw": "ro",
+     "desc": "Name of the cell.",
+     "modify": "no",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Cellview",
+     "classes": [
+      "Cellview"
+     ]
+    },
+    {
+     "name": "cellView",
+     "kind": "attr",
+     "type": "objId",
+     "rw": "ro",
+     "desc": "The cellview that contains this object.",
+     "modify": "no",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Object",
+     "classes": [
+      "Generic Object"
+     ]
+    },
+    {
+     "name": "height",
+     "kind": "attr",
+     "type": "float",
+     "rw": "rw",
+     "desc": "Cell height.",
+     "modify": "yes",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Cellview",
+     "classes": [
+      "Cellview",
+      "Label"
+     ]
+    },
+    {
+     "name": "objType",
+     "kind": "attr",
+     "type": "string",
+     "rw": "ro",
+     "desc": "Type of the object, in this case \"cellview\".",
+     "modify": "no",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Cellview",
+     "classes": [
+      "Generic Object",
+      "Cellview"
+     ]
+    },
+    {
+     "name": "prop",
+     "kind": "attr",
+     "type": "l_objId",
+     "rw": "ro",
+     "desc": "List of properties on this object.",
+     "modify": "no",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Object",
+     "classes": [
+      "Generic Object"
+     ]
+    }
+   ]
+  },
+  {
+   "params": {
+    "object": "cellview"
+   },
+   "expect": [
+    {
+     "name": "cellName",
+     "kind": "attr",
+     "type": "string",
+     "rw": "ro",
+     "desc": "Name of the cell.",
+     "modify": "no",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Cellview",
+     "classes": [
+      "Cellview"
+     ]
+    },
+    {
+     "name": "cellView",
+     "kind": "attr",
+     "type": "objId",
+     "rw": "ro",
+     "desc": "The cellview that contains this object.",
+     "modify": "no",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Object",
+     "classes": [
+      "Generic Object"
+     ]
+    },
+    {
+     "name": "height",
+     "kind": "attr",
+     "type": "float",
+     "rw": "rw",
+     "desc": "Cell height.",
+     "modify": "yes",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Cellview",
+     "classes": [
+      "Cellview",
+      "Label"
+     ]
+    },
+    {
+     "name": "objType",
+     "kind": "attr",
+     "type": "string",
+     "rw": "ro",
+     "desc": "Type of the object, in this case \"cellview\".",
+     "modify": "no",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Cellview",
+     "classes": [
+      "Generic Object",
+      "Cellview"
+     ]
+    },
+    {
+     "name": "prop",
+     "kind": "attr",
+     "type": "l_objId",
+     "rw": "ro",
+     "desc": "List of properties on this object.",
+     "modify": "no",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Object",
+     "classes": [
+      "Generic Object"
+     ]
+    }
+   ]
+  },
+  {
+   "params": {
+    "object": "rect"
+   },
+   "expect": [
+    {
+     "name": "bBox",
+     "kind": "attr",
+     "type": "bBox",
+     "rw": "ro",
+     "desc": "The figure's bounding box.",
+     "modify": "no",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Figure",
+     "classes": [
+      "Generic Figure"
+     ]
+    },
+    {
+     "name": "cellView",
+     "kind": "attr",
+     "type": "objId",
+     "rw": "ro",
+     "desc": "The cellview that contains this object.",
+     "modify": "no",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Object",
+     "classes": [
+      "Generic Object"
+     ]
+    },
+    {
+     "name": "layerName",
+     "kind": "attr",
+     "type": "string",
+     "rw": "rw",
+     "desc": "Layer name.",
+     "modify": "yes",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Shape",
+     "classes": [
+      "Generic Shape"
+     ]
+    },
+    {
+     "name": "layerNum",
+     "kind": "attr",
+     "type": "integer",
+     "rw": "rw",
+     "desc": "Layer number.",
+     "modify": "yes",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Shape",
+     "classes": [
+      "Generic Shape"
+     ]
+    },
+    {
+     "name": "objType",
+     "kind": "attr",
+     "type": "string",
+     "rw": "ro",
+     "desc": "The name of the object's type.",
+     "modify": "no",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Object",
+     "classes": [
+      "Generic Object",
+      "Cellview"
+     ]
+    },
+    {
+     "name": "prop",
+     "kind": "attr",
+     "type": "l_objId",
+     "rw": "ro",
+     "desc": "List of properties on this object.",
+     "modify": "no",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Object",
+     "classes": [
+      "Generic Object"
+     ]
+    },
+    {
+     "name": "purpose",
+     "kind": "attr",
+     "type": "string",
+     "rw": "rw",
+     "desc": "layer purpose",
+     "modify": "yes",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Figure",
+     "classes": [
+      "Generic Figure"
+     ]
+    }
+   ]
+  },
+  {
+   "params": {
+    "object": "Label"
+   },
+   "expect": [
+    {
+     "name": "bBox",
+     "kind": "attr",
+     "type": "bBox",
+     "rw": "ro",
+     "desc": "The figure's bounding box.",
+     "modify": "no",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Figure",
+     "classes": [
+      "Generic Figure"
+     ]
+    },
+    {
+     "name": "cellView",
+     "kind": "attr",
+     "type": "objId",
+     "rw": "ro",
+     "desc": "The cellview that contains this object.",
+     "modify": "no",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Object",
+     "classes": [
+      "Generic Object"
+     ]
+    },
+    {
+     "name": "height",
+     "kind": "attr",
+     "type": "integer",
+     "rw": "rw",
+     "desc": "Label height.",
+     "modify": "yes",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Label",
+     "classes": [
+      "Cellview",
+      "Label"
+     ]
+    },
+    {
+     "name": "layerName",
+     "kind": "attr",
+     "type": "string",
+     "rw": "rw",
+     "desc": "Layer name.",
+     "modify": "yes",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Shape",
+     "classes": [
+      "Generic Shape"
+     ]
+    },
+    {
+     "name": "layerNum",
+     "kind": "attr",
+     "type": "integer",
+     "rw": "rw",
+     "desc": "Layer number.",
+     "modify": "yes",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Shape",
+     "classes": [
+      "Generic Shape"
+     ]
+    },
+    {
+     "name": "objType",
+     "kind": "attr",
+     "type": "string",
+     "rw": "ro",
+     "desc": "The name of the object's type.",
+     "modify": "no",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Object",
+     "classes": [
+      "Generic Object",
+      "Cellview"
+     ]
+    },
+    {
+     "name": "prop",
+     "kind": "attr",
+     "type": "l_objId",
+     "rw": "ro",
+     "desc": "List of properties on this object.",
+     "modify": "no",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Object",
+     "classes": [
+      "Generic Object"
+     ]
+    },
+    {
+     "name": "purpose",
+     "kind": "attr",
+     "type": "string",
+     "rw": "rw",
+     "desc": "layer purpose",
+     "modify": "yes",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Figure",
+     "classes": [
+      "Generic Figure"
+     ]
+    },
+    {
+     "name": "theLabel",
+     "kind": "attr",
+     "type": "string",
+     "rw": "rw",
+     "desc": "Label text.",
+     "modify": "yes",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Label",
+     "classes": [
+      "Label"
+     ]
+    }
+   ]
+  },
+  {
+   "params": {
+    "object": "没有这个对象"
+   },
+   "expect": []
+  },
+  {
+   "params": {
+    "object": "Rectangle",
+    "keyword": "box"
+   },
+   "expect": [
+    {
+     "name": "bBox",
+     "kind": "attr",
+     "type": "bBox",
+     "rw": "ro",
+     "desc": "The figure's bounding box.",
+     "modify": "no",
+     "source": null,
+     "cardinality": null,
+     "objectTypes": null,
+     "definedIn": "Generic Figure",
+     "classes": [
+      "Generic Figure"
+     ]
+    }
+   ]
+  }
+ ]
+}

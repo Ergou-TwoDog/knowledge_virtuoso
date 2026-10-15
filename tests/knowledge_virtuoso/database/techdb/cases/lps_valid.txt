@@ -1,3 +1,4 @@
+对象 lps  title=techID~>lps  desc=Retrieves layer-purpose pair information from the technology database identifie…
 匹配 3 个 tech 属性:
   name                      type       所属类
   ------------------------- ---------- ------------------------------

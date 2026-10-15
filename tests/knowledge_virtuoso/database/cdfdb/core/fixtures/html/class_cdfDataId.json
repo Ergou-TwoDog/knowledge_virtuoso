@@ -5,48 +5,48 @@
  "attrs": [
   {
    "name": "buttonFieldWidth",
-   "type": "",
-   "desc": "Width of a button field Default = 340 pixels"
+   "desc": "Width of a button field Default = 340 pixels",
+   "source": "field"
   },
   {
    "name": "doneProc",
-   "type": "",
-   "desc": "An optional procedure name (a string) that is evaluated after any change to a parameter on a component instance. You can use doneProc for post-processing. The procedure must take a single argument: the instance that has been modified. The doneProc ca"
+   "desc": "An optional procedure name (a string) that is evaluated after any change to a parameter on a component instance. You can use doneProc for post-processing. The procedure must take a single argument: the instance that has been modified. The doneProc callback function can be used to modify the cdfgForm fields that are editable. The default value is nil . This field is editable.",
+   "source": "field"
   },
   {
    "name": "fieldHeight",
-   "type": "",
-   "desc": "Height of a field Default = 35 pixels"
+   "desc": "Height of a field Default = 35 pixels",
+   "source": "field"
   },
   {
    "name": "fieldWidth",
-   "type": "",
-   "desc": "Width of a field Default = 350 pixels"
+   "desc": "Width of a field Default = 350 pixels",
+   "source": "field"
   },
   {
    "name": "formInitProc",
-   "type": "",
-   "desc": "An optional procedure name. If specified, the procedure is executed when the contents of the CDF are displayed on a form. The default value is nil . This field is editable. This procedure runs when you use the Add Instance and Edit Properties command"
+   "desc": "An optional procedure name. If specified, the procedure is executed when the contents of the CDF are displayed on a form. The default value is nil . This field is editable. This procedure runs when you use the Add Instance and Edit Properties commands. You can use the procedure for preprocessing CDF data. This procedure must take a single argument, the g_cdfDataId being added to the form. Note: When you modify a parameter field value using the formInitProc , the Edit Properties Object command for the schematic application is not aware of the modification and does not update the changes made with formInitProc . You can avoid this problem by setting the variable c dfgForm->cdfModified to the value t .",
+   "source": "field"
   },
   {
    "name": "id",
-   "type": "objId",
-   "desc": "The database object (cell ID or library ID) to which the g_cdfDataId is attached. This field is not editable."
+   "desc": "The database object (cell ID or library ID) to which the g_cdfDataId is attached. This field is not editable.",
+   "source": "field"
   },
   {
    "name": "parameters",
-   "type": "l_objId",
-   "desc": "List of parameters attached to this g_cdfDataId . This field is not editable."
+   "desc": "List of parameters attached to this g_cdfDataId . This field is not editable.",
+   "source": "field"
   },
   {
    "name": "promptWidth",
-   "type": "",
-   "desc": "Width of a prompt Default = 175 pixels"
+   "desc": "Width of a prompt Default = 175 pixels",
+   "source": "field"
   },
   {
    "name": "type",
-   "type": "string",
-   "desc": "There are seven types of g_cdfDataId : baseLibCDF base-level library CDF userLibCDF user-level library CDF effLibCDF effective-level library CDF baseCellCDF base-level cell CDF userCellCDF user-level cell CDF effCellCDF effective-level cell CDF effIn"
+   "desc": "There are seven types of g_cdfDataId : baseLibCDF base-level library CDF userLibCDF user-level library CDF effLibCDF effective-level library CDF baseCellCDF base-level cell CDF userCellCDF user-level cell CDF effCellCDF effective-level cell CDF effInstCDF effective-level instance CDF This field is not editable.",
+   "source": "field"
   }
  ]
 }

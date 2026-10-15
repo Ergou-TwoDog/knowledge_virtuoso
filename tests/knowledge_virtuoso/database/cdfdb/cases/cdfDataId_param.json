@@ -1,7 +1,14 @@
 {
  "params": {
-  "className": "cdfDataId",
+  "object": "cdfDataId",
   "keyword": "param"
+ },
+ "object": {
+  "id": "cdfDataId",
+  "title": "g_cdfDataId",
+  "runtime": null,
+  "section": "Data Objects",
+  "desc": null
  },
  "rows": [
   {

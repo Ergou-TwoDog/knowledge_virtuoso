@@ -4,17 +4,72 @@
  "heading": "pathSeg Attributes",
  "object": "pathSeg",
  "parent": "Generic Shape",
- "own": [
-  "beginExt",
-  "beginPt",
-  "beginStyle",
-  "boundary",
-  "endExt",
-  "endPt",
-  "endStyle",
-  "isOrthogonal",
-  "route",
-  "topology",
-  "width"
+ "attrs": [
+  {
+   "name": "beginExt",
+   "modify": "yes",
+   "type": "float",
+   "desc": "The extension of the beginning of the pathSeg in user units beyond the first vertex."
+  },
+  {
+   "name": "beginPt",
+   "modify": "yes",
+   "type": "l_points",
+   "desc": "Begin point of the pathSeg."
+  },
+  {
+   "name": "beginStyle",
+   "modify": "yes",
+   "type": "string",
+   "desc": "beginStyle of the pathSeg. \"truncate\" \"extend\" \"variable\" \"chamfer\" \"custom\""
+  },
+  {
+   "name": "boundary",
+   "modify": "no",
+   "type": "l_points",
+   "desc": "Boundary points of the pathSeg."
+  },
+  {
+   "name": "endExt",
+   "modify": "yes",
+   "type": "float",
+   "desc": "The extension of the end of the pathSeg in user units beyond the last vertex."
+  },
+  {
+   "name": "endPt",
+   "modify": "yes",
+   "type": "l_points",
+   "desc": "End point of the pathSeg."
+  },
+  {
+   "name": "endStyle",
+   "modify": "yes",
+   "type": "string",
+   "desc": "endStyle of the pathSeg. \"truncate\" \"extend\" \"variable\" \"chamfer\" \"custom\""
+  },
+  {
+   "name": "isOrthogonal",
+   "modify": "no",
+   "type": "boolean",
+   "desc": "Boolean attribute which indicates if the pathSeg is orthogonal."
+  },
+  {
+   "name": "route",
+   "modify": "no",
+   "type": "objId",
+   "desc": "ID of the route to which the pathSeg belongs."
+  },
+  {
+   "name": "topology",
+   "modify": "yes",
+   "type": "string",
+   "desc": "\"none\" \"stripe\" \"standardCellWire\" \"IOWire\" \"ring\" \"padRing\" \"blockRing\" \"coreWire\""
+  },
+  {
+   "name": "width",
+   "modify": "yes",
+   "type": "float",
+   "desc": "Width of the pathSeg."
+  }
  ]
 }

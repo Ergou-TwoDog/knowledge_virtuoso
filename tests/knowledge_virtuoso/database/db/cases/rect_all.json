@@ -1,7 +1,14 @@
 {
  "params": {
-  "objType": "rect",
+  "object": "rect",
   "keyword": ""
+ },
+ "object": {
+  "id": "Rectangle",
+  "title": "Rectangle Attributes",
+  "runtime": null,
+  "section": "Attributes of Shapes",
+  "desc": null
  },
  "rows": [
   {

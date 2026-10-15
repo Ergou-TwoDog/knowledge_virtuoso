@@ -1,1 +1,1 @@
-未找到匹配 objType='zzzNoSuchType' 的属性。
+未找到匹配 object='zzzNoSuchType' 的属性。
